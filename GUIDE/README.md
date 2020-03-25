@@ -250,7 +250,7 @@ export ODBCSYSINI=$HOME
 
 ### 1.3 Create OpenFrame image
 
-Exit(stop) the container and commit the current container.
+**Exit(stop) the container and commit the current container.**
 
 sudo docker ps -a | grep centos
 
@@ -262,7 +262,7 @@ sudo docker ps -a | grep centos
 
 ``` sudo docker commit -a "kelsey" -m "of7azure" keen_poitras kelsey92/of7azurefinal:of7azure ```
 
-You need to name it with the rule below for pushung/pulling the image through Dockerhub.
+**You need to name it with the rule below for pushung/pulling the image through Dockerhub.**
 
 ```bash
 username/repository:tag
@@ -294,7 +294,7 @@ password
 
 **Run the container with OpenFrame image**
 
-- Port forwarding with -p option when you run the container. Use multiple options with all ports.
+- Port forwarding with -p option when you run the container. Use multiple options with all ports you need.
 
 ```sudo docker run -i -t -h of7azure -p 9736:9736 -p 8088:8088 –p 8087:8087 kelsey92/of7azurefinal:of7azure```
 
