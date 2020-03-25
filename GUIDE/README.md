@@ -1,11 +1,11 @@
 # Table of Contents
 
 - [Create image of OpenFrame](#step-1-create-image-of-openframe)
-	* [install docker](#11-install-docker)
-	* [get centos container](#12-get-centos-container)
-	* [install OpenFrame](#12-full-example)
-	* [create OpenFrame image](#12-full-example)
-        * [use OpenFrame image](#12-full-example)
+	* [Install docker](#11-install-docker)
+	* [Get centos container](#12-get-centos-container)
+	* [Install OpenFrame](#13-install-openframe)
+	* [Create OpenFrame image](#14-create-openframe-image)
+        * [Use OpenFrame image](#15-use-openframe-image)
 - [Azure](#step-2-dbdgen)
 	* [add AKS service](#21-usage)
 	* [connect to the Node](#22-full-example)
@@ -26,10 +26,10 @@ sudo systemctl enable docker
 sudo docker –version
 ```
 
-### 1.2 Get centos container
+### 1.2 Get CentOs container
 
-**Run an empty Centos container to install OpenFrame.** 
-Search the official Centos image and pull it on your VM. Use the image to run a container.
+**Run an empty Centos container to install OpenFrame.** Search the official Centos image and pull it on your VM. Use the image to run a container.
+
 **Set the hostname with -h option when you run it.** OpenFrame will need the hostname to get the licenses or set the envionment.
 
 ```bash
@@ -51,15 +51,14 @@ Other docker commands :
 
 Example :
 
-sudo docker ps -a | grep centos
+```sudo docker ps -a | grep centos```
+     
+     CONTAINER ID  IMAGE   COMMAND      CREATED        STATUS       PORTS  NAMES          
+     fc58fa646357  centos  "/bin/bash"  2 minutes ago  Up 2 minutes        keen_poitras
 
-|CONTAINER ID|IMAGE |COMMAND    |CREATED      |STATUS      |PORTS|NAMES       |   
-|------------|------|-----------|-------------|------------|-----|------------|  
-|fc58fa646357|centos|"/bin/bash"|2 minutes ago|Up 2 minutes|     |keen_poitras|
+```sudo docker exec -i -t fc58fa646357 /bin/bash```
 
-sudo docker exec -i -t fc58fa646357 /bin/bash
-
-sudo docker stop fc58fa646357
+```sudo docker stop fc58fa646357```
 
 
 ### 1.3 Install OpenFrame
@@ -248,7 +247,7 @@ export ODBCSYSINI=$HOME
 11. OFManager Installation
 
 
-### 1.3 Create OpenFrame image
+### 1.4 Create OpenFrame image
 
 **Exit(stop) the container and commit the current container.**
 
@@ -273,7 +272,7 @@ kelsey92/of7azurefinal:of7azure
 ``` The push refers to repository [docker.io/kelsey92/of7azurefinal]```
 
 
-### 1.4 Use OpenFrame image
+### 1.5 Use OpenFrame image
 
 **Docker should be installed and you need to login to Dockerhub.** [install docker](#11-install-docker)
 
