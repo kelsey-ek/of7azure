@@ -30,17 +30,15 @@ sudo docker –version
 
 **Run an empty Centos container to install OpenFrame.** 
 
-Search the official Centos image and pull it on your VM.
+Search the official Centos image and pull it on your VM. Use the image to run a container.
 
-```sudo docker search centos```
+**Set the hostname with -h option when you run it.** OpenFrame will need the hostname to get the licenses or set the envionment.
 
-```sudo docker pull centos```
-
-Use the image to run a container. **Set the hostname with -h option when you run it.** 
-
-OpenFrame will need the hostname to get the licenses or set the envionment.
-
-```sudo docker run -h [hostname] -i -t centos ```
+```bash
+sudo docker search centos
+sudo docker pull centos
+sudo docker run -h [hostname] -i -t centos
+```
 
 Other docker commands :
 
@@ -79,6 +77,11 @@ yum install -y  gcc-c++
 yum install -y libncurses*
 yum install ncurses*
 ```
+    Packages for running tibero
+```bash
+yum install libaio
+yum install libnsl
+```
 
 ```bash
 yum update
@@ -112,10 +115,133 @@ net.core.wmem_max=262144
 ```
 
 ```bash
+sysctl: cannot stat /proc/sys/net/core/rmem_default: No such file or directory
+sysctl: cannot stat /proc/sys/net/core/wmem_default: No such file or directory
+sysctl: cannot stat /proc/sys/net/core/rmem_max: No such file or directory
+sysctl: cannot stat /proc/sys/net/core/wmem_max: No such file or directory
+```
+
+```bash
 /sbin/sysctl –p 
 ```
 
 - Firewall does not work in the container. Instead, you can use port forwarding option(-p) when you run the container. I will talk about this later in 'use OpenFrame image' part.
+
+- Prepare all licenses from Technet with the correct hostname.
+
+1. Tibero Installation
+
+```bash
+tar -xzvf [tibero tar file]
+mv license.xml tibero6/license/
+```
+    vi .bash_profile
+```bash
+# Tibero6 ENV
+export TB_HOME=$HOME/tibero6
+export TB_SID=oframe
+export TB_PROF_DIR=$TB_HOME/bin/prof
+export LD_LIBRARY_PATH=$TB_HOME/lib:$TB_HOME/client/lib:$LD_LIBRARY_PATH
+export PATH=$TB_HOME/bin:$TB_HOME/client/bin:$PATH
+```
+    source ~/.bash_profile
+
+    sh $TB_HOME/config/gen_tip.sh
+
+    vi $TB_HOME/config/$TB_SID.tip
+```bash
+DB_NAME=oframe
+LISTENER_PORT=8629
+CONTROL_FILES="/home/oframe7/tbdata/c1.ctl"
+DB_CREATE_FILE_DEST="/home/oframe7/tbdata" -> match the directory CONTROL_FILES
+#CERTIFICATE_FILE="/home/oframe7/tibero6/config/svr_wallet/oframe.crt"
+#PRIVKEY_FILE="/home/oframe7/tibero6/config/svr_wallet/oframe.key"
+#WALLET_FILE="/home/oframe7/tibero6/config/svr_wallet/WALLET"
+#EVENT_TRACE_MAP="/home/oframe7/tibero6/config/event.map"
+MAX_SESSION_COUNT=100
+TOTAL_SHM_SIZE=2G
+MEMORY_TARGET=3G 
+THROW_WHEN_GETTING_OSSTAT_FAIL = N -> THIS IS IMPORTANT (network Kernel Parameters)
+```
+    tbboot nomount 
+    
+    tbsql sys/tibero
+```bash
+SQL> CREATE DATABASE
+USER SYS IDENTIFIED BY TIBERO
+MAXINSTANCES 8                                            
+MAXDATAFILES 4096                                         
+CHARACTER SET MSWIN949
+LOGFILE   GROUP 1 ('redo001.redo') SIZE 512M,            
+          GROUP 2 ('redo002.redo') SIZE 512M,            
+          GROUP 3 ('redo003.redo') SIZE 512M,            
+          GROUP 4 ('redo004.redo') SIZE 512M,            
+          GROUP 5 ('redo005.redo') SIZE 512M             
+MAXLOGGROUPS 255                                          
+MAXLOGMEMBERS 8                                           
+NOARCHIVELOG                                              
+DATAFILE 'system001.dtf' SIZE 200M autoextend on maxsize 1G
+DEFAULT TABLESPACE USR                                    
+DATAFILE 'usr001.dtf' SIZE 200M  autoextend on maxsize 1G 
+DEFAULT TEMPORARY TABLESPACE TEMP                         
+TEMPFILE 'temp001.dtf' SIZE 200M autoextend on maxsize 1G 
+UNDO TABLESPACE UNDO0                                     
+DATAFILE 'undo001.dtf' SIZE 200M autoextend on maxsize 1G; 
+```
+    tbboot
+    
+    sh $TB_HOME/scripts/system.sh 
+    SYS password : tibero
+    SYSCAT password : syscat
+    
+    tbsql tibero/tmax
+```bash
+create tablespace "DEFVOL" datafile 'DEFVOL.dbf' size 100M autoextend on;
+create tablespace "TACF00" datafile 'TACF00.dbf' size 50M  autoextend on;
+create tablespace "OFM_REPOSITORY" datafile 'OFM_REPOSITORY.dbf' size 50M  autoextend on;
+create tablespace "OFMLOG" datafile 'OFM_LOG.dbf' size 300M  autoextend on next 300M;
+create tablespace "OFMGR01" datafile 'OFMGR01.DBF'  size 100M autoextend on  next 50M;
+```
+
+2. UnixODBC Installation
+
+Copy make(usr/bin) file from the host to the container.
+
+
+
+```bash
+wget ftp://ftp.unixodbc.org/pub/unixODBC/unixODBC-2.3.4.tar.gz
+tar -zxvf unixODBC-2.3.4.tar.gz
+cd unixODBC-2.3.4
+./configure --prefix=$HOME/unixODBC --sysconfdir=$HOME/unixODBC/etc
+make
+make install
+```
+    vi ~/.bash_profile
+```bash
+# UNIX ODBC ENV
+export ODBC_HOME=$HOME/unixODBC
+export PATH=$ODBC_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$ODBC_HOME/lib:$LD_LIBRARY_PATH
+export ODBCINI=$HOME/unixODBC/etc/odbc.ini
+export ODBCSYSINI=$HOME
+```
+    source ~/.bash_profile
+    
+    odbcinst -j
+```bash
+# UNIX ODBC ENV
+export ODBC_HOME=$HOME/unixODBC
+export PATH=$ODBC_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$ODBC_HOME/lib:$LD_LIBRARY_PATH
+export ODBCINI=$HOME/unixODBC/etc/odbc.ini
+export ODBCSYSINI=$HOME
+```
+
+   
+
+    
+
 
 
 
