@@ -229,8 +229,49 @@ export ODBCINI=$HOME/unixODBC/etc/odbc.ini
 export ODBCSYSINI=$HOME
 ```
 
-   
+3. OFCOBOL Installation
 
+4. PROSORT Installation
+
+5. Base Installation
+
+6. Batch Installation
+
+7. TACF Installation
+
+8. OSC Installation
+
+9. JEUS Installation
+
+10. OFGW Installation
+
+11. OFManager Installation
+
+
+### 1.3 Create OpenFrame image
+
+Exit(stop) the container and commit the current container.
+
+sudo docker ps -a | grep centos
+
+|CONTAINER ID|IMAGE |COMMAND    |CREATED      |STATUS      |PORTS|NAMES       |   
+|------------|------|-----------|-------------|------------|-----|------------|  
+|fc58fa646357|centos|"/bin/bash"|2 minutes ago|Up 2 minutes|     |keen_poitras|
+
+``` sudo docker commit -a "kelsey" -m "of7azure" keen_poitras kelsey92/of7azurefinal:of7azure ```
+
+You need to name it with the rule below for pushung/pulling the image through Dockerhub.
+
+```bash
+username/repository:tag
+kelsey92/of7azurefinal:of7azure
+```
+
+``` sudo docker push kelsey92/of7azurefinal:of7azure ```
+    The push refers to repository [docker.io/kelsey92/of7azurefinal]
+
+
+### 1.4 Use OpenFrame image
     
 
 
