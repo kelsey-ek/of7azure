@@ -46,6 +46,7 @@ Other docker commands :
 | docker ps -a               | check all containers            |
 | docker exec [container ID] | execute a running container     |
 | docker stop [container ID] | stop the container              |
+| docker rm   [container ID] | remove the container            |
 
 **docker run and docker exec are different!!**
 
