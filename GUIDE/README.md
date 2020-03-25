@@ -296,9 +296,9 @@ password
 
 ```sudo docker run -i -t -h of7azure -p 9736:9736 -p 8088:8088 -p 8087:8087 kelsey92/of7azurefinal:of7azure```
 
-TMAX ip address should match the localhost ip address.
+#### If you run more than one containers.
 
-However, Docker container ip address changes if you run more than one containers.
+- Docker container ip address changes if you run more than one containers.
 
 - First container
 ```bash
@@ -337,7 +337,7 @@ alias dsdown='stopServer -u administrator -p tmax123 -host 172.17.0.3:9736'
         TDQ_LOG_ADDRESS=172.17.0.3:8896
 ```
 
-**Wenterminal setting should be modified**
+**Webterminal setting should be modified**
 
     vi ofgw.properties
 ```bash
@@ -366,6 +366,10 @@ openframe.webterminal.name= ofgw
 openframe.tmax.ip= 172.17.0.3
 openframe.tmax.port= 8001
 ```
+
+**JEUS setting should be modified**
+
+*Change 172.17.0.3 to 0.0.0.0 from data-resource section to use localhost ip address.*
 
     vi domain.xml
 ```bash
@@ -398,7 +402,6 @@ openframe.tmax.port= 8001
             <password>tmax</password>
 ```
 
-Change <server-name>172.17.0.3</server-name> to <server-name>0.0.0.0</server-name> to use localhost ip address.
 
 
 
