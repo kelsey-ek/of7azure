@@ -299,7 +299,8 @@ password
 TMAX ip address should match the localhost ip address.
 
 However, Docker container ip address changes if you run more than one containers.
-**First container**
+
+- First container
 ```bash
 18: eth0@if19: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
     link/ether 02:42:ac:11:00:03 brd ff:ff:ff:ff:ff:ff link-netnsid 0
@@ -307,20 +308,34 @@ However, Docker container ip address changes if you run more than one containers
        valid_lft forever preferred_lft forever
 ```
 
-**Second container**
+- Second container
 ```bash
 18: eth0@if19: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
     link/ether 02:42:ac:11:00:03 brd ff:ff:ff:ff:ff:ff link-netnsid 0
     inet 172.17.0.3/16 brd 172.17.255.255 scope global eth0
        valid_lft forever preferred_lft forever
 ```
-Those environment variables from bash_profile shoule be changed.
 
+**Those environment variables from bash_profile shoule be changed.**
+
+    vi ~/.bash_profile
+```bash
 TMAX_HOST_ADDR=172.17.0.3
 export TMAX_HOST_ADDR
 alias msdown1='stopServer -u administrator -p tmax123 -host 172.17.0.3:9936'
 alias msdown2='stopServer -u administrator -p tmax123 -host 172.17.0.3:9636'
 alias dsdown='stopServer -u administrator -p tmax123 -host 172.17.0.3:9736'
+```
+    source ~/.bash_profile
+    
+**Region configuration file should be modified.**
+
+    vi osc.OSCOIVP1.conf
+```bash
+[TDQ]
+        TDQ_INTRA_DSNAME=OSC.TDQLIB.INTRA
+        TDQ_LOG_ADDRESS=172.17.0.3:8896
+```
 
 
 ## Step 2. Azure
