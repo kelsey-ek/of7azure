@@ -80,7 +80,9 @@ yum install -y libncurses*
 yum install ncurses*
 ```
 
-``` yum update ```
+```bash
+yum update
+```
 
 - Create symbolic link
 
@@ -100,7 +102,7 @@ fs.file-max = 65536
 net.ipv4.ip_local_port_range = 1024 65000  
 ```
 
-Ther parameters below are not supported in Centos container, so you can discard those.
+-- The parameters below are not supported in Centos container, so you can discard those.
 
 ```bash
 net.core.rmem_default=262144
@@ -108,4 +110,12 @@ net.core.wmem_default=262144
 net.core.rmem_max=262144
 net.core.wmem_max=262144
 ```
+
+```bash
+/sbin/sysctl –p 
+```
+
+- Firewall does not work in the container. Instead, you can use port forwarding option(-p) when you run the container. I will talk about this later in 'use OpenFrame image' part.
+
+
 
