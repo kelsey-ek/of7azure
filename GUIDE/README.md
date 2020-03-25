@@ -410,9 +410,39 @@ openframe.tmax.port= 8001
 
 ### 2.1 Add Azure Kubernetes service(AKS)
 
+```az aks get-credentials --resource-group [resource_group_name] --name [AKS_cluster_name]```
+
+*Merged "AKSOF7azure" as current context in /home/kelsey/.kube/config*
+
+```kubectl get nodes```
+```bash
+    NAME                       STATUS   ROLES   AGE    VERSION
+    aks-agentpool-13644011-1   Ready    agent   115s   v1.15.10
+```
+
 ### 2.2 Set the NAT inbound 
 
-### 2.3 
+### 2.3 Set the pod
+
+**Crate yaml file**
+
+```bash
+apiVersion: v1
+kind: Pod
+metadata:
+  name: of7azure
+  labels:
+    of7azurefinal: of7azure
+spec:
+  containers:
+  - name: of7azure
+    image: kelsey92/of7azurefinal:of7azure
+    ports:
+      - containerPort: 9736
+    command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
+```
+
+
 
 
 
