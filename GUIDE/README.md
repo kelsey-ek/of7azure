@@ -254,9 +254,8 @@ export ODBCSYSINI=$HOME
 
 ```sudo docker ps -a | grep centos```
 
-    |CONTAINER ID|IMAGE |COMMAND    |CREATED      |STATUS      |PORTS|NAMES       |   
-    |------------|------|-----------|-------------|------------|-----|------------|  
-    |fc58fa646357|centos|"/bin/bash"|2 minutes ago|Up 2 minutes|     |keen_poitras|
+    CONTAINER ID  IMAGE    COMMAND      CREATED         STATUS          PORTS   NAMES  
+    fc58fa646357  centos   "/bin/bash"  16 hours ago    Up 30 minutes            keen_poitras
 
 ``` sudo docker stop fc58fa646357 ```
 
