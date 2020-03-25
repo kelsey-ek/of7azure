@@ -337,6 +337,37 @@ alias dsdown='stopServer -u administrator -p tmax123 -host 172.17.0.3:9736'
         TDQ_LOG_ADDRESS=172.17.0.3:8896
 ```
 
+**Wenterminal setting should be modified**
+
+    vi ofgw.properties
+```bash
+tmax.retrytime = 60000
+#tmax.node.list = NODE1,NODE2
+tmax.node.list = NODE1
+tmax.node.NODE1.name = NODE1
+tmax.node.NODE1.ip = 172.17.0.3
+tmax.node.NODE1.port = 8001
+tmax.node.NODE1.min = 5
+tmax.node.NODE1.max = 1024
+tmax.node.NODE1.rate = 2
+tmax.node.NODE1.timeout = 20000
+tmax.node.NODE1.idletime = 90
+```
+
+**OFManager setting should be modified**
+
+    vi ofmanager.properties
+```bash
+# OFGW Property
+openframe.webterminal.url = 172.17.0.3:5556/webterminal
+openframe.webterminal.name= ofgw
+
+# Tmax Property
+openframe.tmax.ip= 172.17.0.3
+openframe.tmax.port= 8001
+```
+
+
 
 ## Step 2. Azure
 
