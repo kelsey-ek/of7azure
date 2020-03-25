@@ -367,6 +367,39 @@ openframe.tmax.ip= 172.17.0.3
 openframe.tmax.port= 8001
 ```
 
+    vi domain.xml
+```bash
+   <resources>
+      <data-source>
+         <database>
+            <data-source-id>ofgw</data-source-id>
+            <export-name>ofgw</export-name>
+            <data-source-class-name>com.tmax.tibero.jdbc.ext.TbConnectionPoolDataSource</data-source-class-name>
+            <data-source-type>ConnectionPoolDataSource</data-source-type>
+            <vendor>tibero</vendor>
+            <server-name>172.17.0.3</server-name>
+            <port-number>8629</port-number>
+            <database-name>oframe</database-name>
+            <user>tibero</user>
+            <password>tmax</password>
+
+           (continues)
+
+         <database>
+            <data-source-id>ds_ofm1</data-source-id>
+            <export-name>ds_ofm1</export-name>
+            <data-source-class-name>com.tmax.tibero.jdbc.ext.TbConnectionPoolDataSource</data-source-class-name>
+            <data-source-type>ConnectionPoolDataSource</data-source-type>
+            <vendor>tibero</vendor>
+            <server-name>172.17.0.3</server-name>
+            <port-number>8629</port-number>
+            <database-name>oframe</database-name>
+            <user>tibero</user>
+            <password>tmax</password>
+```
+
+Change <server-name>172.17.0.3</server-name> to <server-name>0.0.0.0</server-name> to use localhost ip address.
+
 
 
 ## Step 2. Azure
