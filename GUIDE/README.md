@@ -22,9 +22,9 @@ sudo apt-get update
 sudo apt-get remove docker docker-engine docker.io
 sudo apt install docker.io
 sudo systemctl start docker
-sudo systemctl enable docker```
-
-```sudo docker –version```
+sudo systemctl enable docker
+sudo docker –version
+```
 
 ### 1.2 Get centos container
 
@@ -77,7 +77,8 @@ yum install -y *libtermcap*
 yum install -y  gcc
 yum install -y  gcc-c++
 yum install -y libncurses*
-yum install ncurses* ```
+yum install ncurses*
+```
 
 ``` yum update ```
 
@@ -85,7 +86,8 @@ yum install ncurses* ```
 
 ```bash
 ln -s /usr/lib64/libncurses.so.5.9 /usr/lib/libtermcap.so
-ln -s /usr/lib64/libncurses.so.5.9 /usr/lib/libtermcap.so.2```
+ln -s /usr/lib64/libncurses.so.5.9 /usr/lib/libtermcap.so.2
+```
 
 - Kernel Parameters Modification 
 
