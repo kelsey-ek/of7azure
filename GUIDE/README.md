@@ -271,10 +271,9 @@ kelsey92/of7azurefinal:of7azure
 
 ``` The push refers to repository [docker.io/kelsey92/of7azurefinal]```
 
-
 ### 1.5 Use OpenFrame image
 
-**Docker should be installed and you need to login to Dockerhub.** [install docker](#11-install-docker)
+**Docker should be installed and you need to login to Dockerhub.** 
 
 ```bash
 sudo docker login
