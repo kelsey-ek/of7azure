@@ -6,7 +6,7 @@
 	* [Install OpenFrame](#13-install-openframe)
 	* [Create OpenFrame image](#14-create-openframe-image)
         * [Use OpenFrame image](#15-use-openframe-image)
-- [Azure](#step-2-dbdgen)
+- [Azure](#step-2-azure)
 	* [add AKS service](#21-usage)
 	* [connect to the Node](#22-full-example)
 	* []
@@ -297,7 +297,7 @@ password
 ```sudo docker run -i -t -h of7azure -p 9736:9736 -p 8088:8088 –p 8087:8087 kelsey92/of7azurefinal:of7azure```
 
 
-
+## Step 2. Azure
 
 
 
