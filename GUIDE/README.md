@@ -275,7 +275,34 @@ kelsey92/of7azurefinal:of7azure
 
 
 ### 1.4 Use OpenFrame image
-    
+
+**Docker should be installed and you need to login to Dockerhub.** [install docker](#11-install-docker)
+
+```bash
+sudo docker login
+dockerhub username
+password
+```
+
+**Pull the image from the Dockerhub repository**
+
+```sudo docker pull kelsey92/of7azurefinal:of7azure```
+
+**Check if the image is successfully pulled in your VM**
+
+```sudo docker images | grep kelsey```
+
+**Run the container with OpenFrame image**
+
+- Port forwarding with -p option when you run the container. Use multiple options with all ports.
+
+```sudo docker run -i -t -h of7azure -p 9736:9736 -p 8088:8088 –p 8087:8087 kelsey92/of7azurefinal:of7azure```
+
+
+
+
+
+
 
 
 
