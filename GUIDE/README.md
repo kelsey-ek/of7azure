@@ -267,8 +267,11 @@ username/repository:tag
 kelsey92/of7azurefinal:of7azure
 ```
 
+``` sudo docker stop fc58fa646357 ```
+
 ``` sudo docker push kelsey92/of7azurefinal:of7azure ```
-    The push refers to repository [docker.io/kelsey92/of7azurefinal]
+
+The push refers to repository [docker.io/kelsey92/of7azurefinal]
 
 
 ### 1.4 Use OpenFrame image
