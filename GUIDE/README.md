@@ -29,9 +29,7 @@ sudo docker –version
 ### 1.2 Get centos container
 
 **Run an empty Centos container to install OpenFrame.** 
-
 Search the official Centos image and pull it on your VM. Use the image to run a container.
-
 **Set the hostname with -h option when you run it.** OpenFrame will need the hostname to get the licenses or set the envionment.
 
 ```bash
@@ -63,6 +61,7 @@ sudo docker exec -i -t fc58fa646357 /bin/bash
 
 sudo docker stop fc58fa646357
 
+
 ### 1.3 Install OpenFrame
 
 - Required Package Installation
@@ -77,25 +76,22 @@ yum install -y  gcc-c++
 yum install -y libncurses*
 yum install ncurses*
 ```
-    Packages for running tibero
+-- Packages for running tibero
 ```bash
 yum install libaio
 yum install libnsl
 ```
-
 ```bash
 yum update
 ```
 
 - Create symbolic link
-
 ```bash
 ln -s /usr/lib64/libncurses.so.5.9 /usr/lib/libtermcap.so
 ln -s /usr/lib64/libncurses.so.5.9 /usr/lib/libtermcap.so.2
 ```
 
 - Kernel Parameters Modification 
-
 ```bash
 kernel.shmall = 2097152
 kernel.shmmax = 4294967295
@@ -104,23 +100,19 @@ kernel.sem = 100000 32000 10000 10000
 fs.file-max = 65536
 net.ipv4.ip_local_port_range = 1024 65000  
 ```
-
 -- The parameters below are not supported in Centos container, so you can discard those.
-
 ```bash
 net.core.rmem_default=262144
 net.core.wmem_default=262144
 net.core.rmem_max=262144
 net.core.wmem_max=262144
 ```
-
 ```bash
 sysctl: cannot stat /proc/sys/net/core/rmem_default: No such file or directory
 sysctl: cannot stat /proc/sys/net/core/wmem_default: No such file or directory
 sysctl: cannot stat /proc/sys/net/core/rmem_max: No such file or directory
 sysctl: cannot stat /proc/sys/net/core/wmem_max: No such file or directory
 ```
-
 ```bash
 /sbin/sysctl –p 
 ```
@@ -128,6 +120,8 @@ sysctl: cannot stat /proc/sys/net/core/wmem_max: No such file or directory
 - Firewall does not work in the container. Instead, you can use port forwarding option(-p) when you run the container. I will talk about this later in 'use OpenFrame image' part.
 
 - Prepare all licenses from Technet with the correct hostname.
+
+
 
 1. Tibero Installation
 
@@ -205,10 +199,7 @@ create tablespace "OFMGR01" datafile 'OFMGR01.DBF'  size 100M autoextend on  nex
 
 2. UnixODBC Installation
 
-Copy make(usr/bin) file from the host to the container.
-
-
-
+- Copy make(usr/bin) file from the host to the container.
 ```bash
 wget ftp://ftp.unixodbc.org/pub/unixODBC/unixODBC-2.3.4.tar.gz
 tar -zxvf unixODBC-2.3.4.tar.gz
