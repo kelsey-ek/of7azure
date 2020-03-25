@@ -274,6 +274,7 @@ kelsey92/of7azurefinal:of7azure
 ### 1.5 Use OpenFrame image
 
 **Docker should be installed and you need to login to Dockerhub.** 
+[Install docker](#11-install-docker)
 
 ```bash
 sudo docker login
