@@ -529,3 +529,38 @@ Last login: Wed Mar 25 09:38:48 UTC 2020 on pts/0
        valid_lft forever preferred_lft forever
 ```
 
+```kubectl delete pod --all```
+*pod "of7azure" deleted*
+
+```kubectl apply -f NodePort.yaml```
+*service/nodeof7service unchanged*
+
+```bash
+kubectl get services
+NAME             TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+kubernetes       ClusterIP   10.0.0.1       <none>        443/TCP          34h
+nodeof7service   NodePort    10.0.67.5      <none>        9736:32737/TCP   29h
+of7-service      ClusterIP   10.0.120.157   <none>        9736/TCP         30h
+```
+
+```kubectl describe services nodeof7service```
+
+```bash
+Name:                     nodeof7service
+Namespace:                default
+Labels:                   <none>
+Annotations:              kubectl.kubernetes.io/last-applied-configuration:
+                            {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"nodeof7service","namespace":"default"},"spec":{"ports":[{"port":9...
+Selector:                 of7azurefinal=of7azure
+Type:                     NodePort
+IP:                       10.0.67.5
+Port:                     <unset>  9736/TCP
+TargetPort:               9736/TCP
+NodePort:                 <unset>  32737/TCP
+Endpoints:                10.240.0.57:9736
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
+```
+
+
