@@ -323,9 +323,9 @@ password
 ```bash
 TMAX_HOST_ADDR=172.17.0.3
 export TMAX_HOST_ADDR
-alias msdown1='stopServer -u administrator -p tmax123 -host 172.17.0.3:9936'
-alias msdown2='stopServer -u administrator -p tmax123 -host 172.17.0.3:9636'
-alias dsdown='stopServer -u administrator -p tmax123 -host 172.17.0.3:9736'
+alias msdown1='stopServer -u administrator -p tmax123 -host localhost:9936'
+alias msdown2='stopServer -u administrator -p tmax123 -host localhost:9636'
+alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
 ```
     source ~/.bash_profile
     
@@ -451,8 +451,81 @@ spec:
 ```bash
 NAME       READY   STATUS              RESTARTS   AGE
 of7azure   0/1     ContainerCreating   0          2m14s
+
+NAME       READY   STATUS              RESTARTS   AGE
+of7azure   1/1     Running             0          26m
 ```
 
+```kubectl describe pod of7azure```
 
+```bash
+Name:         of7azure
+Namespace:    default
+Priority:     0
+Node:         aks-agentpool-13644011-1/10.240.0.35
+Start Time:   Wed, 25 Mar 2020 12:39:34 +0000
+Labels:       of7azurefinal=of7azure
+Annotations:  <none>
+Status:       Running
+IP:           10.240.0.57
+IPs:          <none>
+Containers:
+  of7azure:
+    Container ID:  docker://237c2618968bf290d30b07b9cd3c665e176bf92dfe24652e5a428ede2710b804
+    Image:         kelsey92/of7azurefinal:of7azure
+    Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:06af968b311943bdc4a291d5c911aefc82f0503134bf10d11cd853b088ee9828
+    Port:          9736/TCP
+    Host Port:     0/TCP
+    Command:
+      /bin/sh
+      -ec
+      while :; do echo '.'; sleep 5 ; done
+    State:          Running
+      Started:      Wed, 25 Mar 2020 13:04:02 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-pvcdl (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  default-token-pvcdl:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-pvcdl
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:
+  Type    Reason     Age    From                               Message
+  ----    ------     ----   ----                               -------
+  Normal  Scheduled  27m    default-scheduler                  Successfully assigned default/of7azure to aks-agentpool-13644011-1
+  Normal  Pulling    27m    kubelet, aks-agentpool-13644011-1  Pulling image "kelsey92/of7azurefinal:of7azure"
+  Normal  Pulled     3m40s  kubelet, aks-agentpool-13644011-1  Successfully pulled image "kelsey92/of7azurefinal:of7azure"
+  Normal  Created    3m19s  kubelet, aks-agentpool-13644011-1  Created container of7azure
+  Normal  Started    3m18s  kubelet, aks-agentpool-13644011-1  Started container of7azure
+```
 
+```kubectl exec -it of7azure -- /bin/bash```
+
+```bash
+[root@of7azure /]# su - of7azure
+Last login: Wed Mar 25 09:38:48 UTC 2020 on pts/0
+
+[of7azure@of7azure ~]$ ip addr
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+27: eth0@if28: <BROADCAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether 7e:7c:35:66:d3:06 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 10.240.0.57/16 scope global eth0
+       valid_lft forever preferred_lft forever
+```
 
