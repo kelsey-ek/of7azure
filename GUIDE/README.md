@@ -442,8 +442,16 @@ spec:
     command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
 ```
 
+```kubectl create -f of7test.yaml```
 
+*pod/of7azure created*
 
+```kubectl get pod of7azure or kubectl get pods(check all pods)``` 
+
+```bash
+NAME       READY   STATUS              RESTARTS   AGE
+of7azure   0/1     ContainerCreating   0          2m14s
+```
 
 
 
