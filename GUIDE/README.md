@@ -328,7 +328,7 @@ password
 
     vi ~/.bash_profile
 ```bash
-TMAX_HOST_ADDR=172.17.0.3
+TMAX_HOST_ADDR=localhost ip address(127.0.0.1)
 export TMAX_HOST_ADDR
 alias msdown1='stopServer -u administrator -p tmax123 -host localhost:9936'
 alias msdown2='stopServer -u administrator -p tmax123 -host localhost:9636'
@@ -342,10 +342,10 @@ alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
 ```bash
 [TDQ]
         TDQ_INTRA_DSNAME=OSC.TDQLIB.INTRA
-        TDQ_LOG_ADDRESS=172.17.0.3:8896
+        TDQ_LOG_ADDRESS=localhost ip address(127.0.0.1):8896
 ```
 
-**Webterminal setting should be modified**
+**Webterminal setting should be modified.**
 
     vi ofgw.properties
 ```bash
@@ -353,7 +353,7 @@ tmax.retrytime = 60000
 #tmax.node.list = NODE1,NODE2
 tmax.node.list = NODE1
 tmax.node.NODE1.name = NODE1
-tmax.node.NODE1.ip = 172.17.0.3
+tmax.node.NODE1.ip = localhost ip address(127.0.0.1)
 tmax.node.NODE1.port = 8001
 tmax.node.NODE1.min = 5
 tmax.node.NODE1.max = 1024
@@ -367,11 +367,11 @@ tmax.node.NODE1.idletime = 90
     vi ofmanager.properties
 ```bash
 # OFGW Property
-openframe.webterminal.url = 172.17.0.3:5556/webterminal
+openframe.webterminal.url = localhost ip address(127.0.0.1):5556/webterminal
 openframe.webterminal.name= ofgw
 
 # Tmax Property
-openframe.tmax.ip= 172.17.0.3
+openframe.tmax.ip= localhost ip address(127.0.0.1)
 openframe.tmax.port= 8001
 ```
 
