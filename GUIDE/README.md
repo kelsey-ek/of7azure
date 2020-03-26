@@ -725,10 +725,10 @@ __b.__ Set the Inbound ports
 
 
 * Hit the Add inbound port rule from the Node Networking setting.
-<img src="./reference_images/ports02.PNG" title="setting screen">
+<img src="./reference_images/add_ports02.PNG" title="setting screen">
 
 * Add inbound ports
-<img src="./reference_images/ports01.PNG" title="add inbound ports">
+<img src="./reference_images/add_ports01.PNG" title="add inbound ports">
 
 
 
