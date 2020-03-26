@@ -22,7 +22,7 @@
 
 ### 1.1 Install docker
 
-First, you need to get the OpenFrame image to use the AKS service. To create the image, you need to install Docker and create your own account. Your account will be needed when you push/pull the images in your repository in Dockerhub.
+First, you need to get the OpenFrame image to use the AKS service. To create it, you need Docker account and install Docker in your VM. Your account will be needed when you push/pull the images in your Dockerhub repository.
 
 ```bash
 sudo apt-get update
@@ -35,9 +35,11 @@ sudo docker –version
 
 ### 1.2 Get CentOs container
 
-**Run an empty Centos container to install OpenFrame.** Search the official Centos image and pull it on your VM. Use the image to run a container.
+**Run an empty Centos container to install OpenFrame.** 
+* Search the official Centos image and pull it on your VM. Use it to run a container.
 
-**Set the hostname with -h option when you run it.** OpenFrame will need the hostname to get the licenses or set the envionment.
+**Set the hostname with -h option when you run it.** 
+* OpenFrame will need a hostname to get the licenses or set the envionment.
 
 ```bash
 sudo docker search centos
@@ -71,8 +73,7 @@ Example :
 
 ### 1.3 Install OpenFrame
 
-- Required Package Installation
-
+__a.__  Required Package Installation
 ```bash 
 yum install -y  dos2unix
 yum install -y  glibc*
@@ -83,7 +84,7 @@ yum install -y  gcc-c++
 yum install -y libncurses*
 yum install ncurses*
 ```
--- Packages for running tibero
+* Packages for running tibero
 ```bash
 yum install libaio
 yum install libnsl
@@ -92,13 +93,13 @@ yum install libnsl
 yum update
 ```
 
-- Create symbolic link
+__b.__ Create symbolic link
 ```bash
 ln -s /usr/lib64/libncurses.so.5.9 /usr/lib/libtermcap.so
 ln -s /usr/lib64/libncurses.so.5.9 /usr/lib/libtermcap.so.2
 ```
 
-- Kernel Parameters Modification 
+__c.__ Kernel Parameters Modification 
 ```bash
 kernel.shmall = 2097152
 kernel.shmmax = 4294967295
@@ -107,7 +108,7 @@ kernel.sem = 100000 32000 10000 10000
 fs.file-max = 65536
 net.ipv4.ip_local_port_range = 1024 65000  
 ```
--- The parameters below are not supported in Centos container, so you can discard those.
+* The parameters below are not supported in a container environment, so you can discard those.
 ```bash
 net.core.rmem_default=262144
 net.core.wmem_default=262144
@@ -120,13 +121,18 @@ sysctl: cannot stat /proc/sys/net/core/wmem_default: No such file or directory
 sysctl: cannot stat /proc/sys/net/core/rmem_max: No such file or directory
 sysctl: cannot stat /proc/sys/net/core/wmem_max: No such file or directory
 ```
+
+* Refresh the kernel parameters.
 ```bash
 /sbin/sysctl –p 
 ```
 
-- Firewall does not work in the container. Instead, you can use port forwarding option(-p) when you run the container. I will talk about this later in 'use OpenFrame image' part.
+__d.__ Firewall setting
+* Firewall does not work in the container. Instead, you can use port forwarding option(-p) when you run the container. I will talk about this later in 'use OpenFrame image' part.
 
-- Prepare all licenses from Technet with the correct hostname.
+__e.__ Prepare licenses from Technet.
+* Use the correct hostname for downloading license files from Technet website.
+* You need to check hostname and the number of cores.
 
 
 
