@@ -173,6 +173,9 @@ __f.__ Set hostname
 * Use -h option when you run the container. It automatically sets the hostname for the container.
 * Check /etc/hosts file to see if the hostname sets correctly.
 
+**Copy OpenFrame binary files from host to container**
+```sudo docker cp [filename] [containername]:[path]```
+
 ### 1.3.2 JAVA installation
 
 
