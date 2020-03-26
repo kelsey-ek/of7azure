@@ -483,17 +483,17 @@ Name:         of7azure
 Namespace:    default
 Priority:     0
 Node:         aks-agentpool-13644011-1/10.240.0.35
-Start Time:   Wed, 25 Mar 2020 12:39:34 +0000
+Start Time:   Thu, 26 Mar 2020 01:40:36 +0000
 Labels:       of7azurefinal=of7azure
 Annotations:  <none>
 Status:       Running
-IP:           10.240.0.57
+IP:           10.240.0.40
 IPs:          <none>
 Containers:
   of7azure:
-    Container ID:  docker://237c2618968bf290d30b07b9cd3c665e176bf92dfe24652e5a428ede2710b804
+    Container ID:  docker://05a08dc994462c770b43b3954f49071dcb8d059ff6eaf23ba93c7c71c3f813f4
     Image:         kelsey92/of7azurefinal:of7azure
-    Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:06af968b311943bdc4a291d5c911aefc82f0503134bf10d11cd853b088ee9828
+    Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:f74723dd0541d9a7643eb1c7751321398ec1f76253ac28d50cb2cee57f663d2c
     Port:          9736/TCP
     Host Port:     0/TCP
     Command:
@@ -501,7 +501,7 @@ Containers:
       -ec
       while :; do echo '.'; sleep 5 ; done
     State:          Running
-      Started:      Wed, 25 Mar 2020 13:04:02 +0000
+      Started:      Thu, 26 Mar 2020 01:40:38 +0000
     Ready:          True
     Restart Count:  0
     Environment:    <none>
@@ -536,16 +536,16 @@ Events:
 
 ```bash
 [root@of7azure /]# su - of7azure
-Last login: Wed Mar 25 09:38:48 UTC 2020 on pts/0
+Last login: Thu Mar 26 01:01:15 UTC 2020 on pts/0
 
 [of7azure@of7azure ~]$ ip addr
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
-27: eth0@if28: <BROADCAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
-    link/ether 7e:7c:35:66:d3:06 brd ff:ff:ff:ff:ff:ff link-netnsid 0
-    inet 10.240.0.57/16 scope global eth0
+31: eth0@if32: <BROADCAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether ce:6d:4e:8e:e8:10 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 10.240.0.40/16 scope global eth0
        valid_lft forever preferred_lft forever
 ```
 
