@@ -489,7 +489,7 @@ spec:
   - name: of7azure
     image: kelsey92/of7azurefinal:of7azure
     ports:
-      - containerPort: 9736
+      - containerPort: 6606
     command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
 ```
 
@@ -525,7 +525,7 @@ Containers:
     Container ID:  docker://05a08dc994462c770b43b3954f49071dcb8d059ff6eaf23ba93c7c71c3f813f4
     Image:         kelsey92/of7azurefinal:of7azure
     Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:f74723dd0541d9a7643eb1c7751321398ec1f76253ac28d50cb2cee57f663d2c
-    Port:          9736/TCP
+    Port:          6606/TCP
     Host Port:     0/TCP
     Command:
       /bin/sh
