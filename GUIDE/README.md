@@ -577,7 +577,7 @@ IP:                       10.0.67.5
 Port:                     <unset>  9736/TCP
 TargetPort:               9736/TCP
 NodePort:                 <unset>  32737/TCP
-Endpoints:                10.240.0.57:9736
+Endpoints:                10.240.0.40:9736
 Session Affinity:         None
 External Traffic Policy:  Cluster
 Events:                   <none>
