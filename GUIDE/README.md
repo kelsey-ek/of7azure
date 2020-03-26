@@ -552,6 +552,23 @@ Last login: Thu Mar 26 01:01:15 UTC 2020 on pts/0
 ```kubectl delete pod --all```
 *pod "of7azure" deleted*
 
+Create Nodeport service.
+
+```bash
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeof7service
+spec:
+  type: NodePort
+  selector:
+    of7azurefinal: of7azure
+  ports:
+  - protocol: TCP
+    port: 9736
+    targetPort: 9736
+```
+
 ```kubectl apply -f NodePort.yaml```
 *service/nodeof7service unchanged*
 
@@ -560,7 +577,6 @@ kubectl get services
 NAME             TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
 kubernetes       ClusterIP   10.0.0.1       <none>        443/TCP          34h
 nodeof7service   NodePort    10.0.67.5      <none>        9736:32737/TCP   29h
-of7-service      ClusterIP   10.0.120.157   <none>        9736/TCP         30h
 ```
 
 ```kubectl describe services nodeof7service```
