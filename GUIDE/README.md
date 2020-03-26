@@ -1,15 +1,22 @@
-# Table of Contents
+# Azure service with OpenFrame
 
-- [Create image of OpenFrame](#step-1-create-image-of-openframe)
-	* [Install docker](#11-install-docker)
-	* [Get centos container](#12-get-centos-container)
-	* [Install OpenFrame](#13-install-openframe)
-	* [Create OpenFrame image](#14-create-openframe-image)
-        * [Use OpenFrame image](#15-use-openframe-image)
-- [Azure](#step-2-azure)
-	* [add AKS service](#21-usage)
-	* [connect to the Node](#22-full-example)
-	* []
+## Table of Contents
+
++ [1. Create image of OpenFrame](#step-1-create-image-of-openframe)
+  + [1.1 Install docker](#11-install-docker)
+  + [1.2 Get centos container](#12-get-centos-container)
+  + [1.3 Install OpenFrame](#13-install-openframe)
+      + [1.3.1 Set Hostname]
+  + [1.4 Create OpenFrame image](#14-create-openframe-image)
+  + [1.5 Use OpenFrame image](#15-use-openframe-image)
++ [2. Use Azure Service](#step-2-azure)
+  + [2.1 AKS service](#21-usage)
+      + [2.1.1 Create Kubernetes cluster](#211-set-hostname)
+      + [2.1.2 Create groups and users](#212-create-groups-and-users)
+      + [2.1.3 Create directory structure](#213-create-directory-structure)
++ [connect to the Node](#22-full-example)
+  + []
+
 
 ## Step 1. Create image of OpenFrame
 
