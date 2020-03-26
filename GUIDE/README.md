@@ -738,7 +738,8 @@ __b.__ Set the Inbound ports
 <img src="./reference_images/add_ports02.PNG" title="setting screen">
 
 * Add inbound ports
-    Type the port in "Destination port ranges"
+
+Type the port in "Destination port ranges"
 <img src="./reference_images/add_ports01.PNG" title="add inbound ports">
 
 
