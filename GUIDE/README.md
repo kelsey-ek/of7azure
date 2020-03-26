@@ -474,6 +474,9 @@ openframe.tmax.port= 8001
 ```
 
 ### 2.2 Set the NAT inbound 
+* Set the Inbound NAT rules of Kubernetes
+<img src="./reference_images/jeus_NAT.png" title="jues setting">
+
 
 ### 2.3 Set the pod
 
