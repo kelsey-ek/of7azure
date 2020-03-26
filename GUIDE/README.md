@@ -135,6 +135,9 @@ ln -s /usr/lib64/libncurses.so.5.9 /usr/lib/libtermcap.so.2
 ```
 
 __c.__ Kernel Parameters Modification 
+
+vi /etc/sysctl.conf  
+
 ```bash
 kernel.shmall = 2097152
 kernel.shmmax = 4294967295
