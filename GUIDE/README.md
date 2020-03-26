@@ -712,16 +712,22 @@ __a.__ Set the Inbound NAT rules of Kubernetes with the Nodeports.
 <img src="./reference_images/NAT.PNG" title="NAT screen">
 
 * Jeus
-<img src="./reference_images/jeus_NAT.PNG" title="jeus setting">
+
 **Type the jeus Nodeport in Target port**
+<img src="./reference_images/jeus_NAT.PNG" title="jeus setting">
+
 
 * Webterminal
-<img src="./reference_images/webterminal_NAT.PNG" title="webterminal setting">
+
 **Type the webterminal Nodeport in Target port**
+<img src="./reference_images/webterminal_NAT.PNG" title="webterminal setting">
+
 
 * Ofmanager
-<img src="./reference_images/ofmanager_NAT.PNG" title="ofmanager setting">
+
 **Type the ofmanager Nodeport in Target port**
+<img src="./reference_images/ofmanager_NAT.PNG" title="ofmanager setting">
+
 
 __b.__ Set the Inbound ports 
 
