@@ -740,6 +740,7 @@ __b.__ Set the Inbound ports
 * Add inbound ports
 
 Type the port in "Destination port ranges"
+
 <img src="./reference_images/add_ports01.PNG" title="add inbound ports">
 
 
