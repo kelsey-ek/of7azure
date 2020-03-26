@@ -53,10 +53,23 @@ sudo docker –version
 **Set the hostname with -h option when you run it.** 
 * OpenFrame will need a hostname to get the licenses or set the envionment.
 
+* Ubuntu
 ```bash
 sudo docker search centos
 sudo docker pull centos
 sudo docker run -h [hostname] -i -t centos
+```
+
+* CentOS
+```bash
+sudo yum check-update
+sudo yum update
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install docker
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo systemctl status docker0
 ```
 
 Other docker commands :
