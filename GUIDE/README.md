@@ -275,6 +275,19 @@ username/repository:tag
 kelsey92/of7azurefinal:of7azure
 ```
 
+```sudo docker login```
+
+```bash
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: kelsey92
+Password: 
+WARNING! Your password will be stored unencrypted in /home/of7azure/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+````
+
 ``` sudo docker push kelsey92/of7azurefinal:of7azure ```
 
 ``` The push refers to repository [docker.io/kelsey92/of7azurefinal]```
