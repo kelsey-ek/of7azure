@@ -473,12 +473,7 @@ openframe.tmax.port= 8001
     aks-agentpool-13644011-1   Ready    agent   115s   v1.15.10
 ```
 
-### 2.2 Set the NAT inbound 
-* Set the Inbound NAT rules of Kubernetes
-<img src="./reference_images/jeus_NAT.png" title="jues setting">
-
-
-### 2.3 Set the pod
+### 2.2 Set the pod
 
 **Crate yaml file**
 
@@ -708,6 +703,33 @@ Events:                   <none>
 ```
 
 ```kubectl delete service [service name]```
+
+### 2.3 Set the Network configuration 
+
+__a.__ Set the Inbound NAT rules of Kubernetes with the Nodeports.
+
+* Hit the add button from Inbound NAT rules.
+<img src="./reference_images/NAT.png" title="NAT screen">
+
+* Jeus
+<img src="./reference_images/jeus_NAT.png" title="jeus setting">
+
+* Webterminal
+<img src="./reference_images/webterminal_NAT.png" title="webterminal setting">
+
+* Ofmanager
+<img src="./reference_images/ofmanager_NAT.png" title="ofmanager setting">
+
+__b.__ Set the Inbound ports 
+
+
+
+* Hit the Add inbound port rule from the Node Networking setting.
+<img src="./reference_images/ports02" title="setting screen">
+
+* Add inbound ports
+<img src="./reference_images/ports01" title="add inbound ports">
+
 
 
 
