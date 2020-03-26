@@ -6,7 +6,19 @@
   + [1.1 Install docker](#11-install-docker)
   + [1.2 Get centos container](#12-get-centos-container)
   + [1.3 Install OpenFrame](#13-install-openframe)
-      + [1.3.1 Set Hostname]
+      + [1.3.1 Pre settings](#131-pre-settings)
+      + [1.3.2 JAVA installation](#132-pre-settings)
+      + [1.3.3 Tibero installation](#133-pre-settings)
+      + [1.3.4 UnixODBC installation](#134-pre-settings)
+      + [1.3.5 OFCOBOL installation](#135-pre-settings)
+      + [1.3.6 PROSORT installation](#136-pre-settings)
+      + [1.3.7 Base installation](#137-pre-settings)
+      + [1.3.8 Batch installation](#138-pre-settings)
+      + [1.3.9 TACF installation](#139-pre-settings)
+      + [1.3.10 OSC installation](#139-pre-settings)
+      + [1.3.11 JEUS installation](#139-pre-settings)
+      + [1.3.12 OFGW installation](#139-pre-settings)
+      + [1.3.13 OFManager installation](#139-pre-settings)
   + [1.4 Create OpenFrame image](#14-create-openframe-image)
   + [1.5 Use OpenFrame image](#15-use-openframe-image)
 + [2. Use Azure Service](#step-2-azure)
@@ -73,6 +85,7 @@ Example :
 
 ### 1.3 Install OpenFrame
 
+### 1.3.1 Pre settings
 __a.__  Required Package Installation
 ```bash 
 yum install -y  dos2unix
@@ -83,14 +96,23 @@ yum install -y  gcc
 yum install -y  gcc-c++
 yum install -y libncurses*
 yum install ncurses*
+yum update
 ```
 * Packages for running tibero
 ```bash
 yum install libaio
 yum install libnsl
 ```
+
+* Extra Packages if needed
 ```bash
-yum update
+yum install strace
+yum install ltrace
+yum install gdb 
+yum install nano 
+yum install vim-enhanced 
+yum install git 
+yum install htop
 ```
 
 __b.__ Create symbolic link
@@ -130,13 +152,18 @@ sysctl: cannot stat /proc/sys/net/core/wmem_max: No such file or directory
 __d.__ Firewall setting
 * Firewall does not work in the container. Instead, you can use port forwarding option(-p) when you run the container. I will talk about this later in 'use OpenFrame image' part.
 
-__e.__ Prepare licenses from Technet.
+__e.__ Prepare licenses from Technet
 * Use the correct hostname for downloading license files from Technet website.
 * You need to check hostname and the number of cores.
 
+__f.__ Set hostname
+* Use -h option when you run the container. It automatically sets the hostname for the container.
+* Check /etc/hosts file to see if the hostname sets correctly.
+
+### 1.3.2 JAVA installation
 
 
-1. Tibero Installation
+### 1.3.3 Tibero installation
 
 ```bash
 tar -xzvf [tibero tar file]
@@ -210,9 +237,9 @@ create tablespace "OFMLOG" datafile 'OFM_LOG.dbf' size 300M  autoextend on next 
 create tablespace "OFMGR01" datafile 'OFMGR01.DBF'  size 100M autoextend on  next 50M;
 ```
 
-2. UnixODBC Installation
+### 1.3.4 UnixODBC installation
 
-- Copy make(usr/bin) file from the host to the container.
+* Copy make(usr/bin) file from the host to the container.
 ```bash
 wget ftp://ftp.unixodbc.org/pub/unixODBC/unixODBC-2.3.4.tar.gz
 tar -zxvf unixODBC-2.3.4.tar.gz
@@ -242,23 +269,23 @@ export ODBCINI=$HOME/unixODBC/etc/odbc.ini
 export ODBCSYSINI=$HOME
 ```
 
-3. OFCOBOL Installation
+### 1.3.5 OFCOBOL installation
 
-4. PROSORT Installation
+### 1.3.6 PROSORT installation
 
-5. Base Installation
+### 1.3.7 Base installation
 
-6. Batch Installation
+### 1.3.8 Batch installation
 
-7. TACF Installation
+### 1.3.9 TACF installation
 
-8. OSC Installation
+### 1.3.10 OSC installation
 
-9. JEUS Installation
+### 1.3.11 JEUS installation
 
-10. OFGW Installation
+### 1.3.12 OFGW installation
 
-11. OFManager Installation
+### 1.3.13 OFManager installation
 
 
 ### 1.4 Create OpenFrame image
