@@ -344,7 +344,7 @@ Login Succeeded
 
 ``` The push refers to repository [docker.io/kelsey92/of7azurefinal]```
 
-* If you want to cut donw the layers of the image
+* If you want to cut down the layers of the image
 
 ```sudo docker export f3b5881af3b7 | sudo docker import - kelsey92/of7azurefinal:of7azure```
 
@@ -873,6 +873,9 @@ openframe.tmax.port= 8001
     
     Add all nodeports as inbound ports like above.
 
+### 2.5 Use Azure monitoring service
+
+* 
 
 
 
