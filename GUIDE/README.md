@@ -22,7 +22,8 @@
   + [1.4 Create OpenFrame image](#14-create-openframe-image)
   + [1.5 Use OpenFrame image](#15-use-openframe-image)
 + [2. Use Azure Service](#step-2-azure)
-  + [2.1 AKS service](#21-usage)
+  + [2.1 AKS service](#21-add-azure-kubernetes-serviceaks)
+  #21-add-azure-kubernetes-serviceaks
       + [2.1.1 Create Kubernetes cluster](#211-set-hostname)
       + [2.1.2 Create groups and users](#212-create-groups-and-users)
       + [2.1.3 Create directory structure](#213-create-directory-structure)
