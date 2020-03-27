@@ -21,15 +21,12 @@
       + [1.3.13 OFManager installation](#1313-ofmanager-installation)
   + [1.4 Create OpenFrame image](#14-create-openframe-image)
   + [1.5 Use OpenFrame image](#15-use-openframe-image)
-+ [2. Use Azure Service](#step-2-azure)
-  + [2.1 AKS service](#21-add-azure-kubernetes-serviceaks)
-  #21-add-azure-kubernetes-serviceaks
-      + [2.1.1 Create Kubernetes cluster](#211-set-hostname)
-      + [2.1.2 Create groups and users](#212-create-groups-and-users)
-      + [2.1.3 Create directory structure](#213-create-directory-structure)
-+ [connect to the Node](#22-full-example)
-  + []
-
++ [2. Azure Service](#step-2-azure-service)
+  + [2.1 Add Azure Kubernetes service(AKS)](#21-add-azure-kubernetes-serviceaks)
+  + [2.2 Set pods](#22-set-pods)
+  + [2.3 Set services](#23-set-services)
+  + [2.4 Network configuration](#24-network-configuration)
+  + [2.5 Azure monitoring service](#25-azure-monitoring-service)
 
 ## Step 1. Create image of OpenFrame
 
@@ -484,7 +481,7 @@ openframe.tmax.port= 8001
 ```
 
 
-## Step 2. Azure
+## Step 2. Azure Service
 
 ### 2.1 Add Azure Kubernetes service(AKS)
 
@@ -562,7 +559,7 @@ openframe.tmax.port= 8001
 
     *deleted cluster AKSOF7Azure from /home/kelsey/.kube/config*
 
-### 2.2 Set the pod
+### 2.2 Set pods
 
 1. Crate a pod yaml file
 
@@ -697,7 +694,9 @@ openframe.tmax.port= 8001
   
   *pod "of7azure" deleted*
 
-### 2.3 Set the service
+### 2.3 Set services
+
+* Nodeport service for using JEUS, Webterminal, OFManager
 
 1. Create a service yaml file.
 
@@ -834,7 +833,7 @@ openframe.tmax.port= 8001
    ```kubectl delete service [service name]```
 
 
-### 2.4 Set the Network configuration 
+### 2.4 Network configuration 
 
 1. Set the Inbound NAT rules of Kubernetes with the Nodeports.
 
@@ -877,7 +876,7 @@ openframe.tmax.port= 8001
     
     Add all nodeports as inbound ports like above.
 
-### 2.5 Use Azure monitoring service
+### 2.5 Azure monitoring service
 
 
 
