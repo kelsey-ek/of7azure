@@ -484,12 +484,12 @@ openframe.tmax.port= 8001
 
 * Add resource as kubernetes service
 
-<img src="./reference_images/create_first.PNG" title="first page">
+    <img src="./reference_images/create_first.PNG" title="first page">
 
 * Basic
 
-<img src="./reference_images/create_basic.PNG" title="basic setting">
-**Set the region as NorthCentralUS here. Resources may vary depends on the region**
+    <img src="./reference_images/create_basic.PNG" title="basic setting">
+    **Set the region as NorthCentralUS here. Resources may vary depends on the region**
 
 <img src="./reference_images/create_basic_vm.PNG" title="basic_vm setting">
 
@@ -497,27 +497,27 @@ openframe.tmax.port= 8001
 
 * Scale
 
-<img src="./reference_images/create_scale.PNG" title="scale setting">
+    <img src="./reference_images/create_scale.PNG" title="scale setting">
 
 * Authentication as default
 
 * Networking
 
-<img src="./reference_images/create_networking.PNG" title="networking setting">
+    <img src="./reference_images/create_networking.PNG" title="networking setting">
 
 * Monitoring
 
-<img src="./reference_images/create_monitoring.PNG" title="monitoring setting">
+    <img src="./reference_images/create_monitoring.PNG" title="monitoring setting">
 
 * Tag as you want
 
 * Review + create
 
-<img src="./reference_images/create_review.PNG" title="create and review">
+    <img src="./reference_images/create_review.PNG" title="create and review">
 
 2. Set the Node 
 
-  **Use Azure cloud**
+    **Use Azure cloud**
 
 * Get access credentials for a managed Kubernetes cluster
 
