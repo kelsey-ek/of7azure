@@ -570,9 +570,9 @@ openframe.tmax.port= 8001
 
     * Containerport is used for connecting another container in the same pod
 
-2. Creat a pod
+2. Create a pod
 
-* Use the commane below for creating a new pod
+* Use the command below for creating a new pod
 
     ```kubectl create -f [yaml file name]```
 
@@ -825,39 +825,41 @@ openframe.tmax.port= 8001
 1. Set the Inbound NAT rules of Kubernetes with the Nodeports.
 
   * Hit the add button from Inbound NAT rules.
-  <img src="./reference_images/NAT.PNG" title="NAT screen">
+  
+    <img src="./reference_images/NAT.PNG" title="NAT screen">
 
   * Jeus
 
-  **Type the jeus Nodeport in Target port**
+    **Type the jeus Nodeport in Target port**
 
-  <img src="./reference_images/jeus_NAT.PNG" title="jeus setting">
+    <img src="./reference_images/jeus_NAT.PNG" title="jeus setting">
 
 
   * Webterminal
 
-  **Type the webterminal Nodeport in Target port**
+    **Type the webterminal Nodeport in Target port**
 
-  <img src="./reference_images/webterminal_NAT.PNG" title="webterminal setting">
+    <img src="./reference_images/webterminal_NAT.PNG" title="webterminal setting">
 
 
   * Ofmanager
 
-  **Type the ofmanager Nodeport in Target port**
+    **Type the ofmanager Nodeport in Target port**
 
-  <img src="./reference_images/ofmanager_NAT.PNG" title="ofmanager setting">
+    <img src="./reference_images/ofmanager_NAT.PNG" title="ofmanager setting">
 
 
 2. Set the Inbound ports 
 
-  * Hit the Add inbound port rule from the Node Networking setting.
-  <img src="./reference_images/add_ports02.PNG" title="setting screen">
+* Hit the Add inbound port rule from the Node Networking setting.
+   
+   <img src="./reference_images/add_ports02.PNG" title="setting screen">
 
-  * Add inbound ports
+* Add inbound ports
 
-  Type the port in "Destination port ranges"
+    Type the port in "Destination port ranges"
 
-  <img src="./reference_images/add_ports01.PNG" title="add inbound ports">
+    <img src="./reference_images/add_ports01.PNG" title="add inbound ports">
 
 
 
