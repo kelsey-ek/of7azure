@@ -489,8 +489,9 @@ openframe.tmax.port= 8001
 * Basic
 
 <img src="./reference_images/create_basic.PNG" title="basic setting">
+**Set the region as NorthCentralUS here. Resources may vary depends on the region**
 
-*Select the Node scale*
+*Select the Node(VM) size*
 
 <img src="./reference_images/create_basic_vm.PNG" title="basic_vm setting">
 
@@ -516,7 +517,7 @@ openframe.tmax.port= 8001
 
 2. Set the Node 
 
-*Use Azure cloud*
+**Use Azure cloud**
 
 ```az aks get-credentials --resource-group [resource_group_name] --name [AKS_cluster_name]```
 
@@ -536,7 +537,7 @@ aks-agentpool-24893396-0   Ready    agent   2m20s   v1.15.10
 
 ```kubectl config delete-cluster [cluster name]```
 
-*Example : *
+*Example :*
 
 ```kubectl config delete-cluster AKSOF7azure```
 
