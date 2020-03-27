@@ -519,6 +519,8 @@ openframe.tmax.port= 8001
 
 **Use Azure cloud**
 
+* Get access credentials for a managed Kubernetes cluster
+
 ```az aks get-credentials --resource-group [resource_group_name] --name [AKS_cluster_name]```
 
 *Example :*
@@ -527,10 +529,12 @@ openframe.tmax.port= 8001
 
 *Merged "AKSOF7azure" as current context in /home/kelsey/.kube/config*
 
+* Check the node status
+
 ```kubectl get nodes```
 ```bash
 NAME                       STATUS   ROLES   AGE     VERSION
-aks-agentpool-24893396-0   Ready    agent   2m20s   v1.15.10
+aks-agentpool-13644011-1   Ready    agent   2m20s   v1.15.10
 ```
 
 * When you need to reset the cluster 
@@ -545,7 +549,7 @@ aks-agentpool-24893396-0   Ready    agent   2m20s   v1.15.10
 
 ### 2.2 Set the pod
 
-**Crate yaml file**
+1. Crate a yaml file
 
 ```bash
 apiVersion: v1
@@ -562,6 +566,16 @@ spec:
       - containerPort: 6606
     command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
 ```
+
+* Containerport is used for connecting another container in the same pod
+
+2. Creat a pod
+
+* Use the commane below for creating a new pod
+
+```kubectl create -f [yaml file name]```
+
+*Example :*
 
 ```kubectl create -f of7test.yaml```
 
@@ -582,6 +596,8 @@ of7azure   0/1     ContainerCreating   0          2m14s
 NAME       READY   STATUS              RESTARTS   AGE
 of7azure   1/1     Running             0          26m
 ```
+
+* Get the detailed information of the pod
 
 ```kubectl describe pod [pod name]```
 
@@ -639,7 +655,11 @@ Events:
   Normal  Started    3m18s  kubelet, aks-agentpool-13644011-1  Started container of7azure
 ```
 
+* Execute a running pod
+
 ```kubectl exec -it of7azure -- /bin/bash```
+
+*Check IP address*
 
 ```bash
 [root@of7azure /]# su - of7azure
@@ -655,6 +675,8 @@ Last login: Thu Mar 26 01:01:15 UTC 2020 on pts/0
     inet 10.240.0.40/16 scope global eth0
        valid_lft forever preferred_lft forever
 ```
+
+* When you need to delete pods
 
 ```kubectl delete pod --all```
 *pod "of7azure" deleted*
