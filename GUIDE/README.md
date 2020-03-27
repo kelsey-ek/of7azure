@@ -371,7 +371,7 @@ password
 
 - Port forwarding with -p option when you run the container. Use multiple options with all ports you need.
 
-```sudo docker run -i -t -h of7azure -p 9736:9736 -p 8088:8088 -p 8087:8087 kelsey92/of7azurefinal:of7azure```
+```sudo docker run -i -t -h of7azure -p 9736:9736 -p 8088:8088 -p 8087:8087 kelsey92/of7azurefinal:of7azure /bin/bash```
 
 #### If you run more than one containers.
 
