@@ -514,6 +514,12 @@ openframe.tmax.port= 8001
 * Review + create
 
     <img src="./reference_images/create_review.PNG" title="create and review">
+    
+* Set the user id and password for the node(VM)
+
+    Hit the "Reset password" menu from the node(VM).
+    
+    <img src="./reference_images/passwordset.PNG" title="password">    
 
 2. Set the Node 
 
@@ -860,6 +866,8 @@ openframe.tmax.port= 8001
     Type the port in "Destination port ranges"
 
     <img src="./reference_images/add_ports01.PNG" title="add inbound ports">
+    
+    Add all nodeports as inbound ports like above.
 
 
 
