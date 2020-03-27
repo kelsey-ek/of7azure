@@ -491,9 +491,9 @@ openframe.tmax.port= 8001
 <img src="./reference_images/create_basic.PNG" title="basic setting">
 **Set the region as NorthCentralUS here. Resources may vary depends on the region**
 
-*Select the Node(VM) size*
-
 <img src="./reference_images/create_basic_vm.PNG" title="basic_vm setting">
+
+*Select the Node(VM) size*
 
 * Scale
 
@@ -687,132 +687,137 @@ openframe.tmax.port= 8001
 
 1. Create a service yaml file.
 
-  ```bash
-  apiVersion: v1
-  kind: Service
-  metadata:
-    name: jeus
-  spec:
-    type: NodePort
-    selector:
-      of7azurefinal: of7azure
-    ports:
-    - protocol: TCP
-      port: 9736
-      targetPort: 9736
-  ```
+    ```bash
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: jeus
+    spec:
+      type: NodePort
+      selector:
+        of7azurefinal: of7azure
+      ports:
+      - protocol: TCP
+        port: 9736
+        targetPort: 9736
+    ```
 
-  ```bash
-  apiVersion: v1
-  kind: Service
-  metadata:
-    name: ofmanager
-  spec:
-    type: NodePort
-    selector:
-      of7azurefinal: of7azure
-    ports:
-    - protocol: TCP
-      port: 8087
-      targetPort: 8087
-  ```
+    ```bash
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: ofmanager
+    spec:
+      type: NodePort
+      selector:
+        of7azurefinal: of7azure
+      ports:
+      - protocol: TCP
+        port: 8087
+        targetPort: 8087
+    ```
 
-  ```bash
-  apiVersion: v1
-  kind: Service
-  metadata:
-    name: webterminal
-  spec:
-    type: NodePort
-    selector:
-      of7azurefinal: of7azure
-    ports:
-    - protocol: TCP
-      port: 8088
-      targetPort: 8088
-  ```
+    ```bash
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: webterminal
+    spec:
+      type: NodePort
+      selector:
+        of7azurefinal: of7azure
+      ports:
+      - protocol: TCP
+        port: 8088
+        targetPort: 8088
+    ```
 
 2. Create services
 
-  ```kubectl create -f NodePort_8088.yaml```
-  *service/webterminal created
+* Create services by using the command below
 
-  ```kubectl create -f NodePort_8087.yaml```
-  *service/ofmanager created
+    ```kubectl create -f NodePort_8088.yaml```
+    
+    *service/webterminal created*
 
-  ```kubectl create -f NodePort_9736.yaml```
-  *service/jeus created
+    ```kubectl create -f NodePort_8087.yaml```
+    
+    *service/ofmanager created*
 
-  * Check services
+    ```kubectl create -f NodePort_9736.yaml```
+    
+    *service/jeus created*
 
-  ```kubectl get services```
+* Check services
 
-  ```bash
-  NAME          TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
-  jeus          NodePort    10.0.139.162   <none>        9736:32362/TCP   2m58s
-  kubernetes    ClusterIP   10.0.0.1       <none>        443/TCP          47h
-  ofmanager     NodePort    10.0.234.165   <none>        8087:30896/TCP   3m7s
-  webterminal   NodePort    10.0.179.58    <none>        8088:30011/TCP   3m11s
-  ```
+    ```kubectl get services```
+
+    ```bash
+    NAME          TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+    jeus          NodePort    10.0.139.162   <none>        9736:32362/TCP   2m58s
+    kubernetes    ClusterIP   10.0.0.1       <none>        443/TCP          47h
+    ofmanager     NodePort    10.0.234.165   <none>        8087:30896/TCP   3m7s
+    webterminal   NodePort    10.0.179.58    <none>        8088:30011/TCP   3m11s
+    ```
 
 * Get detailed information of services
 
-  ```kubectl describe services [service name]```
+    ```kubectl describe services [service name]```
 
-  ```bash
-  Name:                     jeus
-  Namespace:                default
-  Labels:                   <none>
-  Annotations:              <none>
-  Selector:                 of7azurefinal=of7azure
-  Type:                     NodePort
-  IP:                       10.0.139.162
-  Port:                     <unset>  9736/TCP
-  TargetPort:               9736/TCP
-  NodePort:                 <unset>  32362/TCP
-  Endpoints:                10.240.0.40:9736
-  Session Affinity:         None
-  External Traffic Policy:  Cluster
-  Events:                   <none>
-  ```
+    ```bash
+    Name:                     jeus
+    Namespace:                default
+    Labels:                   <none>
+    Annotations:              <none>
+    Selector:                 of7azurefinal=of7azure
+    Type:                     NodePort
+    IP:                       10.0.139.162
+    Port:                     <unset>  9736/TCP
+    TargetPort:               9736/TCP
+    NodePort:                 <unset>  32362/TCP
+    Endpoints:                10.240.0.40:9736
+    Session Affinity:         None
+    External Traffic Policy:  Cluster
+    Events:                   <none>
+    ```
 
-  ```bash
-  Name:                     ofmanager
-  Namespace:                default
-  Labels:                   <none>
-  Annotations:              <none>
-  Selector:                 of7azurefinal=of7azure
-  Type:                     NodePort
-  IP:                       10.0.234.165
-  Port:                     <unset>  8087/TCP
-  TargetPort:               8087/TCP
-  NodePort:                 <unset>  30896/TCP
-  Endpoints:                10.240.0.40:8087
-  Session Affinity:         None
-  External Traffic Policy:  Cluster
-  Events:                   <none>
-  ```
+    ```bash
+    Name:                     ofmanager
+    Namespace:                default
+    Labels:                   <none>
+    Annotations:              <none>
+    Selector:                 of7azurefinal=of7azure
+    Type:                     NodePort
+    IP:                       10.0.234.165
+    Port:                     <unset>  8087/TCP
+    TargetPort:               8087/TCP
+    NodePort:                 <unset>  30896/TCP
+    Endpoints:                10.240.0.40:8087
+    Session Affinity:         None
+    External Traffic Policy:  Cluster
+    Events:                   <none>
+    ```
 
-  ```bash
-  Name:                     webterminal
-  Namespace:                default
-  Labels:                   <none>
-  Annotations:              <none>
-  Selector:                 of7azurefinal=of7azure
-  Type:                     NodePort
-  IP:                       10.0.179.58
-  Port:                     <unset>  8088/TCP
-  TargetPort:               8088/TCP
-  NodePort:                 <unset>  30011/TCP
-  Endpoints:                10.240.0.40:8088
-  Session Affinity:         None
-  External Traffic Policy:  Cluster
-  Events:                   <none>
-  ```
+    ```bash
+    Name:                     webterminal
+    Namespace:                default
+    Labels:                   <none>
+    Annotations:              <none>
+    Selector:                 of7azurefinal=of7azure
+    Type:                     NodePort
+    IP:                       10.0.179.58
+    Port:                     <unset>  8088/TCP
+    TargetPort:               8088/TCP
+    NodePort:                 <unset>  30011/TCP
+    Endpoints:                10.240.0.40:8088
+    Session Affinity:         None
+    External Traffic Policy:  Cluster
+    Events:                   <none>
+    ```
 
-  * When you need to delete services
+* When you need to delete services
 
-  ```kubectl delete service [service name]```
+   ```kubectl delete service [service name]```
 
 
 ### 2.4 Set the Network configuration 
