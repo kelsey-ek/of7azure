@@ -476,8 +476,6 @@ openframe.tmax.port= 8001
 ```
 
 
-
-
 ## Step 2. Azure
 
 ### 2.1 Add Azure Kubernetes service(AKS)
@@ -486,26 +484,41 @@ openframe.tmax.port= 8001
 
 * Add resource as kubernetes service
 
-
+<img src="./reference_images/create_first.PNG" title="first page">
 
 * Basic
 
+<img src="./reference_images/create_basic.PNG" title="basic setting">
+
+*Select the Node scale*
+
+<img src="./reference_images/create_basic_vm.PNG" title="basic_vm setting">
+
 * Scale
+
+<img src="./reference_images/create_scale.PNG" title="scale setting">
 
 * Authentication as default
 
 * Networking
 
+<img src="./reference_images/create_networking.PNG" title="networking setting">
+
 * Monitoring
+
+<img src="./reference_images/create_monitoring.PNG" title="monitoring setting">
 
 * Tag as you want
 
 * Review + create
 
+<img src="./reference_images/create_review.PNG" title="create and review">
 
+2. Set the Node 
 
+*Use Azure cloud*
 
-    ```az aks get-credentials --resource-group [resource_group_name] --name [AKS_cluster_name]```
+```az aks get-credentials --resource-group [resource_group_name] --name [AKS_cluster_name]```
 
 *Example :*
 
