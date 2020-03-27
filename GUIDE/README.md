@@ -344,6 +344,10 @@ Login Succeeded
 
 ``` The push refers to repository [docker.io/kelsey92/of7azurefinal]```
 
+* If you want to cut donw the layers of the image
+
+```sudo docker export f3b5881af3b7 | sudo docker import - kelsey92/of7azurefinal:of7azure```
+
 ### 1.5 Use OpenFrame image
 
 **Docker should be installed and you need to login to Dockerhub.** 
