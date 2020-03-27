@@ -521,160 +521,161 @@ openframe.tmax.port= 8001
 
 * Get access credentials for a managed Kubernetes cluster
 
-```az aks get-credentials --resource-group [resource_group_name] --name [AKS_cluster_name]```
+    ```az aks get-credentials --resource-group [resource_group_name] --name [AKS_cluster_name]```
 
-*Example :*
+    *Example :*
 
-``` az aks get-credentials --resource-group OF7Azure_KELSEY --name AKSOF7Azure```
+    ``` az aks get-credentials --resource-group OF7Azure_KELSEY --name AKSOF7Azure```
 
-*Merged "AKSOF7azure" as current context in /home/kelsey/.kube/config*
+    *Merged "AKSOF7azure" as current context in /home/kelsey/.kube/config*
+
 
 * Check the node status
 
-```kubectl get nodes```
-```bash
-NAME                       STATUS   ROLES   AGE     VERSION
-aks-agentpool-13644011-1   Ready    agent   2m20s   v1.15.10
-```
+    ```kubectl get nodes```
+    ```bash
+    NAME                       STATUS   ROLES   AGE     VERSION
+    aks-agentpool-13644011-1   Ready    agent   2m20s   v1.15.10
+    ```
 
 * When you need to reset the cluster 
 
-```kubectl config delete-cluster [cluster name]```
+    ```kubectl config delete-cluster [cluster name]```
 
-*Example :*
+    *Example :*
 
-```kubectl config delete-cluster AKSOF7azure```
+    ```kubectl config delete-cluster AKSOF7azure```
 
-*deleted cluster AKSOF7Azure from /home/kelsey/.kube/config*
+    *deleted cluster AKSOF7Azure from /home/kelsey/.kube/config*
 
 ### 2.2 Set the pod
 
 1. Crate a yaml file
 
-```bash
-apiVersion: v1
-kind: Pod
-metadata:
-  name: of7azure
-  labels:
-    of7azurefinal: of7azure
-spec:
-  containers:
-  - name: of7azure
-    image: kelsey92/of7azurefinal:of7azure
-    ports:
-      - containerPort: 6606
-    command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
-```
+    ```bash
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: of7azure
+      labels:
+        of7azurefinal: of7azure
+    spec:
+      containers:
+      - name: of7azure
+        image: kelsey92/of7azurefinal:of7azure
+        ports:
+          - containerPort: 6606
+        command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
+    ```
 
-* Containerport is used for connecting another container in the same pod
+    * Containerport is used for connecting another container in the same pod
 
 2. Creat a pod
 
 * Use the commane below for creating a new pod
 
-```kubectl create -f [yaml file name]```
+    ```kubectl create -f [yaml file name]```
 
-*Example :*
+    *Example :*
 
-```kubectl create -f of7test.yaml```
+    ```kubectl create -f of7test.yaml```
 
-*pod/of7azure created*
+    *pod/of7azure created*
 
 * Check the specific pod
 
-```kubectl get pod [pod name]```
+    ```kubectl get pod [pod name]```
 
 * Check all pods
 
-```kubectl get pods``` 
+    ```kubectl get pods``` 
 
-```bash
-NAME       READY   STATUS              RESTARTS   AGE
-of7azure   0/1     ContainerCreating   0          2m14s
+    ```bash
+    NAME       READY   STATUS              RESTARTS   AGE
+    of7azure   0/1     ContainerCreating   0          2m14s
 
-NAME       READY   STATUS              RESTARTS   AGE
-of7azure   1/1     Running             0          26m
-```
+    NAME       READY   STATUS              RESTARTS   AGE
+    of7azure   1/1     Running             0          26m
+    ```
 
 * Get the detailed information of the pod
 
-```kubectl describe pod [pod name]```
+    ```kubectl describe pod [pod name]```
 
-```bash
-Name:         of7azure
-Namespace:    default
-Priority:     0
-Node:         aks-agentpool-13644011-1/10.240.0.35
-Start Time:   Thu, 26 Mar 2020 01:40:36 +0000
-Labels:       of7azurefinal=of7azure
-Annotations:  <none>
-Status:       Running
-IP:           10.240.0.40
-IPs:          <none>
-Containers:
-  of7azure:
-    Container ID:  docker://05a08dc994462c770b43b3954f49071dcb8d059ff6eaf23ba93c7c71c3f813f4
-    Image:         kelsey92/of7azurefinal:of7azure
-    Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:f74723dd0541d9a7643eb1c7751321398ec1f76253ac28d50cb2cee57f663d2c
-    Port:          6606/TCP
-    Host Port:     0/TCP
-    Command:
-      /bin/sh
-      -ec
-      while :; do echo '.'; sleep 5 ; done
-    State:          Running
-      Started:      Thu, 26 Mar 2020 01:40:38 +0000
-    Ready:          True
-    Restart Count:  0
-    Environment:    <none>
-    Mounts:
-      /var/run/secrets/kubernetes.io/serviceaccount from default-token-pvcdl (ro)
-Conditions:
-  Type              Status
-  Initialized       True
-  Ready             True
-  ContainersReady   True
-  PodScheduled      True
-Volumes:
-  default-token-pvcdl:
-    Type:        Secret (a volume populated by a Secret)
-    SecretName:  default-token-pvcdl
-    Optional:    false
-QoS Class:       BestEffort
-Node-Selectors:  <none>
-Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
-                 node.kubernetes.io/unreachable:NoExecute for 300s
-Events:
-  Type    Reason     Age    From                               Message
-  ----    ------     ----   ----                               -------
-  Normal  Scheduled  27m    default-scheduler                  Successfully assigned default/of7azure to aks-agentpool-13644011-1
-  Normal  Pulling    27m    kubelet, aks-agentpool-13644011-1  Pulling image "kelsey92/of7azurefinal:of7azure"
-  Normal  Pulled     3m40s  kubelet, aks-agentpool-13644011-1  Successfully pulled image "kelsey92/of7azurefinal:of7azure"
-  Normal  Created    3m19s  kubelet, aks-agentpool-13644011-1  Created container of7azure
-  Normal  Started    3m18s  kubelet, aks-agentpool-13644011-1  Started container of7azure
-```
+    ```bash
+  Name:         of7azure
+  Namespace:    default
+  Priority:     0
+  Node:         aks-agentpool-13644011-1/10.240.0.35
+  Start Time:   Thu, 26 Mar 2020 01:40:36 +0000
+  Labels:       of7azurefinal=of7azure
+  Annotations:  <none>
+  Status:       Running
+  IP:           10.240.0.40
+  IPs:          <none>
+  Containers:
+    of7azure:
+      Container ID:  docker://05a08dc994462c770b43b3954f49071dcb8d059ff6eaf23ba93c7c71c3f813f4
+      Image:         kelsey92/of7azurefinal:of7azure
+      Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:f74723dd0541d9a7643eb1c7751321398ec1f76253ac28d50cb2cee57f663d2c
+      Port:          6606/TCP
+      Host Port:     0/TCP
+      Command:
+        /bin/sh
+        -ec
+        while :; do echo '.'; sleep 5 ; done
+      State:          Running
+        Started:      Thu, 26 Mar 2020 01:40:38 +0000
+      Ready:          True
+      Restart Count:  0
+      Environment:    <none>
+      Mounts:
+        /var/run/secrets/kubernetes.io/serviceaccount from default-token-pvcdl (ro)
+  Conditions:
+    Type              Status
+    Initialized       True
+    Ready             True
+    ContainersReady   True
+    PodScheduled      True
+  Volumes:
+    default-token-pvcdl:
+      Type:        Secret (a volume populated by a Secret)
+      SecretName:  default-token-pvcdl
+      Optional:    false
+  QoS Class:       BestEffort
+  Node-Selectors:  <none>
+  Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                   node.kubernetes.io/unreachable:NoExecute for 300s
+  Events:
+    Type    Reason     Age    From                               Message
+    ----    ------     ----   ----                               -------
+    Normal  Scheduled  27m    default-scheduler                  Successfully assigned default/of7azure to aks-agentpool-13644011-1
+    Normal  Pulling    27m    kubelet, aks-agentpool-13644011-1  Pulling image "kelsey92/of7azurefinal:of7azure"
+    Normal  Pulled     3m40s  kubelet, aks-agentpool-13644011-1  Successfully pulled image "kelsey92/of7azurefinal:of7azure"
+    Normal  Created    3m19s  kubelet, aks-agentpool-13644011-1  Created container of7azure
+    Normal  Started    3m18s  kubelet, aks-agentpool-13644011-1  Started container of7azure
+  ```
 
 * Execute a running pod
 
-```kubectl exec -it of7azure -- /bin/bash```
+    ```kubectl exec -it of7azure -- /bin/bash```
 
-*Check IP address*
+   *Check IP address*
 
-```bash
-[root@of7azure /]# su - of7azure
-Last login: Thu Mar 26 01:01:15 UTC 2020 on pts/0
+  ```bash
+  [root@of7azure /]# su - of7azure
+  Last login: Thu Mar 26 01:01:15 UTC 2020 on pts/0
 
-[of7azure@of7azure ~]$ ip addr
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-    inet 127.0.0.1/8 scope host lo
-       valid_lft forever preferred_lft forever
-31: eth0@if32: <BROADCAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
-    link/ether ce:6d:4e:8e:e8:10 brd ff:ff:ff:ff:ff:ff link-netnsid 0
-    inet 10.240.0.40/16 scope global eth0
-       valid_lft forever preferred_lft forever
-```
+  [of7azure@of7azure ~]$ ip addr
+  1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+      link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+      inet 127.0.0.1/8 scope host lo
+         valid_lft forever preferred_lft forever
+  31: eth0@if32: <BROADCAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+      link/ether ce:6d:4e:8e:e8:10 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+      inet 10.240.0.40/16 scope global eth0
+         valid_lft forever preferred_lft forever
+  ```
 
 * When you need to delete pods
 
