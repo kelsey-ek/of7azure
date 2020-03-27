@@ -875,7 +875,62 @@ openframe.tmax.port= 8001
 
 ### 2.5 Use Azure monitoring service
 
-* 
 
+### 2.6 Fail-over 
+
+```bash
+kelsey@Azure:~$ kubectl describe pod of7azure
+Name:         of7azure
+Namespace:    default
+Priority:     0
+Node:         aks-agentpool-24893396-0/10.240.0.4
+Start Time:   Fri, 27 Mar 2020 09:09:03 +0000
+Labels:       of7azurefinal=of7azure
+Annotations:  <none>
+Status:       Running
+IP:           10.240.0.13
+IPs:          <none>
+Containers:
+  of7azure:
+    Container ID:  docker://448e504816da548d7f14e7c200525d78b470d51e61b2c6b36377af1e172bf284
+    Image:         kelsey92/of7azurefinal:of7azure
+    Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:d6faed8a275c2bdea88711eb81daa2e1cbc3e23af686fdbd40feb1420f71fc5f
+    Port:          6066/TCP
+    Host Port:     0/TCP
+    Command:
+      /bin/sh
+      -ec
+      while :; do echo '.'; sleep 5 ; done
+    State:          Running
+      Started:      Fri, 27 Mar 2020 09:09:05 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-lxwlr (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  default-token-lxwlr:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-lxwlr
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:
+  Type    Reason     Age   From                               Message
+  ----    ------     ----  ----                               -------
+  Normal  Scheduled  87s   default-scheduler                  Successfully assigned default/of7azure to aks-agentpool-24893396-0
+  Normal  Pulled     86s   kubelet, aks-agentpool-24893396-0  Container image "kelsey92/of7azurefinal:of7azure" already present on machine
+  Normal  Created    85s   kubelet, aks-agentpool-24893396-0  Created container of7azure
+  Normal  Started    85s   kubelet, aks-agentpool-24893396-0  Started container of7azure
+```
+  
 
 
