@@ -484,13 +484,27 @@ openframe.tmax.port= 8001
 
 ```az aks get-credentials --resource-group [resource_group_name] --name [AKS_cluster_name]```
 
+*Example : *
+
+``` az aks get-credentials --resource-group OF7Azure_KELSEY --name AKSOF7Azure```
+
 *Merged "AKSOF7azure" as current context in /home/kelsey/.kube/config*
 
 ```kubectl get nodes```
 ```bash
-    NAME                       STATUS   ROLES   AGE    VERSION
-    aks-agentpool-13644011-1   Ready    agent   115s   v1.15.10
+NAME                       STATUS   ROLES   AGE     VERSION
+aks-agentpool-24893396-0   Ready    agent   2m20s   v1.15.10
 ```
+
+* When you need to reset the cluster 
+
+```kubectl config delete-cluster [cluster name]```
+
+*Example : *
+
+```kubectl config delete-cluster AKSOF7azure```
+
+*deleted cluster AKSOF7Azure from /home/kelsey/.kube/config*
 
 ### 2.2 Set the pod
 
@@ -516,7 +530,13 @@ spec:
 
 *pod/of7azure created*
 
-```kubectl get pod of7azure or kubectl get pods(check all pods)``` 
+* Check the specific pod
+
+```kubectl get pod [pod name]```
+
+* Check all pods
+
+```kubectl get pods``` 
 
 ```bash
 NAME       READY   STATUS              RESTARTS   AGE
@@ -526,7 +546,7 @@ NAME       READY   STATUS              RESTARTS   AGE
 of7azure   1/1     Running             0          26m
 ```
 
-```kubectl describe pod of7azure```
+```kubectl describe pod [pod name]```
 
 ```bash
 Name:         of7azure
