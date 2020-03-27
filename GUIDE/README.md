@@ -517,7 +517,7 @@ openframe.tmax.port= 8001
 
 2. Set the Node 
 
-**Use Azure cloud**
+  **Use Azure cloud**
 
 * Get access credentials for a managed Kubernetes cluster
 
@@ -550,7 +550,7 @@ openframe.tmax.port= 8001
 
 ### 2.2 Set the pod
 
-1. Crate a yaml file
+1. Crate a pod yaml file
 
     ```bash
     apiVersion: v1
@@ -679,168 +679,180 @@ openframe.tmax.port= 8001
 
 * When you need to delete pods
 
-```kubectl delete pod --all```
-*pod "of7azure" deleted*
+  ```kubectl delete pod --all```
+  
+  *pod "of7azure" deleted*
 
-Create Nodeport service.
+### 2.3 Set the service
 
-```bash
-apiVersion: v1
-kind: Service
-metadata:
-  name: jeus
-spec:
-  type: NodePort
-  selector:
-    of7azurefinal: of7azure
-  ports:
-  - protocol: TCP
-    port: 9736
-    targetPort: 9736
-```
+1. Create a service yaml file.
 
-```bash
-apiVersion: v1
-kind: Service
-metadata:
-  name: ofmanager
-spec:
-  type: NodePort
-  selector:
-    of7azurefinal: of7azure
-  ports:
-  - protocol: TCP
-    port: 8087
-    targetPort: 8087
-```
+  ```bash
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: jeus
+  spec:
+    type: NodePort
+    selector:
+      of7azurefinal: of7azure
+    ports:
+    - protocol: TCP
+      port: 9736
+      targetPort: 9736
+  ```
 
-```bash
-apiVersion: v1
-kind: Service
-metadata:
-  name: webterminal
-spec:
-  type: NodePort
-  selector:
-    of7azurefinal: of7azure
-  ports:
-  - protocol: TCP
-    port: 8088
-    targetPort: 8088
-```
+  ```bash
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: ofmanager
+  spec:
+    type: NodePort
+    selector:
+      of7azurefinal: of7azure
+    ports:
+    - protocol: TCP
+      port: 8087
+      targetPort: 8087
+  ```
 
-```kubectl create -f NodePort_8088.yaml```
-*service/webterminal created
+  ```bash
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: webterminal
+  spec:
+    type: NodePort
+    selector:
+      of7azurefinal: of7azure
+    ports:
+    - protocol: TCP
+      port: 8088
+      targetPort: 8088
+  ```
 
-```kubectl create -f NodePort_8087.yaml```
-*service/ofmanager created
+2. Create services
 
-```kubectl create -f NodePort_9736.yaml```
-*service/jeus created
+  ```kubectl create -f NodePort_8088.yaml```
+  *service/webterminal created
 
-```kubectl get services```
+  ```kubectl create -f NodePort_8087.yaml```
+  *service/ofmanager created
 
-```bash
-NAME          TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
-jeus          NodePort    10.0.139.162   <none>        9736:32362/TCP   2m58s
-kubernetes    ClusterIP   10.0.0.1       <none>        443/TCP          47h
-ofmanager     NodePort    10.0.234.165   <none>        8087:30896/TCP   3m7s
-webterminal   NodePort    10.0.179.58    <none>        8088:30011/TCP   3m11s
-```
+  ```kubectl create -f NodePort_9736.yaml```
+  *service/jeus created
 
-```kubectl describe services [service name]```
+  * Check services
 
-```bash
-Name:                     jeus
-Namespace:                default
-Labels:                   <none>
-Annotations:              <none>
-Selector:                 of7azurefinal=of7azure
-Type:                     NodePort
-IP:                       10.0.139.162
-Port:                     <unset>  9736/TCP
-TargetPort:               9736/TCP
-NodePort:                 <unset>  32362/TCP
-Endpoints:                10.240.0.40:9736
-Session Affinity:         None
-External Traffic Policy:  Cluster
-Events:                   <none>
-```
+  ```kubectl get services```
 
-```bash
-Name:                     ofmanager
-Namespace:                default
-Labels:                   <none>
-Annotations:              <none>
-Selector:                 of7azurefinal=of7azure
-Type:                     NodePort
-IP:                       10.0.234.165
-Port:                     <unset>  8087/TCP
-TargetPort:               8087/TCP
-NodePort:                 <unset>  30896/TCP
-Endpoints:                10.240.0.40:8087
-Session Affinity:         None
-External Traffic Policy:  Cluster
-Events:                   <none>
-```
+  ```bash
+  NAME          TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+  jeus          NodePort    10.0.139.162   <none>        9736:32362/TCP   2m58s
+  kubernetes    ClusterIP   10.0.0.1       <none>        443/TCP          47h
+  ofmanager     NodePort    10.0.234.165   <none>        8087:30896/TCP   3m7s
+  webterminal   NodePort    10.0.179.58    <none>        8088:30011/TCP   3m11s
+  ```
 
-```bash
-Name:                     webterminal
-Namespace:                default
-Labels:                   <none>
-Annotations:              <none>
-Selector:                 of7azurefinal=of7azure
-Type:                     NodePort
-IP:                       10.0.179.58
-Port:                     <unset>  8088/TCP
-TargetPort:               8088/TCP
-NodePort:                 <unset>  30011/TCP
-Endpoints:                10.240.0.40:8088
-Session Affinity:         None
-External Traffic Policy:  Cluster
-Events:                   <none>
-```
+* Get detailed information of services
 
-```kubectl delete service [service name]```
+  ```kubectl describe services [service name]```
 
-### 2.3 Set the Network configuration 
+  ```bash
+  Name:                     jeus
+  Namespace:                default
+  Labels:                   <none>
+  Annotations:              <none>
+  Selector:                 of7azurefinal=of7azure
+  Type:                     NodePort
+  IP:                       10.0.139.162
+  Port:                     <unset>  9736/TCP
+  TargetPort:               9736/TCP
+  NodePort:                 <unset>  32362/TCP
+  Endpoints:                10.240.0.40:9736
+  Session Affinity:         None
+  External Traffic Policy:  Cluster
+  Events:                   <none>
+  ```
 
-__a.__ Set the Inbound NAT rules of Kubernetes with the Nodeports.
+  ```bash
+  Name:                     ofmanager
+  Namespace:                default
+  Labels:                   <none>
+  Annotations:              <none>
+  Selector:                 of7azurefinal=of7azure
+  Type:                     NodePort
+  IP:                       10.0.234.165
+  Port:                     <unset>  8087/TCP
+  TargetPort:               8087/TCP
+  NodePort:                 <unset>  30896/TCP
+  Endpoints:                10.240.0.40:8087
+  Session Affinity:         None
+  External Traffic Policy:  Cluster
+  Events:                   <none>
+  ```
 
-* Hit the add button from Inbound NAT rules.
-<img src="./reference_images/NAT.PNG" title="NAT screen">
+  ```bash
+  Name:                     webterminal
+  Namespace:                default
+  Labels:                   <none>
+  Annotations:              <none>
+  Selector:                 of7azurefinal=of7azure
+  Type:                     NodePort
+  IP:                       10.0.179.58
+  Port:                     <unset>  8088/TCP
+  TargetPort:               8088/TCP
+  NodePort:                 <unset>  30011/TCP
+  Endpoints:                10.240.0.40:8088
+  Session Affinity:         None
+  External Traffic Policy:  Cluster
+  Events:                   <none>
+  ```
 
-* Jeus
+  * When you need to delete services
 
-**Type the jeus Nodeport in Target port**
-
-<img src="./reference_images/jeus_NAT.PNG" title="jeus setting">
+  ```kubectl delete service [service name]```
 
 
-* Webterminal
+### 2.4 Set the Network configuration 
 
-**Type the webterminal Nodeport in Target port**
+1. Set the Inbound NAT rules of Kubernetes with the Nodeports.
 
-<img src="./reference_images/webterminal_NAT.PNG" title="webterminal setting">
+  * Hit the add button from Inbound NAT rules.
+  <img src="./reference_images/NAT.PNG" title="NAT screen">
+
+  * Jeus
+
+  **Type the jeus Nodeport in Target port**
+
+  <img src="./reference_images/jeus_NAT.PNG" title="jeus setting">
 
 
-* Ofmanager
+  * Webterminal
 
-**Type the ofmanager Nodeport in Target port**
+  **Type the webterminal Nodeport in Target port**
 
-<img src="./reference_images/ofmanager_NAT.PNG" title="ofmanager setting">
+  <img src="./reference_images/webterminal_NAT.PNG" title="webterminal setting">
 
 
-__b.__ Set the Inbound ports 
+  * Ofmanager
 
-* Hit the Add inbound port rule from the Node Networking setting.
-<img src="./reference_images/add_ports02.PNG" title="setting screen">
+  **Type the ofmanager Nodeport in Target port**
 
-* Add inbound ports
+  <img src="./reference_images/ofmanager_NAT.PNG" title="ofmanager setting">
 
-Type the port in "Destination port ranges"
 
-<img src="./reference_images/add_ports01.PNG" title="add inbound ports">
+2. Set the Inbound ports 
+
+  * Hit the Add inbound port rule from the Node Networking setting.
+  <img src="./reference_images/add_ports02.PNG" title="setting screen">
+
+  * Add inbound ports
+
+  Type the port in "Destination port ranges"
+
+  <img src="./reference_images/add_ports01.PNG" title="add inbound ports">
 
 
 
