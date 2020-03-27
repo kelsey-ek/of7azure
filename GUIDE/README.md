@@ -482,9 +482,32 @@ openframe.tmax.port= 8001
 
 ### 2.1 Add Azure Kubernetes service(AKS)
 
-```az aks get-credentials --resource-group [resource_group_name] --name [AKS_cluster_name]```
+1. Add the service from Azure Website.
 
-*Example : *
+* Add resource as kubernetes service
+
+
+
+* Basic
+
+* Scale
+
+* Authentication as default
+
+* Networking
+
+* Monitoring
+
+* Tag as you want
+
+* Review + create
+
+
+
+
+    ```az aks get-credentials --resource-group [resource_group_name] --name [AKS_cluster_name]```
+
+*Example :*
 
 ``` az aks get-credentials --resource-group OF7Azure_KELSEY --name AKSOF7Azure```
 
