@@ -107,7 +107,7 @@ When NODE1 dies,
 
 **A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes. It is a resource in the cluster just like a node is a cluster resource.**
 
-1) Create Persistent Volume (with Azure Kubernetes Service)
+1) Create Persistent Volume with Azure Kubernetes Service.
 
 - From the PVC above, it uses managed-premium storageClass whose provisioner is kubernetes.io/**azure-disk**. So, it automatically generates **AzureDisk**(Persistant Volume) in Azure service.
     
@@ -153,7 +153,7 @@ When NODE1 dies,
     Events:           <none>
     ```
     
-2) Create a custom Persistent Volume.
+2) Create a custom Persistent Volume with Kubernetes.
 
 ``` vi volume.yaml```
 ```bash
@@ -177,6 +177,36 @@ spec:
     server: 172.17.0.2
 ```
 
+* Mount options 
+
+```bash
+  - dir_mode=0777
+  - file_mode=0777
+  - uid=0
+  - gid=0
+  - mfsymlinks
+  - cache=strict
+```
+
+*Example
+
+```bash
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: azurefile
+provisioner: kubernetes.io/azure-file
+mountOptions:
+  - dir_mode=0777
+  - file_mode=0777
+  - uid=0
+  - gid=0
+  - mfsymlinks
+  - cache=strict
+parameters:
+  skuName: Standard_LRS
+```
+
 
 
 
@@ -196,6 +226,25 @@ spec:
 A PersistentVolume can be mounted on a host in any way supported by the resource provider. As shown in the table below, providers will have different capabilities and each PV’s access modes are set to the specific modes supported by that particular volume. For example, NFS can support multiple read/write clients, but a specific NFS PV might be exported on the server as read-only. Each PV gets its own set of access modes describing that specific PV’s capabilities.
 
    <img src="./reference_images/access.PNG" title="access">
+
+```bash
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: azurefile
+provisioner: kubernetes.io/azure-file
+mountOptions:
+  - dir_mode=0777
+  - file_mode=0777
+  - uid=0
+  - gid=0
+  - mfsymlinks
+  - cache=strict
+parameters:
+  skuName: Standard_LRS
+```
+
+kubectl apply -f azure-file-sc.yaml
 
 
 ### 1.3 Deployment with replicated Pods
@@ -278,6 +327,7 @@ __f.__ Set hostname
 
 
 
-From https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+From https://kubernetes.io/docs/concepts/storage/persistent-volumes
 
+From https://docs.microsoft.com/en-us/azure/aks/azure-files-dynamic-pv
 
