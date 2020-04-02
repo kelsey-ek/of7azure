@@ -372,6 +372,147 @@ Events:        <none>
 
 *The reason why Deployment for creating replicated Pods will be used is - updating the Deployment(in this case, OpenFrame) is more suitable than using Replication controller.(It only replicates the Pods, do not supports rolling-back and rolling-out for updating the application.)*
 
+*In this fail-over test case, replicas is set to one.*
+
+```vi deployment.yaml```
+```bash
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: of7azure
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: of7azure
+      labels:
+        of7azurefinal: of7azure
+    spec:
+      hostname: of7azure
+      containers:
+      - name: of7azure
+        image: kelsey92/of7azurefinal:of7azure
+        ports:
+        - containerPort: 6066
+        command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
+        volumeMounts:
+        - name: sharedvolume
+          mountPath: /mnt/azure
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: of7storage
+```
+```kubectl get deployments```
+```bash
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+of7azure   1/1     1            1           167m
+```
+
+```kubectl describe deployment of7azure```
+```bash
+Name:                   of7azure
+Namespace:              default
+CreationTimestamp:      Thu, 02 Apr 2020 04:48:36 +0000
+Labels:                 of7azurefinal=of7azure
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               of7azurefinal=of7azure
+Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  1 max unavailable, 1 max surge
+Pod Template:
+  Labels:  of7azurefinal=of7azure
+  Containers:
+   of7azure:
+    Image:      kelsey92/of7azurefinal:of7azure
+    Port:       6066/TCP
+    Host Port:  0/TCP
+    Command:
+      /bin/sh
+      -ec
+      while :; do echo '.'; sleep 5 ; done
+    Environment:  <none>
+    Mounts:
+      /mnt/azure from sharedvolume (rw)
+  Volumes:
+   sharedvolume:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  of7storage
+    ReadOnly:   false
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   of7azure-76db5dbccb (1/1 replicas created)
+Events:          <none>
+```
+
+```kubectl get pods```
+```bash
+NAME                        READY   STATUS    RESTARTS   AGE
+of7azure-76db5dbccb-96q4k   1/1     Running   0          171m
+```
+
+```kubectl describe pod of7azure-76db5dbccb-96q4k```
+```bash
+Name:           of7azure-76db5dbccb-96q4k
+Namespace:      default
+Priority:       0
+Node:           aks-agentpool-24893396-1/10.240.0.35
+Start Time:     Thu, 02 Apr 2020 04:48:36 +0000
+Labels:         of7azurefinal=of7azure
+                pod-template-hash=76db5dbccb
+Annotations:    <none>
+Status:         Running
+IP:             10.240.0.40
+IPs:            <none>
+Controlled By:  ReplicaSet/of7azure-76db5dbccb
+Containers:
+  of7azure:
+    Container ID:  docker://575d75a1938c3e5d1d469f33b5d61dcaa1e9bb7fc9995b5cd805b73f44e2f81a
+    Image:         kelsey92/of7azurefinal:of7azure
+    Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:9942ac999d9f51ed163cc68f05fbef93d0317135a86d567c106747d07e1b4527
+    Port:          6066/TCP
+    Host Port:     0/TCP
+    Command:
+      /bin/sh
+      -ec
+      while :; do echo '.'; sleep 5 ; done
+    State:          Running
+      Started:      Thu, 02 Apr 2020 04:48:57 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /mnt/azure from sharedvolume (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-lxwlr (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  sharedvolume:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  of7storage
+    ReadOnly:   false
+  default-token-lxwlr:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-lxwlr
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:          <none>
+```
+
+*Clean it*
+```kubectl delete deployment of7azure```
+```kubectl delete pod of7azure-76db5dbccb-96q4k```
 
 
 From https://kubernetes.io/docs/concepts/storage/persistent-volumes
