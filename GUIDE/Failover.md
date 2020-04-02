@@ -240,7 +240,7 @@ __C.__ Persistent Volume Claim (PVC)
             command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
             volumeMounts:
             - name: sharedvolume
-              mountPath: /mnt/azure
+              mountPath: /mnt/azure -> /mnt/azure directory is created in a container to use the volume.
           volumes:
           - name: sharedvolume
             persistentVolumeClaim:
@@ -359,6 +359,16 @@ __C.__ Persistent Volume Claim (PVC)
       Normal   Created                 26s    kubelet, aks-agentpool-24893396-1  Created container of7azure
       Normal   Started                 26s    kubelet, aks-agentpool-24893396-1  Started container of7azure
     ```
+- Check the volume from the container.
+
+```kubectl exec -it [pod name] -- /bin/bash```
+
+```bash
+[of7azure@of7azure mnt]$ ls -rtl
+total 4
+drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
+```
+*This volume will not be vanished even after the container is dead*
 
 *Clean it*
 
@@ -540,7 +550,271 @@ __C.__ Persistent Volume Claim (PVC)
 5) Create a Pod using the Persistent Volume.
     
     
+### 2. Fail-over test
+
+### 2.1 Test senario & Result
+
+__a.__ Move the actual directories in [Persistant Voulume:1.3.1-4](### 1.3.1 Use Persistent Volume with Azure Kubernetes Service).
+
+```kubectl exec -it [pod name] -- /bin/bash```
+
+- Run the container first, then move the directories.
+
+    ```cd /mnt/azure```
+
+    ```bash
+    [of7azure@of7azure azure]$ ls -rtl
+    total 52
+    drwxrwxr-x  4 of7azure of7azure  4096 Mar 21 08:46 shared
+    drwxrwxr-x  2 of7azure of7azure  4096 Mar 21 08:48 spunpack
+    drwxrwxr-x  2 of7azure of7azure  4096 Mar 21 08:48 spbackup
+    drwxrwxr-x  2 of7azure of7azure  4096 Mar 21 08:48 outputq
+    drwxrwxr-x  8 of7azure of7azure  4096 Mar 21 08:48 volume_default
+    drwxrwxr-x 13 of7azure of7azure  4096 Mar 24 15:05 osc
+    drwxrwxr-x  8 of7azure of7azure  4096 Mar 24 15:07 spool
+    drwxrwxr-x 11 of7azure of7azure  4096 Mar 25 11:20 tibero6
+    drwxrwxr-x  7 of7azure of7azure  4096 Mar 27 08:01 temp
+    drwx------  2 root     root     16384 Apr  1 12:29 lost+found
+    ```
+
+__b.__ Make an OpenFrame image which uses the Persistant Voulume.
+
+Image - kelsey92/of7azurefinal:of7azure 
+
+- Tibero 
     
+    ```bash
+    [of7azure@of7azure ~]$ ls -rtl
+    total 76
+    -rwxrwxrwx  1     1001     1001   257 Mar 20 08:48 odbcinst.ini
+    -rwxrwxrwx  1     1001     1001   127 Mar 20 08:49 odbc.ini
+    drwxrwxr-x 20 of7azure of7azure  4096 Mar 21 07:14 unixODBC-2.3.2
+    drwxrwxr-x  7 of7azure of7azure  4096 Mar 21 07:20 unixODBC
+    drwxrwxr-x 11 of7azure of7azure  4096 Mar 21 07:23 OFCOBOL
+    -rw-rw-r--  1 of7azure of7azure   207 Mar 21 07:25 HELLO.cob
+    -rwxrwxr-x  1 of7azure of7azure 18072 Mar 21 07:25 HELLO
+    drwxrwxr-x  9 of7azure of7azure  4096 Mar 21 07:25 prosort
+    drwxrwxrwx  5     1001     1001  4096 Mar 21 12:37 LICENSE
+    drwxrwxr-x 14 of7azure of7azure  4096 Mar 21 12:37 jeus7
+    drwxrwxr-x  2 of7azure of7azure  4096 Mar 27 07:55 binary
+    lrwxrwxrwx  1 of7azure of7azure    18 Apr  1 10:17 tibero6 -> /mnt/azure/tibero6
+    drwxrwxr-x  1 of7azure of7azure  4096 Apr  2 09:07 MOUNT
+    drwxrwxr-x  1 of7azure of7azure  4096 Apr  2 09:08 OpenFrame
+    ```
+
+- OpenFrame
+
+    ```bash
+    [of7azure@of7azure OpenFrame]$ ls -rtl
+    total 84
+    drwxrwxr-x  4 of7azure of7azure  4096 Mar 21 08:46 webde
+    drwxrwxr-x  5 of7azure of7azure  4096 Mar 21 08:46 tsam
+    drwxrwxr-x  2 of7azure of7azure  4096 Mar 21 08:46 schema
+    drwxrwxr-x  2 of7azure of7azure  4096 Mar 21 08:46 profile
+    drwxrwxr-x  2 of7azure of7azure  4096 Mar 21 08:46 include
+    drwxrwxr-x  2 of7azure of7azure  4096 Mar 21 08:46 cpm
+    drwxrwxr-x  2 of7azure of7azure  4096 Mar 21 08:46 license
+    drwxrwxr-x 23 of7azure of7azure  4096 Mar 21 08:46 core
+    drwxrwxr-x  2 of7azure of7azure  4096 Mar 21 08:48 util
+    drwxrwxr-x  2 of7azure of7azure  4096 Mar 21 08:48 sample
+    drwxrwxr-x  7 of7azure of7azure  4096 Mar 24 15:05 UninstallerData
+    drwxrwxr-x  2 of7azure of7azure  4096 Mar 24 15:05 data
+    drwxrwxr-x  2 of7azure of7azure  4096 Mar 24 15:05 bin
+    drwxrwxr-x  8 of7azure of7azure  4096 Mar 24 15:06 log
+    drwxrwxr-x  2 of7azure of7azure  4096 Mar 24 15:06 scripts
+    drwxrwxr-x  2 of7azure of7azure 20480 Mar 24 15:06 lib
+    drwxrwxr-x  2 of7azure of7azure  4096 Mar 26 01:08 config
+    lrwxrwxrwx  1 of7azure of7azure    16 Apr  1 10:18 spool -> /mnt/azure/spool
+    lrwxrwxrwx  1 of7azure of7azure    25 Apr  1 10:18 volume_default -> /mnt/azure/volume_default
+    lrwxrwxrwx  1 of7azure of7azure    17 Apr  1 10:18 shared -> /mnt/azure/shared
+    lrwxrwxrwx  1 of7azure of7azure    18 Apr  1 10:18 outputq -> /mnt/azure/outputq
+    lrwxrwxrwx  1 of7azure of7azure    15 Apr  2 09:07 temp -> /mnt/azure/temp
+    lrwxrwxrwx  1 of7azure of7azure    14 Apr  2 09:08 osc -> /mnt/azure/osc
+    lrwxrwxrwx  1 of7azure of7azure    19 Apr  2 09:08 spunpack -> /mnt/azure/spunpack
+    lrwxrwxrwx  1 of7azure of7azure    19 Apr  2 09:08 spbackup -> /mnt/azure/spbackup
+    ```
+    
+__c.__ Check the current status of the pod.
+
+```kubectl get pods```
+```bash
+NAME                        READY   STATUS    RESTARTS   AGE
+of7azure-76db5dbccb-clwtw   1/1     Running   0          31s
+```
+
+```kubectl describe pod of7azure-76db5dbccb-clwtw```
+```bash
+Name:           of7azure-76db5dbccb-clwtw
+Namespace:      default
+Priority:       0
+Node:           aks-agentpool-24893396-1/10.240.0.35
+Start Time:     Thu, 02 Apr 2020 09:44:24 +0000
+Labels:         of7azurefinal=of7azure
+                pod-template-hash=76db5dbccb
+Annotations:    <none>
+Status:         Running
+IP:             10.240.0.43
+IPs:            <none>
+Controlled By:  ReplicaSet/of7azure-76db5dbccb
+Containers:
+  of7azure:
+    Container ID:  docker://649069521f363906ac8b845a8c40d0f2d55d49694f54139aa9e457f1602b285c
+    Image:         kelsey92/of7azurefinal:of7azure
+    Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:8e707e0444eec3af2842a34de8360781f0dd9ed85ad620b0856a8c7368029603
+    Port:          6066/TCP
+    Host Port:     0/TCP
+    Command:
+      /bin/sh
+      -ec
+      while :; do echo '.'; sleep 5 ; done
+    State:          Running
+      Started:      Thu, 02 Apr 2020 09:44:54 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /mnt/azure from sharedvolume (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-lxwlr (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  sharedvolume:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  of7storage
+    ReadOnly:   false
+  default-token-lxwlr:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-lxwlr
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:
+  Type    Reason                  Age   From                               Message
+  ----    ------                  ----  ----                               -------
+  Normal  Scheduled               34s   default-scheduler                  Successfully assigned default/of7azure-76db5dbccb-clwtw to aks-agentpool-24893396-1
+  Normal  SuccessfulAttachVolume  23s   attachdetach-controller            AttachVolume.Attach succeeded for volume "pvc-a0a48609-8975-433f-9b73-bc371cbb0702"
+  Normal  Pulled                  5s    kubelet, aks-agentpool-24893396-1  Container image "kelsey92/of7azurefinal:of7azure" already present on machine
+  Normal  Created                 4s    kubelet, aks-agentpool-24893396-1  Created container of7azure
+  Normal  Started                 4s    kubelet, aks-agentpool-24893396-1  Started container of7azure
+```
+
+__d.__ Use OpenFrame function.(ex.Run a JOB)
+
+*Fisrt, Tibero and OpenFrame are successfully booted.*
+
+```kubectl exec -it of7azure-76db5dbccb-clwtw-- /bin/bash```
+
+```bash
+tjesmgr 
+
+Command : [ps]                                                                                                                           
+| JOBNAME  JOBID    CLASS   STATUS   RC     NODE     START-TIME        END-TIME          JCL      | 
+| TEST     JOB00001   A     Error    R00127 NODE1    20200402/09:53:56 20200402/09:53:57 test.jcl | 
+```
+
+__e.__ Kill NODE1 and see if a new pod is created in NODE2 and run successfully.
+
+*Let's say NODE1 is the one the pod is currently running in and NODE2 is the empty one. I stopped aks-agentpool-24893396-1.*
+
+```kubectl get nodes``
+```bash
+NAME                       STATUS     ROLES   AGE    VERSION
+aks-agentpool-24893396-0   Ready      agent   6d7h   v1.15.10
+aks-agentpool-24893396-1   NotReady   agent   6d     v1.15.10
+```
+
+```kubectl get pods```
+```bash
+NAME                        READY   STATUS              RESTARTS   AGE
+of7azure-76db5dbccb-clwtw   1/1     Terminating         0          22m
+of7azure-76db5dbccb-z4dv9   0/1     ContainerCreating   0          44s
+
+NAME                        READY   STATUS    RESTARTS   AGE
+of7azure-76db5dbccb-z4dv9   1/1     Running   0          4m22s
+```
+
+__f.__ Check the current status of the new pod.
+
+*Now the new pod is running in aks-agentpool-24893396-0*
+
+```kubectl describe pod of7azure-76db5dbccb-z4dv9```
+```bash
+Name:           of7azure-76db5dbccb-z4dv9
+Namespace:      default
+Priority:       0
+Node:           aks-agentpool-24893396-0/10.240.0.4
+Start Time:     Thu, 02 Apr 2020 10:06:23 +0000
+Labels:         of7azurefinal=of7azure
+                pod-template-hash=76db5dbccb
+Annotations:    <none>
+Status:         Running
+IP:             10.240.0.20
+IPs:            <none>
+Controlled By:  ReplicaSet/of7azure-76db5dbccb
+Containers:
+  of7azure:
+    Container ID:  docker://c069fa801e688b8eccdb2d048347ab7cee9013691050dc7b9d4e1721b9e32e75
+    Image:         kelsey92/of7azurefinal:of7azure
+    Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:d6faed8a275c2bdea88711eb81daa2e1cbc3e23af686fdbd40feb1420f71fc5f
+    Port:          6066/TCP
+    Host Port:     0/TCP
+    Command:
+      /bin/sh
+      -ec
+      while :; do echo '.'; sleep 5 ; done
+    State:          Running
+      Started:      Thu, 02 Apr 2020 10:10:39 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /mnt/azure from sharedvolume (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-lxwlr (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  sharedvolume:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  of7storage
+    ReadOnly:   false
+  default-token-lxwlr:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-lxwlr
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:
+  Type     Reason                  Age    From                               Message
+  ----     ------                  ----   ----                               -------
+  Normal   Scheduled               4m43s  default-scheduler                  Successfully assigned default/of7azure-76db5dbccb-z4dv9 to aks-agentpool-24893396-0
+  Normal   SuccessfulAttachVolume  2m5s   attachdetach-controller            AttachVolume.Attach succeeded for volume "pvc-a0a48609-8975-433f-9b73-bc371cbb0702"
+  Normal   Pulled                  28s    kubelet, aks-agentpool-24893396-0  Container image "kelsey92/of7azurefinal:of7azure" already present on machine
+  Normal   Created                 27s    kubelet, aks-agentpool-24893396-0  Created container of7azure
+  Normal   Started                 27s    kubelet, aks-agentpool-24893396-0  Started container of7azure
+```
+
+__g.__ Check if the new pod has the data before NODE1 dies.
+
+```kubectl exec -it of7azure-76db5dbccb-z4dv9 -- /bin/bash```
+
+*A new pod lost the files I created under container directories, but not under Persistent Volume.
+
+
+
+
+
 From https://kubernetes.io/docs/concepts/storage/persistent-volumes
 
 From https://docs.microsoft.com/en-us/azure/aks/azure-files-dynamic-pv
