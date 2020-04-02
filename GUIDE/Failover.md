@@ -761,7 +761,7 @@ of7azure-76db5dbccb-6fbtc   1/1     Running   0          13m
 
 __f.__ Check the current status of the new Pod.
 
-*Now the new Pod is running in aks-agentpool-24893396-0*
+*Now the new Pod is running in aks-agentpool-24893396-0.*
 
 ```kubectl describe pod of7azure-76db5dbccb-6fbtc```
 ```bash
@@ -832,12 +832,12 @@ __g.__ Boot up Tibero and OpenFrame.
 
 * OSC region should be booted with -a option.
 
-```bash
-[of7azure@of7azure ~]$ oscboot -r OSCOIVP1
-OSCBOOT : OSC RTSD loading(OSCOIVP1)                                  [fail]
-OSCBOOT : cics_ctrl_boot(-52906) error: Check oscmgr's log file
-OSCBOOT : OSC Region(OSCOIVP1)                                        [fail]
-```
+    ```
+    [of7azure@of7azure ~]$ oscboot -r OSCOIVP1
+    OSCBOOT : OSC RTSD loading(OSCOIVP1)                                  [fail]
+    OSCBOOT : cics_ctrl_boot(-52906) error: Check oscmgr's log file
+    OSCBOOT : OSC Region(OSCOIVP1)                                        [fail]
+    ```
 
 * Error messages
 
@@ -869,17 +869,17 @@ OSCBOOT : OSC Region(OSCOIVP1)                                        [fail]
 
 * Tibero table is already created in the database. So, use -a option (Do not create OSC DB Tables).
 
-```oscboot -r OSCOIVP1 -a```
-```bash
-OSCBOOT : OSC RTSD loading(OSCOIVP1)                                  [ OK ]
-OSCBOOT : OSC region server(OSCOIVP1TL)                               [ OK ]
-OSCBOOT : OSC region server(OSCOIVP1OMC)                              [ OK ]
-OSCBOOT : OSC region server(OSCOIVP1C)                                [ OK ]
-OSCBOOT : OSC region server(OSCOIVP1)                                 [ OK ]
-OSCBOOT : OSC tranclass server(OSCOIVP1_TCL1)                         [ OK ]
-OSCBOOT : OSC PLTPI loading(OSCOIVP1)                                 [ OK ]
-OSCBOOT : OSC Region(OSCOIVP1)                                        [ OK ]
-```
+    ```
+    [of7azure@of7azure ~]$ oscboot -r OSCOIVP1 -a
+    OSCBOOT : OSC RTSD loading(OSCOIVP1)                                  [ OK ]
+    OSCBOOT : OSC region server(OSCOIVP1TL)                               [ OK ]
+    OSCBOOT : OSC region server(OSCOIVP1OMC)                              [ OK ]
+    OSCBOOT : OSC region server(OSCOIVP1C)                                [ OK ]
+    OSCBOOT : OSC region server(OSCOIVP1)                                 [ OK ]
+    OSCBOOT : OSC tranclass server(OSCOIVP1_TCL1)                         [ OK ]
+    OSCBOOT : OSC PLTPI loading(OSCOIVP1)                                 [ OK ]
+    OSCBOOT : OSC Region(OSCOIVP1)                                        [ OK ]
+    ```
 
 __h.__ Check if the new Pod has the data before NODE1 dies.
 
