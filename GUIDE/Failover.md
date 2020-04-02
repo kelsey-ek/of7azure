@@ -50,7 +50,7 @@ __A.__ Storag eClass (SC)
     ReadOnlyMany – the volume can be mounted read-only by many nodes (ROX) 
     ReadWriteMany – the volume can be mounted as read-write by many nodes (RWX)
     ```
-A PersistentVolume can be mounted on a host in any way supported by the resource provider. As shown in the table below, providers will have different capabilities and each PV’s access modes are set to the specific modes supported by that particular volume. For example, NFS can support multiple read/write clients, but a specific NFS PV might be exported on the server as read-only. Each PV gets its own set of access modes describing that specific PV’s capabilities.
+* A PersistentVolume can be mounted on a host in any way supported by the resource provider. As shown in the table below, providers will have different capabilities and each PV’s access modes are set to the specific modes supported by that particular volume. For example, NFS can support multiple read/write clients, but a specific NFS PV might be exported on the server as read-only. Each PV gets its own set of access modes describing that specific PV’s capabilities.
 
    <img src="./reference_images/access.PNG" title="access">
 
@@ -72,24 +72,11 @@ parameters:
   skuName: Standard_LRS
 ```
 
-*Mount options* 
-
- ```bash
-dir_mode=0777
-file_mode=0777
-uid=0
-gid=0
-mfsymlinks
-cache=strict
-```
-
-```kubectl apply -f azure_sc.yaml```
-
 __B.__ Persistent Volume (PV) 
 
 * A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes. It is a resource in the cluster just like a node is a cluster resource.
 
-**PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV.** This API object captures the details of the implementation of the storage, be that NFS, iSCSI, or a cloud-provider-specific storage system.
+- **PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV.** This API object captures the details of the implementation of the storage, be that NFS, iSCSI, or a cloud-provider-specific storage system.
 
 __C.__ Persistent Volume Claim (PVC) 
 
@@ -175,7 +162,7 @@ __C.__ Persistent Volume Claim (PVC)
     
 *Clean it*
 
-    ```kubectl delete pvc of7storage```
+    kubectl delete pvc of7storage
     
 3) Persistent Volume is automatically generated with Azure Kubernetes Service
 
@@ -222,7 +209,7 @@ __C.__ Persistent Volume Claim (PVC)
     
 *Clean it*
 
-    ```kubectl delete pv pvc-a0a48609-8975-433f-9b73-bc371cbb0702```
+    kubectl delete pv pvc-a0a48609-8975-433f-9b73-bc371cbb0702
     
 4) Create a Pod using the Persistent Volume
 
@@ -230,8 +217,8 @@ __C.__ Persistent Volume Claim (PVC)
 
 *In this fail-over test case, replicas is set to one.*
 
-    ```vi deployment.yaml```
-    ```bash
+    vi deployment.yaml
+    
     apiVersion: extensions/v1beta1
     kind: Deployment
     metadata:
@@ -258,15 +245,15 @@ __C.__ Persistent Volume Claim (PVC)
           - name: sharedvolume
             persistentVolumeClaim:
               claimName: of7storage
-    ```
-    ```kubectl get deployments```
-    ```bash
+    
+    kubectl get deployments
+   
     NAME       READY   UP-TO-DATE   AVAILABLE   AGE
     of7azure   1/1     1            1           167m
-    ```
+    
 
-    ```kubectl describe deployment of7azure```
-    ```bash
+    kubectl describe deployment of7azure
+    
     Name:                   of7azure
     Namespace:              default
     CreationTimestamp:      Thu, 02 Apr 2020 04:48:36 +0000
@@ -303,16 +290,15 @@ __C.__ Persistent Volume Claim (PVC)
     OldReplicaSets:  <none>
     NewReplicaSet:   of7azure-76db5dbccb (1/1 replicas created)
     Events:          <none>
-    ```
-
-    ```kubectl get pods```
-    ```bash
+    
+    kubectl get pods
+    
+    bash
     NAME                        READY   STATUS    RESTARTS   AGE
     of7azure-76db5dbccb-96q4k   1/1     Running   0          171m
-    ```
-
-    ```kubectl describe pod of7azure-76db5dbccb-96q4k```
-    ```bash
+    
+    kubectl describe pod of7azure-76db5dbccb-96q4k
+    
     Name:           of7azure-76db5dbccb-96q4k
     Namespace:      default
     Priority:       0
@@ -371,13 +357,13 @@ __C.__ Persistent Volume Claim (PVC)
       Normal   Pulled                  26s    kubelet, aks-agentpool-24893396-1  Container image "kelsey92/of7azurefinal:of7azure" already present on machine
       Normal   Created                 26s    kubelet, aks-agentpool-24893396-1  Created container of7azure
       Normal   Started                 26s    kubelet, aks-agentpool-24893396-1  Started container of7azure
-    ```
+    
 
 *Clean it*
 
-    ```kubectl delete deployment of7azure```
+    kubectl delete deployment of7azure
 
-    ```kubectl delete pod of7azure-76db5dbccb-96q4k```
+    kubectl delete pod of7azure-76db5dbccb-96q4k
 
 - **Disk state** changes from Unattached to Attached 
 - **Owner VM** changes from --(none) to the VM where the Pod is running
@@ -500,7 +486,7 @@ __C.__ Persistent Volume Claim (PVC)
 
 *Clean it*
 
-    ```kubectl delete pv customvolume```
+    kubectl delete pv customvolume
 
 4) Create a Persistent Volume Claim with the Storage class you created.
 
@@ -548,7 +534,10 @@ __C.__ Persistent Volume Claim (PVC)
 
 *Clean it*
 
-    ```kubectl delete pvc custompvc```
+    kubectl delete pvc custompvc
+    
+    
+    
     
 From https://kubernetes.io/docs/concepts/storage/persistent-volumes
 
