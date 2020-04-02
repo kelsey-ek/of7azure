@@ -367,14 +367,14 @@ __C.__ Persistent Volume Claim (PVC)
 
 ```kubectl exec -it [pod name] -- /bin/bash```
 
-```cd /mnt/azure/
+```cd /mnt/azure/```
 ```bash
 [of7azure@of7azure mnt]$ ls -rtl
 total 4
 drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
 ```
 
-*This Volume will not be vanished even after the container is dead*
+*This Volume will not be vanished even after the container is dead.*
 
 *Clean it*
 
