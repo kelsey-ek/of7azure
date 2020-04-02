@@ -214,14 +214,14 @@ parameters:
 
 *Mount options* 
 
-    ```bash
-    dir_mode=0777
-    file_mode=0777
-    uid=0
-    gid=0
-    mfsymlinks
-    cache=strict
-    ```
+ ```bash
+dir_mode=0777
+file_mode=0777
+uid=0
+gid=0
+mfsymlinks
+cache=strict
+```
 
 ```kubectl apply -f azure_sc.yaml```
 
@@ -330,8 +330,8 @@ allowVolumeExpansion: true
     
     ```kubectl get pv customvolume```
     ```bash
-    NAME           CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM               STORAGECLASS   REASON   AGE
-    customvolume   50Gi       RWX            Retain           Bound    default/custompvc   glustersc               18m
+    NAME          CAPACITY  ACCESS MODES RECLAIM POLICY  STATUS  CLAIM              STORAGECLASS  REASON  AGE
+    customvolume  50Gi      RWX          Retain          Bound   default/custompvc  glustersc             18m
     ```
     ``` kubectl describe pv customvolume```
     ```bash
@@ -359,7 +359,54 @@ allowVolumeExpansion: true
     
     ```kubectl delete pv customvolume```
 
+4) Create a Persistent Volume Claim with the Storage class you created.
 
+    ```vi custom_claim.yaml```
+    ```bash
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: custompvc
+    spec:
+      accessModes:
+      - ReadWriteMany
+      storageClassName: glustersc
+      resources:
+        requests:
+          storage: 50Gi
+    ```
+    
+    ```kubectl create -f custom_claim.yaml```
+    
+    - Please match the storage class name with the Persistent Volume you want to use.
+    
+    ```kubectl get pvc custompvc```
+    ```bash
+    NAME        STATUS   VOLUME         CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+    custompvc   Bound    customvolume   50Gi       RWX            glustersc      25m
+    ```
+    ``` kubectl describe pvc custompvc```
+    ```bash
+    Name:          custompvc
+    Namespace:     default
+    StorageClass:  glustersc
+    Status:        Bound
+    Volume:        customvolume
+    Labels:        <none>
+    Annotations:   pv.kubernetes.io/bind-completed: yes
+                   pv.kubernetes.io/bound-by-controller: yes
+    Finalizers:    [kubernetes.io/pvc-protection]
+    Capacity:      50Gi
+    Access Modes:  RWX
+    VolumeMode:    Filesystem
+    Mounted By:    <none>
+    Events:        <none>
+    ```
+      
+    *Clean it*
+    
+    ```kubectl delete pvc custompvc```
+    
 ### 1.3 Deployment with replicated Pods
 
 -> The reason why Deployment for creating replicated Pods will be used is - updating the Deployment(in this case, OpenFrame) is more suitable than using Replication controller.(It only replicates the Pods, do not supports rolling-back and rolling-out for updating the application.) It will be discussed later.
