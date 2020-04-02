@@ -96,7 +96,7 @@ When NODE1 dies,
     Capacity:      500Gi
     Access Modes:  RWO
     VolumeMode:    Filesystem
-    Mounted By:    <none>
+    Mounted By:    <none>  ->  changes to the pod name when the pod is attached
     Events:        <none>
     ```
 -> Now it is ready to mount a pod to Persistent Volume.
@@ -360,7 +360,7 @@ Finalizers:    [kubernetes.io/pvc-protection]
 Capacity:      50Gi
 Access Modes:  RWX
 VolumeMode:    Filesystem
-Mounted By:    <none>
+Mounted By:    <none>   ->  changes to the pod name when the pod is attached
 Events:        <none>
 ```
 
@@ -507,12 +507,20 @@ QoS Class:       BestEffort
 Node-Selectors:  <none>
 Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
                  node.kubernetes.io/unreachable:NoExecute for 300s
-Events:          <none>
+Events:
+  Type     Reason                  Age    From                               Message
+  ----     ------                  ----   ----                               -------
+  Normal   Scheduled               4m41s  default-scheduler                  Successfully assigned default/of7azure-76db5dbccb-4d69f to aks-agentpool-24893396-1
+  Normal   SuccessfulAttachVolume  57s    attachdetach-controller            AttachVolume.Attach succeeded for volume "pvc-a0a48609-8975-433f-9b73-bc371cbb0702"
+  Normal   Pulled                  26s    kubelet, aks-agentpool-24893396-1  Container image "kelsey92/of7azurefinal:of7azure" already present on machine
+  Normal   Created                 26s    kubelet, aks-agentpool-24893396-1  Created container of7azure
+  Normal   Started                 26s    kubelet, aks-agentpool-24893396-1  Started container of7azure
 ```
 
 *Clean it*
 
 ```kubectl delete deployment of7azure```
+
 ```kubectl delete pod of7azure-76db5dbccb-96q4k```
 
 
