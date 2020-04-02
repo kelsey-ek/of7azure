@@ -41,7 +41,7 @@ When NODE1 dies,
 
 ### 1.2.1 Persistant Volume Claim
 
-* A PersistentVolumeClaim (PVC) is a request for storage by a user. It is similar to a Pod. Pods consume node resources and PVCs consume PV resources. Pods can request specific levels of resources (CPU and Memory). **Claims can request specific size and access modes (e.g., they can be mounted once read/write or many times read-only).**
+**A PersistentVolumeClaim (PVC) is a request for storage by a user. It is similar to a Pod. Pods consume node resources and PVCs consume PV resources. Pods can request specific levels of resources (CPU and Memory). Claims can request specific size and access modes (e.g., they can be mounted once read/write or many times read-only).**
 
 1) Check StorageClasss
 
@@ -99,22 +99,25 @@ When NODE1 dies,
     Mounted By:    <none>
     Events:        <none>
     ```
+-> Now it is ready to mount a pod to Persistent Volume.
     
 - While PersistentVolumeClaims allow a user to consume abstract storage resources, it is common that users need PersistentVolumes with varying properties, such as performance, for different problems. Cluster administrators need to be able to offer a variety of PersistentVolumes that differ in more ways than just size and access modes, without exposing users to the details of how those volumes are implemented. For these needs, there is the StorageClass resource. [1.2.3](#123-storage-class)
 
-### 1.2.2 Persistant Volume
+### 1.2.2 Persistent Volume
 
 **A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes. It is a resource in the cluster just like a node is a cluster resource.**
 
-* From the PVC above, it uses managed-premium storageClass whose provisioner is kubernetes.io/**azure-disk**. So, it automatically generates **AzureDisk**(Persistant Volume) in Azure service.
+1) Create Persistent Volume (with Azure Kubernetes Service)
+
+- From the PVC above, it uses managed-premium storageClass whose provisioner is kubernetes.io/**azure-disk**. So, it automatically generates **AzureDisk**(Persistant Volume) in Azure service.
     
     <img src="./reference_images/disk01.PNG" title="disk01">
      
-* When you create a Pod using the PVC, **Disk state** changes from Unattached to Attached & **Owner VM** changes from --(none) to the VM where the Pod is running. (Creating a Deployment which uses the PVC will be discussed in [1.3](#13-deployment-with-replicated-pods).
+- When you create a Pod using the PVC, **Disk state** changes from Unattached to Attached & **Owner VM** changes from --(none) to the VM where the Pod is running. (Creating a Deployment which uses the PVC will be discussed in [1.3](#13-deployment-with-replicated-pods).
         
     <img src="./reference_images/disk02.PNG" title="disk02">
      
-* You can also check PV with kubectl commands
+- You can also check PV with kubectl commands
      
     ``` kubectl get pv ```
     ```bash
@@ -150,9 +153,7 @@ When NODE1 dies,
     Events:           <none>
     ```
     
-**PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV.** This API object captures the details of the implementation of the storage, be that NFS, iSCSI, or a cloud-provider-specific storage system.
-
-- If you create custom Persistent Volume.
+2) Create a custom Persistent Volume.
 
 ``` vi volume.yaml```
 ```bash
@@ -175,6 +176,11 @@ spec:
     path: /tmp
     server: 172.17.0.2
 ```
+
+
+
+
+**PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV.** This API object captures the details of the implementation of the storage, be that NFS, iSCSI, or a cloud-provider-specific storage system.
 
 ### 1.2.3 Storage Class
 
