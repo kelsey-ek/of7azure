@@ -109,11 +109,11 @@ When NODE1 dies,
 
 1) Create Persistent Volume with Azure Kubernetes Service.
 
-- From the PVC above, it uses managed-premium storageClass whose provisioner is kubernetes.io/**azure-disk**. So, it automatically generates **AzureDisk**(Persistant Volume) in Azure service.
+- From the PVC above, it uses managed-premium storageClass whose provisioner is kubernetes.io/**azure-disk**. It automatically generates **AzureDisk**(Persistant Volume) in Azure service.
     
     <img src="./reference_images/disk01.PNG" title="disk01">
      
-- When you create a Pod using the PVC, **Disk state** changes from Unattached to Attached & **Owner VM** changes from --(none) to the VM where the Pod is running. (Creating a Deployment which uses the PVC will be discussed in [1.3](#13-deployment-with-replicated-pods).
+- When you create a Pod using the PV, **Disk state** changes from Unattached to Attached & **Owner VM** changes from --(none) to the VM where the Pod is running. (Creating a Deployment which uses the PVC will be discussed in [1.3](#13-deployment-with-replicated-pods).
         
     <img src="./reference_images/disk02.PNG" title="disk02">
      
@@ -155,60 +155,57 @@ When NODE1 dies,
     
 2) Create a custom Persistent Volume with Kubernetes.
 
-``` vi volume.yaml```
-```bash
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: customvolume
-spec:
-  capacity:
-    storage: 500Gi
-  volumeMode: Filesystem
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Recycle
-  storageClassName: customclass
-  mountOptions:
-    - hard
-    - nfsvers=4.1
-  nfs:
-    path: /tmp
-    server: 172.17.0.2
-```
+    ``` vi volume.yaml```
+    ```bash
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: customvolume
+    spec:
+      capacity:
+        storage: 500Gi
+      volumeMode: Filesystem
+      accessModes:
+        - ReadWriteOnce
+      persistentVolumeReclaimPolicy: Recycle
+      storageClassName: customclass
+      mountOptions:
+        - hard
+        - nfsvers=4.1
+      nfs:
+        path: /tmp
+        server: 172.17.0.2
+    ```
 
 * Mount options 
 
-```bash
-  - dir_mode=0777
-  - file_mode=0777
-  - uid=0
-  - gid=0
-  - mfsymlinks
-  - cache=strict
-```
+    ```bash
+      - dir_mode=0777
+      - file_mode=0777
+      - uid=0
+      - gid=0
+      - mfsymlinks
+      - cache=strict
+    ```
 
-*Example
+    *Example*
 
-```bash
-kind: StorageClass
-apiVersion: storage.k8s.io/v1
-metadata:
-  name: azurefile
-provisioner: kubernetes.io/azure-file
-mountOptions:
-  - dir_mode=0777
-  - file_mode=0777
-  - uid=0
-  - gid=0
-  - mfsymlinks
-  - cache=strict
-parameters:
-  skuName: Standard_LRS
-```
-
-
-
+    ```bash
+    kind: StorageClass
+    apiVersion: storage.k8s.io/v1
+    metadata:
+      name: azurefile
+    provisioner: kubernetes.io/azure-file
+    mountOptions:
+      - dir_mode=0777
+      - file_mode=0777
+      - uid=0
+      - gid=0
+      - mfsymlinks
+      - cache=strict
+    parameters:
+      skuName: Standard_LRS
+    ```
 
 **PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV.** This API object captures the details of the implementation of the storage, be that NFS, iSCSI, or a cloud-provider-specific storage system.
 
