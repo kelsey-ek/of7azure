@@ -251,7 +251,7 @@ allowVolumeExpansion: true
     ```bash
     ReadWriteOnce – the volume can be mounted as read-write by a single node (RWO)
     ReadOnlyMany – the volume can be mounted read-only by many nodes (ROX) 
-    ReadWriteMany – the volume can be mounted as read-write by many nodes (RWX)\
+    ReadWriteMany – the volume can be mounted as read-write by many nodes (RWX)
     ```
 - Storage services with access modes
 
@@ -322,9 +322,11 @@ allowVolumeExpansion: true
     ```
     ```kubectl create -f custom_volume.yaml```
     
-    - Providers will have different capabilities and each PV’s access modes are set to the specific modes supported by that particular volume. Please double check service provider, which provisioner you use for the storage class.
+    - Please double check service provider, which provisioner you use for the storage class.
     
     <img src="./reference_images/access.PNG" title="access">
+    
+    *Providers will have different capabilities and each PV’s access modes are set to the specific modes supported by that particular volume.* 
     
     ```kubectl get pv customvolume```
     ```bash
