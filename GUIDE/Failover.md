@@ -739,44 +739,44 @@ __e.__ Kill NODE1 and see if a new Pod is created in NODE2 and running successfu
 
 ```kubectl get nodes``
 ```bash
-NAME                       STATUS     ROLES   AGE    VERSION
-aks-agentpool-24893396-0   Ready      agent   6d7h   v1.15.10
-aks-agentpool-24893396-1   NotReady   agent   6d     v1.15.10
+NAME                       STATUS     ROLES   AGE     VERSION
+aks-agentpool-24893396-0   Ready      agent   6d10h   v1.15.10
+aks-agentpool-24893396-1   NotReady   agent   6d3h    v1.15.10
 ```
 
 ```kubectl get pods```
 ```bash
 NAME                        READY   STATUS              RESTARTS   AGE
-of7azure-76db5dbccb-clwtw   1/1     Terminating         0          22m
-of7azure-76db5dbccb-z4dv9   0/1     ContainerCreating   0          44s
+of7azure-76db5dbccb-6fbtc   0/1     ContainerCreating   0          6s
+of7azure-76db5dbccb-brgrs   1/1     Terminating         0          35m
 
 NAME                        READY   STATUS    RESTARTS   AGE
-of7azure-76db5dbccb-z4dv9   1/1     Running   0          4m22s
+of7azure-76db5dbccb-6fbtc   1/1     Running   0          13m
 ```
 
 __f.__ Check the current status of the new Pod.
 
 *Now the new Pod is running in aks-agentpool-24893396-0*
 
-```kubectl describe pod of7azure-76db5dbccb-z4dv9```
+```kubectl describe pod of7azure-76db5dbccb-6fbtc```
 ```bash
-Name:           of7azure-76db5dbccb-z4dv9
+Name:           of7azure-76db5dbccb-6fbtc
 Namespace:      default
 Priority:       0
 Node:           aks-agentpool-24893396-0/10.240.0.4
-Start Time:     Thu, 02 Apr 2020 10:06:23 +0000
+Start Time:     Thu, 02 Apr 2020 13:12:20 +0000
 Labels:         of7azurefinal=of7azure
                 pod-template-hash=76db5dbccb
 Annotations:    <none>
 Status:         Running
-IP:             10.240.0.20
+IP:             10.240.0.27
 IPs:            <none>
 Controlled By:  ReplicaSet/of7azure-76db5dbccb
 Containers:
   of7azure:
-    Container ID:  docker://c069fa801e688b8eccdb2d048347ab7cee9013691050dc7b9d4e1721b9e32e75
+    Container ID:  docker://daa1832aff46f4fc6a44360000387b3a215506769683cfae3aaa00016b0373c6
     Image:         kelsey92/of7azurefinal:of7azure
-    Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:d6faed8a275c2bdea88711eb81daa2e1cbc3e23af686fdbd40feb1420f71fc5f
+    Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:8e707e0444eec3af2842a34de8360781f0dd9ed85ad620b0856a8c7368029603
     Port:          6066/TCP
     Host Port:     0/TCP
     Command:
@@ -784,7 +784,7 @@ Containers:
       -ec
       while :; do echo '.'; sleep 5 ; done
     State:          Running
-      Started:      Thu, 02 Apr 2020 10:10:39 +0000
+      Started:      Thu, 02 Apr 2020 13:21:48 +0000
     Ready:          True
     Restart Count:  0
     Environment:    <none>
@@ -813,22 +813,66 @@ Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
 Events:
   Type     Reason                  Age    From                               Message
   ----     ------                  ----   ----                               -------
-  Normal   Scheduled               4m43s  default-scheduler                  Successfully assigned default/of7azure-76db5dbccb-z4dv9 to aks-agentpool-24893396-0
-  Normal   SuccessfulAttachVolume  2m5s   attachdetach-controller            AttachVolume.Attach succeeded for volume "pvc-a0a48609-8975-433f-9b73-bc371cbb0702"
-  Normal   Pulled                  28s    kubelet, aks-agentpool-24893396-0  Container image "kelsey92/of7azurefinal:of7azure" already present on machine
-  Normal   Created                 27s    kubelet, aks-agentpool-24893396-0  Created container of7azure
-  Normal   Started                 27s    kubelet, aks-agentpool-24893396-0  Started container of7azure
+  Normal   Scheduled               12m    default-scheduler                  Successfully assigned default/of7azure-76db5dbccb-6fbtc to aks-agentpool-24893396-0
+  Normal   SuccessfulAttachVolume  9m53s  attachdetach-controller            AttachVolume.Attach succeeded for volume "pvc-a0a48609-8975-433f-9b73-bc371cbb0702"
+  Normal   Pulling                 7m58s  kubelet, aks-agentpool-24893396-0  Pulling image "kelsey92/of7azurefinal:of7azure"
+  Normal   Pulled                  3m17s  kubelet, aks-agentpool-24893396-0  Successfully pulled image "kelsey92/of7azurefinal:of7azure"
+  Normal   Created                 2m45s  kubelet, aks-agentpool-24893396-0  Created container of7azure
+  Normal   Started                 2m45s  kubelet, aks-agentpool-24893396-0  Started container of7azure
 ```
 
 __g.__ Check if the new Pod has the data before NODE1 dies.
 
-```kubectl exec -it of7azure-76db5dbccb-z4dv9 -- /bin/bash```
+```kubectl exec -it of7azure-76db5dbccb-6fbtc -- /bin/bash```
+
+* OSC region should be booted with -a option.
+
+```bash
+[of7azure@of7azure ~]$ oscboot -r OSCOIVP1
+OSCBOOT : OSC RTSD loading(OSCOIVP1)                                  [fail]
+OSCBOOT : cics_ctrl_boot(-52906) error: Check oscmgr's log file
+OSCBOOT : OSC Region(OSCOIVP1)                                        [fail]
+```
+
+Error messages
+
+<details>
+	<summary>oscmgr04022020.out</summary>
+
+```
+132805 I OSC0013I [10:OSCMGR:0:0] oscmgr version 7.0.3(15)
+132805 I OSC0011I [10:OSCMGR:0:0] oscmgr server boots
+132823 E OSC0009E [10:CICSDB:0:0] SQLExecDirect: 72000 error(-7102)
+132823 E OSC0010E [10:CICSDB:0:0] SQLExecDirect: 72000 error -  Duplicate schema object 'TIBERO.OSCOIVP1_CONNECTION' exists.
+132823 E OSC0009E [10:CICSCTRL:0:0] cics_rtsd_create: cics_rtsd_create error(-52709)
+132823 E OSC3501E [10:CICSCTRL:0:0] Creating sys memory error(-52906)
+```
+</details>
+
+
+```oscmgr04022020.err```
+```bash
+cics_db_create_table() failed: rc(-52709), table type(0)sqlrc=-1, SQL : [INSERT INTO VTAM_ACTIVE_LU VALUES (  ?, ?, ?, ?, ?, ?, ?, ? ) ]
+SQLExecute failed
+State: 23000
+Native Error: -10007
+Error Message:  UNIQUE constraint violation ('TIBERO'.'TIBERO_CON86000512').
+132835 E VTM0125E Error processing function: vtam_appl_db_register_region(), ERROR CODE=-109957
+```
+
+
+[of7azure@of7azure ~]$ oscboot -r OSCOIVP1 -a
+OSCBOOT : OSC RTSD loading(OSCOIVP1)                                  [ OK ]
+OSCBOOT : OSC region server(OSCOIVP1TL)                               [ OK ]
+OSCBOOT : OSC region server(OSCOIVP1OMC)                              [ OK ]
+OSCBOOT : OSC region server(OSCOIVP1C)                                [ OK ]
+OSCBOOT : OSC region server(OSCOIVP1)                                 [ OK ]
+OSCBOOT : OSC tranclass server(OSCOIVP1_TCL1)                         [ OK ]
+OSCBOOT : OSC PLTPI loading(OSCOIVP1)                                 [ OK ]
+OSCBOOT : OSC Region(OSCOIVP1)                                        [ OK ]
+
 
 *A new Pod lost the files I created under container directories, but not under Persistent Volume.
-
-
-
-
 
 From https://kubernetes.io/docs/concepts/storage/persistent-volumes
 
