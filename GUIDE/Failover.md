@@ -177,36 +177,6 @@ When NODE1 dies,
         server: 172.17.0.2
     ```
 
-* Mount options 
-
-    ```bash
-      - dir_mode=0777
-      - file_mode=0777
-      - uid=0
-      - gid=0
-      - mfsymlinks
-      - cache=strict
-    ```
-
-    *Example*
-
-    ```bash
-    kind: StorageClass
-    apiVersion: storage.k8s.io/v1
-    metadata:
-      name: azurefile
-    provisioner: kubernetes.io/azure-file
-    mountOptions:
-      - dir_mode=0777
-      - file_mode=0777
-      - uid=0
-      - gid=0
-      - mfsymlinks
-      - cache=strict
-    parameters:
-      skuName: Standard_LRS
-    ```
-
 **PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV.** This API object captures the details of the implementation of the storage, be that NFS, iSCSI, or a cloud-provider-specific storage system.
 
 ### 1.2.3 Storage Class
@@ -224,9 +194,10 @@ A PersistentVolume can be mounted on a host in any way supported by the resource
 
    <img src="./reference_images/access.PNG" title="access">
 
+```vi azure_sc.yaml```
 ```bash
-kind: StorageClass
 apiVersion: storage.k8s.io/v1
+kind: StorageClass
 metadata:
   name: azurefile
 provisioner: kubernetes.io/azure-file
@@ -241,8 +212,35 @@ parameters:
   skuName: Standard_LRS
 ```
 
-kubectl apply -f azure-file-sc.yaml
+*Mount options* 
 
+    ```bash
+    dir_mode=0777
+    file_mode=0777
+    uid=0
+    gid=0
+    mfsymlinks
+    cache=strict
+    ```
+
+```kubectl apply -f azure_sc.yaml```
+
+``` vi custom_sc.yaml ```
+```bash
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: glustersc
+provisioner: kubernetes.io/glusterfs
+parameters:
+  resturl: "http://192.168.10.100:8080"
+  restuser: ""
+  secretNamespace: ""
+  secretName: ""
+allowVolumeExpansion: true
+```
+
+```kubectl create -f custom_sc.yaml```
 
 ### 1.3 Deployment with replicated Pods
 
