@@ -511,6 +511,7 @@ Events:          <none>
 ```
 
 *Clean it*
+
 ```kubectl delete deployment of7azure```
 ```kubectl delete pod of7azure-76db5dbccb-96q4k```
 
