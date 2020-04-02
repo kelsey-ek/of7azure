@@ -242,6 +242,122 @@ allowVolumeExpansion: true
 
 ```kubectl create -f custom_sc.yaml```
 
+### Use the custom Persistent Volume tutorial
+
+1) Check the access mode you want to configure and choose the storage service.
+
+- Access Modes
+
+    ```bash
+    ReadWriteOnce – the volume can be mounted as read-write by a single node (RWO)
+    ReadOnlyMany – the volume can be mounted read-only by many nodes (ROX) 
+    ReadWriteMany – the volume can be mounted as read-write by many nodes (RWX)\
+    ```
+- Storage services with access modes
+
+<img src="./reference_images/access.PNG" title="access">
+
+2) Create a storage class with the provisioner you want.
+
+    ```vi custom_sc.yaml```
+    ```bash
+    apiVersion: storage.k8s.io/v1
+    kind: StorageClass
+    metadata:
+      name: glustersc
+    provisioner: kubernetes.io/glusterfs
+    parameters:
+      resturl: "http://192.168.10.100:8080"
+      restuser: ""
+      secretNamespace: ""
+      secretName: ""
+    allowVolumeExpansion: true
+    ~
+    ```
+    ```kubectl create -f custom_sc.yaml```
+    
+    - Parameters may vary depends on the provisioner.
+    
+    ```kubectl get sc glustersc```
+    ```bash
+    NAME        PROVISIONER               AGE
+    glustersc   kubernetes.io/glusterfs   16m
+    ```
+    ```kubectl describe sc glustersc```
+    ```bash
+    Name:                  glustersc
+    IsDefaultClass:        No
+    Annotations:           <none>
+    Provisioner:           kubernetes.io/glusterfs
+    Parameters:            resturl=http://192.168.10.100:8080,restuser=,secretName=,secretNamespace=
+    AllowVolumeExpansion:  True
+    MountOptions:          <none>
+    ReclaimPolicy:         Delete
+    VolumeBindingMode:     Immediate
+    Events:                <none>
+    ```
+    
+    *Clean it*
+    
+    ```kubectl delete sc glustersc```
+
+3) Create a Persistent Volume with the Storage class you created.
+
+    ```vi custom_volume.yaml```
+    ```bash
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: customvolume
+      labels:
+        of7azurefinal: of7azure
+    spec:
+      storageClassName: glustersc
+      capacity:
+        storage: 50Gi
+      accessModes:
+        - ReadWriteMany
+      hostPath:
+        path: "/mnt/gluster"
+    ```
+    ```kubectl create -f custom_volume.yaml```
+    
+    - Providers will have different capabilities and each PV’s access modes are set to the specific modes supported by that particular volume. Please double check service provider, which provisioner you use for the storage class.
+    
+    <img src="./reference_images/access.PNG" title="access">
+    
+    ```kubectl get pv customvolume```
+    ```bash
+    NAME           CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM               STORAGECLASS   REASON   AGE
+    customvolume   50Gi       RWX            Retain           Bound    default/custompvc   glustersc               18m
+    ```
+    ``` kubectl describe pv customvolume```
+    ```bash
+    Name:            customvolume
+    Labels:          of7azurefinal=of7azure
+    Annotations:     pv.kubernetes.io/bound-by-controller: yes
+    Finalizers:      [kubernetes.io/pv-protection]
+    StorageClass:    glustersc
+    Status:          Bound
+    Claim:           default/custompvc
+    Reclaim Policy:  Retain
+    Access Modes:    RWX
+    VolumeMode:      Filesystem
+    Capacity:        50Gi
+    Node Affinity:   <none>
+    Message:
+    Source:
+        Type:          HostPath (bare host directory volume)
+        Path:          /mnt/gluster
+        HostPathType:
+    Events:            <none>
+    ```
+      
+    *Clean it*
+    
+    ```kubectl delete pv customvolume```
+
+
 ### 1.3 Deployment with replicated Pods
 
 -> The reason why Deployment for creating replicated Pods will be used is - updating the Deployment(in this case, OpenFrame) is more suitable than using Replication controller.(It only replicates the Pods, do not supports rolling-back and rolling-out for updating the application.) It will be discussed later.
