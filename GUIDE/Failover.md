@@ -717,7 +717,8 @@ __d.__ Use OpenFrame function.(ex.Run a JOB)
 
 ```kubectl exec -it of7azure-76db5dbccb-brgrs -- /bin/bash```
 
-```bash
+```bash 
+[of7azure@of7azure OpenFrame]$ ls -rtl test.jcl
 -rw-rw-r-- 1 of7azure of7azure   133 Apr  2 13:02 test.jcl
 
 [of7azure@of7azure OpenFrame]$ tjesmgr r $PWD/test.jcl
@@ -727,10 +728,14 @@ Command : [r /home/of7azure/OpenFrame/test.jcl]
 Node name :  A N Y
 (JOB00002) /home/of7azure/OpenFrame/test.jcl is submitted as TEST(JOB00002).
 
-Command : [ps]                                                                                                                           
-| JOBNAME  JOBID    CLASS   STATUS   RC     NODE     START-TIME        END-TIME          JCL
-| TEST     JOB00001   A     Error    R00127 NODE1    20200402/09:53:56 20200402/09:53:57 test.jcl | 
-| TEST     JOB00002   A     Error    R00127 NODE1    20200402/13:03:48 20200402/13:03:49 test.jcl |
+[of7azure@of7azure OpenFrame]$ tjesmgr ps
+Input USERNAME  : ROOT
+>
+Command : [ps]
+ JOBNAME  JOBID    CLASS   STATUS   RC     NODE     START-TIME        END-TIME          JCL
+------------------------------------------------------------------------------------------------------------------
+ TEST     JOB00001   A     Error    R00127 NODE1    20200402/09:53:56 20200402/09:53:57 test.jcl
+ TEST     JOB00002   A     Error    R00127 NODE1    20200402/13:03:48 20200402/13:03:49 test.jcl
 ```
 
 __e.__ Kill NODE1 and see if a new Pod is created in NODE2 and running successfully.
@@ -821,7 +826,7 @@ Events:
   Normal   Started                 2m45s  kubelet, aks-agentpool-24893396-0  Started container of7azure
 ```
 
-__g.__ Check if the new Pod has the data before NODE1 dies.
+__g.__ Boot up Tibero and OpenFrame.
 
 ```kubectl exec -it of7azure-76db5dbccb-6fbtc -- /bin/bash```
 
@@ -834,11 +839,11 @@ OSCBOOT : cics_ctrl_boot(-52906) error: Check oscmgr's log file
 OSCBOOT : OSC Region(OSCOIVP1)                                        [fail]
 ```
 
-Error messages
+* Error messages
 
 <details>
 	<summary>oscmgr04022020.out</summary>
-
+	
 ```
 132805 I OSC0013I [10:OSCMGR:0:0] oscmgr version 7.0.3(15)
 132805 I OSC0011I [10:OSCMGR:0:0] oscmgr server boots
@@ -849,9 +854,10 @@ Error messages
 ```
 </details>
 
+<details>
+	<summary>oscmgr04022020.err</summary>
 
-```oscmgr04022020.err```
-```bash
+```
 cics_db_create_table() failed: rc(-52709), table type(0)sqlrc=-1, SQL : [INSERT INTO VTAM_ACTIVE_LU VALUES (  ?, ?, ?, ?, ?, ?, ?, ? ) ]
 SQLExecute failed
 State: 23000
@@ -859,9 +865,12 @@ Native Error: -10007
 Error Message:  UNIQUE constraint violation ('TIBERO'.'TIBERO_CON86000512').
 132835 E VTM0125E Error processing function: vtam_appl_db_register_region(), ERROR CODE=-109957
 ```
+</details>
 
+* Tibero table is already created in the database. So, use -a option (Do not create OSC DB Tables).
 
-[of7azure@of7azure ~]$ oscboot -r OSCOIVP1 -a
+```oscboot -r OSCOIVP1 -a```
+```bash
 OSCBOOT : OSC RTSD loading(OSCOIVP1)                                  [ OK ]
 OSCBOOT : OSC region server(OSCOIVP1TL)                               [ OK ]
 OSCBOOT : OSC region server(OSCOIVP1OMC)                              [ OK ]
@@ -870,9 +879,37 @@ OSCBOOT : OSC region server(OSCOIVP1)                                 [ OK ]
 OSCBOOT : OSC tranclass server(OSCOIVP1_TCL1)                         [ OK ]
 OSCBOOT : OSC PLTPI loading(OSCOIVP1)                                 [ OK ]
 OSCBOOT : OSC Region(OSCOIVP1)                                        [ OK ]
+```
 
+__h.__ Check if the new Pod has the data before NODE1 dies.
 
 *A new Pod lost the files I created under container directories, but not under Persistent Volume.
+
+```kubectl exec -it of7azure-76db5dbccb-6fbtc -- /bin/bash```
+
+``bash
+[of7azure@of7azure OpenFrame]$ ls -rtl  test.jcl
+ls: cannot access 'test.jcl': No such file or directory
+
+[of7azure@of7azure OpenFrame]$  tjesmgr r $PWD/test.jcl
+Input USERNAME  : ROOT
+>
+Command : [r /home/of7azure/OpenFrame/test.jcl]
+Node name :  A N Y
+OBMJMSVRJSUBMIT tpcall failed - service failure(TPESVCFAIL)
+load_inpjcl() failed. rc=-9800
+Tmax return code : -9800
+
+[of7azure@of7azure OpenFrame]$ tjesmgr ps
+Input USERNAME  : ROOT
+>
+Command : [ps]
+ JOBNAME  JOBID    CLASS   STATUS   RC     NODE     START-TIME        END-TIME          JCL
+------------------------------------------------------------------------------------------------------------------
+ TEST     JOB00001   A     Error    R00127 NODE1    20200402/09:53:56 20200402/09:53:57 test.jcl
+ TEST     JOB00002   A     Error    R00127 NODE1    20200402/13:03:48 20200402/13:03:49 test.jcl
+```
+
 
 From https://kubernetes.io/docs/concepts/storage/persistent-volumes
 
