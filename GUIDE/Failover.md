@@ -2,10 +2,13 @@
 
 ## Table of Contents
 
-+ [1. Fail-over Environment setting]
++ [1. Fail-over Environment setting](#11-install-docker)
   + [1.1 Fail-over concept](#11-install-docker)
-  + [1.2 Deployment Replica](#12-get-centos-container)
-  + [1.3 Persistant Volume Claim](#13-install-openframe)
+  + [1.2 Storage setting](#13-install-openframe)
+      + [1.2.1 Storage Class](#131-pre-settings)
+      + [1.2.2 Persistant Volume](#131-pre-settings)
+      + [1.2.3 Persistant Volume Claim](#131-pre-settings)
+  + [1.3 Deployment with replicated Pods](#12-get-centos-container)
 + [2. Fail-over test](#step-2-azure-service)
   + [2.1 Test senario](#21-add-azure-kubernetes-serviceaks)
   + [2.2 Test results](#22-set-pods)
@@ -14,13 +17,13 @@
 
 ### 1.1 Fail-over concept
 
-<img src="./reference_images/fail01.PNG" title="fail01">
-
 * A Pod which has OpenFrame container is running in NODE1. NODE2 is a back up Node which is empty.
 
-<img src="./reference_images/fail02.PNG" title="fail01">
+<img src="./reference_images/fail01.PNG" title="fail01">
 
 * When NODE1 is dead, the Pod will be terminated from NODE1 but created in NODE2.
+
+<img src="./reference_images/fail02.PNG" title="fail01">
 
     *A Pod is the basic execution unit of a Kubernetes application–the smallest and simplest unit in the Kubernetes object model that you create or deploy. A Pod represents processes running on your Cluster.*
 
@@ -28,27 +31,35 @@ Here are two check points for doing this fail-over test.
 
 When NODE1 dies,
 
-1) A Pod should be automatically created in a different Node and run successfully.
+1) A new Pod should not lose the critical data of the old Pod.
 
-2) A new Pod should not lose the critical data of the old Pod.
+2) A Pod should be automatically created in a different Node and run successfully.
 
-For 1), Replica function will be used.
+For 1, Persistant Vloume and Persistant Volume Claim will be used.
 
-For 2), Persistant Vloume and Persistant Volume Claim will be used.
+*I will talk about Persistant Vloume and Persistant Volume Claim concepts in 1.2 part*
 
-*Applications that run in Azure Kubernetes Service (AKS) may need to store and retrieve data. For some application workloads, this data storage can use local, fast storage on the node that is no longer needed when the pods are deleted. Other application workloads may require storage that persists on more regular data volumes within the Azure platform. Multiple pods may need to share the same data volumes, or reattach data volumes if the pod is rescheduled on a different node. Finally, you may need to inject sensitive data or application configuration information into pods.*
+For 2, Deployment with replicated Pods will be used(in this case, only one Pod is needed).
+
+*The reason why Deployment for creating replicated Pods will be used is - updating the Deployment(in this case, OpenFrame) is more suitable than using Replication controller.(It only replicates the Pods, do not supports rolling-back and rolling-out for updating the application.) It will be discussed in 1.3 part.*
 
 
-```bash
-sudo apt-get update
-sudo apt-get remove docker docker-engine docker.io
-sudo apt install docker.io
-sudo systemctl start docker
-sudo systemctl enable docker
-sudo docker –version
-```
+### 1.2 Storage setting
 
-### 1.2 Get CentOs container
+### 1.2.1 Storage Class
+- Accessmode 설명
+- 
+
+### 1.2.2 Persistant Volume
+
+
+
+### 1.2.3 Persistant Volume Claim
+- azure에서 제공하는 storageclass사용하면 알아서 해당 볼륨 디스크 생성됨 (캡처할것 - azure화면)
+
+
+
+
 
 **Run an empty Centos container to install OpenFrame.** 
 * Search the official Centos image and pull it on your VM. Use it to run a container.
