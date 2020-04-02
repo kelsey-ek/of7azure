@@ -215,10 +215,10 @@ __C.__ Persistent Volume Claim (PVC)
 
 *The reason why I chose Deployment for creating replicated Pods is - updating the Deployment(in this case, OpenFrame) is more suitable than using Replication controller.(It only replicates the Pods, do not supports rolling-back and rolling-out for updating the application.)*
 
-*In this fail-over test case, replicas is set to one.*
+- In this fail-over test case, replicas is set to one.
 
-    vi deployment.yaml
-    
+    ```vi deployment.yaml```
+    ```bash
     apiVersion: extensions/v1beta1
     kind: Deployment
     metadata:
@@ -245,15 +245,15 @@ __C.__ Persistent Volume Claim (PVC)
           - name: sharedvolume
             persistentVolumeClaim:
               claimName: of7storage
-    
-    kubectl get deployments
-   
+    ```
+    ```kubectl get deployments```
+    ```bash
     NAME       READY   UP-TO-DATE   AVAILABLE   AGE
     of7azure   1/1     1            1           167m
-    
+    ```
 
-    kubectl describe deployment of7azure
-    
+    ```kubectl describe deployment of7azure```
+    ```bash
     Name:                   of7azure
     Namespace:              default
     CreationTimestamp:      Thu, 02 Apr 2020 04:48:36 +0000
@@ -290,15 +290,16 @@ __C.__ Persistent Volume Claim (PVC)
     OldReplicaSets:  <none>
     NewReplicaSet:   of7azure-76db5dbccb (1/1 replicas created)
     Events:          <none>
+    ```
     
-    kubectl get pods
-    
-    bash
+    ```kubectl get pods```
+    ```bash
     NAME                        READY   STATUS    RESTARTS   AGE
     of7azure-76db5dbccb-96q4k   1/1     Running   0          171m
+    ```
     
-    kubectl describe pod of7azure-76db5dbccb-96q4k
-    
+    ```kubectl describe pod of7azure-76db5dbccb-96q4k```
+    ```bash
     Name:           of7azure-76db5dbccb-96q4k
     Namespace:      default
     Priority:       0
@@ -357,13 +358,13 @@ __C.__ Persistent Volume Claim (PVC)
       Normal   Pulled                  26s    kubelet, aks-agentpool-24893396-1  Container image "kelsey92/of7azurefinal:of7azure" already present on machine
       Normal   Created                 26s    kubelet, aks-agentpool-24893396-1  Created container of7azure
       Normal   Started                 26s    kubelet, aks-agentpool-24893396-1  Started container of7azure
-    
+    ```
 
 *Clean it*
 
-    kubectl delete deployment of7azure
+```kubectl delete deployment of7azure```
 
-    kubectl delete pod of7azure-76db5dbccb-96q4k
+```kubectl delete pod of7azure-76db5dbccb-96q4k```
 
 - **Disk state** changes from Unattached to Attached 
 - **Owner VM** changes from --(none) to the VM where the Pod is running
@@ -428,7 +429,7 @@ __C.__ Persistent Volume Claim (PVC)
 
 *Clean it*
 
-    ```kubectl delete sc glustersc```
+ ```kubectl delete sc glustersc```
 
 3) Create a Persistent Volume with the Storage class you created.
 
@@ -486,7 +487,7 @@ __C.__ Persistent Volume Claim (PVC)
 
 *Clean it*
 
-    kubectl delete pv customvolume
+```kubectl delete pv customvolume```
 
 4) Create a Persistent Volume Claim with the Storage class you created.
 
