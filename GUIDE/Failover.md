@@ -25,7 +25,7 @@
 
 <img src="./reference_images/fail02.PNG" title="fail02">
 
-    *A Pod is the basic execution unit of a Kubernetes application–the smallest and simplest unit in the Kubernetes object model that you create or deploy. A Pod represents processes running on your Cluster.*
+*A Pod is the basic execution unit of a Kubernetes application–the smallest and simplest unit in the Kubernetes object model that you create or deploy. A Pod represents processes running on your Cluster.*
 
 Here are two check points for doing this fail-over test.
 
@@ -111,18 +111,17 @@ For 2, Deployment with replicated Pods will be used(in this case, only one Pod i
     
 ### 1.2.2 Persistant Volume
 
-      * From the PVC above, it uses managed-premium storageClass whose provisioner is kubernetes.io/**azure-disk**.
-    So, it automatically generates **azure-disk**(Persistant Volume) in Azure service.
+* From the PVC above, it uses managed-premium storageClass whose provisioner is kubernetes.io/**azure-disk**. So, it automatically generates **azure-disk**(Persistant Volume) in Azure service.
     
-     <img src="./reference_images/disk01.PNG" title="disk01">
+    <img src="./reference_images/disk01.PNG" title="disk01">
      
-     * When you create a Pod using the PVC, Disk state changes from Unattached to Attached & Owner VM changes from --(none) to the VM where the Pod is running. (Creating a Deployment which uses the PVC will be discussed in 1.3 part.)
+* When you create a Pod using the PVC, Disk state changes from Unattached to Attached & Owner VM changes from --(none) to the VM where the Pod is running. (Creating a Deployment which uses the PVC will be discussed in 1.3 part.)
         
-      <img src="./reference_images/disk02.PNG" title="disk02">
+    <img src="./reference_images/disk02.PNG" title="disk02">
      
-     *You can also check PV with kubectl commands*
+* You can also check PV with kubectl commands
      
-    ``` kubectl get pv``` -> Check Persistent Volume (PV)
+    ``` kubectl get pv ```
     ```bash
     NAME                                     CAPACITY ACCESS MODES RECLAIM POLICY STATUS CLAIM              STORAGECLASS   REASON   AGE
     pvc-a0a48609-8975-433f-9b73-bc371cbb0702 500Gi    RWO          Delete         Bound  default/of7storage managed-premium         16h
