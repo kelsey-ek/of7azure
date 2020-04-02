@@ -153,29 +153,7 @@ When NODE1 dies,
     Events:           <none>
     ```
     
-2) Create a custom Persistent Volume with Kubernetes.
-
-    ``` vi volume.yaml```
-    ```bash
-    apiVersion: v1
-    kind: PersistentVolume
-    metadata:
-      name: customvolume
-    spec:
-      capacity:
-        storage: 500Gi
-      volumeMode: Filesystem
-      accessModes:
-        - ReadWriteOnce
-      persistentVolumeReclaimPolicy: Recycle
-      storageClassName: customclass
-      mountOptions:
-        - hard
-        - nfsvers=4.1
-      nfs:
-        path: /tmp
-        server: 172.17.0.2
-    ```
+2) [Create a custom Persistent Volume with Kubernetes.](#use-the-custom-persistent-volume-tutorial)
 
 **PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV.** This API object captures the details of the implementation of the storage, be that NFS, iSCSI, or a cloud-provider-specific storage system.
 
@@ -224,23 +202,6 @@ cache=strict
 ```
 
 ```kubectl apply -f azure_sc.yaml```
-
-``` vi custom_sc.yaml ```
-```bash
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: glustersc
-provisioner: kubernetes.io/glusterfs
-parameters:
-  resturl: "http://192.168.10.100:8080"
-  restuser: ""
-  secretNamespace: ""
-  secretName: ""
-allowVolumeExpansion: true
-```
-
-```kubectl create -f custom_sc.yaml```
 
 ### Use the custom Persistent Volume tutorial
 
@@ -409,70 +370,9 @@ allowVolumeExpansion: true
     
 ### 1.3 Deployment with replicated Pods
 
--> The reason why Deployment for creating replicated Pods will be used is - updating the Deployment(in this case, OpenFrame) is more suitable than using Replication controller.(It only replicates the Pods, do not supports rolling-back and rolling-out for updating the application.) It will be discussed later.
+*The reason why Deployment for creating replicated Pods will be used is - updating the Deployment(in this case, OpenFrame) is more suitable than using Replication controller.(It only replicates the Pods, do not supports rolling-back and rolling-out for updating the application.)*
 
 
-
-
-```
-Other docker commands :
-
-| COMMAND                    | DESCRIPTION                     |
-|----------------------------|---------------------------------|
-| docker ps                  | check running containers        |
-| docker ps -a               | check all containers            |
-| docker exec [container ID] | execute a running container     |
-| docker stop [container ID] | stop the container              |
-| docker rm   [container ID] | remove the container            |
-```
-
-* Extra Packages if needed
-```bash
-yum install strace
-yum install ltrace
-yum install gdb 
-yum install nano 
-yum install vim-enhanced 
-yum install git 
-yum install htop
-```
-
-__b.__ Create symbolic link
-```bash
-ln -s /usr/lib64/libncurses.so.5.9 /usr/lib/libtermcap.so
-ln -s /usr/lib64/libncurses.so.5.9 /usr/lib/libtermcap.so.2
-```
-
-__c.__ Kernel Parameters Modification 
-
-vi /etc/sysctl.conf  
-
-```bash
-kernel.shmall = 2097152
-kernel.shmmax = 4294967295
-kernel.shmmni = 4096
-kernel.sem = 100000 32000 10000 10000
-fs.file-max = 65536
-net.ipv4.ip_local_port_range = 1024 65000  
-```
-* The parameters below are not supported in a container environment, so you can discard those.
-```bash
-net.core.rmem_default=262144
-net.core.wmem_default=262144
-net.core.rmem_max=262144
-net.core.wmem_max=262144
-```
-```bash
-sysctl: cannot stat /proc/sys/net/core/rmem_default: No such file or directory
-sysctl: cannot stat /proc/sys/net/core/wmem_default: No such file or directory
-sysctl: cannot stat /proc/sys/net/core/rmem_max: No such file or directory
-sysctl: cannot stat /proc/sys/net/core/wmem_max: No such file or directory
-```
-
-* Refresh the kernel parameters.
-```bash
-/sbin/sysctl –p 
-```
 
 __d.__ Firewall setting
 * Firewall does not work in the container. Instead, you can use port forwarding option(-p) when you run the container. I will talk about this later in 'use OpenFrame image' part.
@@ -484,8 +384,6 @@ __e.__ Prepare licenses from Technet
 __f.__ Set hostname
 * Use -h option when you run the container. It automatically sets the hostname for the container.
 * Check /etc/hosts file to see if the hostname sets correctly.
-
-
 
 From https://kubernetes.io/docs/concepts/storage/persistent-volumes
 
