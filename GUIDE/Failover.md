@@ -534,7 +534,7 @@ __C.__ Persistent Volume Claim (PVC)
 
 *Clean it*
 
-    kubectl delete pvc custompvc
+```kubectl delete pvc custompvc```
     
     
     
