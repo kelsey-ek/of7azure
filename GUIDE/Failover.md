@@ -23,7 +23,7 @@
 
 * When NODE1 is dead, the Pod will be terminated from NODE1 but created in NODE2.
 
-<img src="./reference_images/fail02.PNG" title="fail01">
+<img src="./reference_images/fail02.PNG" title="fail02">
 
     *A Pod is the basic execution unit of a Kubernetes application–the smallest and simplest unit in the Kubernetes object model that you create or deploy. A Pod represents processes running on your Cluster.*
 
@@ -46,44 +46,165 @@ For 2, Deployment with replicated Pods will be used(in this case, only one Pod i
 
 ### 1.2 Storage setting
 
-### 1.2.1 Storage Class
-- Accessmode 설명
-- 
+### 1.2.1 Persistant Volume Claim
 
+* A PersistentVolumeClaim (PVC) is a request for storage by a user. It is similar to a Pod. Pods consume node resources and PVCs consume PV resources. Pods can request specific levels of resources (CPU and Memory). **Claims can request specific size and access modes (e.g., they can be mounted once read/write or many times read-only).**
+
+    *While PersistentVolumeClaims allow a user to consume abstract storage resources, it is common that users need PersistentVolumes with varying properties, such as performance, for different problems. Cluster administrators need to be able to offer a variety of PersistentVolumes that differ in more ways than just size and access modes, without exposing users to the details of how those volumes are implemented. For these needs, there is the StorageClass resource.*
+
+1) Check StorageClasss
+
+    ```kubectl get sc```
+    ```bash
+    NAME                PROVISIONER                AGE
+    azurefile           kubernetes.io/azure-file   6d1h
+    azurefile-premium   kubernetes.io/azure-file   6d1h
+    default (default)   kubernetes.io/azure-disk   6d1h
+    managed-premium     kubernetes.io/azure-disk   6d1h
+    ```
+* Those four storage classes are provided by Azure service. You can create custom storage class (StorageClass will be discussed in 1.2.3 part)
+
+* In this case, I will use managed-premium to use Azure Kubernetes Service(AKS).
+
+2) Create Persistent Volume Claim (PVC)
+
+    ```vi volumeclaim.yaml```
+    ```bash 
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: of7storage
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: managed-premium
+      resources:
+        requests:
+          storage: 500Gi
+    ```
+    ``` kubectl create -f volumeclaim.yaml```
+    
+    ``` kubectl get pvc``` -> Check Persistent Volume Claim (PVC)
+    ```bash
+    NAME         STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS      AGE
+    of7storage   Bound    pvc-a0a48609-8975-433f-9b73-bc371cbb0702   500Gi      RWO            managed-premium   16h
+    ```
+    
+    ``` kubectl describe pvc of7storage```
+    ```bash
+    Name:          of7storage
+    Namespace:     default
+    StorageClass:  managed-premium
+    Status:        Bound
+    Volume:        pvc-a0a48609-8975-433f-9b73-bc371cbb0702
+    Labels:        <none>
+    Annotations:   pv.kubernetes.io/bind-completed: yes
+                   pv.kubernetes.io/bound-by-controller: yes
+                   volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/azure-disk
+    Finalizers:    [kubernetes.io/pvc-protection]
+    Capacity:      500Gi
+    Access Modes:  RWO
+    VolumeMode:    Filesystem
+    Mounted By:    <none>
+    Events:        <none>
+    ```
+    
 ### 1.2.2 Persistant Volume
 
+      * From the PVC above, it uses managed-premium storageClass whose provisioner is kubernetes.io/**azure-disk**.
+    So, it automatically generates **azure-disk**(Persistant Volume) in Azure service.
+    
+     <img src="./reference_images/disk01.PNG" title="disk01">
+     
+     * When you create a Pod using the PVC, Disk state changes from Unattached to Attached & Owner VM changes from --(none) to the VM where the Pod is running. (Creating a Deployment which uses the PVC will be discussed in 1.3 part.)
+        
+      <img src="./reference_images/disk02.PNG" title="disk02">
+     
+     *You can also check PV with kubectl commands*
+     
+    ``` kubectl get pv``` -> Check Persistent Volume (PV)
+    ```bash
+    NAME                                     CAPACITY ACCESS MODES RECLAIM POLICY STATUS CLAIM              STORAGECLASS   REASON   AGE
+    pvc-a0a48609-8975-433f-9b73-bc371cbb0702 500Gi    RWO          Delete         Bound  default/of7storage managed-premium         16h
+    ```
+    
+    ``` kubectl describe pv pvc-a0a48609-8975-433f-9b73-bc371cbb0702 ```
+    ```bash
+    Name:            pvc-a0a48609-8975-433f-9b73-bc371cbb0702
+    Labels:          <none>
+    Annotations:     pv.kubernetes.io/bound-by-controller: yes
+                     pv.kubernetes.io/provisioned-by: kubernetes.io/azure-disk
+                     volumehelper.VolumeDynamicallyCreatedByKey: azure-disk-dynamic-provisioner
+    Finalizers:      [kubernetes.io/pv-protection]
+    StorageClass:    managed-premium
+    Status:          Bound
+    Claim:           default/of7storage
+    Reclaim Policy:  Delete
+    Access Modes:    RWO
+    VolumeMode:      Filesystem
+    Capacity:        500Gi
+    Node Affinity:   <none>
+    Message:
+    Source:
+        Type:         AzureDisk (an Azure Data Disk mount on the host and bind mount to the pod)
+        DiskName:     kubernetes-dynamic-pvc-a0a48609-8975-433f-9b73-bc371cbb0702
+        DiskURI:      /subscriptions/9c327935-ea7c-4dfe-a425-f45aee2a1959/resourceGroups/mc_of7azure_kelsey_aksof7azure_northcentralus/providers/Microsoft.Compute/disks/kubernetes-dynamic-pvc-a0a48609-8975-433f-9b73-bc371cbb0702
+        Kind:         Managed
+        FSType:
+        CachingMode:  ReadOnly
+        ReadOnly:     false
+    Events:           <none>
+    ```
+    
+* A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes. It is a resource in the cluster just like a node is a cluster resource.
+
+**PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV.** This API object captures the details of the implementation of the storage, be that NFS, iSCSI, or a cloud-provider-specific storage system.
+
+A PersistentVolumeClaim (PVC) is a request for storage by a user. It is similar to a Pod. Pods consume node resources and PVCs consume PV resources. Pods can request specific levels of resources (CPU and Memory). **Claims can request specific size and access modes (e.g., they can be mounted once read/write or many times read-only).**
+
+While PersistentVolumeClaims allow a user to consume abstract storage resources, it is common that users need PersistentVolumes with varying properties, such as performance, for different problems. Cluster administrators need to be able to offer a variety of PersistentVolumes that differ in more ways than just size and access modes, without exposing users to the details of how those volumes are implemented. For these needs, there is the StorageClass resource
+
+From https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 
 
-### 1.2.3 Persistant Volume Claim
-- azure에서 제공하는 storageclass사용하면 알아서 해당 볼륨 디스크 생성됨 (캡처할것 - azure화면)
+Access Modes
+A PersistentVolume can be mounted on a host in any way supported by the resource provider. As shown in the table below, providers will have different capabilities and each PV’s access modes are set to the specific modes supported by that particular volume. For example, NFS can support multiple read/write clients, but a specific NFS PV might be exported on the server as read-only. Each PV gets its own set of access modes describing that specific PV’s capabilities.
+
+The access modes are:
+
+ReadWriteOnce – the volume can be mounted as read-write by a single node
+ReadOnlyMany – the volume can be mounted read-only by many nodes
+ReadWriteMany – the volume can be mounted as read-write by many nodes
+In the CLI, the access modes are abbreviated to:
+
+RWO - ReadWriteOnce
+ROX - ReadOnlyMany
+RWX - ReadWriteMany
+
+
+### 1.2.1 Storage Class
+
+* A claim can request a particular class by specifying the name of a StorageClass using the attribute storageClassName. Only PVs of the requested class, ones with the same storageClassName as the PVC, can be bound to the PVC.
+
+    ```kubectl get sc```
+    ```bash
+    NAME                PROVISIONER                AGE
+    azurefile           kubernetes.io/azure-file   6d1h
+    azurefile-premium   kubernetes.io/azure-file   6d1h
+    default (default)   kubernetes.io/azure-disk   6d1h
+    managed-premium     kubernetes.io/azure-disk   6d1h
+    ```
 
 
 
 
 
-**Run an empty Centos container to install OpenFrame.** 
-* Search the official Centos image and pull it on your VM. Use it to run a container.
 
-**Set the hostname with -h option when you run it.** 
-* OpenFrame will need a hostname to get the licenses or set the envionment.
 
-* Ubuntu
-```bash
-sudo docker search centos
-sudo docker pull centos
-sudo docker run -h [hostname] -i -t centos
-```
 
-* CentOS
-```bash
-sudo yum check-update
-sudo yum update
-sudo yum install -y yum-utils device-mapper-persistent-data lvm2
-sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-sudo yum install docker
-sudo systemctl start docker
-sudo systemctl enable docker
-sudo systemctl status docker0
+
+
+
 ```
 
 Other docker commands :
