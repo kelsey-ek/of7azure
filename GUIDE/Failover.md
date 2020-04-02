@@ -2,12 +2,12 @@
 
 ## Table of Contents
 
-+ [1. Fail-over Environment setting](#11-install-docker)
-  + [1.1 Fail-over concept](#11-install-docker)
-  + [1.2 Storage setting](#13-install-openframe)
-      + [1.2.1 Storage Class](#131-pre-settings)
-      + [1.2.2 Persistant Volume](#131-pre-settings)
-      + [1.2.3 Persistant Volume Claim](#131-pre-settings)
++ [1. Fail-over Environment setting](#step-1-fail-over-environment-setting)
+  + [1.1 Fail-over concept](#11-fail-over-concept)
+  + [1.2 Storage setting](#12-storage-setting)
+      + [1.2.1 Persistant Volume Claim](#121-persistant-volume-claim)
+      + [1.2.2 Persistant Volume](#122-persistant-volume)
+      + [1.2.3 Storage Class](#123-storage-class)
   + [1.3 Deployment with replicated Pods](#12-get-centos-container)
 + [2. Fail-over test](#step-2-azure-service)
   + [2.1 Test senario](#21-add-azure-kubernetes-serviceaks)
@@ -62,7 +62,7 @@ For 2, Deployment with replicated Pods will be used(in this case, only one Pod i
     default (default)   kubernetes.io/azure-disk   6d1h
     managed-premium     kubernetes.io/azure-disk   6d1h
     ```
-* Those four storage classes are provided by Azure service. You can create custom storage class (StorageClass will be discussed in 1.2.3 part)
+* Those four storage classes are provided by Azure service. You can create custom storage class. StorageClass will be discussed in [1.2.3 part](#123-storage-class).
 
 * In this case, I will use managed-premium to use Azure Kubernetes Service(AKS).
 
@@ -111,11 +111,11 @@ For 2, Deployment with replicated Pods will be used(in this case, only one Pod i
     
 ### 1.2.2 Persistant Volume
 
-* From the PVC above, it uses managed-premium storageClass whose provisioner is kubernetes.io/**azure-disk**. So, it automatically generates **azure-disk**(Persistant Volume) in Azure service.
+* From the PVC above, it uses managed-premium storageClass whose provisioner is kubernetes.io/**azure-disk**. So, it automatically generates **AzureDisk**(Persistant Volume) in Azure service.
     
     <img src="./reference_images/disk01.PNG" title="disk01">
      
-* When you create a Pod using the PVC, Disk state changes from Unattached to Attached & Owner VM changes from --(none) to the VM where the Pod is running. (Creating a Deployment which uses the PVC will be discussed in 1.3 part.)
+* When you create a Pod using the PVC, **Disk state** changes from Unattached to Attached & **Owner VM** changes from --(none) to the VM where the Pod is running. (Creating a Deployment which uses the PVC will be discussed in [1.3 part].)
         
     <img src="./reference_images/disk02.PNG" title="disk02">
      
@@ -181,7 +181,7 @@ ROX - ReadOnlyMany
 RWX - ReadWriteMany
 
 
-### 1.2.1 Storage Class
+### 1.2.3 Storage Class
 
 * A claim can request a particular class by specifying the name of a StorageClass using the attribute storageClassName. Only PVs of the requested class, ones with the same storageClassName as the PVC, can be bound to the PVC.
 
@@ -199,6 +199,7 @@ RWX - ReadWriteMany
 
 
 
+### 1.3 Deployment with replicated Pods
 
 
 
