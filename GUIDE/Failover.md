@@ -205,7 +205,7 @@ cache=strict
 
 ### Use the custom Persistent Volume tutorial
 
-1) Check the access mode you want to configure and choose the storage service.
+__a.__ Check the access mode you want to configure and choose the storage service.
 
 - Access Modes
 
@@ -218,7 +218,7 @@ cache=strict
 
 <img src="./reference_images/access.PNG" title="access">
 
-2) Create a storage class with the provisioner you want.
+__b.__ Create a storage class with the provisioner you want.
 
     ```vi custom_sc.yaml```
     ```bash
@@ -262,7 +262,7 @@ cache=strict
     
     ```kubectl delete sc glustersc```
 
-3) Create a Persistent Volume with the Storage class you created.
+__c.__ Create a Persistent Volume with the Storage class you created.
 
     ```vi custom_volume.yaml```
     ```bash
@@ -320,7 +320,7 @@ cache=strict
     
     ```kubectl delete pv customvolume```
 
-4) Create a Persistent Volume Claim with the Storage class you created.
+__d.__ Create a Persistent Volume Claim with the Storage class you created.
 
     ```vi custom_claim.yaml```
     ```bash
@@ -373,17 +373,6 @@ cache=strict
 *The reason why Deployment for creating replicated Pods will be used is - updating the Deployment(in this case, OpenFrame) is more suitable than using Replication controller.(It only replicates the Pods, do not supports rolling-back and rolling-out for updating the application.)*
 
 
-
-__d.__ Firewall setting
-* Firewall does not work in the container. Instead, you can use port forwarding option(-p) when you run the container. I will talk about this later in 'use OpenFrame image' part.
-
-__e.__ Prepare licenses from Technet
-* Use the correct hostname for downloading license files from Technet website.
-* You need to check hostname and the number of cores.
-
-__f.__ Set hostname
-* Use -h option when you run the container. It automatically sets the hostname for the container.
-* Check /etc/hosts file to see if the hostname sets correctly.
 
 From https://kubernetes.io/docs/concepts/storage/persistent-volumes
 
