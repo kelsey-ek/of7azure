@@ -88,7 +88,7 @@ __C.__ Persistent Volume Claim (PVC)
 
 ### 1.3.1 Use Persistent Volume with Azure Kubernetes Service
 
-1) Check Storage Class
+1) Check Storage Class.
 
     ```kubectl get sc```
     ```bash
@@ -117,7 +117,7 @@ __C.__ Persistent Volume Claim (PVC)
     Events:                <none>
     ```
 
-2) Create Persistent Volume Claim (PVC)
+2) Create a Persistent Volume Claim with the chosen storage class.
 
     ```vi volumeclaim.yaml```
     ```bash 
@@ -164,7 +164,7 @@ __C.__ Persistent Volume Claim (PVC)
 
     kubectl delete pvc of7storage
     
-3) Persistent Volume is automatically generated with Azure Kubernetes Service
+3) Persistent Volume is automatically generated with Azure Kubernetes Service.
 
 - From the PVC above, it uses managed-premium storageClass whose provisioner is kubernetes.io/**azure-disk**. 
 - It automatically generates **AzureDisk**(Persistant Volume) in Azure service.
@@ -211,7 +211,7 @@ __C.__ Persistent Volume Claim (PVC)
 
     kubectl delete pv pvc-a0a48609-8975-433f-9b73-bc371cbb0702
     
-4) Create a Pod using the Persistent Volume
+4) Create a Pod using the Persistent Volume.
 
 *The reason why I chose Deployment for creating replicated Pods is - updating the Deployment(in this case, OpenFrame) is more suitable than using Replication controller.(It only replicates the Pods, do not supports rolling-back and rolling-out for updating the application.)*
 
@@ -374,7 +374,7 @@ __C.__ Persistent Volume Claim (PVC)
 
 ### 1.3.2 Use the custom Persistent Volume with repliated pod
 
-1) Check the access mode you want to configure and choose the storage service
+1) Check the access mode you want to configure and choose the storage service.
 
 - Access Modes
 
@@ -387,7 +387,7 @@ __C.__ Persistent Volume Claim (PVC)
 
     <img src="./reference_images/access.PNG" title="access">
 
-2) Create a storage class with the provisioner you want
+2) Create a storage class with the provisioner you want.
 
     ```vi custom_sc.yaml```
     ```bash
@@ -536,7 +536,8 @@ __C.__ Persistent Volume Claim (PVC)
 *Clean it*
 
 ```kubectl delete pvc custompvc```
-    
+
+5) Create a Pod using the Persistent Volume.
     
     
     
