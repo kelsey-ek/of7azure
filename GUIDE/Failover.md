@@ -17,29 +17,29 @@
 
 ### 1.1 Fail-over concept
 
-* A Pod which has OpenFrame container is running in NODE1. NODE2 is a back up Node which is empty.
+* A Pod which has OpenFrame container is running in NODE1. NODE2 is a back up(empty) Node.
 
 <img src="./reference_images/fail01.PNG" title="fail01">
 
-* When NODE1 is dead, the Pod will be terminated from NODE1 but created in NODE2.
+* When NODE1 dies, the Pod will be terminated from NODE1 and a new one will be created in NODE2.
 
 <img src="./reference_images/fail02.PNG" title="fail02">
 
 *A Pod is the basic execution unit of a Kubernetes application–the smallest and simplest unit in the Kubernetes object model that you create or deploy. A Pod represents processes running on your Cluster.*
 
-**Here are two check points for doing this fail-over test.**
+**Here are two check points for doing the fail-over test.**
 
 When NODE1 dies,
 
 1) A new Pod should not lose the critical data of the old Pod.
-- Persistant Vloume and Persistant Volume Claim will be used.
+- Persistent Volume and Persistent Volume Claim will be used.
 
-2) A Pod should be automatically created in a different Node and run successfully.
+2) A new Pod should automatically be created in a different Node and run successfully.
 - Deployment with replicated Pods will be used(in this case, only one Pod is needed).
 
-### 1.2 Storage setting
+### 1.2 Storage Setting
 
-__A.__ Storag eClass (SC) 
+__A.__ Storage Class (SC) 
 
 * A claim can request a particular class by specifying the name of a StorageClass using the attribute storageClassName. Only PVs of the requested class, ones with the same storageClassName as the PVC, can be bound to the PVC.
 
@@ -47,8 +47,8 @@ __A.__ Storag eClass (SC)
 
     ```bash
     ReadWriteOnce – the volume can be mounted as read-write by a single node (RWO)
-    ReadOnlyMany – the volume can be mounted read-only by many nodes (ROX) 
-    ReadWriteMany – the volume can be mounted as read-write by many nodes (RWX)
+    ReadOnlyMany  – the volume can be mounted read-only by many nodes        (ROX) 
+    ReadWriteMany – the volume can be mounted as read-write by many nodes    (RWX)
     ```
 * A PersistentVolume can be mounted on a host in any way supported by the resource provider. As shown in the table below, providers will have different capabilities and each PV’s access modes are set to the specific modes supported by that particular volume. For example, NFS can support multiple read/write clients, but a specific NFS PV might be exported on the server as read-only. Each PV gets its own set of access modes describing that specific PV’s capabilities.
 
@@ -84,9 +84,9 @@ __C.__ Persistent Volume Claim (PVC)
 
 * While PersistentVolumeClaims allow a user to consume abstract storage resources, it is common that users need PersistentVolumes with varying properties, such as performance, for different problems. Cluster administrators need to be able to offer a variety of PersistentVolumes that differ in more ways than just size and access modes, without exposing users to the details of how those volumes are implemented. For these needs, there is the StorageClass resource.
 
-### 1.3 Use Persistent Volume with pod replication
+### 1.3 Use Persistent Volume with Pod replication.
 
-### 1.3.1 Use Persistent Volume with Azure Kubernetes Service
+### 1.3.1 Use Persistent Volume with Azure Kubernetes Service.
 
 1) Check Storage Class.
 
@@ -98,7 +98,7 @@ __C.__ Persistent Volume Claim (PVC)
     default (default)   kubernetes.io/azure-disk   6d1h
     managed-premium     kubernetes.io/azure-disk   6d1h
     ```
-* Those four Storage Classes are provided by Azure service. You can create a custom Storage Class when you use custom Persistent Volume.
+* Those four Storage Classes are provided by Azure Service. You can create a custom Storage Class when you use custom Persistent Volume.
 
 * In this case, I will use managed-premium to use Azure Kubernetes Service(AKS). 
 
@@ -117,7 +117,7 @@ __C.__ Persistent Volume Claim (PVC)
     Events:                <none>
     ```
 
-2) Create a Persistent Volume Claim with the chosen storage class.
+2) Create a Persistent Volume Claim with the chosen Storage Class.
 
     ```vi volumeclaim.yaml```
     ```bash 
@@ -166,7 +166,7 @@ __C.__ Persistent Volume Claim (PVC)
     
 3) Persistent Volume is automatically generated with Azure Kubernetes Service.
 
-- From the PVC above, it uses managed-premium storageClass whose provisioner is kubernetes.io/**azure-disk**. 
+- From the PVC above, it uses managed-premium Storage Class whose Provisioner is kubernetes.io/**azure-disk**. 
 - It automatically generates **AzureDisk**(Persistant Volume) in Azure service.
     
     <img src="./reference_images/disk01.PNG" title="disk01">
@@ -213,7 +213,7 @@ __C.__ Persistent Volume Claim (PVC)
     
 4) Create a Pod using the Persistent Volume.
 
-*The reason why I chose Deployment for creating replicated Pods is - updating the Deployment(in this case, OpenFrame) is more suitable than using Replication controller.(It only replicates the Pods, do not supports rolling-back and rolling-out for updating the application.)*
+*The reason why I chose Deployment for creating replicated Pods is - updating the Deployment(in this case, OpenFrame) is more suitable than using Replication Controller.(It only replicates the Pods, do not supports rolling-back and rolling-out for updating the application.)*
 
 - In this fail-over test case, replicas is set to one.
 
@@ -359,7 +359,7 @@ __C.__ Persistent Volume Claim (PVC)
       Normal   Created                 26s    kubelet, aks-agentpool-24893396-1  Created container of7azure
       Normal   Started                 26s    kubelet, aks-agentpool-24893396-1  Started container of7azure
     ```
-- Check the volume from the container.
+- Check the Persistent Volume from the container.
 
 ```kubectl exec -it [pod name] -- /bin/bash```
 
@@ -368,7 +368,7 @@ __C.__ Persistent Volume Claim (PVC)
 total 4
 drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
 ```
-*This volume will not be vanished even after the container is dead*
+*This Volume will not be vanished even after the container is dead*
 
 *Clean it*
 
@@ -377,14 +377,14 @@ drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
 ```kubectl delete pod of7azure-76db5dbccb-96q4k```
 
 - **Disk state** changes from Unattached to Attached 
-- **Owner VM** changes from --(none) to the VM where the Pod is running
+- **Owner VM**   changes from --(none)   to the VM where the Pod is running
       
     <img src="./reference_images/disk02.PNG" title="disk02">
      
 
-### 1.3.2 Use the custom Persistent Volume with repliated pod
+### 1.3.2 Use the custom Persistent Volume with replicated Pod.
 
-1) Check the access mode you want to configure and choose the storage service.
+1) Check the Access Mode you want to configure and choose the storage service.
 
 - Access Modes
 
@@ -393,11 +393,11 @@ drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
     ReadOnlyMany – the volume can be mounted read-only by many nodes (ROX) 
     ReadWriteMany – the volume can be mounted as read-write by many nodes (RWX)
     ```
-- Storage services with access modes
+- Storage Services with Access Modes
 
     <img src="./reference_images/access.PNG" title="access">
 
-2) Create a storage class with the provisioner you want.
+2) Create a Storage Class with the Provisioner you want.
 
     ```vi custom_sc.yaml```
     ```bash
@@ -416,7 +416,7 @@ drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
     ```
     ```kubectl create -f custom_sc.yaml```
 
-    - Parameters may vary depends on the provisioner.
+    - Parameters may vary depends on the Provisioner.
 
     ```kubectl get sc glustersc```
     ```bash
@@ -441,7 +441,7 @@ drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
 
  ```kubectl delete sc glustersc```
 
-3) Create a Persistent Volume with the Storage class you created.
+3) Create a Persistent Volume with the Storage Class you created.
 
     ```vi custom_volume.yaml```
     ```bash
@@ -462,7 +462,7 @@ drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
     ```
     ```kubectl create -f custom_volume.yaml```
 
-- Please double check service provider, which provisioner you use for the storage class.
+- Please double check Service provider, which Provisioner you use for the Storage Class.
 
     <img src="./reference_images/access.PNG" title="access">
 
@@ -499,7 +499,7 @@ drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
 
 ```kubectl delete pv customvolume```
 
-4) Create a Persistent Volume Claim with the Storage class you created.
+4) Create a Persistent Volume Claim with the Storage Class you created.
 
     ```vi custom_claim.yaml```
     ```bash
@@ -518,7 +518,7 @@ drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
 
     ```kubectl create -f custom_claim.yaml```
 
-- Please match the storage class name with the Persistent Volume you want to use.
+- Please match the Storage Class name with the Persistent Volume you want to use.
 
     ```kubectl get pvc custompvc```
     ```bash
@@ -550,9 +550,9 @@ drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
 5) Create a Pod using the Persistent Volume.
     
     
-### 2. Fail-over test
+### 2. Fail-over Test
 
-### 2.1 Test senario & Result
+### 2.1 Test Senario & Result
 
 __a.__ Move the actual directories in [Persistant Voulume:1.3.1-4](### 1.3.1 Use Persistent Volume with Azure Kubernetes Service).
 
@@ -577,7 +577,7 @@ __a.__ Move the actual directories in [Persistant Voulume:1.3.1-4](### 1.3.1 Use
     drwx------  2 root     root     16384 Apr  1 12:29 lost+found
     ```
 
-__b.__ Make an OpenFrame image which uses the Persistant Voulume.
+__b.__ Make an OpenFrame image which uses the Persistant Volume.
 
 Image - kelsey92/of7azurefinal:of7azure 
 
@@ -634,7 +634,7 @@ Image - kelsey92/of7azurefinal:of7azure
     lrwxrwxrwx  1 of7azure of7azure    19 Apr  2 09:08 spbackup -> /mnt/azure/spbackup
     ```
     
-__c.__ Check the current status of the pod.
+__c.__ Check the current status of the Pod.
 
 ```kubectl get pods```
 ```bash
@@ -718,9 +718,9 @@ Command : [ps]
 | TEST     JOB00001   A     Error    R00127 NODE1    20200402/09:53:56 20200402/09:53:57 test.jcl | 
 ```
 
-__e.__ Kill NODE1 and see if a new pod is created in NODE2 and run successfully.
+__e.__ Kill NODE1 and see if a new Pod is created in NODE2 and running successfully.
 
-*Let's say NODE1 is the one the pod is currently running in and NODE2 is the empty one. I stopped aks-agentpool-24893396-1.*
+*Let's say NODE1 is the one the Pod is currently running in and NODE2 is the empty one. I stopped aks-agentpool-24893396-1.*
 
 ```kubectl get nodes``
 ```bash
@@ -739,9 +739,9 @@ NAME                        READY   STATUS    RESTARTS   AGE
 of7azure-76db5dbccb-z4dv9   1/1     Running   0          4m22s
 ```
 
-__f.__ Check the current status of the new pod.
+__f.__ Check the current status of the new Pod.
 
-*Now the new pod is running in aks-agentpool-24893396-0*
+*Now the new Pod is running in aks-agentpool-24893396-0*
 
 ```kubectl describe pod of7azure-76db5dbccb-z4dv9```
 ```bash
@@ -805,11 +805,11 @@ Events:
   Normal   Started                 27s    kubelet, aks-agentpool-24893396-0  Started container of7azure
 ```
 
-__g.__ Check if the new pod has the data before NODE1 dies.
+__g.__ Check if the new Pod has the data before NODE1 dies.
 
 ```kubectl exec -it of7azure-76db5dbccb-z4dv9 -- /bin/bash```
 
-*A new pod lost the files I created under container directories, but not under Persistent Volume.
+*A new Pod lost the files I created under container directories, but not under Persistent Volume.
 
 
 
