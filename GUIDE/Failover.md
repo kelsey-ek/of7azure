@@ -742,7 +742,7 @@ __e.__ Kill NODE1 and see if a new Pod is created in NODE2 and running successfu
 
 *Let's say NODE1 is the one the Pod is currently running in and NODE2 is the empty one. I stopped aks-agentpool-24893396-1.*
 
-```kubectl get nodes``
+```kubectl get nodes```
 ```bash
 NAME                       STATUS     ROLES   AGE     VERSION
 aks-agentpool-24893396-0   Ready      agent   6d10h   v1.15.10
@@ -841,31 +841,31 @@ OSCBOOT : OSC Region(OSCOIVP1)                                        [fail]
 
 * Error messages
 
-<details>
-	<summary>oscmgr04022020.out</summary>
-	
-```
-132805 I OSC0013I [10:OSCMGR:0:0] oscmgr version 7.0.3(15)
-132805 I OSC0011I [10:OSCMGR:0:0] oscmgr server boots
-132823 E OSC0009E [10:CICSDB:0:0] SQLExecDirect: 72000 error(-7102)
-132823 E OSC0010E [10:CICSDB:0:0] SQLExecDirect: 72000 error -  Duplicate schema object 'TIBERO.OSCOIVP1_CONNECTION' exists.
-132823 E OSC0009E [10:CICSCTRL:0:0] cics_rtsd_create: cics_rtsd_create error(-52709)
-132823 E OSC3501E [10:CICSCTRL:0:0] Creating sys memory error(-52906)
-```
-</details>
+	<details>
+		<summary>oscmgr04022020.out</summary>
 
-<details>
-	<summary>oscmgr04022020.err</summary>
+	```
+	132805 I OSC0013I [10:OSCMGR:0:0] oscmgr version 7.0.3(15)
+	132805 I OSC0011I [10:OSCMGR:0:0] oscmgr server boots
+	132823 E OSC0009E [10:CICSDB:0:0] SQLExecDirect: 72000 error(-7102)
+	132823 E OSC0010E [10:CICSDB:0:0] SQLExecDirect: 72000 error -  Duplicate schema object 'TIBERO.OSCOIVP1_CONNECTION' exists.
+	132823 E OSC0009E [10:CICSCTRL:0:0] cics_rtsd_create: cics_rtsd_create error(-52709)
+	132823 E OSC3501E [10:CICSCTRL:0:0] Creating sys memory error(-52906)
+	```
+	</details>
 
-```
-cics_db_create_table() failed: rc(-52709), table type(0)sqlrc=-1, SQL : [INSERT INTO VTAM_ACTIVE_LU VALUES (  ?, ?, ?, ?, ?, ?, ?, ? ) ]
-SQLExecute failed
-State: 23000
-Native Error: -10007
-Error Message:  UNIQUE constraint violation ('TIBERO'.'TIBERO_CON86000512').
-132835 E VTM0125E Error processing function: vtam_appl_db_register_region(), ERROR CODE=-109957
-```
-</details>
+	<details>
+		<summary>oscmgr04022020.err</summary>
+
+	```
+	cics_db_create_table() failed: rc(-52709), table type(0)sqlrc=-1, SQL : [INSERT INTO VTAM_ACTIVE_LU VALUES (  ?, ?, ?, ?, ?, ?, ?, ? ) ]
+	SQLExecute failed
+	State: 23000
+	Native Error: -10007
+	Error Message:  UNIQUE constraint violation ('TIBERO'.'TIBERO_CON86000512').
+	132835 E VTM0125E Error processing function: vtam_appl_db_register_region(), ERROR CODE=-109957
+	```
+	</details>
 
 * Tibero table is already created in the database. So, use -a option (Do not create OSC DB Tables).
 
@@ -883,11 +883,11 @@ OSCBOOT : OSC Region(OSCOIVP1)                                        [ OK ]
 
 __h.__ Check if the new Pod has the data before NODE1 dies.
 
-*A new Pod lost the files I created under container directories, but not under Persistent Volume.
+*A new Pod lost the files I created under container directories, but not under Persistent Volume.*
 
 ```kubectl exec -it of7azure-76db5dbccb-6fbtc -- /bin/bash```
 
-``bash
+```bash
 [of7azure@of7azure OpenFrame]$ ls -rtl  test.jcl
 ls: cannot access 'test.jcl': No such file or directory
 
