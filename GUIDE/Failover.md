@@ -249,14 +249,14 @@ __C.__ Persistent Volume Claim (PVC)
     ```kubectl get deployments```
     ```bash
     NAME       READY   UP-TO-DATE   AVAILABLE   AGE
-    of7azure   1/1     1            1           167m
+    of7azure   1/1     1            1           7m4s
     ```
 
     ```kubectl describe deployment of7azure```
     ```bash
     Name:                   of7azure
     Namespace:              default
-    CreationTimestamp:      Thu, 02 Apr 2020 04:48:36 +0000
+    CreationTimestamp:      Thu, 02 Apr 2020 12:37:03 +0000
     Labels:                 of7azurefinal=of7azure
     Annotations:            deployment.kubernetes.io/revision: 1
     Selector:               of7azurefinal=of7azure
@@ -289,22 +289,25 @@ __C.__ Persistent Volume Claim (PVC)
       Available      True    MinimumReplicasAvailable
     OldReplicaSets:  <none>
     NewReplicaSet:   of7azure-76db5dbccb (1/1 replicas created)
-    Events:          <none>
+    Events:
+      Type    Reason             Age   From                   Message
+      ----    ------             ----  ----                   -------
+      Normal  ScalingReplicaSet  10m   deployment-controller  Scaled up replica set of7azure-76db5dbccb to 1
     ```
     
     ```kubectl get pods```
     ```bash
     NAME                        READY   STATUS    RESTARTS   AGE
-    of7azure-76db5dbccb-96q4k   1/1     Running   0          171m
+    of7azure-76db5dbccb-brgrs   1/1     Running   0          9m
     ```
     
-    ```kubectl describe pod of7azure-76db5dbccb-96q4k```
+    ```kubectl describe pod of7azure-76db5dbccb-brgrs```
     ```bash
-    Name:           of7azure-76db5dbccb-96q4k
+    Name:           of7azure-76db5dbccb-brgrs
     Namespace:      default
     Priority:       0
     Node:           aks-agentpool-24893396-1/10.240.0.35
-    Start Time:     Thu, 02 Apr 2020 04:48:36 +0000
+    Start Time:     Thu, 02 Apr 2020 12:37:03 +0000
     Labels:         of7azurefinal=of7azure
                     pod-template-hash=76db5dbccb
     Annotations:    <none>
@@ -314,9 +317,9 @@ __C.__ Persistent Volume Claim (PVC)
     Controlled By:  ReplicaSet/of7azure-76db5dbccb
     Containers:
       of7azure:
-        Container ID:  docker://575d75a1938c3e5d1d469f33b5d61dcaa1e9bb7fc9995b5cd805b73f44e2f81a
+        Container ID:  docker://cd6add2e2d48d92c2ab04ffb0b35491b475b7a049161175789302ee2c7b9a3f5
         Image:         kelsey92/of7azurefinal:of7azure
-        Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:9942ac999d9f51ed163cc68f05fbef93d0317135a86d567c106747d07e1b4527
+        Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:8e707e0444eec3af2842a34de8360781f0dd9ed85ad620b0856a8c7368029603
         Port:          6066/TCP
         Host Port:     0/TCP
         Command:
@@ -324,7 +327,7 @@ __C.__ Persistent Volume Claim (PVC)
           -ec
           while :; do echo '.'; sleep 5 ; done
         State:          Running
-          Started:      Thu, 02 Apr 2020 04:48:57 +0000
+          Started:      Thu, 02 Apr 2020 12:42:40 +0000
         Ready:          True
         Restart Count:  0
         Environment:    <none>
@@ -351,23 +354,26 @@ __C.__ Persistent Volume Claim (PVC)
     Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
                      node.kubernetes.io/unreachable:NoExecute for 300s
     Events:
-      Type     Reason                  Age    From                               Message
-      ----     ------                  ----   ----                               -------
-      Normal   Scheduled               4m41s  default-scheduler                  Successfully assigned default/of7azure-76db5dbccb-4d69f to aks-agentpool-24893396-1
-      Normal   SuccessfulAttachVolume  57s    attachdetach-controller            AttachVolume.Attach succeeded for volume "pvc-a0a48609-8975-433f-9b73-bc371cbb0702"
-      Normal   Pulled                  26s    kubelet, aks-agentpool-24893396-1  Container image "kelsey92/of7azurefinal:of7azure" already present on machine
-      Normal   Created                 26s    kubelet, aks-agentpool-24893396-1  Created container of7azure
-      Normal   Started                 26s    kubelet, aks-agentpool-24893396-1  Started container of7azure
+      Type    Reason                  Age    From                               Message
+      ----    ------                  ----   ----                               -------
+      Normal  Scheduled               7m52s  default-scheduler                  Successfully assigned default/of7azure-76db5dbccb-brgrs to aks-agentpool-24893396-1
+      Normal  SuccessfulAttachVolume  7m41s  attachdetach-controller            AttachVolume.Attach succeeded for volume "pvc-a0a48609-8975-433f-9b73-bc371cbb0702"
+      Normal  Pulling                 7m32s  kubelet, aks-agentpool-24893396-1  Pulling image "kelsey92/of7azurefinal:of7azure"
+      Normal  Pulled                  2m48s  kubelet, aks-agentpool-24893396-1  Successfully pulled image "kelsey92/of7azurefinal:of7azure"
+      Normal  Created                 2m16s  kubelet, aks-agentpool-24893396-1  Created container of7azure
+      Normal  Started                 2m15s  kubelet, aks-agentpool-24893396-1  Started container of7azure
     ```
 - Check the Persistent Volume from the container.
 
 ```kubectl exec -it [pod name] -- /bin/bash```
 
+```cd /mnt/azure/
 ```bash
 [of7azure@of7azure mnt]$ ls -rtl
 total 4
 drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
 ```
+
 *This Volume will not be vanished even after the container is dead*
 
 *Clean it*
@@ -639,26 +645,26 @@ __c.__ Check the current status of the Pod.
 ```kubectl get pods```
 ```bash
 NAME                        READY   STATUS    RESTARTS   AGE
-of7azure-76db5dbccb-clwtw   1/1     Running   0          31s
+of7azure-76db5dbccb-brgrs   1/1     Running   0          22m
 ```
 
-```kubectl describe pod of7azure-76db5dbccb-clwtw```
+```kubectl describe pod of7azure-76db5dbccb-brgrs```
 ```bash
-Name:           of7azure-76db5dbccb-clwtw
+Name:           of7azure-76db5dbccb-brgrs
 Namespace:      default
 Priority:       0
 Node:           aks-agentpool-24893396-1/10.240.0.35
-Start Time:     Thu, 02 Apr 2020 09:44:24 +0000
+Start Time:     Thu, 02 Apr 2020 12:37:03 +0000
 Labels:         of7azurefinal=of7azure
                 pod-template-hash=76db5dbccb
 Annotations:    <none>
 Status:         Running
-IP:             10.240.0.43
+IP:             10.240.0.40
 IPs:            <none>
 Controlled By:  ReplicaSet/of7azure-76db5dbccb
 Containers:
   of7azure:
-    Container ID:  docker://649069521f363906ac8b845a8c40d0f2d55d49694f54139aa9e457f1602b285c
+    Container ID:  docker://cd6add2e2d48d92c2ab04ffb0b35491b475b7a049161175789302ee2c7b9a3f5
     Image:         kelsey92/of7azurefinal:of7azure
     Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:8e707e0444eec3af2842a34de8360781f0dd9ed85ad620b0856a8c7368029603
     Port:          6066/TCP
@@ -668,7 +674,7 @@ Containers:
       -ec
       while :; do echo '.'; sleep 5 ; done
     State:          Running
-      Started:      Thu, 02 Apr 2020 09:44:54 +0000
+      Started:      Thu, 02 Apr 2020 12:42:40 +0000
     Ready:          True
     Restart Count:  0
     Environment:    <none>
@@ -697,25 +703,34 @@ Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
 Events:
   Type    Reason                  Age   From                               Message
   ----    ------                  ----  ----                               -------
-  Normal  Scheduled               34s   default-scheduler                  Successfully assigned default/of7azure-76db5dbccb-clwtw to aks-agentpool-24893396-1
-  Normal  SuccessfulAttachVolume  23s   attachdetach-controller            AttachVolume.Attach succeeded for volume "pvc-a0a48609-8975-433f-9b73-bc371cbb0702"
-  Normal  Pulled                  5s    kubelet, aks-agentpool-24893396-1  Container image "kelsey92/of7azurefinal:of7azure" already present on machine
-  Normal  Created                 4s    kubelet, aks-agentpool-24893396-1  Created container of7azure
-  Normal  Started                 4s    kubelet, aks-agentpool-24893396-1  Started container of7azure
+  Normal  Scheduled               23m   default-scheduler                  Successfully assigned default/of7azure-76db5dbccb-brgrs to aks-agentpool-24893396-1
+  Normal  SuccessfulAttachVolume  23m   attachdetach-controller            AttachVolume.Attach succeeded for volume "pvc-a0a48609-8975-433f-9b73-bc371cbb0702"
+  Normal  Pulling                 22m   kubelet, aks-agentpool-24893396-1  Pulling image "kelsey92/of7azurefinal:of7azure"
+  Normal  Pulled                  18m   kubelet, aks-agentpool-24893396-1  Successfully pulled image "kelsey92/of7azurefinal:of7azure"
+  Normal  Created                 17m   kubelet, aks-agentpool-24893396-1  Created container of7azure
+  Normal  Started                 17m   kubelet, aks-agentpool-24893396-1  Started container of7azure
 ```
 
 __d.__ Use OpenFrame function.(ex.Run a JOB)
 
 *Fisrt, Tibero and OpenFrame are successfully booted.*
 
-```kubectl exec -it of7azure-76db5dbccb-clwtw-- /bin/bash```
+```kubectl exec -it of7azure-76db5dbccb-brgrs -- /bin/bash```
 
 ```bash
-tjesmgr 
+-rw-rw-r-- 1 of7azure of7azure   133 Apr  2 13:02 test.jcl
+
+[of7azure@of7azure OpenFrame]$ tjesmgr r $PWD/test.jcl
+Input USERNAME  : ROOT
+>
+Command : [r /home/of7azure/OpenFrame/test.jcl]
+Node name :  A N Y
+(JOB00002) /home/of7azure/OpenFrame/test.jcl is submitted as TEST(JOB00002).
 
 Command : [ps]                                                                                                                           
-| JOBNAME  JOBID    CLASS   STATUS   RC     NODE     START-TIME        END-TIME          JCL      | 
+| JOBNAME  JOBID    CLASS   STATUS   RC     NODE     START-TIME        END-TIME          JCL
 | TEST     JOB00001   A     Error    R00127 NODE1    20200402/09:53:56 20200402/09:53:57 test.jcl | 
+| TEST     JOB00002   A     Error    R00127 NODE1    20200402/13:03:48 20200402/13:03:49 test.jcl |
 ```
 
 __e.__ Kill NODE1 and see if a new Pod is created in NODE2 and running successfully.
