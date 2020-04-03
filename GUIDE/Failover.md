@@ -55,7 +55,7 @@ When NODE1 dies,
 
    <img src="./reference_images/access.PNG" title="access">
 
-* Storage Class sample yaml file*
+* Storage Class sample yaml file
 
     ```vi azure_sc.yaml```
     ```bash
@@ -591,7 +591,7 @@ __a.__ Move the actual directories in [Persistent Voulume:1.3.1-4](### 1.3.1 Use
 
 __b.__ Make an OpenFrame image which uses the Persistent Volume.
 
-*Image - kelsey92/of7azurefinal:of7azure *
+*Image - kelsey92/of7azurefinal:of7azure*
 
 - Tibero 
     
