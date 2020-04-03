@@ -1,4 +1,4 @@
-# Azure service with OpenFrame
+# Azure service with OpenFrame by Kelsey
 
 ## Table of Contents
 
@@ -886,9 +886,5 @@ openframe.tmax.port= 8001
     Add all nodeports as inbound ports like above.
 
 
-
-
-
-
-
+# Copyrighted by Kelsey
 
