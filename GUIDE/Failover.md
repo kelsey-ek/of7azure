@@ -557,11 +557,13 @@ When NODE1 dies,
 
 ## 2-1. Test Senario & Result
 
-__a.__ Move the actual directories in [Persistent Voulume-4](#1-31-use-persistent-volume-with-azure-kubernetes-service).
+__a.__ Move the actual directories in [Persistent Volume-4](#1-31-use-persistent-volume-with-azure-kubernetes-service).
 
 ```kubectl exec -it [pod name] -- /bin/bash```
 
-- Run the container first, then move the directories.
+- Run the container first, then move the following directories to the Persistent Volume path.
+
+*In this case, the path is set to /mnt/azure*
 
     ```cd /mnt/azure```
 
@@ -581,6 +583,8 @@ __a.__ Move the actual directories in [Persistent Voulume-4](#1-31-use-persisten
     ```
 
 __b.__ Make an OpenFrame image which uses the Persistent Volume.
+
+**Make links to the Persistent Volume path**
 
 *Image - kelsey92/of7azurefinal:of7azure*
 
