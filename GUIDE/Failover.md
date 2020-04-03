@@ -769,7 +769,7 @@ __f.__ Check the current status of the new Pod.
 
 *Now the new Pod is running in aks-agentpool-24893396-0.*
 
-**If it isn't the first time the pod is created in the NODE, Kubenetes will create the container with the previously pulled image in the NODE. Be careful not to use the same name & tag when you update the image. If you want to use the same name & tag when you update the image, you need to pull it again in the NODE.**  
+**If it isn't the first time the Pod is created in the NODE, Kubenetes will create the container with the previously pulled image in the NODE. Be careful not to use the same name & tag when you update the image. If you want to use the same name & tag when you update the image, you need to delete the old one in the NODE.**  
 
 ```kubectl describe pod of7azure-76db5dbccb-6fbtc```
 ```bash
