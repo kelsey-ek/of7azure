@@ -567,7 +567,7 @@ __a.__ Move the actual directories in [Persistent Volume-4](#1-31-use-persistent
 
     cd /mnt/azure
 
-    ```bash
+    
     [of7azure@of7azure azure]$ ls -rtl
     total 52
     drwxrwxr-x  4 of7azure of7azure  4096 Mar 21 08:46 shared
@@ -580,7 +580,7 @@ __a.__ Move the actual directories in [Persistent Volume-4](#1-31-use-persistent
     drwxrwxr-x 11 of7azure of7azure  4096 Mar 25 11:20 tibero6
     drwxrwxr-x  7 of7azure of7azure  4096 Mar 27 08:01 temp
     drwx------  2 root     root     16384 Apr  1 12:29 lost+found
-    ```
+    
 
 __b.__ Make an OpenFrame image which uses the Persistent Volume.
 
