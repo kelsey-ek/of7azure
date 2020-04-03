@@ -976,33 +976,33 @@ __i.__ Connect to JEUS, Webterminal, OFmanager with the ports of current NODE.
 
 <img src="./reference_images/NAT.PNG" title="NAT">
 
-**Find aks-agentpool-24893396-0 or aks-agentpool-24893396-1 from 'Target virtual machine' in the configuration**
+**Find aks-agentpool-24893396-0 or aks-agentpool-24893396-1 from 'Target virtual machine' in the configuration.**
 
 - NODE A
 
-    Jeus : http://52.141.172.195:9736/webadmin/
+    - Jeus : http://52.141.172.195:9736/webadmin/
     
     <img src="./reference_images/NAT01_jeus.PNG" title="NAT01_jeus">
     
-    Webterminal : http://52.141.172.195:8088/webterminal/
+    - Webterminal : http://52.141.172.195:8088/webterminal/
 
     <img src="./reference_images/NAT01_webterminal.PNG" title="NAT01_webterminal">
     
-    OFmanager : http://52.141.172.195:8087/ofmanager/
+    - OFmanager : http://52.141.172.195:8087/ofmanager/
 
     <img src="./reference_images/NAT01_ofmanager.PNG" title="NAT01_ofmanager">
 
 - NODE B
 
-    Jeus : http://52.141.172.195:19736/webadmin/
+    - Jeus : http://52.141.172.195:19736/webadmin/
     
     <img src="./reference_images/NAT02_jeus.PNG" title="NAT02_jeus">
     
-    Webterminal : http://52.141.172.195:18088/webterminal/
+    - Webterminal : http://52.141.172.195:18088/webterminal/
     
     <img src="./reference_images/NAT02_webterminal.PNG" title="NAT02_webterminal">
     
-    OFmanager : http://52.141.172.195:18087/ofmanager/
+    - OFmanager : http://52.141.172.195:18087/ofmanager/
     
     <img src="./reference_images/NAT02_ofmanager.PNG" title="NAT02_ofmanager">
     
