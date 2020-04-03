@@ -717,11 +717,13 @@ Events:
   Normal  Started                 17m   kubelet, aks-agentpool-24893396-1  Started container of7azure
 ```
 
-__d.__ Use OpenFrame function.(ex.Run a JOB)
+__d.__ Use OpenFrame function.
+
+```kubectl exec -it of7azure-76db5dbccb-brgrs -- /bin/bash```
 
 *Fisrt, Tibero and OpenFrame are successfully booted.*
 
-```kubectl exec -it of7azure-76db5dbccb-brgrs -- /bin/bash```
+*Second, run a JOB.*
 
 ```bash 
 [of7azure@of7azure OpenFrame]$ ls -rtl test.jcl
@@ -743,6 +745,23 @@ Command : [ps]
  IDCAMS01 JOB00001   A     Done     R00008 NODE1    20200402/12:02:37 20200402/12:02:37  IDCAMS01
  TEST     JOB00002   A     Error    R00127 NODE1    20200402/13:03:48 20200402/13:03:49  test.jcl
 ```
+
+*Third, create a dataset.*
+
+```bash
+dscreate KELSEY.TMAX.TEST
+dscreate version 7.0.3(7) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
+Create a New Dataset or a Member of PDS Dataset
+
+DSCREATE DSNAME=KELSEY.TMAX.TEST,CATALOG=,VOLSER=,MEMBER=
+Input USERNAME  : ROOT
+Input PASSWORD  :
+OFRUISVRDSCRE: Dataset Create OK. dsn=KELSEY.TMAX.TEST
+COMPLETED SUCCESSFULLY.
+```
+
+*Lastly, boot up JEUS, Webterminal and OFmanager.*
+
 
 __e.__ Kill NODE1 and see if a new Pod is created in NODE2 and running successfully.
 
@@ -842,9 +861,8 @@ __g.__ Boot up Tibero and OpenFrame.
 
 - Tibero
 
-    ```tbdown clean
-       tbboot
-       ```
+    tbdown clean
+    tbboot
 
 - OpenFrame
 
