@@ -763,9 +763,9 @@ COMPLETED SUCCESSFULLY.
 *Lastly, boot up JEUS, Webterminal and OFmanager.*
 
 
-__e.__ Kill NODE1 and see if a new Pod is created in NODE2 and running successfully.
+__e.__ Kill the NODE and see if a new Pod is created another NODE and running successfully.
 
-*Let's say NODE1 is the one the Pod is currently running in and NODE2 is the empty one. I stopped aks-agentpool-24893396-1.*
+*I stopped aks-agentpool-24893396-1 NODE.*
 
 ```kubectl get nodes```
 ```bash
@@ -786,7 +786,7 @@ of7azure-76db5dbccb-6fbtc   1/1     Running   0          13m
 
 __f.__ Check the current status of the new Pod.
 
-*Now the new Pod is running in aks-agentpool-24893396-0.*
+*Now the new Pod is running in aks-agentpool-24893396-0 NODE.*
 
 **When the Pod is created in the NODE for the first time, it pulls the image from Docker. If it isn't the first time, Kubenetes will create the container with the previously pulled image in the NODE. Be careful not to use the same name & tag when you update the image. If you want to use the same name & tag when you update the image, you need to delete the old one in the NODE.**  
 
@@ -857,7 +857,7 @@ __g.__ Boot up Tibero and OpenFrame.
 
 ```kubectl exec -it of7azure-76db5dbccb-6fbtc -- /bin/bash```
 
-**Since NODE1 was killed while everything was runnning, booting up process is somewhat different from the normal one.**
+**Since the NODE was killed while everything was runnning, booting up process is somewhat different from the normal one.**
 
 - Tibero
 
@@ -926,7 +926,7 @@ __g.__ Boot up Tibero and OpenFrame.
 
     *You can use **-m option(Remove OSC resources) when you shut down the region.** It will delete the Tibero region table.*
 
-__h.__ Check if the new Pod has the data before NODE1 dies.
+__h.__ Check if the new Pod has the data before the NODE dies.
 
 *A new Pod lost the files I created under container directories, but not under Persistent Volume.*
 
@@ -966,7 +966,7 @@ Print Dataset List and Information
 * Total 1 entries in volume DEFVOL printed.
 ```
 
-__i.__ Connect to JEUS, Webterminal, OFmanager with NODE2 ports.
+__i.__ Connect to JEUS, Webterminal, OFmanager with the ports of current NODE.
 
 **[Nodeport Services](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#23-set-services)**
 
@@ -1009,5 +1009,6 @@ __i.__ Connect to JEUS, Webterminal, OFmanager with NODE2 ports.
 *References*
 
 https://kubernetes.io/docs/concepts/storage/persistent-volumes
+
 https://docs.microsoft.com/en-us/azure/aks/azure-files-dynamic-pv
 
