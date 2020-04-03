@@ -566,7 +566,7 @@ When NODE1 dies,
 
 ## 2-1. Test Senario & Result
 
-__a.__ Move the actual directories in [Persistent Voulume:1.3.1-4](### 1.3.1 Use Persistent Volume with Azure Kubernetes Service).
+__a.__ Move the actual directories in [Persistent Voulume-4](#1-31-use-persistent-volume-with-azure-kubernetes-service).
 
 ```kubectl exec -it [pod name] -- /bin/bash```
 
