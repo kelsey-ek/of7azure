@@ -400,6 +400,9 @@ When NODE1 dies,
 
 ### 1-3.2 Use the custom Persistent Volume with replicated Pod.
 
+<details>
+	<summary>Use the custom Persistent Volume with replicated Pod</summary>
+
 1) Check the Access Mode you want to configure and choose the storage service.
 
 - Access Modes
@@ -547,7 +550,9 @@ When NODE1 dies,
 
 7) Create a Pod using the Persistent Volume Claim(PVC).
 - to be continued
-    
+
+</details>
+
 # 2. Fail-over Test
 
 ## 2-1. Test Senario & Result
