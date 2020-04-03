@@ -402,18 +402,19 @@ When NODE1 dies,
 
 1) Check the Access Mode you want to configure and choose the storage service.
 
-- Access Modes
+    - Access Modes
 
     ```bash
     ReadWriteOnce – the volume can be mounted as read-write by a single node (RWO)
     ReadOnlyMany – the volume can be mounted read-only by many nodes (ROX) 
     ReadWriteMany – the volume can be mounted as read-write by many nodes (RWX)
     ```
-- Storage Services with Access Modes
+    - Storage Services with Access Modes
     *Providers will have different capabilities and each PV’s access modes are set to the specific modes supported by that particular volume.* 
     <img src="./reference_images/access.PNG" title="access">
 
 2) Create a Service Account which the Provisioner will use.
+    - to be continued
 
 3) Create a Storage Class with the Provisioner you want to use.
 
@@ -466,6 +467,8 @@ When NODE1 dies,
  
 5) Create Persistent Volume Claim(PVC) with the correct Storage Class name.
 
+    - Please match the Storage Class name with the Persistent Volume you want to use.
+
     ```vi custom_claim.yaml```
     ```bash
     apiVersion: v1
@@ -482,8 +485,6 @@ When NODE1 dies,
     ```
 
     ```kubectl create -f custom_claim.yaml```
-
-- Please match the Storage Class name with the Persistent Volume you want to use.
 
     ```kubectl get pvc custompvc```
     ```bash
@@ -512,7 +513,7 @@ When NODE1 dies,
 
 ```kubectl delete pvc custompvc```
 
-- Persistent Volume(PV) will be automatically created and Persistent Volume Claim(PVC) will be bounded successfully.
+6) Persistent Volume(PV) will be automatically created and Persistent Volume Claim(PVC) will be bounded successfully.
 
     ```kubectl get pv customvolume```
     ```bash
