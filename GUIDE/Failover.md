@@ -875,7 +875,7 @@ __g.__ Boot up Tibero and OpenFrame.
     TDLINIT.691.064701:(I) TDLUTIL0046 TDLDIR initialization complete [TDL0331]
     ```
 
-    OSC regions should be booted with -a option (Do not create OSC DB Tables). Tibero table is already created in the database.
+    **OSC regions should be booted with -a option (Do not create OSC DB Tables).**
 
     ```
     [of7azure@of7azure ~]$ oscboot -r OSCOIVP1
@@ -924,8 +924,7 @@ __g.__ Boot up Tibero and OpenFrame.
 	```
 	</details>
 
-
-* You can use -m option(Remove OSC resources) when you shut down the region. It will delete the Tibero region table.
+    *You can use **-m option(Remove OSC resources) when you shut down the region.** It will delete the Tibero region table.*
 
 __h.__ Check if the new Pod has the data before NODE1 dies.
 
@@ -954,6 +953,17 @@ Command : [ps]
 ------------------------------------------------------------------------------------------------------------------
  IDCAMS01 JOB00001   A     Done     R00008 NODE1    20200402/12:02:37 20200402/12:02:37  IDCAMS01
  TEST     JOB00002   A     Error    R00127 NODE1    20200402/13:03:48 20200402/13:03:49  test.jcl
+
+[of7azure@of7azure ~]$ dslist KELSEY.TMAX.TEST
+dslist version 7.0.3(7) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
+Print Dataset List and Information
+
+-----------------------------------------------------------------------------
+  SYS1.VTOC.VDEFVOL                             VOLUME  DSORG  RECFM  LRECL
+-----------------------------------------------------------------------------
+  KELSEY.TMAX.TEST                              DEFVOL  PS     FB     80
+-----------------------------------------------------------------------------
+* Total 1 entries in volume DEFVOL printed.
 ```
 
 # Copyrighted by Kelsey
