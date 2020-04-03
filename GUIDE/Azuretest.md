@@ -296,6 +296,14 @@ export ODBCSYSINI=$HOME
 ### 1.3.7 Base installation
 
 ### 1.3.8 Batch installation
+For running a JOB, please check the LIBPATH from tjclrun.conf
+
+```bash
+[SYSLIB]
+ BIN_PATH=${OFDATA_HOME}/volume_default/SYS1.USERLIB:${OPENFRAME_HOME}/bin:${OPENFRAME_HOME}/util:${COBDIR}/bin:/usr/local/bin:/bin
+ LIB_PATH=${OPENFRAME_HOME}/lib:${OPENFRAME_HOME}/core/lib:${TB_HOME}/client/lib:${COBDIR}/lib:/usr/lib:/lib:/lib/i686:/usr/local/lib:${PROSORT_HOME}/lib:/opt/FSUNbsort/lib:${ODBC_HOME}/lib:${OFCOB_HOME}/lib:${OFASM_HOME}/lib
+ COB_PATH=${COBPATH}
+```
 
 ### 1.3.9 TACF installation
 
