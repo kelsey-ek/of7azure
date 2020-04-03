@@ -33,7 +33,7 @@
 When NODE1 dies,
 
 1) A new Pod should not lose the critical data of the old Pod.
-- Persistent Volume and Persistent Volume Claim will be used.
+- Persistent Volume and Persistent Volume Claim will be used(Dynamic Provisioning).
 
 2) A new Pod should automatically be created in a different Node and run successfully.
 - Deployment with replicated Pods will be used(in this case, only one Pod is needed).
@@ -77,9 +77,11 @@ When NODE1 dies,
 
 ### B. Persistent Volume (PV) 
 
-* A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes. It is a resource in the cluster just like a node is a cluster resource.
+- A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes. It is a resource in the cluster just like a node is a cluster resource.
 
 - **PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV.** This API object captures the details of the implementation of the storage, be that NFS, iSCSI, or a cloud-provider-specific storage system.
+
+- 
 
 ### C. Persistent Volume Claim (PVC) 
 
@@ -90,6 +92,10 @@ When NODE1 dies,
 ## 1-3 Use Persistent Volume with Pod replication.
 
 ### 1-3.1 Use Persistent Volume with Azure Kubernetes Service.
+
+**Dynamic provisioning should be used for fail-over test.**
+
+*If you use Static provisioning, you need to create a volume for each Pod. For fail-over test, Pods will be deleted and created multiple times. Volume shoule be automatically attached to the running Pod. Dynamic provisioning is suitable for fail-over test.*
 
 1) Check Storage Class.
 
@@ -1013,5 +1019,6 @@ __i.__ Connect to JEUS, Webterminal, OFmanager with the ports of current NODE.
 
 https://kubernetes.io/docs/concepts/storage/persistent-volumes
 
-https://docs.microsoft.com/en-us/azure/aks/azure-files-dynamic-pv
+https://docs.microsoft.com/en-us/azure/aks/azure-disks-dynamic-pv
 
+https://kubernetes.io/docs/concepts/storage/dynamic-provisioning/
