@@ -410,7 +410,7 @@ When NODE1 dies,
     ReadWriteMany – the volume can be mounted as read-write by many nodes (RWX)
     ```
 - Storage Services with Access Modes
-
+    *Providers will have different capabilities and each PV’s access modes are set to the specific modes supported by that particular volume.* 
     <img src="./reference_images/access.PNG" title="access">
 
 2) Create a Service Account which the Provisioner will use.
@@ -514,12 +514,6 @@ When NODE1 dies,
 
 - Persistent Volume(PV) will be automatically created and Persistent Volume Claim(PVC) will be bounded successfully.
 
-- Please double check Service provider, which Provisioner you use for the Storage Class.
-
-    <img src="./reference_images/access.PNG" title="access">
-
-    *Providers will have different capabilities and each PV’s access modes are set to the specific modes supported by that particular volume.* 
-
     ```kubectl get pv customvolume```
     ```bash
     NAME          CAPACITY  ACCESS MODES RECLAIM POLICY  STATUS  CLAIM              STORAGECLASS  REASON  AGE
@@ -546,19 +540,12 @@ When NODE1 dies,
         HostPathType:
     Events:            <none>
     ```
-
 *Clean it*
 
 ```kubectl delete pv customvolume```
 
-4) Create a Persistent Volume Claim with the Storage Class you created.
-
-
-
 5) Create a Pod using the Persistent Volume Claim(PVC).
-
-
-    
+- to be continued
     
 # 2. Fail-over Test
 
