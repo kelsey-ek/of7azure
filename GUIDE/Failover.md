@@ -545,7 +545,7 @@ When NODE1 dies,
 
 ```kubectl delete pv customvolume```
 
-5) Create a Pod using the Persistent Volume Claim(PVC).
+7) Create a Pod using the Persistent Volume Claim(PVC).
 - to be continued
     
 # 2. Fail-over Test
