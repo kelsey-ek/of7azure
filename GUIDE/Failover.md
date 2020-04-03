@@ -976,6 +976,7 @@ __i.__ Connect to JEUS, Webterminal, OFmanager with the ports of current NODE.
 
 <img src="./reference_images/NAT.PNG" title="NAT">
 
+**Find aks-agentpool-24893396-0 or aks-agentpool-24893396-1 from 'Target virtual machine' in the configuration**
 
 - NODE A
 
