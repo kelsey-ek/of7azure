@@ -1,4 +1,4 @@
-# Fail-over test with Azure Kubernetes service(AKS)
+# Fail-over test with Azure Kubernetes service(AKS) by Kelsey
 
 ## Table of Contents
 
@@ -920,6 +920,9 @@ Command : [ps]
  IDCAMS01 JOB00003   A     Done     R00008 NODE1    20200403/05:37:24 20200403/05:37:25 IDCAMS01
 ```
 
+# Copyrighted by Kelsey
+
+*References*
 
 From https://kubernetes.io/docs/concepts/storage/persistent-volumes
 
