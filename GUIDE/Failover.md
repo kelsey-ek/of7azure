@@ -8,9 +8,9 @@
      + [A. Storage Class (SC)](#a-storage-class-sc)
      + [B. Persistent Volume (PV)](#b-persistent-volume-pv)
      + [C. Persistent Volume Claim (PVC)](#c-persistent-volume-claim-pvc)
-  + [1-3 Use Persistent Volume with Pod replication.](#1-3-use-persistent-volume-with-pod-replication)
-     + [1-3.1 Use Persistent Volume with Azure Kubernetes Service.](#1-31-use-persistent-volume-with-azure-kubernetes-service)
-     + [1-3.2 Use the custom Persistent Volume with replicated Pod.](#1-32-use-the-custom-persistent-volume-with-replicated-pod)
+  + [1-3 Use Persistent Volume with Pod replication](#1-3-use-persistent-volume-with-pod-replication)
+     + [1-3.1 Use Persistent Volume with Azure Kubernetes Service](#1-31-use-persistent-volume-with-azure-kubernetes-service)
+     + [1-3.2 Use the custom Persistent Volume with replicated Pod](#1-32-use-the-custom-persistent-volume-with-replicated-pod)
 + [2. Fail-over Test](#2-fail-over-test)
   + [2-1. Test Senario & Result](#2-1-test-senario--result)
 
@@ -87,13 +87,13 @@ When NODE1 dies,
 
 * While PersistentVolumeClaims allow a user to consume abstract storage resources, it is common that users need PersistentVolumes with varying properties, such as performance, for different problems. Cluster administrators need to be able to offer a variety of PersistentVolumes that differ in more ways than just size and access modes, without exposing users to the details of how those volumes are implemented. For these needs, there is the StorageClass resource.
 
-## 1-3 Use Persistent Volume with Pod replication.
+## 1-3 Use Persistent Volume with Pod replication
 
 **Dynamic provisioning should be used for fail-over test.**
 
 *If you use Static provisioning, you need to create a volume for each Pod. For fail-over test, Pods will be deleted and created multiple times. A Volume shoule be automatically attached to the running Pod. So, Dynamic provisioning is suitable for fail-over test.*
 
-### 1-3.1 Use Persistent Volume with Azure Kubernetes Service.
+### 1-3.1 Use Persistent Volume with Azure Kubernetes Service
 
 1) Check Storage Class.
 
@@ -398,7 +398,7 @@ When NODE1 dies,
 
 ```kubectl delete pod of7azure-76db5dbccb-96q4k```
 
-### 1-3.2 Use the custom Persistent Volume with replicated Pod.
+### 1-3.2 Use the custom Persistent Volume with replicated Pod
 
 <details>
 	<summary>Use the custom Persistent Volume with replicated Pod</summary>
@@ -565,7 +565,7 @@ __a.__ Move the actual directories in [Persistent Volume-4](#1-31-use-persistent
 
 *In this case, the path is set to /mnt/azure*
 
-    ```cd /mnt/azure```
+    cd /mnt/azure
 
     ```bash
     [of7azure@of7azure azure]$ ls -rtl
@@ -584,7 +584,7 @@ __a.__ Move the actual directories in [Persistent Volume-4](#1-31-use-persistent
 
 __b.__ Make an OpenFrame image which uses the Persistent Volume.
 
-**Make links to the Persistent Volume path**
+**Make links to the Persistent Volume path.**
 
 *Image - kelsey92/of7azurefinal:of7azure*
 
