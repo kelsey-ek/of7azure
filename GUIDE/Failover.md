@@ -968,19 +968,42 @@ Print Dataset List and Information
 
 __i.__ Connect to JEUS, Webterminal, OFmanager with NODE2 ports.
 
-[**Nodeport Services](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#23-set-services)
+[Nodeport Services](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#23-set-services)
 
-[**Inbound NAT rules**] (https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#24-network-configuration)
+[Inbound NAT rules] (https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#24-network-configuration)
+
+<img src="./reference_images/NAT.PNG" title="NAT">
+
 
 - NODE1
 
+    Jeus : http://52.141.172.195:9736/webadmin/
+    
+    <img src="./reference_images/NAT01_jeus.PNG" title="NAT01_jeus">
+    
+    Webterminal : http://52.141.172.195:8088/webterminal/
 
+    <img src="./reference_images/NAT01_webterminal.PNG" title="NAT01_webterminal">
+    
+    OFmanager : http://52.141.172.195:8087/ofmanager/
+
+    <img src="./reference_images/NAT01_ofmanager.PNG" title="NAT01_ofmanager">
 
 - NODE2
 
-
-
-
+    Jeus : http://52.141.172.195:19736/webadmin/
+    
+    <img src="./reference_images/NAT02_jeus.PNG" title="NAT02_jeus">
+    
+    Webterminal : http://52.141.172.195:18088/webterminal/
+    
+    <img src="./reference_images/NAT02_webterminal.PNG" title="NAT02_webterminal">
+    
+    OFmanager : http://52.141.172.195:18087/ofmanager/
+    
+    <img src="./reference_images/NAT02_ofmanager.PNG" title="NAT02_ofmanager">
+    
+    
 # Copyrighted by Kelsey
 
 *References*
