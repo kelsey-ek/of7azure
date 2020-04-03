@@ -415,7 +415,13 @@ When NODE1 dies,
 
     <img src="./reference_images/access.PNG" title="access">
 
-2) Create a Storage Class with the Provisioner you want.
+2) Create a Service Account which the Provisioner will use.
+
+3) Create a Storage Class with the Provisioner you want to use.
+
+- PVC will request the Volume by Storage Class name으로 볼륨요청을 하게됩니다.
+
+4) 
 
     ```vi custom_sc.yaml```
     ```bash
@@ -1022,3 +1028,7 @@ https://kubernetes.io/docs/concepts/storage/persistent-volumes
 https://docs.microsoft.com/en-us/azure/aks/azure-disks-dynamic-pv
 
 https://kubernetes.io/docs/concepts/storage/dynamic-provisioning/
+
+https://gruuuuu.github.io/cloud/k8s-volume/#
+
+
