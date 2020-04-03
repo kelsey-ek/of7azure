@@ -889,6 +889,8 @@ __g.__ Boot up Tibero and OpenFrame.
     OSCBOOT : OSC Region(OSCOIVP1)                                        [ OK ]
     ```
 
+* You can use -m option(Remove OSC resources) when you shut down the region. It will delete the Tibero region table.
+
 __h.__ Check if the new Pod has the data before NODE1 dies.
 
 *A new Pod lost the files I created under container directories, but not under Persistent Volume.*
