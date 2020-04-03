@@ -3,8 +3,8 @@
 ## Table of Contents
 
 + [A. Fail-over Environment setting](#step-1-fail-over-environment-setting)
-  + [1.1 Fail-over concept](#11-fail-over-concept)
-  + [1.2 Storage setting](#12-storage-setting)
+  + [1.Fail-over concept](#11-fail-over-concept)
+  + [1.Storage setting](#12-storage-setting)
       + [1.2.1 Persistent Volume Claim]
       + [1.2.2 Persistent Volume]
       + [1.2.3 Storage Class](#123-storage-class)
@@ -13,9 +13,9 @@
   + [2.1 Test senario](#21-add-azure-kubernetes-serviceaks)
   + [2.2 Test results](#22-set-pods)
 
-# A. Fail-over Environment setting
+# 1. Fail-over Environment setting
 
-## 1.1 Fail-over concept
+## 1-1. Fail-over concept
 
 * A Pod which has OpenFrame container is running in NODE1. NODE2 is a back up(empty) Node.
 
@@ -37,7 +37,7 @@ When NODE1 dies,
 2) A new Pod should automatically be created in a different Node and run successfully.
 - Deployment with replicated Pods will be used(in this case, only one Pod is needed).
 
-## 1.2 Storage Setting
+## 1-2. Storage Setting
 
 __A.__ Storage Class (SC) 
 
@@ -84,9 +84,9 @@ __C.__ Persistent Volume Claim (PVC)
 
 * While PersistentVolumeClaims allow a user to consume abstract storage resources, it is common that users need PersistentVolumes with varying properties, such as performance, for different problems. Cluster administrators need to be able to offer a variety of PersistentVolumes that differ in more ways than just size and access modes, without exposing users to the details of how those volumes are implemented. For these needs, there is the StorageClass resource.
 
-## 1.3 Use Persistent Volume with Pod replication.
+## 1-3 Use Persistent Volume with Pod replication.
 
-### 1.3.1 Use Persistent Volume with Azure Kubernetes Service.
+### 1-3.1 Use Persistent Volume with Azure Kubernetes Service.
 
 1) Check Storage Class.
 
@@ -388,7 +388,7 @@ drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
     <img src="./reference_images/disk02.PNG" title="disk02">
      
 
-### 1.3.2 Use the custom Persistent Volume with replicated Pod.
+### 1-3.2 Use the custom Persistent Volume with replicated Pod.
 
 1) Check the Access Mode you want to configure and choose the storage service.
 
@@ -556,9 +556,9 @@ drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
 5) Create a Pod using the Persistent Volume.
     
     
-# B. Fail-over Test
+# 2. Fail-over Test
 
-## 2.1 Test Senario & Result
+## 2-1. Test Senario & Result
 
 __a.__ Move the actual directories in [Persistent Voulume:1.3.1-4](### 1.3.1 Use Persistent Volume with Azure Kubernetes Service).
 
