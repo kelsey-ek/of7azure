@@ -4,10 +4,10 @@
 
 + [1. Fail-over Environment setting](#1-fail-over-environment-setting)
   + [1-1. Fail-over concept](#1-1-fail-over-concept)
-  + [1-2. Storage Setting](#1-2-storage-setting)
-     + [A. Storage Class (SC)]
-     + [B. Persistent Volume (PV)]
-     + [C. Persistent Volume Claim (PVC)]
+  + [1-2. Configure data Volume](#1-2-configure-data-volume)
+     + [A. Storage Class (SC)](#a-storage-class-sc)
+     + [B. Persistent Volume (PV)](#b-persistent-volume-pv)
+     + [C. Persistent Volume Claim (PVC)](#c-persistent-volume-claim-pvc)
   + [1-3 Use Persistent Volume with Pod replication.](#1-3-use-persistent-volume-with-pod-replication)
      + [1-3.1 Use Persistent Volume with Azure Kubernetes Service.](#1-31-use-persistent-volume-with-azure-kubernetes-service)
      + [1-3.2 Use the custom Persistent Volume with replicated Pod.](#1-32-use-the-custom-persistent-volume-with-replicated-pod)
@@ -366,28 +366,31 @@ parameters:
     ```
 - Check the Persistent Volume from the container.
 
-```kubectl exec -it [pod name] -- /bin/bash```
+    *This Volume will not be vanished even after the container is dead.*
 
-```cd /mnt/azure/```
-```bash
-[of7azure@of7azure mnt]$ ls -rtl
-total 4
-drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
-```
+    ```kubectl exec -it [pod name] -- /bin/bash```
 
-*This Volume will not be vanished even after the container is dead.*
+    ```cd /mnt/azure/```
+    ```bash
+    [of7azure@of7azure mnt]$ ls -rtl
+    total 4
+    drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
+    ```
 
+- Check the PV status from Azure Service.
+
+    <img src="./reference_images/disk02.PNG" title="disk02">
+
+    **Disk state** changes from Unattached to Attached.
+    
+    **Owner VM**   changes from --(none)   to the VM where the Pod is running.
+
+     
 *Clean it*
 
 ```kubectl delete deployment of7azure```
 
 ```kubectl delete pod of7azure-76db5dbccb-96q4k```
-
-- **Disk state** changes from Unattached to Attached 
-- **Owner VM**   changes from --(none)   to the VM where the Pod is running
-      
-    <img src="./reference_images/disk02.PNG" title="disk02">
-     
 
 ### 1-3.2 Use the custom Persistent Volume with replicated Pod.
 
