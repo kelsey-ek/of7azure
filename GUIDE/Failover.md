@@ -2,16 +2,17 @@
 
 ## Table of Contents
 
-+ [A. Fail-over Environment setting](#step-1-fail-over-environment-setting)
-  + [1.Fail-over concept](#11-fail-over-concept)
-  + [1.Storage setting](#12-storage-setting)
-      + [1.2.1 Persistent Volume Claim]
-      + [1.2.2 Persistent Volume]
-      + [1.2.3 Storage Class](#123-storage-class)
-  + [1.3 Deployment with replicated Pods](#13-deployment-with-replicated-pods)
-+ [B. Fail-over test](#step-2-azure-service)
-  + [2.1 Test senario](#21-add-azure-kubernetes-serviceaks)
-  + [2.2 Test results](#22-set-pods)
++ [1. Fail-over Environment setting](#1-fail-over-environment-setting)
+  + [1-1. Fail-over concept](#1-1-fail-over-concept)
+  + [1-2. Storage Setting](#1-2-storage-setting)
+     + [A. Storage Class (SC)]
+     + [B. Persistent Volume (PV)]
+     + [C. Persistent Volume Claim (PVC)]
+  + [1-3 Use Persistent Volume with Pod replication.](#1-3-use-persistent-volume-with-pod-replication)
+     + [1-3.1 Use Persistent Volume with Azure Kubernetes Service.](#1-31-use-persistent-volume-with-azure-kubernetes-service)
+     + [1-3.2 Use the custom Persistent Volume with replicated Pod.](#1-32-use-the-custom-persistent-volume-with-replicated-pod)
++ [2. Fail-over Test](#2-fail-over-test)
+  + [2-1. Test Senario & Result](#2-1-test-senario--result)
 
 # 1. Fail-over Environment setting
 
