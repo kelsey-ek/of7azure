@@ -55,23 +55,25 @@ When NODE1 dies,
 
    <img src="./reference_images/access.PNG" title="access">
 
-```vi azure_sc.yaml```
-```bash
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: azurefile
-provisioner: kubernetes.io/azure-file
-mountOptions:
-  - dir_mode=0777
-  - file_mode=0777
-  - uid=0
-  - gid=0
-  - mfsymlinks
-  - cache=strict
-parameters:
-  skuName: Standard_LRS
-```
+* Storage Class sample yaml file*
+
+    ```vi azure_sc.yaml```
+    ```bash
+    apiVersion: storage.k8s.io/v1
+    kind: StorageClass
+    metadata:
+    name: azurefile
+    provisioner: kubernetes.io/azure-file
+    mountOptions:
+      - dir_mode=0777
+      - file_mode=0777
+      - uid=0
+      - gid=0
+      - mfsymlinks
+      - cache=strict
+    parameters:
+      skuName: Standard_LRS
+    ```
 
 ### B. Persistent Volume (PV) 
 
@@ -589,7 +591,7 @@ __a.__ Move the actual directories in [Persistent Voulume:1.3.1-4](### 1.3.1 Use
 
 __b.__ Make an OpenFrame image which uses the Persistent Volume.
 
-Image - kelsey92/of7azurefinal:of7azure 
+*Image - kelsey92/of7azurefinal:of7azure *
 
 - Tibero 
     
