@@ -2,18 +2,18 @@
 
 ## Table of Contents
 
-+ [1. Fail-over Environment setting](#step-1-fail-over-environment-setting)
++ [A. Fail-over Environment setting](#step-1-fail-over-environment-setting)
   + [1.1 Fail-over concept](#11-fail-over-concept)
   + [1.2 Storage setting](#12-storage-setting)
       + [1.2.1 Persistent Volume Claim]
       + [1.2.2 Persistent Volume]
       + [1.2.3 Storage Class](#123-storage-class)
   + [1.3 Deployment with replicated Pods](#13-deployment-with-replicated-pods)
-+ [2. Fail-over test](#step-2-azure-service)
++ [B. Fail-over test](#step-2-azure-service)
   + [2.1 Test senario](#21-add-azure-kubernetes-serviceaks)
   + [2.2 Test results](#22-set-pods)
 
-# Step 1. Fail-over Environment setting
+# A. Fail-over Environment setting
 
 ## 1.1 Fail-over concept
 
@@ -556,9 +556,9 @@ drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
 5) Create a Pod using the Persistent Volume.
     
     
-## 2. Fail-over Test
+# B. Fail-over Test
 
-### 2.1 Test Senario & Result
+## 2.1 Test Senario & Result
 
 __a.__ Move the actual directories in [Persistent Voulume:1.3.1-4](### 1.3.1 Use Persistent Volume with Azure Kubernetes Service).
 
