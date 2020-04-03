@@ -838,7 +838,17 @@ __g.__ Boot up Tibero and OpenFrame.
 
 ```kubectl exec -it of7azure-76db5dbccb-6fbtc -- /bin/bash```
 
-* OSC region should be booted with -a option.
+**Since NODE1 was killed while Tibero and OpenFrame were runnning, booting up process is somewhat different from the normal one.**
+
+- Tibero
+
+    ```tbdown clean
+       tbboot
+       ```
+
+- OpenFrame
+
+    OSC region should be booted with -a option.
 
     ```
     [of7azure@of7azure ~]$ oscboot -r OSCOIVP1
