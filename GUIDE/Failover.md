@@ -857,16 +857,25 @@ __g.__ Boot up Tibero and OpenFrame.
 
 ```kubectl exec -it of7azure-76db5dbccb-6fbtc -- /bin/bash```
 
-**Since NODE1 was killed while Tibero and OpenFrame were runnning, booting up process is somewhat different from the normal one.**
+**Since NODE1 was killed while everything was runnning, booting up process is somewhat different from the normal one.**
 
 - Tibero
 
+    ```
     tbdown clean
     tbboot
+    ```
 
 - OpenFrame
 
-    OSC region should be booted with -a option.
+    **osctdlinit** is neccessary.
+    
+    ```
+    [of7azure@of7azure ~]$ osctdlinit OSCOIVP1
+    TDLINIT.691.064701:(I) TDLUTIL0046 TDLDIR initialization complete [TDL0331]
+    ```
+
+    OSC regions should be booted with -a option (Do not create OSC DB Tables). Tibero table is already created in the database.
 
     ```
     [of7azure@of7azure ~]$ oscboot -r OSCOIVP1
@@ -874,8 +883,20 @@ __g.__ Boot up Tibero and OpenFrame.
     OSCBOOT : cics_ctrl_boot(-52906) error: Check oscmgr's log file
     OSCBOOT : OSC Region(OSCOIVP1)                                        [fail]
     ```
-
-* Error messages
+    
+    ```
+    [of7azure@of7azure ~]$ oscboot -r OSCOIVP1 -a
+    OSCBOOT : OSC RTSD loading(OSCOIVP1)                                  [ OK ]
+    OSCBOOT : OSC region server(OSCOIVP1TL)                               [ OK ]
+    OSCBOOT : OSC region server(OSCOIVP1OMC)                              [ OK ]
+    OSCBOOT : OSC region server(OSCOIVP1C)                                [ OK ]
+    OSCBOOT : OSC region server(OSCOIVP1)                                 [ OK ]
+    OSCBOOT : OSC tranclass server(OSCOIVP1_TCL1)                         [ OK ]
+    OSCBOOT : OSC PLTPI loading(OSCOIVP1)                                 [ OK ]
+    OSCBOOT : OSC Region(OSCOIVP1)                                        [ OK ]
+    ```
+    
+    *Error messages*
 
 	<details>
 		<summary>oscmgr04022020.out</summary>
@@ -903,19 +924,6 @@ __g.__ Boot up Tibero and OpenFrame.
 	```
 	</details>
 
-* Tibero table is already created in the database. So, use -a option (Do not create OSC DB Tables).
-
-    ```
-    [of7azure@of7azure ~]$ oscboot -r OSCOIVP1 -a
-    OSCBOOT : OSC RTSD loading(OSCOIVP1)                                  [ OK ]
-    OSCBOOT : OSC region server(OSCOIVP1TL)                               [ OK ]
-    OSCBOOT : OSC region server(OSCOIVP1OMC)                              [ OK ]
-    OSCBOOT : OSC region server(OSCOIVP1C)                                [ OK ]
-    OSCBOOT : OSC region server(OSCOIVP1)                                 [ OK ]
-    OSCBOOT : OSC tranclass server(OSCOIVP1_TCL1)                         [ OK ]
-    OSCBOOT : OSC PLTPI loading(OSCOIVP1)                                 [ OK ]
-    OSCBOOT : OSC Region(OSCOIVP1)                                        [ OK ]
-    ```
 
 * You can use -m option(Remove OSC resources) when you shut down the region. It will delete the Tibero region table.
 
