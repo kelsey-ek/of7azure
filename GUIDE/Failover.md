@@ -81,8 +81,6 @@ When NODE1 dies,
 
 - **PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV.** This API object captures the details of the implementation of the storage, be that NFS, iSCSI, or a cloud-provider-specific storage system.
 
-- 
-
 ### C. Persistent Volume Claim (PVC) 
 
 * A Persistent Volume Claim (PVC) is a request for storage by a user. It is similar to a Pod. Pods consume node resources and PVCs consume PV resources. Pods can request specific levels of resources (CPU and Memory). Claims can request specific size and access modes (e.g., they can be mounted once read/write or many times read-only).
@@ -419,9 +417,7 @@ When NODE1 dies,
 
 3) Create a Storage Class with the Provisioner you want to use.
 
-- PVC will request the Volume by Storage Class name으로 볼륨요청을 하게됩니다.
-
-4) 
+- Persistent Volume Claim(PVC) will request the Volume by Storage Class name.
 
     ```vi custom_sc.yaml```
     ```bash
@@ -465,65 +461,10 @@ When NODE1 dies,
 
  ```kubectl delete sc glustersc```
 
-3) Create a Persistent Volume with the Storage Class you created.
-
-    ```vi custom_volume.yaml```
-    ```bash
-    apiVersion: v1
-    kind: PersistentVolume
-    metadata:
-      name: customvolume
-      labels:
-        of7azurefinal: of7azure
-    spec:
-      storageClassName: glustersc
-      capacity:
-        storage: 50Gi
-      accessModes:
-        - ReadWriteMany
-      hostPath:
-        path: "/mnt/gluster"
-    ```
-    ```kubectl create -f custom_volume.yaml```
-
-- Please double check Service provider, which Provisioner you use for the Storage Class.
-
-    <img src="./reference_images/access.PNG" title="access">
-
-    *Providers will have different capabilities and each PV’s access modes are set to the specific modes supported by that particular volume.* 
-
-    ```kubectl get pv customvolume```
-    ```bash
-    NAME          CAPACITY  ACCESS MODES RECLAIM POLICY  STATUS  CLAIM              STORAGECLASS  REASON  AGE
-    customvolume  50Gi      RWX          Retain          Bound   default/custompvc  glustersc             18m
-    ```
-    ``` kubectl describe pv customvolume```
-    ```bash
-    Name:            customvolume
-    Labels:          of7azurefinal=of7azure
-    Annotations:     pv.kubernetes.io/bound-by-controller: yes
-    Finalizers:      [kubernetes.io/pv-protection]
-    StorageClass:    glustersc
-    Status:          Bound
-    Claim:           default/custompvc
-    Reclaim Policy:  Retain
-    Access Modes:    RWX
-    VolumeMode:      Filesystem
-    Capacity:        50Gi
-    Node Affinity:   <none>
-    Message:
-    Source:
-        Type:          HostPath (bare host directory volume)
-        Path:          /mnt/gluster
-        HostPathType:
-    Events:            <none>
-    ```
-
-*Clean it*
-
-```kubectl delete pv customvolume```
-
-4) Create a Persistent Volume Claim with the Storage Class you created.
+4) Create a Provisioner which can automatically generates Persistent Volume(PV).
+ - to be continued
+ 
+5) Create Persistent Volume Claim(PVC) with the correct Storage Class name.
 
     ```vi custom_claim.yaml```
     ```bash
@@ -571,7 +512,52 @@ When NODE1 dies,
 
 ```kubectl delete pvc custompvc```
 
-5) Create a Pod using the Persistent Volume.
+- Persistent Volume(PV) will be automatically created and Persistent Volume Claim(PVC) will be bounded successfully.
+
+- Please double check Service provider, which Provisioner you use for the Storage Class.
+
+    <img src="./reference_images/access.PNG" title="access">
+
+    *Providers will have different capabilities and each PV’s access modes are set to the specific modes supported by that particular volume.* 
+
+    ```kubectl get pv customvolume```
+    ```bash
+    NAME          CAPACITY  ACCESS MODES RECLAIM POLICY  STATUS  CLAIM              STORAGECLASS  REASON  AGE
+    customvolume  50Gi      RWX          Retain          Bound   default/custompvc  glustersc             18m
+    ```
+    ``` kubectl describe pv customvolume```
+    ```bash
+    Name:            customvolume
+    Labels:          of7azurefinal=of7azure
+    Annotations:     pv.kubernetes.io/bound-by-controller: yes
+    Finalizers:      [kubernetes.io/pv-protection]
+    StorageClass:    glustersc
+    Status:          Bound
+    Claim:           default/custompvc
+    Reclaim Policy:  Retain
+    Access Modes:    RWX
+    VolumeMode:      Filesystem
+    Capacity:        50Gi
+    Node Affinity:   <none>
+    Message:
+    Source:
+        Type:          HostPath (bare host directory volume)
+        Path:          /mnt/gluster
+        HostPathType:
+    Events:            <none>
+    ```
+
+*Clean it*
+
+```kubectl delete pv customvolume```
+
+4) Create a Persistent Volume Claim with the Storage Class you created.
+
+
+
+5) Create a Pod using the Persistent Volume Claim(PVC).
+
+
     
     
 # 2. Fail-over Test
