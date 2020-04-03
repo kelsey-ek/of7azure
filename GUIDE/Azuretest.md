@@ -26,7 +26,7 @@
   + [2.2 Set pods](#22-set-pods)
   + [2.3 Set services](#23-set-services)
   + [2.4 Network configuration](#24-network-configuration)
-  + [2.5 Azure monitoring service](#25-azure-monitoring-service)
+
 
 ## Step 1. Create image of OpenFrame
 
@@ -502,9 +502,10 @@ openframe.tmax.port= 8001
 * Basic
 
     <img src="./reference_images/create_basic.PNG" title="basic setting">
-    **Set the region as NorthCentralUS here. Resources may vary depends on the region**
+    
+    **Set the region as NorthCentralUS here. Resources may vary depends on the region.**
 
-<img src="./reference_images/create_basic_vm.PNG" title="basic_vm setting">
+    <img src="./reference_images/create_basic_vm.PNG" title="basic_vm setting">
 
 *Select the Node(VM) size*
 
@@ -884,7 +885,8 @@ openframe.tmax.port= 8001
     
     Add all nodeports as inbound ports like above.
 
-### 2.5 Azure monitoring service
+
+
 
 
 
