@@ -91,11 +91,11 @@ When NODE1 dies,
 
 ## 1-3 Use Persistent Volume with Pod replication.
 
-### 1-3.1 Use Persistent Volume with Azure Kubernetes Service.
-
 **Dynamic provisioning should be used for fail-over test.**
 
-*If you use Static provisioning, you need to create a volume for each Pod. For fail-over test, Pods will be deleted and created multiple times. Volume shoule be automatically attached to the running Pod. Dynamic provisioning is suitable for fail-over test.*
+*If you use Static provisioning, you need to create a volume for each Pod. For fail-over test, Pods will be deleted and created multiple times. A Volume shoule be automatically attached to the running Pod. So, Dynamic provisioning is suitable for fail-over test.*
+
+### 1-3.1 Use Persistent Volume with Azure Kubernetes Service.
 
 1) Check Storage Class.
 
