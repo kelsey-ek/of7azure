@@ -5,17 +5,17 @@
 + [1. Fail-over Environment setting](#step-1-fail-over-environment-setting)
   + [1.1 Fail-over concept](#11-fail-over-concept)
   + [1.2 Storage setting](#12-storage-setting)
-      + [1.2.1 Persistant Volume Claim](#121-persistant-volume-claim)
-      + [1.2.2 Persistant Volume](#122-persistant-volume)
+      + [1.2.1 Persistent Volume Claim]
+      + [1.2.2 Persistent Volume]
       + [1.2.3 Storage Class](#123-storage-class)
   + [1.3 Deployment with replicated Pods](#13-deployment-with-replicated-pods)
 + [2. Fail-over test](#step-2-azure-service)
   + [2.1 Test senario](#21-add-azure-kubernetes-serviceaks)
   + [2.2 Test results](#22-set-pods)
 
-## Step 1. Fail-over Environment setting
+# Step 1. Fail-over Environment setting
 
-### 1.1 Fail-over concept
+## 1.1 Fail-over concept
 
 * A Pod which has OpenFrame container is running in NODE1. NODE2 is a back up(empty) Node.
 
@@ -37,7 +37,7 @@ When NODE1 dies,
 2) A new Pod should automatically be created in a different Node and run successfully.
 - Deployment with replicated Pods will be used(in this case, only one Pod is needed).
 
-### 1.2 Storage Setting
+## 1.2 Storage Setting
 
 __A.__ Storage Class (SC) 
 
@@ -84,7 +84,7 @@ __C.__ Persistent Volume Claim (PVC)
 
 * While PersistentVolumeClaims allow a user to consume abstract storage resources, it is common that users need PersistentVolumes with varying properties, such as performance, for different problems. Cluster administrators need to be able to offer a variety of PersistentVolumes that differ in more ways than just size and access modes, without exposing users to the details of how those volumes are implemented. For these needs, there is the StorageClass resource.
 
-### 1.3 Use Persistent Volume with Pod replication.
+## 1.3 Use Persistent Volume with Pod replication.
 
 ### 1.3.1 Use Persistent Volume with Azure Kubernetes Service.
 
@@ -167,7 +167,7 @@ __C.__ Persistent Volume Claim (PVC)
 3) Persistent Volume is automatically generated with Azure Kubernetes Service.
 
 - From the PVC above, it uses managed-premium Storage Class whose Provisioner is kubernetes.io/**azure-disk**. 
-- It automatically generates **AzureDisk**(Persistant Volume) in Azure service.
+- It automatically generates **AzureDisk**(Persistent Volume) in Azure service.
     
     <img src="./reference_images/disk01.PNG" title="disk01">
     
@@ -556,11 +556,11 @@ drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
 5) Create a Pod using the Persistent Volume.
     
     
-### 2. Fail-over Test
+## 2. Fail-over Test
 
 ### 2.1 Test Senario & Result
 
-__a.__ Move the actual directories in [Persistant Voulume:1.3.1-4](### 1.3.1 Use Persistent Volume with Azure Kubernetes Service).
+__a.__ Move the actual directories in [Persistent Voulume:1.3.1-4](### 1.3.1 Use Persistent Volume with Azure Kubernetes Service).
 
 ```kubectl exec -it [pod name] -- /bin/bash```
 
@@ -583,7 +583,7 @@ __a.__ Move the actual directories in [Persistant Voulume:1.3.1-4](### 1.3.1 Use
     drwx------  2 root     root     16384 Apr  1 12:29 lost+found
     ```
 
-__b.__ Make an OpenFrame image which uses the Persistant Volume.
+__b.__ Make an OpenFrame image which uses the Persistent Volume.
 
 Image - kelsey92/of7azurefinal:of7azure 
 
