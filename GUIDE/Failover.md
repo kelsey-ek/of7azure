@@ -975,7 +975,7 @@ __i.__ Connect to JEUS, Webterminal, OFmanager with NODE2 ports.
 <img src="./reference_images/NAT.PNG" title="NAT">
 
 
-- NODE1
+- NODE A
 
     Jeus : http://52.141.172.195:9736/webadmin/
     
@@ -989,7 +989,7 @@ __i.__ Connect to JEUS, Webterminal, OFmanager with NODE2 ports.
 
     <img src="./reference_images/NAT01_ofmanager.PNG" title="NAT01_ofmanager">
 
-- NODE2
+- NODE B
 
     Jeus : http://52.141.172.195:19736/webadmin/
     
@@ -1008,7 +1008,6 @@ __i.__ Connect to JEUS, Webterminal, OFmanager with NODE2 ports.
 
 *References*
 
-From https://kubernetes.io/docs/concepts/storage/persistent-volumes
-
-From https://docs.microsoft.com/en-us/azure/aks/azure-files-dynamic-pv
+https://kubernetes.io/docs/concepts/storage/persistent-volumes
+https://docs.microsoft.com/en-us/azure/aks/azure-files-dynamic-pv
 
