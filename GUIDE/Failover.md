@@ -968,9 +968,9 @@ Print Dataset List and Information
 
 __i.__ Connect to JEUS, Webterminal, OFmanager with NODE2 ports.
 
-[Nodeport Services](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#23-set-services)
+**[Nodeport Services](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#23-set-services)**
 
-[Inbound NAT rules] (https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#24-network-configuration)
+[Inbound NAT rules](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#24-network-configuration)
 
 <img src="./reference_images/NAT.PNG" title="NAT">
 
