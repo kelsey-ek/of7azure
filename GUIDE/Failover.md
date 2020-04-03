@@ -740,8 +740,8 @@ Input USERNAME  : ROOT
 Command : [ps]
  JOBNAME  JOBID    CLASS   STATUS   RC     NODE     START-TIME        END-TIME          JCL
 ------------------------------------------------------------------------------------------------------------------
- TEST     JOB00001   A     Error    R00127 NODE1    20200402/13:03:48 20200402/13:03:49 test.jcl
- IDCAMS01 JOB00002   A     Done     R00008 NODE1    20200403/05:37:24 20200403/05:37:25 IDCAMS01
+ IDCAMS01 JOB00001   A     Done     R00008 NODE1    20200402/12:02:37 20200402/12:02:37  IDCAMS01
+ TEST     JOB00002   A     Error    R00127 NODE1    20200402/13:03:48 20200402/13:03:49  test.jcl
 ```
 
 __e.__ Kill NODE1 and see if a new Pod is created in NODE2 and running successfully.
@@ -916,8 +916,8 @@ Input USERNAME  : ROOT
 Command : [ps]
  JOBNAME  JOBID    CLASS   STATUS   RC     NODE     START-TIME        END-TIME          JCL
 ------------------------------------------------------------------------------------------------------------------
- TEST     JOB00001   A     Error    R00127 NODE1    20200402/13:03:48 20200402/13:03:49 test.jcl
- IDCAMS01 JOB00002   A     Done     R00008 NODE1    20200403/05:37:24 20200403/05:37:25 IDCAMS01
+ IDCAMS01 JOB00001   A     Done     R00008 NODE1    20200402/12:02:37 20200402/12:02:37  IDCAMS01
+ TEST     JOB00002   A     Error    R00127 NODE1    20200402/13:03:48 20200402/13:03:49  test.jcl
 ```
 
 # Copyrighted by Kelsey
