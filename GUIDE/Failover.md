@@ -400,9 +400,24 @@ When NODE1 dies,
 
 ### 1-3.2 Use the custom Persistent Volume with replicated Pod
 
-#### 1-3.2.1 Create NFS server in Azure 
+**Check the Access Mode you want to configure and choose the storage service.**
 
-1) Add resource as NFS server
+- Access Modes
+
+    ```bash
+    ReadWriteOnce – the volume can be mounted as read-write by a single node (RWO)
+    ReadOnlyMany – the volume can be mounted read-only by many nodes (ROX) 
+    ReadWriteMany – the volume can be mounted as read-write by many nodes (RWX)
+    ```
+- Storage Services with Access Modes
+    *Providers will have different capabilities and each PV’s access modes are set to the specific modes supported by that particular volume.* 
+    <img src="./reference_images/access.PNG" title="access">
+
+**In the following part, I will use NFS Server for ReadWriteMany function**
+    
+#### 1-3.2.1 Create NFS Server in Azure 
+
+1) Add resource as NFS Server
     
     **a. Find the resource and click the create button**
     
@@ -430,7 +445,7 @@ When NODE1 dies,
     
     <img src="./reference_images/NFS_VM06.PNG" title="NFS_VM06">
     
-    **Completed creating NFS Server!**
+    *Completed creating NFS Server!*
     
 2) Connect to NFS Server
 
@@ -444,15 +459,15 @@ When NODE1 dies,
     
     <img src="./reference_images/NFS_VM08.PNG" title="NFS_VM08">
     
-    - Connected to NFS server
+    - Connected to NFS Server
     
     <img src="./reference_images/NFS_VM09.PNG" title="NFS_VM089">
        
-#### 1-3.2.2 Use NFS Share
+#### 1-3.2.2 Create NFS Share in NFS Server
 
 Reference : https://cloudinfrastructureservices.co.uk/how-to-setup-nfs-server-2016-2019-in-azure-aws-gcp/
 
-1) Ceate NFS Share using Server Manager
+1) Create NFS Share using Server Manager
     
     - Dashboard
     
@@ -466,7 +481,7 @@ Reference : https://cloudinfrastructureservices.co.uk/how-to-setup-nfs-server-20
     
     <img src="./reference_images/NFS_server02.PNG" title="NFS_server02">
     
-    - Create a folder you want to share, and type it as a custom path(local path in NFS server)
+    - Create a folder you want to share, and type it as a custom path(local path in NFS Server)
     
     <img src="./reference_images/NFS_server03.PNG" title="NFS_server03">
     
@@ -494,84 +509,72 @@ Reference : https://cloudinfrastructureservices.co.uk/how-to-setup-nfs-server-20
     
     <img src="./reference_images/NFS_server_result.PNG" title="NFS_server_result">
     
-    
-2) Check the Access Mode you want to configure and choose the storage service.
+#### 1-3.2.2 Use NFS Server in Azure service
 
-- Access Modes
+1) Create a Service Account which the Provisioner will use.
 
-    ```bash
-    ReadWriteOnce – the volume can be mounted as read-write by a single node (RWO)
-    ReadOnlyMany – the volume can be mounted read-only by many nodes (ROX) 
-    ReadWriteMany – the volume can be mounted as read-write by many nodes (RWX)
-    ```
-- Storage Services with Access Modes
-    *Providers will have different capabilities and each PV’s access modes are set to the specific modes supported by that particular volume.* 
-    <img src="./reference_images/access.PNG" title="access">
+	```vi nfs-prov-sa.yaml```
 
-2) Create a Service Account which the Provisioner will use.
-
-**vi nfs-prov-sa.yaml**
-
-```bash
-kind: ServiceAccount
-apiVersion: v1
-metadata:
-  name: nfs-pod-provisioner-sa
----
-kind: ClusterRole # Role of kubernetes
-apiVersion: rbac.authorization.k8s.io/v1 # auth API
-metadata:
-  name: nfs-provisioner-clusterrole
-rules:
-  - apiGroups: [""] # rules on persistentvolumes
-    resources: ["persistentvolumes"]
-    verbs: ["get", "list", "watch", "create", "delete"]
-  - apiGroups: [""]
-    resources: ["persistentvolumeclaims"]
-    verbs: ["get", "list", "watch", "update"]
-  - apiGroups: ["storage.k8s.io"]
-    resources: ["storageclasses"]
-    verbs: ["get", "list", "watch"]
-  - apiGroups: [""]
-    resources: ["events"]
-    verbs: ["create", "update", "patch"]
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: nfs-provisioner-rolebinding
-subjects:
-  - kind: ServiceAccount
-    name: nfs-pod-provisioner-sa
-    namespace: default
-roleRef: # binding cluster role to service account
-  kind: ClusterRole
-  name: nfs-provisioner-clusterrole # name defined in clusterRole
-  apiGroup: rbac.authorization.k8s.io
----
-kind: Role
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: nfs-pod-provisioner-otherroles
-rules:
-  - apiGroups: [""]
-    resources: ["endpoints"]
-    verbs: ["get", "list", "watch", "create", "update", "patch"]
----
-kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: nfs-pod-provisioner-otherroles
-subjects:
-  - kind: ServiceAccount
-    name: nfs-pod-provisioner-sa # same as top of the file
-    # replace with namespace where provisioner is deployed
-    namespace: default
-roleRef:
-  kind: Role
-  name: nfs-pod-provisioner-otherroles
-  apiGroup: rbac.authorization.k8s.io
-  ```
+	```bash
+	kind: ServiceAccount
+	apiVersion: v1
+	metadata:
+	  name: nfs-pod-provisioner-sa
+	---
+	kind: ClusterRole # Role of kubernetes
+	apiVersion: rbac.authorization.k8s.io/v1 # auth API
+	metadata:
+	  name: nfs-provisioner-clusterrole
+	rules:
+	  - apiGroups: [""] # rules on persistentvolumes
+	    resources: ["persistentvolumes"]
+	    verbs: ["get", "list", "watch", "create", "delete"]
+	  - apiGroups: [""]
+	    resources: ["persistentvolumeclaims"]
+	    verbs: ["get", "list", "watch", "update"]
+	  - apiGroups: ["storage.k8s.io"]
+	    resources: ["storageclasses"]
+	    verbs: ["get", "list", "watch"]
+	  - apiGroups: [""]
+	    resources: ["events"]
+	    verbs: ["create", "update", "patch"]
+	---
+	kind: ClusterRoleBinding
+	apiVersion: rbac.authorization.k8s.io/v1
+	metadata:
+	  name: nfs-provisioner-rolebinding
+	subjects:
+	  - kind: ServiceAccount
+	    name: nfs-pod-provisioner-sa
+	    namespace: default
+	roleRef: # binding cluster role to service account
+	  kind: ClusterRole
+	  name: nfs-provisioner-clusterrole # name defined in clusterRole
+	  apiGroup: rbac.authorization.k8s.io
+	---
+	kind: Role
+	apiVersion: rbac.authorization.k8s.io/v1
+	metadata:
+	  name: nfs-pod-provisioner-otherroles
+	rules:
+	  - apiGroups: [""]
+	    resources: ["endpoints"]
+	    verbs: ["get", "list", "watch", "create", "update", "patch"]
+	---
+	kind: RoleBinding
+	apiVersion: rbac.authorization.k8s.io/v1
+	metadata:
+	  name: nfs-pod-provisioner-otherroles
+	subjects:
+	  - kind: ServiceAccount
+	    name: nfs-pod-provisioner-sa # same as top of the file
+	    # replace with namespace where provisioner is deployed
+	    namespace: default
+	roleRef:
+	  kind: Role
+	  name: nfs-pod-provisioner-otherroles
+	  apiGroup: rbac.authorization.k8s.io
+	  ```
   
  **kubectl create -f nfs-prov-sa.yaml**
   
