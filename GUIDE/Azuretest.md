@@ -329,7 +329,7 @@ For running a JOB, please check the LIBPATH from tjclrun.conf
 
 ``` sudo docker commit -a "kelsey" -m "of7azure" keen_poitras kelsey92/of7azurefinal:of7azure ```
 
-**You need to name it with the rule below for pushung/pulling the image through Dockerhub.**
+**You need to name it with the rule below for pushing/pulling the image through Dockerhub.**
 
 ```bash
 username/repository:tag
