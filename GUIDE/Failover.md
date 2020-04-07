@@ -466,9 +466,11 @@ Reference : https://cloudinfrastructureservices.co.uk/how-to-setup-nfs-server-20
     
     <img src="./reference_images/NFS_server02.PNG" title="NFS_server02">
     
-    - Create a folder you want to share, and type it as a custom path
+    - Create a folder you want to share, and type it as a custom path(local path in NFS server)
     
     <img src="./reference_images/NFS_server03.PNG" title="NFS_server03">
+    
+    - **Remote path to share** is important
     
     <img src="./reference_images/NFS_server04.PNG" title="NFS_server04">
     
