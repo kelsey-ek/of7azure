@@ -451,7 +451,7 @@ When NODE1 dies,
 
     **Connect with RDP**
     
-    - Connect - Download RDP File - Open the file
+    - NFSserver VM - Connect - RDP - Download RDP File - Open the file
     
     <img src="./reference_images/NFS_VM07.PNG" title="NFS_VM07">
     
@@ -673,6 +673,8 @@ Reference : https://gruuuuu.github.io/cloud/k8s-volume/#
 		   path: "/azure_share
 	```
 
+	```kubectl create -f nfs_provisioner.yaml```
+	
 	```kubectl describe deployment nfs-pod-provisioner```
 
 	```bash
