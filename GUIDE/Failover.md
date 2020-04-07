@@ -481,7 +481,7 @@ Reference : https://cloudinfrastructureservices.co.uk/how-to-setup-nfs-server-20
     
     <img src="./reference_images/NFS_server02.PNG" title="NFS_server02">
     
-    - Create a folder you want to share, and type it as a custom path(local path in NFS Server)
+    - Create a folder you want to share, and click **"Type a custom path" - "Browse"** button and select the foder.(it will be a local path in NFS Server.)
     
     <img src="./reference_images/NFS_server03.PNG" title="NFS_server03">
     
@@ -493,7 +493,7 @@ Reference : https://cloudinfrastructureservices.co.uk/how-to-setup-nfs-server-20
     
     <img src="./reference_images/NFS_server_checkallboxes.PNG" title="NFS_server_checkallboxes">
     
-    - Customize the Share Permissions & Permissions (*I checked All Machines in this setting*)
+    - Customize the Share Permissions(click Add button) & Permissions(click Customize permissions button) (*I checked All Machines in this setting*)
     
     <img src="./reference_images/NFS_server_permmision.PNG" title="NFS_server_permmision">
     
