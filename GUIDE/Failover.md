@@ -404,49 +404,55 @@ When NODE1 dies,
 
 1) Add resource as NFS server
     
-    a. Find the resource and click the create button
+    **a. Find the resource and click the create button**
     
     <img src="./reference_images/NFS_add.PNG" title="NFS_add">
     
-    b. Customize the size by clicking "Change size" and create **Administrator account**
+    **b. Customize the size by clicking "Change size" and create Administrator account**
     
     <img src="./reference_images/NFS_VM.PNG" title="NFS_VM">
 
-    c. Create a disk atacching the VM
+    **c. Create a disk atacching the VM**
     
     <img src="./reference_images/NFS_VM02.PNG" title="NFS_VM02">
     
     <img src="./reference_images/NFS_VM03.PNG" title="NFS_VM03">
     
-    d. Check Networking configuration
+    **d. Check Networking configuration**
     
     <img src="./reference_images/NFS_VM04.PNG" title="NFS_VM04">
      
-    e. Check Management configuration
+    **e. Check Management configuration**
     
     <img src="./reference_images/NFS_VM05.PNG" title="NFS_VM05">
     
-    f. Check Advanced setting
+    **f. Check Advanced setting**
     
     <img src="./reference_images/NFS_VM06.PNG" title="NFS_VM06">
     
-    Completed creating NFS Server!
+    **Completed creating NFS Server!**
     
 2) Connect to NFS Server and create NFS Share using Server Manager
 
-    a. Connect with RDP
+    **a. Connect with RDP**
+    
     
     - Connect - Download RDP File - Open the file
     
     <img src="./reference_images/NFS_VM07.PNG" title="NFS_VM07">
     
+    
     - Type the Admministrator account(set in 1-b step) information to login
     
     <img src="./reference_images/NFS_VM08.PNG" title="NFS_VM08">
     
+    
     - Connected to NFS server
     
-    <img src="./reference_images/NFS_VM08.PNG" title="NFS_VM08">
+    <img src="./reference_images/NFS_VM09.PNG" title="NFS_VM089">
+    
+    
+    
     
     
     
