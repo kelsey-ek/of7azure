@@ -450,6 +450,8 @@ When NODE1 dies,
        
 #### 1-3.2.2 Use NFS Share
 
+Reference : https://cloudinfrastructureservices.co.uk/how-to-setup-nfs-server-2016-2019-in-azure-aws-gcp/
+
 1) Ceate NFS Share using Server Manager
     
     - Dashboard
@@ -474,14 +476,21 @@ When NODE1 dies,
     
     <img src="./reference_images/NFS_server_checkallboxes.PNG" title="NFS_server_checkallboxes">
     
-    - Customize the Share Permissions & Permissions
-    *I checked All Machines in this setting*
+    - Customize the Share Permissions & Permissions (*I checked All Machines in this setting*)
     
     <img src="./reference_images/NFS_server_permmision.PNG" title="NFS_server_permmision">
     
     <img src="./reference_images/NFS_server_permmision01.PNG" title="NFS_server_permmision01">
     
     <img src="./reference_images/NFS_server_permmision02.PNG" title="NFS_server_permmision02">
+    
+    - Confirm it and complete the setting
+    
+    <img src="./reference_images/NFS_server_permmision03.PNG" title="NFS_server_permmision03">
+    
+    <img src="./reference_images/NFS_server_permmision_last.PNG" title="NFS_server_permmision_last">
+    
+    <img src="./reference_images/NFS_server_result.PNG" title="NFS_server_result">
     
     
 2) Check the Access Mode you want to configure and choose the storage service.
