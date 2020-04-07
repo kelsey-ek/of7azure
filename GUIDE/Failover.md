@@ -412,7 +412,7 @@ When NODE1 dies,
     
     <img src="./reference_images/NFS_VM.PNG" title="NFS_VM">
 
-    **c. Create a disk atacching the VM**
+    **c. Create a disk attaching the VM**
     
     <img src="./reference_images/NFS_VM02.PNG" title="NFS_VM02">
     
@@ -432,28 +432,56 @@ When NODE1 dies,
     
     **Completed creating NFS Server!**
     
-2) Connect to NFS Server and create NFS Share using Server Manager
+2) Connect to NFS Server
 
-    **a. Connect with RDP**
-    
+    **Connect with RDP**
     
     - Connect - Download RDP File - Open the file
     
     <img src="./reference_images/NFS_VM07.PNG" title="NFS_VM07">
     
-    
     - Type the Admministrator account(set in 1-b step) information to login
     
     <img src="./reference_images/NFS_VM08.PNG" title="NFS_VM08">
     
-    
     - Connected to NFS server
     
     <img src="./reference_images/NFS_VM09.PNG" title="NFS_VM089">
+       
+#### 1-3.2.2 Use NFS Share
+
+1) Ceate NFS Share using Server Manager
     
+    - Dashboard
     
+    <img src="./reference_images/NFS_server.PNG" title="NFS_server">
+
+    - Click **File and Storage Services - Shares** and hit **New Share** button
     
+    <img src="./reference_images/NFS_server01.PNG" title="NFS_server01">
     
+    - Select **NFS Share - Quick**
+    
+    <img src="./reference_images/NFS_server02.PNG" title="NFS_server02">
+    
+    - Create a folder you want to share, and type it as a custom path
+    
+    <img src="./reference_images/NFS_server03.PNG" title="NFS_server03">
+    
+    <img src="./reference_images/NFS_server04.PNG" title="NFS_server04">
+    
+    - Check all boxes in Authentication setting
+    
+    <img src="./reference_images/NFS_server_checkallboxes.PNG" title="NFS_server_checkallboxes">
+    
+    - Customize the Share Permissions & Permissions
+    *I checked All Machines in this setting*
+    
+    <img src="./reference_images/NFS_server_permmision.PNG" title="NFS_server_permmision">
+    
+    <img src="./reference_images/NFS_server_permmision01.PNG" title="NFS_server_permmision01">
+    
+    <img src="./reference_images/NFS_server_permmision02.PNG" title="NFS_server_permmision02">
     
     
 2) Check the Access Mode you want to configure and choose the storage service.
