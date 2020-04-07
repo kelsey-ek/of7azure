@@ -400,9 +400,6 @@ When NODE1 dies,
 
 ### 1-3.2 Use the custom Persistent Volume with replicated Pod
 
-<details>
-	<summary>Use the custom Persistent Volume with replicated Pod</summary>
-
 1) Check the Access Mode you want to configure and choose the storage service.
 
 - Access Modes
@@ -417,44 +414,113 @@ When NODE1 dies,
     <img src="./reference_images/access.PNG" title="access">
 
 2) Create a Service Account which the Provisioner will use.
-- to be continued
 
+**vi nfs-prov-sa.yaml**
+
+```bash
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: nfs-pod-provisioner-sa
+---
+kind: ClusterRole # Role of kubernetes
+apiVersion: rbac.authorization.k8s.io/v1 # auth API
+metadata:
+  name: nfs-provisioner-clusterrole
+rules:
+  - apiGroups: [""] # rules on persistentvolumes
+    resources: ["persistentvolumes"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list", "watch", "update"]
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["storageclasses"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "update", "patch"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nfs-provisioner-rolebinding
+subjects:
+  - kind: ServiceAccount
+    name: nfs-pod-provisioner-sa
+    namespace: default
+roleRef: # binding cluster role to service account
+  kind: ClusterRole
+  name: nfs-provisioner-clusterrole # name defined in clusterRole
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nfs-pod-provisioner-otherroles
+rules:
+  - apiGroups: [""]
+    resources: ["endpoints"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nfs-pod-provisioner-otherroles
+subjects:
+  - kind: ServiceAccount
+    name: nfs-pod-provisioner-sa # same as top of the file
+    # replace with namespace where provisioner is deployed
+    namespace: default
+roleRef:
+  kind: Role
+  name: nfs-pod-provisioner-otherroles
+  apiGroup: rbac.authorization.k8s.io
+  ```
+  
+ **kubectl create -f nfs-prov-sa.yaml**
+  
+*serviceaccount/nfs-pod-provisioner-sa created*
+
+*clusterrole.rbac.authorization.k8s.io/nfs-provisioner-clusterrole created*
+
+*clusterrolebinding.rbac.authorization.k8s.io/nfs-provisioner-rolebinding created*
+
+*role.rbac.authorization.k8s.io/nfs-pod-provisioner-otherroles created*
+
+*rolebinding.rbac.authorization.k8s.io/nfs-pod-provisioner-otherroles created*
+    
 3) Create a Storage Class with the Provisioner you want to use.
 
 - Persistent Volume Claim(PVC) will request the Volume by Storage Class name.
 
-    ```vi custom_sc.yaml```
+    ```vi nfs_sc.yaml```
     ```bash
     apiVersion: storage.k8s.io/v1
     kind: StorageClass
     metadata:
-      name: glustersc
-    provisioner: kubernetes.io/glusterfs
+      name: nfs-storageclass # IMPORTANT pvc needs to mention this name
+    provisioner: nfs-of7azure # name can be anything
     parameters:
-      resturl: "http://192.168.10.100:8080"
-      restuser: ""
-      secretNamespace: ""
-      secretName: ""
-    allowVolumeExpansion: true
-    ~
+      archiveOnDelete: "false"
     ```
-    ```kubectl create -f custom_sc.yaml```
+    ```kubectl create -f nfs_sc.yaml```
 
     - Parameters may vary depends on the Provisioner.
 
-    ```kubectl get sc glustersc```
+    ```kubectl get sc nfs-storageclass```
     ```bash
-    NAME        PROVISIONER               AGE
-    glustersc   kubernetes.io/glusterfs   16m
+    NAME               PROVISIONER    AGE
+    nfs-storageclass   nfs-of7azure   26h
     ```
-    ```kubectl describe sc glustersc```
+    ```kubectl describe sc nfs-storageclass```
     ```bash
-    Name:                  glustersc
+    Name:                  nfs-storageclass
     IsDefaultClass:        No
     Annotations:           <none>
-    Provisioner:           kubernetes.io/glusterfs
-    Parameters:            resturl=http://192.168.10.100:8080,restuser=,secretName=,secretNamespace=
-    AllowVolumeExpansion:  True
+    Provisioner:           nfs-of7azure
+    Parameters:            archiveOnDelete=false
+    AllowVolumeExpansion:  <unset>
     MountOptions:          <none>
     ReclaimPolicy:         Delete
     VolumeBindingMode:     Immediate
@@ -463,11 +529,164 @@ When NODE1 dies,
 
 *Clean it*
 
- ```kubectl delete sc glustersc```
+ ```kubectl delete sc nfs-storageclass```
 
 4) Create a Provisioner which can automatically generates Persistent Volume(PV).
-- to be continued
- 
+
+**vi nfs_provisioner.yaml**
+
+```
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nfs-pod-provisioner
+spec:
+  selector:
+    matchLabels:
+      app: nfs-pod-provisioner
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nfs-pod-provisioner
+    spec:
+      serviceAccountName: nfs-pod-provisioner-sa # name of service account
+      containers:
+        - name: nfs-pod-provisioner
+          image: quay.io/external_storage/nfs-client-provisioner:latest
+          volumeMounts:
+            - name: nfs-provisioner-vol
+              mountPath: "/mnt/azure"
+          env:
+            - name: PROVISIONER_NAME # do not change
+              value: nfs-of7azure # SAME AS PROVISIONER NAME VALUE IN STORAGECLASS
+            - name: NFS_SERVER # do not change
+              value: 65.52.2.96 # Ip of the NFS SERVER
+            - name: NFS_PATH # do not change
+              value: "/azure_share" # path to nfs directory setup
+      volumes:
+       - name: nfs-provisioner-vol # same as volumemouts name
+         nfs:
+           server: 65.52.2.96
+           path: "/azure_share
+```
+
+**kubectl describe deployment nfs-pod-provisioner**
+
+```
+Name:               nfs-pod-provisioner
+Namespace:          default
+CreationTimestamp:  Tue, 07 Apr 2020 07:38:51 +0000
+Labels:             <none>
+Annotations:        deployment.kubernetes.io/revision: 1
+Selector:           app=nfs-pod-provisioner
+Replicas:           1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:       Recreate
+MinReadySeconds:    0
+Pod Template:
+  Labels:           app=nfs-pod-provisioner
+  Service Account:  nfs-pod-provisioner-sa
+  Containers:
+   nfs-pod-provisioner:
+    Image:      quay.io/external_storage/nfs-client-provisioner:latest
+    Port:       <none>
+    Host Port:  <none>
+    Environment:
+      PROVISIONER_NAME:  nfs-of7azure
+      NFS_SERVER:        65.52.2.96
+      NFS_PATH:          /azure_share
+    Mounts:
+      /mnt/azure from nfs-provisioner-vol (rw)
+  Volumes:
+   nfs-provisioner-vol:
+    Type:      NFS (an NFS mount that lasts the lifetime of a pod)
+    Server:    65.52.2.96
+    Path:      /azure_share
+    ReadOnly:  false
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   nfs-pod-provisioner-56f87f4bc6 (1/1 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  41m   deployment-controller  Scaled up replica set nfs-pod-provisioner-56f87f4bc6 to 1
+```
+
+**kubectl describe pod nfs-pod-provisioner-56f87f4bc6-n6nfv**
+
+```
+Name:           nfs-pod-provisioner-56f87f4bc6-n6nfv
+Namespace:      default
+Priority:       0
+Node:           aks-agentpool-24893396-0/10.240.0.4
+Start Time:     Tue, 07 Apr 2020 07:38:51 +0000
+Labels:         app=nfs-pod-provisioner
+                pod-template-hash=56f87f4bc6
+Annotations:    <none>
+Status:         Running
+IP:             10.240.0.22
+IPs:            <none>
+Controlled By:  ReplicaSet/nfs-pod-provisioner-56f87f4bc6
+Containers:
+  nfs-pod-provisioner:
+    Container ID:   docker://5e31e64d642d6c835f7ef0c5b903d5fe74be9ef278a1e045f1d46b32a74e544e
+    Image:          quay.io/external_storage/nfs-client-provisioner:latest
+    Image ID:       docker-pullable://quay.io/external_storage/nfs-client-provisioner@sha256:022ea0b0d69834b652a4c53655d78642ae23f0324309097be874fb58d09d2919
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Tue, 07 Apr 2020 07:38:56 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      PROVISIONER_NAME:  nfs-of7azure
+      NFS_SERVER:        65.52.2.96
+      NFS_PATH:          /azure_share
+    Mounts:
+      /mnt/azure from nfs-provisioner-vol (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from nfs-pod-provisioner-sa-token-f8zzb (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  nfs-provisioner-vol:
+    Type:      NFS (an NFS mount that lasts the lifetime of a pod)
+    Server:    65.52.2.96
+    Path:      /azure_share
+    ReadOnly:  false
+  nfs-pod-provisioner-sa-token-f8zzb:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  nfs-pod-provisioner-sa-token-f8zzb
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:
+  Type    Reason     Age   From                               Message
+  ----    ------     ----  ----                               -------
+  Normal  Scheduled  41m   default-scheduler                  Successfully assigned default/nfs-pod-provisioner-56f87f4bc6-n6nfv to aks-agentpool-24893396-0
+  Normal  Pulling    41m   kubelet, aks-agentpool-24893396-0  Pulling image "quay.io/external_storage/nfs-client-provisioner:latest"
+  Normal  Pulled     41m   kubelet, aks-agentpool-24893396-0  Successfully pulled image "quay.io/external_storage/nfs-client-provisioner:latest"
+  Normal  Created    41m   kubelet, aks-agentpool-24893396-0  Created container nfs-pod-provisioner
+  Normal  Started    41m   kubelet, aks-agentpool-24893396-0  Started container nfs-pod-provisioner
+```
+
+*Clean it
+
+```kubectl delete deployment nfs-pod-provisioner```
+
+```kubectl delete pod nfs-pod-provisioner-56f87f4bc6-n6nfv```
+
 5) Create Persistent Volume Claim(PVC) with the correct Storage Class name.
 
 - Please match the Storage Class name with the Persistent Volume you want to use.
