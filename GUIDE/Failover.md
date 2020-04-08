@@ -1510,13 +1510,13 @@ __i.__ Connect to JEUS, Webterminal, OFmanager with the ports of current NODE.
 
 	Check how to from - [Inbound NAT rules](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#24-network-configuration) & [Network configuration](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#24-network-configuration)
 
-		   - Inbound NAT rules
-
-		   <img src="./reference_images/inbound_all.PNG" title="inbound_all">
-
-		   - VM Networking - inbound port rule
-
-		   <img src="./reference_images/Nodeport.PNG" title="Nodeport">
+	- Inbound NAT rules
+	
+	<img src="./reference_images/inbound_all.PNG" title="inbound_all">
+	
+	- VM Networking - inbound port rule
+	
+	<img src="./reference_images/Nodeport.PNG" title="Nodeport">
 
 3) Check if the Pod is running in aks-agentpool-24893396-0(NODE A) or aks-agentpool-24893396-1(NODEB) and use the url below.
 
