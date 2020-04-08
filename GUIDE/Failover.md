@@ -1491,62 +1491,62 @@ __i.__ Connect to JEUS, Webterminal, OFmanager with the ports of current NODE.
 
 1) Add all Nodeports as inbound ports like below
 
-```kubectl get services```
+	```kubectl get services```
 
-```bash
-NAME             TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
-kubernetes       ClusterIP   10.0.0.1       <none>        443/TCP          12d
-jeus             NodePort    10.0.112.142   <none>        9736:31088/TCP   12d
-ofmanager        NodePort    10.0.236.26    <none>        8087:31874/TCP   12d
-webterminal      NodePort    10.0.68.39     <none>        8088:30856/TCP   12d
-nfsjeus          NodePort    10.0.241.220   <none>        9736:31310/TCP   4h13m
-nfsofmanager     NodePort    10.0.156.126   <none>        8087:32667/TCP   4h14m
-nfswebterminal   NodePort    10.0.230.65    <none>        8088:30320/TCP   4h14m
-```
+	```bash
+	NAME             TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+	kubernetes       ClusterIP   10.0.0.1       <none>        443/TCP          12d
+	jeus             NodePort    10.0.112.142   <none>        9736:31088/TCP   12d
+	ofmanager        NodePort    10.0.236.26    <none>        8087:31874/TCP   12d
+	webterminal      NodePort    10.0.68.39     <none>        8088:30856/TCP   12d
+	nfsjeus          NodePort    10.0.241.220   <none>        9736:31310/TCP   4h13m
+	nfsofmanager     NodePort    10.0.156.126   <none>        8087:32667/TCP   4h14m
+	nfswebterminal   NodePort    10.0.230.65    <none>        8088:30320/TCP   4h14m
+	```
 
-**[Nodeport Services](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#23-set-services)**
+	Check how to from - **[Nodeport Services](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#23-set-services)**
 
-<img src="./reference_images/Nodeport.PNG" title="Nodeport">
+	<img src="./reference_images/Nodeport.PNG" title="Nodeport">
 
 2) Add all Inbound NAT rules like below
 
-[Inbound NAT rules](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#24-network-configuration)
+	Check how to from - [Inbound NAT rules](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#24-network-configuration)
 
-<img src="./reference_images/NAT.PNG" title="NAT">
+	<img src="./reference_images/NAT.PNG" title="NAT">
 
 3) Check if the Pod is running in aks-agentpool-24893396-0(NODE A) or aks-agentpool-24893396-1(NODEB) and use the url below.
 
-**Find aks-agentpool-24893396-0(NODE A) or aks-agentpool-24893396-1(NODE B) from 'Target virtual machine' in the configuration.**
+	**Find aks-agentpool-24893396-0(NODE A) or aks-agentpool-24893396-1(NODE B) from 'Target virtual machine' in the configuration.**
 
-__a__. The Pod using Azure Disk
+	The Pod using Azure Disk
+	
+	- NODE A 
 
-    - NODE A 
-
-        - Jeus : http://52.141.172.195:9736/webadmin/
+        	- Jeus : http://52.141.172.195:9736/webadmin/
     
-        <img src="./reference_images/NAT01_jeus.PNG" title="NAT01_jeus">
+       		<img src="./reference_images/NAT01_jeus.PNG" title="NAT01_jeus">
     
-        - Webterminal : http://52.141.172.195:8088/webterminal/
+        	- Webterminal : http://52.141.172.195:8088/webterminal/
 
-        <img src="./reference_images/NAT01_webterminal.PNG" title="NAT01_webterminal">
+       		<img src="./reference_images/NAT01_webterminal.PNG" title="NAT01_webterminal">
     
-        - OFmanager : http://52.141.172.195:8087/ofmanager/
+        	- OFmanager : http://52.141.172.195:8087/ofmanager/
 
-        <img src="./reference_images/NAT01_ofmanager.PNG" title="NAT01_ofmanager">
+        	<img src="./reference_images/NAT01_ofmanager.PNG" title="NAT01_ofmanager">
 
-    - NODE B
+	    - NODE B
 
-	    - Jeus : http://52.141.172.195:19736/webadmin/
+		    - Jeus : http://52.141.172.195:19736/webadmin/
 
-	    <img src="./reference_images/NAT02_jeus.PNG" title="NAT02_jeus">
+		    <img src="./reference_images/NAT02_jeus.PNG" title="NAT02_jeus">
 
-	    - Webterminal : http://52.141.172.195:18088/webterminal/
+		    - Webterminal : http://52.141.172.195:18088/webterminal/
 
-	    <img src="./reference_images/NAT02_webterminal.PNG" title="NAT02_webterminal">
+		    <img src="./reference_images/NAT02_webterminal.PNG" title="NAT02_webterminal">
 
-	    - OFmanager : http://52.141.172.195:18087/ofmanager/
+		    - OFmanager : http://52.141.172.195:18087/ofmanager/
 
-	    <img src="./reference_images/NAT02_ofmanager.PNG" title="NAT02_ofmanager">
+		    <img src="./reference_images/NAT02_ofmanager.PNG" title="NAT02_ofmanager">
     
 - NODE A , the Pod using NFS Server
 
