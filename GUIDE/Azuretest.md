@@ -723,7 +723,7 @@ openframe.tmax.port= 8001
     
 - Execute the running Pod container
 
-    *b0007ece0a8e is the container which needs to be executed*
+    *The first field is the container ID, execute the container which is running by /bin/sh command*
 
     ```sudo docker exec -i -t b0007ece0a8e /bin/bash```
 
