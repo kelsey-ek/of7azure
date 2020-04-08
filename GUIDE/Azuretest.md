@@ -212,7 +212,7 @@ DB_CREATE_FILE_DEST="/home/oframe7/tbdata" -> match the directory CONTROL_FILES
 MAX_SESSION_COUNT=100
 TOTAL_SHM_SIZE=2G
 MEMORY_TARGET=3G 
-THROW_WHEN_GETTING_OSSTAT_FAIL = N -> THIS IS IMPORTANT (network Kernel Parameters)
+THROW_WHEN_GETTING_OSSTAT_FAIL = N # THIS IS IMPORTANT (network Kernel Parameters)
 ```
     tbboot nomount 
     
@@ -406,7 +406,7 @@ password
 
     vi ~/.bash_profile
 ```bash
-TMAX_HOST_ADDR=localhost ip address(127.0.0.1)
+TMAX_HOST_ADDR= 127.0.0.1 # localhost ip address
 export TMAX_HOST_ADDR
 alias msdown1='stopServer -u administrator -p tmax123 -host localhost:9936'
 alias msdown2='stopServer -u administrator -p tmax123 -host localhost:9636'
@@ -420,7 +420,7 @@ alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
 ```bash
 [TDQ]
         TDQ_INTRA_DSNAME=OSC.TDQLIB.INTRA
-        TDQ_LOG_ADDRESS=localhost ip address(127.0.0.1):8896
+        TDQ_LOG_ADDRESS=127.0.0.1:8896 # localhost ip address
 ```
 
 **Webterminal setting should be modified.**
@@ -431,7 +431,7 @@ tmax.retrytime = 60000
 #tmax.node.list = NODE1,NODE2
 tmax.node.list = NODE1
 tmax.node.NODE1.name = NODE1
-tmax.node.NODE1.ip = localhost ip address(127.0.0.1)
+tmax.node.NODE1.ip = 127.0.0.1 # localhost ip address
 tmax.node.NODE1.port = 8001
 tmax.node.NODE1.min = 5
 tmax.node.NODE1.max = 1024
@@ -445,11 +445,11 @@ tmax.node.NODE1.idletime = 90
     vi ofmanager.properties
 ```bash
 # OFGW Property
-openframe.webterminal.url = localhost ip address(127.0.0.1):5556/webterminal
+openframe.webterminal.url = 127.0.0.1:5556/webterminal # localhost ip address
 openframe.webterminal.name= ofgw
 
 # Tmax Property
-openframe.tmax.ip= localhost ip address(127.0.0.1)
+openframe.tmax.ip= 127.0.0.1 # localhost ip address
 openframe.tmax.port= 8001
 ```
 
@@ -467,7 +467,7 @@ openframe.tmax.port= 8001
             <data-source-class-name>com.tmax.tibero.jdbc.ext.TbConnectionPoolDataSource</data-source-class-name>
             <data-source-type>ConnectionPoolDataSource</data-source-type>
             <vendor>tibero</vendor>
-            <server-name>172.17.0.3</server-name>
+            <server-name>172.17.0.3</server-name> # 0.0.0.0
             <port-number>8629</port-number>
             <database-name>oframe</database-name>
             <user>tibero</user>
@@ -481,7 +481,7 @@ openframe.tmax.port= 8001
             <data-source-class-name>com.tmax.tibero.jdbc.ext.TbConnectionPoolDataSource</data-source-class-name>
             <data-source-type>ConnectionPoolDataSource</data-source-type>
             <vendor>tibero</vendor>
-            <server-name>172.17.0.3</server-name>
+            <server-name>172.17.0.3</server-name> # 0.0.0.0
             <port-number>8629</port-number>
             <database-name>oframe</database-name>
             <user>tibero</user>
