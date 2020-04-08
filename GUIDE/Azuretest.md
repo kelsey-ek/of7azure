@@ -23,9 +23,10 @@
   + [1.5 Use OpenFrame image](#15-use-openframe-image)
 + [2. Azure Service](#step-2-azure-service)
   + [2.1 Add Azure Kubernetes service(AKS)](#21-add-azure-kubernetes-serviceaks)
-  + [2.2 Set pods](#22-set-pods)
-  + [2.3 Set services](#23-set-services)
-  + [2.4 Network configuration](#24-network-configuration)
+  + [2.2 Set Pods](#22-set-pods)
+  + [2.2 Connect to the running Pod](#23-connect-to-the-running-pod)
+  + [2.4 Set services](#23-set-services)
+  + [2.5 Network configuration](#24-network-configuration)
 
 
 ## Step 1. Create image of OpenFrame
@@ -568,9 +569,9 @@ openframe.tmax.port= 8001
 
     *deleted cluster AKSOF7Azure from /home/kelsey/.kube/config*
 
-### 2.2 Set pods
+### 2.2 Set Pods
 
-1. Crate a pod yaml file
+1. Crate a Pod yaml file
 
     ```bash
     apiVersion: v1
@@ -588,11 +589,11 @@ openframe.tmax.port= 8001
         command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
     ```
 
-    * Containerport is used for connecting another container in the same pod
+    * Containerport is used for connecting another container in the same Pod
 
-2. Create a pod
+2. Create a Pod
 
-* Use the command below for creating a new pod
+* Use the command below for creating a new Pod
 
     ```kubectl create -f [yaml file name]```
 
@@ -602,11 +603,11 @@ openframe.tmax.port= 8001
 
     *pod/of7azure created*
 
-* Check the specific pod
+* Check the specific Pod
 
     ```kubectl get pod [pod name]```
 
-* Check all pods
+* Check all Pods
 
     ```kubectl get pods``` 
 
@@ -618,7 +619,7 @@ openframe.tmax.port= 8001
     of7azure   1/1     Running             0          26m
     ```
 
-* Get the detailed information of the pod
+* Get the detailed information of the Pod
 
     ```kubectl describe pod [pod name]```
 
@@ -676,34 +677,70 @@ openframe.tmax.port= 8001
     Normal  Started    3m18s  kubelet, aks-agentpool-13644011-1  Started container of7azure
   ```
 
-* Execute a running pod
+
+### 2.3 Connect to the running Pod
+
+1) Execute a running Pod from Azure Cloud
 
     ```kubectl exec -it of7azure -- /bin/bash```
+    
+2) Execute a running Pod from the Node where the Pod is running
 
-   *Check IP address*
+- Check which Node is the one the Pod is running in and connect to the Node
+
+*Use putty or other applications to connect*
+
+    - NODE A (aks-agentpool-#####-0) 
+      
+      52.141.172.195:22
+
+    - NODE B (aks-agentpool-#####-1) 
+      
+      52.141.172.195:20
+      
+- Change user by using the information below
+
+    ID : of7azure
+    Password : Tmaxsoft@1234
+
+    ```bash
+    $ sudo su - of7azure
+    [sudo] password for of7azure: 
+
+    of7azure@aks-agentpool-#########-0:~$
+    ```
+
+- Check the running Pod container by using grep the Pod name
+
+*Let's say nfsof7azure-848d8d6cc7-r222f is the Pod name*
+
+    ```bash
+    of7azure@aks-agentpool-24893396-0:~$ sudo docker ps | grep nfsof7azure-848d8d6cc7-r222f
+    b0007ece0a8e        kelsey92/of7azurefinal                            "/bin/sh -ec 'while ??   56 minutes ago      Up 56 minutes                                                                  k8s_of7azure_nfsof7azure-848d8d6cc7-r222f_default_6c487354-6707-42f4-a3a8-b5e105978c3e_0
+    524852746c25        mcr.microsoft.com/k8s/core/pause:1.2.0            "/pause"                 About an hour ago   Up About an hour                                                               k8s_POD_nfsof7azure-848d8d6cc7-r222f_default_6c487354-6707-42f4-a3a8-b5e105978c3e_0
+    ```
+    
+- Execute the running Pod container
+
+*b0007ece0a8e is the container which needs to be executed*
+
+```sudo docker exec -i -t b0007ece0a8e /bin/bash```
+
+- Change the user in the container to use OpenFrame*
 
   ```bash
   [root@of7azure /]# su - of7azure
   Last login: Thu Mar 26 01:01:15 UTC 2020 on pts/0
 
-  [of7azure@of7azure ~]$ ip addr
-  1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
-      link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-      inet 127.0.0.1/8 scope host lo
-         valid_lft forever preferred_lft forever
-  31: eth0@if32: <BROADCAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
-      link/ether ce:6d:4e:8e:e8:10 brd ff:ff:ff:ff:ff:ff link-netnsid 0
-      inet 10.240.0.40/16 scope global eth0
-         valid_lft forever preferred_lft forever
+  [of7azure@of7azure ~]$ 
   ```
 
-* When you need to delete pods
+* When you need to delete Pods
 
   ```kubectl delete pod --all```
   
-  *pod "of7azure" deleted*
 
-### 2.3 Set services
+### 2.4 Set services
 
 * Nodeport service for using JEUS, Webterminal, OFManager
 
@@ -842,7 +879,7 @@ openframe.tmax.port= 8001
    ```kubectl delete service [service name]```
 
 
-### 2.4 Network configuration 
+### 2.5 Network configuration 
 
 1. Set the Inbound NAT rules of Kubernetes with the Nodeports.
 
