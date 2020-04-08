@@ -419,48 +419,48 @@ When NODE1 dies,
 #### 1-3.2.1 Create NFS Server in Azure 
 
 1) Add resource as NFS Server
-    
-    - Find the resource and click the create button.
+
+- Find the resource and click the create button.
     
     <img src="./reference_images/NFS_add.PNG" title="NFS_add">
     
-    - Customize the size by clicking "Change size" from Size section and create Administrator account by filling in Username and Password fields.
+- Customize the size by clicking "Change size" from Size section and create Administrator account by filling in Username and Password fields.
     
     <img src="./reference_images/NFS_VM.PNG" title="NFS_VM">
 
-    **c. Create a disk attaching the VM**
+- Create a disk attaching the VM.
     
     <img src="./reference_images/NFS_VM02.PNG" title="NFS_VM02">
     
     <img src="./reference_images/NFS_VM03.PNG" title="NFS_VM03">
     
-    **d. Check Networking configuration**
+- Check Networking configuration.
     
     <img src="./reference_images/NFS_VM04.PNG" title="NFS_VM04">
      
-    **e. Check Management configuration**
+- Check Management configuration.
     
     <img src="./reference_images/NFS_VM05.PNG" title="NFS_VM05">
     
-    **f. Check Advanced setting**
+- Check Advanced setting.
     
     <img src="./reference_images/NFS_VM06.PNG" title="NFS_VM06">
     
-    *Completed creating NFS Server!*
+*Completed creating NFS Server!*
     
 2) Connect to NFS Server
 
-    **Connect with RDP**
+**Connect with RDP**
     
-    - NFSserver VM - Connect - RDP - Download RDP File - Open the file
+- NFSserver VM - Connect - RDP - Download RDP File - Open the file
     
     <img src="./reference_images/NFS_VM07.PNG" title="NFS_VM07">
     
-    - Type the Admministrator account(set in 1-b step) information to login
+- Type the Admministrator account(set in 1-b step) information to login
     
     <img src="./reference_images/NFS_VM08.PNG" title="NFS_VM08">
     
-    - Connected to NFS Server
+ - Connected to NFS Server
     
     <img src="./reference_images/NFS_VM09.PNG" title="NFS_VM089">
        
