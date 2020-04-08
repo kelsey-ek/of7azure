@@ -872,22 +872,176 @@ Reference : https://gruuuuu.github.io/cloud/k8s-volume/#
 	Source:
 	    Type:      NFS (an NFS mount that lasts the lifetime of a pod)
 	    Server:    65.52.2.96
-	    Path:      /azure_share/default-nfs-pvc-pvc-6633fc99-4e54-45e6-8e3b-e322a52817ad #This will be shared path from NFS Server.
+	    Path:      /azure_share/default-nfs-pvc-pvc-6633fc99-4e54-45e6-8e3b-e322a52817ad # This will be the shared path from NFS Server.
 	    ReadOnly:  false
 	Events:        <none>
     ```
     
-- Create a directory with the name of PV under the Remote shared path.
+- Create a folder with the name of PV under the Remote shared path.
 
     ```Path:      /azure_share/default-nfs-pvc-pvc-6633fc99-4e54-45e6-8e3b-e322a52817ad```
     
-    
-    
+    <img src="./reference_images/NFS_folder.PNG" title="NFS_folder">
+        
 *Clean it*
 
 ```kubectl delete pv pvc-6633fc99-4e54-45e6-8e3b-e322a52817ad```
 
+``` delete the folder under the Remote shared path```
+
 7) Create a Pod using the Persistent Volume Claim(PVC).
+
+    ```vi nfs_deployment.yaml```
+
+	```bash
+	apiVersion: extensions/v1beta1
+	kind: Deployment
+	metadata:
+	  name: nfsof7azure
+	spec:
+	  replicas: 1
+	  template:
+	    metadata:
+	      name: of7azure
+	      labels:
+		of7azurefinal: nfsof7azure # Labels are the mechanism you use to organize Kubernetes objects 
+	    spec:
+	      hostname: of7azure
+	      containers:
+	      - name: of7azure
+		image: kelsey92/of7azurefinal:of7azure
+		ports:
+		- containerPort: 6066
+		command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
+		lifecycle:
+		  preStop:
+		    exec:
+		      command: [ "/bin/sleep", "120" ]
+		volumeMounts:
+		- name: sharedvolume
+		  mountPath: /mnt/azure 
+	      volumes:
+	      - name: sharedvolume
+		persistentVolumeClaim:
+		  claimName: nfs-pvc # use the created PVC 
+	```
+	
+	```kubectl create -f nfs_deployment.yaml```
+	
+	```kubectl describe deployment nfsof7azure```
+	```bash
+	Name:                   nfsof7azure
+	Namespace:              default
+	CreationTimestamp:      Wed, 08 Apr 2020 05:47:51 +0000
+	Labels:                 of7azurefinal=nfsof7azure
+	Annotations:            deployment.kubernetes.io/revision: 1
+	Selector:               of7azurefinal=nfsof7azure
+	Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+	StrategyType:           RollingUpdate
+	MinReadySeconds:        0
+	RollingUpdateStrategy:  1 max unavailable, 1 max surge
+	Pod Template:
+	  Labels:  of7azurefinal=nfsof7azure
+	  Containers:
+	   of7azure:
+	    Image:      kelsey92/of7azurefinal:of7azure
+	    Port:       6066/TCP
+	    Host Port:  0/TCP
+	    Command:
+	      /bin/sh
+	      -ec
+	      while :; do echo '.'; sleep 5 ; done
+	    Environment:  <none>
+	    Mounts:
+	      /mnt/azure from sharedvolume (rw)
+	  Volumes:
+	   sharedvolume:
+	    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+	    ClaimName:  nfs-pvc
+	    ReadOnly:   false
+	Conditions:
+	  Type           Status  Reason
+	  ----           ------  ------
+	  Available      True    MinimumReplicasAvailable
+	OldReplicaSets:  <none>
+	NewReplicaSet:   nfsof7azure-848d8d6cc7 (1/1 replicas created) # The deployment created the replica set and it created a Pod
+	Events:
+	  Type    Reason             Age    From                   Message
+	  ----    ------             ----   ----                   -------
+	  Normal  ScalingReplicaSet  8m11s  deployment-controller  Scaled up replica set nfsof7azure-848d8d6cc7 to 1
+	```
+	
+	```kubectl get pod nfsof7azure-848d8d6cc7-vvbnq```
+	```bash
+	NAME                           READY   STATUS    RESTARTS   AGE
+	nfsof7azure-848d8d6cc7-vvbnq   1/1     Running   0          9m46s
+	
+	```kubectl describe pod nfsof7azure-848d8d6cc7-vvbnq```
+	```bash
+	Name:           nfsof7azure-848d8d6cc7-vvbnq
+	Namespace:      default
+	Priority:       0
+	Node:           aks-agentpool-24893396-1/10.240.0.35
+	Start Time:     Wed, 08 Apr 2020 05:47:51 +0000
+	Labels:         of7azurefinal=nfsof7azure
+			pod-template-hash=848d8d6cc7
+	Annotations:    <none>
+	Status:         Running
+	IP:             10.240.0.47
+	IPs:            <none>
+	Controlled By:  ReplicaSet/nfsof7azure-848d8d6cc7
+	Containers:
+	  of7azure:
+	    Container ID:  docker://182c53714c953f53ffb79d721a230a4d02b8ef5611d383d788436aebf0e697ea
+	    Image:         kelsey92/of7azurefinal:of7azure
+	    Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:e72e08b8f6b8533b18453f0ef053bb5b0886dc4d3d8f3d63b5ef8ff7734f8f6d
+	    Port:          6066/TCP
+	    Host Port:     0/TCP
+	    Command:
+	      /bin/sh
+	      -ec
+	      while :; do echo '.'; sleep 5 ; done
+	    State:          Running
+	      Started:      Wed, 08 Apr 2020 05:47:54 +0000
+	    Ready:          True
+	    Restart Count:  0
+	    Environment:    <none>
+	    Mounts:
+	      /mnt/azure from sharedvolume (rw)
+	      /var/run/secrets/kubernetes.io/serviceaccount from default-token-lxwlr (ro)
+	Conditions:
+	  Type              Status
+	  Initialized       True
+	  Ready             True
+	  ContainersReady   True
+	  PodScheduled      True
+	Volumes:
+	  sharedvolume:
+	    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+	    ClaimName:  nfs-pvc
+	    ReadOnly:   false
+	  default-token-lxwlr:
+	    Type:        Secret (a volume populated by a Secret)
+	    SecretName:  default-token-lxwlr
+	    Optional:    false
+	QoS Class:       BestEffort
+	Node-Selectors:  <none>
+	Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+			 node.kubernetes.io/unreachable:NoExecute for 300s
+	Events:
+	  Type    Reason     Age    From                               Message
+	  ----    ------     ----   ----                               -------
+	  Normal  Scheduled  9m56s  default-scheduler                  Successfully assigned default/nfsof7azure-848d8d6cc7-vvbnq to aks-agentpool-24893396-1
+	  Normal  Pulled     9m54s  kubelet, aks-agentpool-24893396-1  Container image "kelsey92/of7azurefinal:of7azure" already present on machine
+	  Normal  Created    9m54s  kubelet, aks-agentpool-24893396-1  Created container of7azure
+	  Normal  Started    9m53s  kubelet, aks-agentpool-24893396-1  Started container of7azure
+	```
+
+*Clean it*
+
+```kubectl delete deployment nfsof7azure```
+
+```kubectl delete pod nfsof7azure-848d8d6cc7-vvbnq```
 
 
 </details>
