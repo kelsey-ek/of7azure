@@ -1065,14 +1065,14 @@ Events:        <none>
 
 *This Volume will use the NFS share which does not vanish when the container is dead.*
 
-    ```kubectl exec -it [pod name] -- /bin/bash```
+```kubectl exec -it [pod name] -- /bin/bash```
 
-    ```cd /mnt/azure/```
-    ```bash
-    [of7azure@of7azure mnt]$ ls -rtl
-    total 4
-    drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
-    ```
+```cd /mnt/azure/```
+```bash
+[of7azure@of7azure mnt]$ ls -rtl
+total 4
+drwxrwxrwx 11 root root 4096 Apr  1 12:49 azure
+```
     
 </details>
 
