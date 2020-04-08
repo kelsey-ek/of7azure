@@ -1504,7 +1504,7 @@ __i.__ Connect to JEUS, Webterminal, OFmanager with the ports of current NODE.
 	nfswebterminal   NodePort    10.0.230.65    <none>        8088:30320/TCP   4h14m
 	```
 
-	Check how to from - **[Nodeport Services](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#23-set-services)**
+	Check how to from - [Nodeport Services](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#23-set-services) & [Network configuration](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#24-network-configuration)
 
 	<img src="./reference_images/Nodeport.PNG" title="Nodeport">
 
