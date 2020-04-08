@@ -1074,28 +1074,28 @@ Events:        <none>
 
 __a.__ Move the actual directories in [Persistent Volume-4](#1-31-use-persistent-volume-with-azure-kubernetes-service).
 
-```kubectl exec -it [pod name] -- /bin/bash```
-
 - Run the container first, then move the following directories to the Persistent Volume path.
+
+```kubectl exec -it [pod name] -- /bin/bash```
 
 *In this case, the path is set to /mnt/azure*
 
-    cd /mnt/azure
+```cd /mnt/azure```
 
-    
-    [of7azure@of7azure azure]$ ls -rtl
-    total 52
-    drwxrwxr-x  4 of7azure of7azure  4096 Mar 21 08:46 shared
-    drwxrwxr-x  2 of7azure of7azure  4096 Mar 21 08:48 spunpack
-    drwxrwxr-x  2 of7azure of7azure  4096 Mar 21 08:48 spbackup
-    drwxrwxr-x  2 of7azure of7azure  4096 Mar 21 08:48 outputq
-    drwxrwxr-x  8 of7azure of7azure  4096 Mar 21 08:48 volume_default
-    drwxrwxr-x 13 of7azure of7azure  4096 Mar 24 15:05 osc
-    drwxrwxr-x  8 of7azure of7azure  4096 Mar 24 15:07 spool
-    drwxrwxr-x 11 of7azure of7azure  4096 Mar 25 11:20 tibero6
-    drwxrwxr-x  7 of7azure of7azure  4096 Mar 27 08:01 temp
-    drwx------  2 root     root     16384 Apr  1 12:29 lost+found
-    
+```bash    
+[of7azure@of7azure azure]$ ls -rtl
+total 52
+drwxrwxr-x  4 of7azure of7azure  4096 Mar 21 08:46 shared
+drwxrwxr-x  2 of7azure of7azure  4096 Mar 21 08:48 spunpack
+drwxrwxr-x  2 of7azure of7azure  4096 Mar 21 08:48 spbackup
+drwxrwxr-x  2 of7azure of7azure  4096 Mar 21 08:48 outputq
+drwxrwxr-x  8 of7azure of7azure  4096 Mar 21 08:48 volume_default
+drwxrwxr-x 13 of7azure of7azure  4096 Mar 24 15:05 osc
+drwxrwxr-x  8 of7azure of7azure  4096 Mar 24 15:07 spool
+drwxrwxr-x 11 of7azure of7azure  4096 Mar 25 11:20 tibero6
+drwxrwxr-x  7 of7azure of7azure  4096 Mar 27 08:01 temp
+drwx------  2 root     root     16384 Apr  1 12:29 lost+found
+```
 
 __b.__ Make an OpenFrame image which uses the Persistent Volume.
 
@@ -1518,21 +1518,21 @@ __i.__ Connect to JEUS, Webterminal, OFmanager with the ports of current NODE.
 
 	**Find aks-agentpool-24893396-0(NODE A) or aks-agentpool-24893396-1(NODE B) from 'Target virtual machine' in the configuration.**
 
-	The Pod using Azure Disk
+	- The Pod using Azure Disk
 	
-	- NODE A 
+	   - NODE A 
 
-        	- Jeus : http://52.141.172.195:9736/webadmin/
-    
-       		<img src="./reference_images/NAT01_jeus.PNG" title="NAT01_jeus">
-    
-        	- Webterminal : http://52.141.172.195:8088/webterminal/
+		   - Jeus : http://52.141.172.195:9736/webadmin/
 
-       		<img src="./reference_images/NAT01_webterminal.PNG" title="NAT01_webterminal">
-    
-        	- OFmanager : http://52.141.172.195:8087/ofmanager/
+		   <img src="./reference_images/NAT01_jeus.PNG" title="NAT01_jeus">
 
-        	<img src="./reference_images/NAT01_ofmanager.PNG" title="NAT01_ofmanager">
+		   - Webterminal : http://52.141.172.195:8088/webterminal/
+
+		   <img src="./reference_images/NAT01_webterminal.PNG" title="NAT01_webterminal">
+
+		   - OFmanager : http://52.141.172.195:8087/ofmanager/
+
+	           <img src="./reference_images/NAT01_ofmanager.PNG" title="NAT01_ofmanager">
 
 	    - NODE B
 
@@ -1547,23 +1547,27 @@ __i.__ Connect to JEUS, Webterminal, OFmanager with the ports of current NODE.
 		    - OFmanager : http://52.141.172.195:18087/ofmanager/
 
 		    <img src="./reference_images/NAT02_ofmanager.PNG" title="NAT02_ofmanager">
-    
-- NODE A , the Pod using NFS Server
+		
+		
+	- The Pod using NFS Server (setting process is the same as above)
+	
+	   - NODE A 
 
-    - Jeus : http://52.141.172.195:29736/webadmin/
-      
-    - Webterminal : http://52.141.172.195:28088/webterminal/
-    
-    - OFmanager : http://52.141.172.195:28087/ofmanager/
-    
-- NODE B, the Pod using NFS Server
+		   - Jeus : http://52.141.172.195:29736/webadmin/
 
-    - Jeus : http://52.141.172.195:39736/webadmin/
+		   - Webterminal : http://52.141.172.195:28088/webterminal/
 
-    - Webterminal : http://52.141.172.195:38088/webterminal/
-        
-    - OFmanager : http://52.141.172.195:38087/ofmanager/
-    
+		   - OFmanager : http://52.141.172.195:28087/ofmanager/
+
+	    - NODE B
+
+		    - Jeus : http://52.141.172.195:39736/webadmin/
+
+		    - Webterminal : http://52.141.172.195:38088/webterminal/
+
+		    - OFmanager : http://52.141.172.195:38087/ofmanager/		
+		
+ 
 # Copyrighted by Kelsey
 
 *References*
