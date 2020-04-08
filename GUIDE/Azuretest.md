@@ -688,7 +688,7 @@ openframe.tmax.port= 8001
 
 - Check which Node is the one the Pod is running in and connect to the Node
 
-*Use putty or other applications to connect*
+    *Use putty or other applications to connect*
 
     - NODE A (aks-agentpool-#####-0) 
       
@@ -712,7 +712,7 @@ openframe.tmax.port= 8001
 
 - Check the running Pod container by using grep the Pod name
 
-*Let's say nfsof7azure-848d8d6cc7-r222f is the Pod name*
+    *Let's say nfsof7azure-848d8d6cc7-r222f is the Pod name*
 
     ```bash
     of7azure@aks-agentpool-24893396-0:~$ sudo docker ps | grep nfsof7azure-848d8d6cc7-r222f
@@ -724,7 +724,7 @@ openframe.tmax.port= 8001
 
 *b0007ece0a8e is the container which needs to be executed*
 
-```sudo docker exec -i -t b0007ece0a8e /bin/bash```
+   ```sudo docker exec -i -t b0007ece0a8e /bin/bash```
 
 - Change the user in the container to use OpenFrame*
 
