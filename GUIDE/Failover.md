@@ -1489,7 +1489,9 @@ Print Dataset List and Information
 
 __i.__ Connect to JEUS, Webterminal, OFmanager with the ports of current NODE.
 
-1) Add all Nodeports as inbound ports like below
+1) Add all Nodeports services
+
+	Check how to from - [Nodeport Services](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#23-set-services)
 
 	```kubectl get services```
 
@@ -1504,15 +1506,17 @@ __i.__ Connect to JEUS, Webterminal, OFmanager with the ports of current NODE.
 	nfswebterminal   NodePort    10.0.230.65    <none>        8088:30320/TCP   4h14m
 	```
 
-	Check how to from - [Nodeport Services](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#23-set-services)
-
-	<img src="./reference_images/Nodeport.PNG" title="Nodeport">
-
-2) Add all Inbound NAT rules like below
+2) Add all Inbound NAT rules and register all inbound ports
 
 	Check how to from - [Inbound NAT rules](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#24-network-configuration) & [Network configuration](https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/Azuretest.md#24-network-configuration)
 
-	<img src="./reference_images/inbound_all.PNG" title="inbound_all">
+		- Inbound NAT rules
+
+			<img src="./reference_images/inbound_all.PNG" title="inbound_all">
+
+		- VM Networking - inbound port rule
+
+			<img src="./reference_images/Nodeport.PNG" title="Nodeport">
 
 3) Check if the Pod is running in aks-agentpool-24893396-0(NODE A) or aks-agentpool-24893396-1(NODEB) and use the url below.
 
