@@ -452,15 +452,15 @@ When NODE1 dies,
 
     **Connect with RDP**
     
-- NFSserver VM - Connect - RDP - Download RDP File - Open the file
+- NFSserver VM - Connect - RDP - Download RDP File - Open the file.
     
     <img src="./reference_images/NFS_VM07.PNG" title="NFS_VM07">
     
-- Type the Admministrator account(set in 1-b step) information to login
+- Type the Admministrator account(set in 1-b step) information to login.
     
     <img src="./reference_images/NFS_VM08.PNG" title="NFS_VM08">
     
- - Connected to NFS Server
+ - Connected to NFS Server.
     
     <img src="./reference_images/NFS_VM09.PNG" title="NFS_VM089">
        
@@ -474,11 +474,11 @@ Reference : https://cloudinfrastructureservices.co.uk/how-to-setup-nfs-server-20
     
     <img src="./reference_images/NFS_server.PNG" title="NFS_server">
 
-- Click **File and Storage Services - Shares** and hit **New Share** button
+- Click **File and Storage Services - Shares** and hit **New Share** button.
     
     <img src="./reference_images/NFS_server01.PNG" title="NFS_server01">
     
-- Select **NFS Share - Quick**
+- Select **NFS Share - Quick**.
     
     <img src="./reference_images/NFS_server02.PNG" title="NFS_server02">
     
@@ -486,15 +486,15 @@ Reference : https://cloudinfrastructureservices.co.uk/how-to-setup-nfs-server-20
     
     <img src="./reference_images/NFS_server03.PNG" title="NFS_server03">
     
-- **Remote path to share** is important
+- **Remote path to share** is important.
     
     <img src="./reference_images/NFS_server04.PNG" title="NFS_server04">
     
-- Check all boxes in Authentication setting
+- Check all boxes in Authentication setting.
     
     <img src="./reference_images/NFS_server_checkallboxes.PNG" title="NFS_server_checkallboxes">
     
-- Customize the Share Permissions(click Add button) & Permissions(click Customize permissions button) (*I checked All Machines in this setting*)
+- Customize the Share Permissions(click Add button) & Permissions.(click Customize permissions button) (*I checked All Machines in this setting*)
     
     <img src="./reference_images/NFS_server_permmision.PNG" title="NFS_server_permmision">
     
@@ -502,7 +502,7 @@ Reference : https://cloudinfrastructureservices.co.uk/how-to-setup-nfs-server-20
     
     <img src="./reference_images/NFS_server_permmision02.PNG" title="NFS_server_permmision02">
     
-- Confirm it and complete the setting
+- Confirm it and complete the setting.
     
     <img src="./reference_images/NFS_server_permmision03.PNG" title="NFS_server_permmision03">
     
@@ -720,7 +720,7 @@ Reference : https://gruuuuu.github.io/cloud/k8s-volume/#
 	  ----    ------             ----  ----                   -------
 	  Normal  ScalingReplicaSet  41m   deployment-controller  Scaled up replica set nfs-pod-provisioner-56f87f4bc6 to 1
 	```
-    Check the created pod(replica) from the deployment
+    Check the created Pod(replica) from the deployment.
     
 	```kubectl describe pod nfs-pod-provisioner-56f87f4bc6-n6nfv```
 
@@ -795,84 +795,100 @@ Reference : https://gruuuuu.github.io/cloud/k8s-volume/#
 
 - Please match the Storage Class name with the Persistent Volume you want to use.
 
-    ```vi custom_claim.yaml```
+    ```vi nfs_pvc.yaml```
     ```bash
     apiVersion: v1
     kind: PersistentVolumeClaim
     metadata:
-      name: custompvc
+      name: nfs-pvc
     spec:
+      storageClassName: nfs-storageclass # SAME NAME AS THE STORAGECLASS
       accessModes:
-      - ReadWriteMany
-      storageClassName: glustersc
+        - ReadWriteMany #  must be the same as PersistentVolume
       resources:
         requests:
-          storage: 50Gi
+          storage: 200Gi
     ```
 
-    ```kubectl create -f custom_claim.yaml```
+    ```kubectl create -f nfs_pvc.yaml```
 
-    ```kubectl get pvc custompvc```
+    ```kubectl get pvc nfs-pvc```
     ```bash
-    NAME        STATUS   VOLUME         CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-    custompvc   Bound    customvolume   50Gi       RWX            glustersc      25m
+	NAME      STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS       AGE
+	nfs-pvc   Bound    pvc-6633fc99-4e54-45e6-8e3b-e322a52817ad   200Gi      RWX            nfs-storageclass   2m38s
     ```
-    ``` kubectl describe pvc custompvc```
+    ``` kubectl describe pvc nfs-pvc```
     ```bash
-    Name:          custompvc
-    Namespace:     default
-    StorageClass:  glustersc
-    Status:        Bound
-    Volume:        customvolume
-    Labels:        <none>
-    Annotations:   pv.kubernetes.io/bind-completed: yes
-                   pv.kubernetes.io/bound-by-controller: yes
-    Finalizers:    [kubernetes.io/pvc-protection]
-    Capacity:      50Gi
-    Access Modes:  RWX
-    VolumeMode:    Filesystem
-    Mounted By:    <none>   ->  changes to the pod name when the pod is attached
-    Events:        <none>
+	Name:          nfs-pvc
+	Namespace:     default
+	StorageClass:  nfs-storageclass
+	Status:        Bound
+	Volume:        pvc-6633fc99-4e54-45e6-8e3b-e322a52817ad # This volume is created automatically
+	Labels:        <none>
+	Annotations:   pv.kubernetes.io/bind-completed: yes
+		       pv.kubernetes.io/bound-by-controller: yes
+		       volume.beta.kubernetes.io/storage-provisioner: nfs-of7azure
+	Finalizers:    [kubernetes.io/pvc-protection]
+	Capacity:      200Gi
+	Access Modes:  RWX
+	VolumeMode:    Filesystem
+	Mounted By:    <none> # will be changed to the 
+	Events:
+	  Type    Reason                 Age   From                                                                                    Message
+	  ----    ------                 ----  ----                                                                                    -------
+	  Normal  ExternalProvisioning   20s   persistentvolume-controller                                                             waiting for a volume to be created, either by external provisioner "nfs-of7azure" or manually created by system administrator
+	  Normal  Provisioning           20s   nfs-of7azure_nfs-pod-provisioner-56f87f4bc6-n6nfv_d660b65f-78a2-11ea-8d62-9eea44f1ea23  External provisioner is provisioning volume for claim "default/nfs-pvc"
+	  Normal  ProvisioningSucceeded  20s   nfs-of7azure_nfs-pod-provisioner-56f87f4bc6-n6nfv_d660b65f-78a2-11ea-8d62-9eea44f1ea23  Successfully provisioned volume pvc-6633fc99-4e54-45e6-8e3b-e322a52817ad
     ```
 
 *Clean it*
 
 ```kubectl delete pvc custompvc```
 
-6) Persistent Volume(PV) will be automatically created and Persistent Volume Claim(PVC) will be bounded successfully.
+6) From step 5(from aboove), Persistent Volume(PV) is automatically created and Persistent Volume Claim(PVC) will be bounded successfully.
 
-    ```kubectl get pv customvolume```
+- Check the created Persistent Volume(PV).
+
+    ```kubectl get pv pvc-6633fc99-4e54-45e6-8e3b-e322a52817ad```
     ```bash
-    NAME          CAPACITY  ACCESS MODES RECLAIM POLICY  STATUS  CLAIM              STORAGECLASS  REASON  AGE
-    customvolume  50Gi      RWX          Retain          Bound   default/custompvc  glustersc             18m
+    NAME                                     CAPACITY ACCESS MODES RECLAIM POLICY  STATUS CLAIM           STORAGECLASS    REASON AGE
+    pvc-6633fc99-4e54-45e6-8e3b-e322a52817ad 200Gi    RWX          Delete          Bound  default/nfs-pvc nfs-storageclass       4m56s
     ```
-    ``` kubectl describe pv customvolume```
+    ```kubectl describe pv pvc-6633fc99-4e54-45e6-8e3b-e322a52817ad```
     ```bash
-    Name:            customvolume
-    Labels:          of7azurefinal=of7azure
-    Annotations:     pv.kubernetes.io/bound-by-controller: yes
-    Finalizers:      [kubernetes.io/pv-protection]
-    StorageClass:    glustersc
-    Status:          Bound
-    Claim:           default/custompvc
-    Reclaim Policy:  Retain
-    Access Modes:    RWX
-    VolumeMode:      Filesystem
-    Capacity:        50Gi
-    Node Affinity:   <none>
-    Message:
-    Source:
-        Type:          HostPath (bare host directory volume)
-        Path:          /mnt/gluster
-        HostPathType:
-    Events:            <none>
+	Name:            pvc-6633fc99-4e54-45e6-8e3b-e322a52817ad
+	Labels:          <none>
+	Annotations:     pv.kubernetes.io/provisioned-by: nfs-of7azure
+	Finalizers:      [kubernetes.io/pv-protection]
+	StorageClass:    nfs-storageclass
+	Status:          Bound
+	Claim:           default/nfs-pvc
+	Reclaim Policy:  Delete
+	Access Modes:    RWX
+	VolumeMode:      Filesystem
+	Capacity:        200Gi
+	Node Affinity:   <none>
+	Message:
+	Source:
+	    Type:      NFS (an NFS mount that lasts the lifetime of a pod)
+	    Server:    65.52.2.96
+	    Path:      /azure_share/default-nfs-pvc-pvc-6633fc99-4e54-45e6-8e3b-e322a52817ad #This will be shared path from NFS Server.
+	    ReadOnly:  false
+	Events:        <none>
     ```
+    
+- Create a directory with the name of PV under the Remote shared path.
+
+    ```Path:      /azure_share/default-nfs-pvc-pvc-6633fc99-4e54-45e6-8e3b-e322a52817ad```
+    
+    
+    
 *Clean it*
 
-```kubectl delete pv customvolume```
+```kubectl delete pv pvc-6633fc99-4e54-45e6-8e3b-e322a52817ad```
 
 7) Create a Pod using the Persistent Volume Claim(PVC).
-- to be continued
+
 
 </details>
 
