@@ -1514,7 +1514,7 @@ __i.__ Connect to JEUS, Webterminal, OFmanager with the ports of current NODE.
 	
 	<img src="./reference_images/inbound_all.PNG" title="inbound_all">
 	
-	- VM Networking - inbound port rule
+	- VM Networking - inbound port rule : **Add all nodeports as inbound ports**
 	
 	<img src="./reference_images/Nodeport.PNG" title="Nodeport">
 
