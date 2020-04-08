@@ -372,7 +372,7 @@ When NODE1 dies,
     ```
 - Check the Persistent Volume from the container.
 
-    *This Volume will not be vanished even after the container is dead.*
+    *This Volume will use the Azure Disk which does not vanish when the container is dead.*
 
     ```kubectl exec -it [pod name] -- /bin/bash```
 
@@ -793,7 +793,7 @@ Reference : https://gruuuuu.github.io/cloud/k8s-volume/#
 
 5) Create Persistent Volume Claim(PVC) with the correct Storage Class name.
 
-- Please match the Storage Class name with the Persistent Volume you want to use.
+- Use the custom Storage Class
 
     ```vi nfs_pvc.yaml```
     ```bash
@@ -804,7 +804,7 @@ Reference : https://gruuuuu.github.io/cloud/k8s-volume/#
     spec:
       storageClassName: nfs-storageclass # SAME NAME AS THE STORAGECLASS
       accessModes:
-        - ReadWriteMany #  must be the same as PersistentVolume
+        - ReadWriteMany
       resources:
         requests:
           storage: 200Gi
@@ -832,7 +832,7 @@ Reference : https://gruuuuu.github.io/cloud/k8s-volume/#
 	Capacity:      200Gi
 	Access Modes:  RWX
 	VolumeMode:    Filesystem
-	Mounted By:    <none> # it will be changed to the name of the Pod when the Pod is attached
+	Mounted By:    <none> # it will be changed to the name of the Pod when the Pod is attached (ex.nfsof7azure-848d8d6cc7-vvbnq)
 	Events:
 	  Type    Reason                 Age   From                                                                                    Message
 	  ----    ------                 ----  ----                                                                                    -------
@@ -843,7 +843,7 @@ Reference : https://gruuuuu.github.io/cloud/k8s-volume/#
 
 *Clean it*
 
-```kubectl delete pvc custompvc```
+```kubectl delete pvc nfs-pvc```
 
 6) From step 5(from aboove), Persistent Volume(PV) is automatically created and Persistent Volume Claim(PVC) will be bounded successfully.
 
@@ -1036,15 +1036,35 @@ Reference : https://gruuuuu.github.io/cloud/k8s-volume/#
 	  Normal  Created    9m54s  kubelet, aks-agentpool-24893396-1  Created container of7azure
 	  Normal  Started    9m53s  kubelet, aks-agentpool-24893396-1  Started container of7azure
 	```
+<details>
+		<summary>PVC is attached to the Pod</summary>
+
+```kubectl describe pvc nfs-pvc```
+
+```bash
+Name:          nfs-pvc
+Namespace:     default
+StorageClass:  nfs-storageclass
+Status:        Bound
+Volume:        pvc-6633fc99-4e54-45e6-8e3b-e322a52817ad
+Labels:        <none>
+Annotations:   pv.kubernetes.io/bind-completed: yes
+               pv.kubernetes.io/bound-by-controller: yes
+               volume.beta.kubernetes.io/storage-provisioner: nfs-of7azure
+Finalizers:    [kubernetes.io/pvc-protection]
+Capacity:      200Gi
+Access Modes:  RWX
+VolumeMode:    Filesystem
+Mounted By:    nfsof7azure-848d8d6cc7-vvbnq
+Events:        <none>
+```
+</details>
 
 *Clean it*
 
 ```kubectl delete deployment nfsof7azure```
 
 ```kubectl delete pod nfsof7azure-848d8d6cc7-vvbnq```
-
-
-</details>
 
 # 2. Fail-over Test
 
