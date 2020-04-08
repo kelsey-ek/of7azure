@@ -400,7 +400,7 @@ When NODE1 dies,
 
 ### 1-3.2 Use the custom Persistent Volume with replicated Pod
 
-**Check the Access Mode you want to configure and choose the storage service.**
+**Check the Access Mode you want to configure and choose the right storage service.**
 
 - Access Modes
 
@@ -410,20 +410,21 @@ When NODE1 dies,
     ReadWriteMany – the volume can be mounted as read-write by many nodes (RWX)
     ```
 - Storage Services with Access Modes
+
     *Providers will have different capabilities and each PV’s access modes are set to the specific modes supported by that particular volume.* 
     <img src="./reference_images/access.PNG" title="access">
 
-**In the following part, I will use NFS Server for ReadWriteMany function**
+**In the following part, I will use NFS Server for ReadWriteMany access**
     
 #### 1-3.2.1 Create NFS Server in Azure 
 
 1) Add resource as NFS Server
     
-    **a. Find the resource and click the create button**
+    - Find the resource and click the create button.
     
     <img src="./reference_images/NFS_add.PNG" title="NFS_add">
     
-    **b. Customize the size by clicking "Change size" and create Administrator account**
+    - Customize the size by clicking "Change size" from Size section and create Administrator account by filling in Username and Password fields.
     
     <img src="./reference_images/NFS_VM.PNG" title="NFS_VM">
 
