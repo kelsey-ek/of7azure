@@ -135,7 +135,7 @@ When NODE1 dies,
     spec:
       accessModes:
       - ReadWriteOnce
-      storageClassName: managed-premium  -> If not set, it is set to default
+      storageClassName: managed-premium  # If you skip the setting, it is set to default
       resources:
         requests:
           storage: 500Gi
@@ -163,7 +163,7 @@ When NODE1 dies,
     Capacity:      500Gi
     Access Modes:  RWO
     VolumeMode:    Filesystem
-    Mounted By:    <none>  ->  changes to the pod name when the pod is attached
+    Mounted By:    <none>  # it will be changed to the name of the Pod when the Pod is attached
     Events:        <none>
     ```
     
@@ -247,7 +247,7 @@ When NODE1 dies,
             command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
             volumeMounts:
             - name: sharedvolume
-              mountPath: /mnt/azure -> /mnt/azure directory is created in a container to use the volume.
+              mountPath: /mnt/azure # /mnt/azure directory is created in a container to use the volume.
           volumes:
           - name: sharedvolume
             persistentVolumeClaim:
@@ -832,7 +832,7 @@ Reference : https://gruuuuu.github.io/cloud/k8s-volume/#
 	Capacity:      200Gi
 	Access Modes:  RWX
 	VolumeMode:    Filesystem
-	Mounted By:    <none> # will be changed to the 
+	Mounted By:    <none> # it will be changed to the name of the Pod when the Pod is attached
 	Events:
 	  Type    Reason                 Age   From                                                                                    Message
 	  ----    ------                 ----  ----                                                                                    -------
