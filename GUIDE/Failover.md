@@ -1070,6 +1070,8 @@ Events:        <none>
 
 ## 2-1. Test Senario & Result
 
+**Both Pods work - NFS Server & Azure Disk**
+
 __a.__ Move the actual directories in [Persistent Volume-4](#1-31-use-persistent-volume-with-azure-kubernetes-service).
 
 ```kubectl exec -it [pod name] -- /bin/bash```
@@ -1156,6 +1158,10 @@ __b.__ Make an OpenFrame image which uses the Persistent Volume.
     
 __c.__ Check the current status of the Pod.
 
+**Both Pods work - NFS Server & Azure Disk**
+
+*The following case is the Pod using Azure Disk*
+
 ```kubectl get pods```
 ```bash
 NAME                        READY   STATUS    RESTARTS   AGE
@@ -1227,6 +1233,10 @@ Events:
 
 __d.__ Use OpenFrame function.
 
+**Both Pods work - NFS Server & Azure Disk**
+
+*The following case is the Pod using Azure Disk*
+
 ```kubectl exec -it of7azure-76db5dbccb-brgrs -- /bin/bash```
 
 *Fisrt, Tibero and OpenFrame are successfully booted.*
@@ -1270,10 +1280,13 @@ COMPLETED SUCCESSFULLY.
 
 *Lastly, boot up JEUS, Webterminal and OFmanager.*
 
-
 __e.__ Kill the NODE and see if a new Pod is created another NODE and running successfully.
 
 *I stopped aks-agentpool-24893396-1 NODE.*
+
+**Both Pods work - NFS Server & Azure Disk**
+
+*The following case is the Pod using Azure Disk*
 
 ```kubectl get nodes```
 ```bash
@@ -1486,7 +1499,7 @@ __i.__ Connect to JEUS, Webterminal, OFmanager with the ports of current NODE.
 
 **Find aks-agentpool-24893396-0 or aks-agentpool-24893396-1 from 'Target virtual machine' in the configuration.**
 
-- NODE A
+- NODE A , the Pod using Azure Disk
 
     - Jeus : http://52.141.172.195:9736/webadmin/
     
@@ -1500,7 +1513,7 @@ __i.__ Connect to JEUS, Webterminal, OFmanager with the ports of current NODE.
 
     <img src="./reference_images/NAT01_ofmanager.PNG" title="NAT01_ofmanager">
 
-- NODE B
+- NODE B, the Pod using Azure Disk
 
     - Jeus : http://52.141.172.195:19736/webadmin/
     
@@ -1514,6 +1527,21 @@ __i.__ Connect to JEUS, Webterminal, OFmanager with the ports of current NODE.
     
     <img src="./reference_images/NAT02_ofmanager.PNG" title="NAT02_ofmanager">
     
+- NODE A , the Pod using NFS Server
+
+    - Jeus : http://52.141.172.195:**29736**/webadmin/
+      
+    - Webterminal : http://52.141.172.195:**28088**/webterminal/
+    
+    - OFmanager : http://52.141.172.195:**28087**/ofmanager/
+    
+- NODE B, the Pod using NFS Server
+
+    - Jeus : http://52.141.172.195:**39736**/webadmin/
+
+    - Webterminal : http://52.141.172.195:**38088**/webterminal/
+        
+    - OFmanager : http://52.141.172.195:**38087**/ofmanager/
     
 # Copyrighted by Kelsey
 
