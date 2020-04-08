@@ -700,7 +700,7 @@ openframe.tmax.port= 8001
       
 - Change user by using the information below
 
-    ID : of7azure,
+    ID : of7azure
     
     Password : Tmaxsoft@1234
 
@@ -727,7 +727,7 @@ openframe.tmax.port= 8001
 
     ```sudo docker exec -i -t b0007ece0a8e /bin/bash```
 
-- Change the user in the container to use OpenFrame*
+- Change the user in the container to use OpenFrame
 
   ```bash
   [root@of7azure /]# su - of7azure
