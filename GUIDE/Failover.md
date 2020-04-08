@@ -450,7 +450,7 @@ When NODE1 dies,
     
 2) Connect to NFS Server
 
-**Connect with RDP**
+    **Connect with RDP**
     
 - NFSserver VM - Connect - RDP - Download RDP File - Open the file
     
@@ -470,31 +470,31 @@ Reference : https://cloudinfrastructureservices.co.uk/how-to-setup-nfs-server-20
 
 1) Create NFS Share using Server Manager
     
-    - Dashboard
+- Dashboard
     
     <img src="./reference_images/NFS_server.PNG" title="NFS_server">
 
-    - Click **File and Storage Services - Shares** and hit **New Share** button
+- Click **File and Storage Services - Shares** and hit **New Share** button
     
     <img src="./reference_images/NFS_server01.PNG" title="NFS_server01">
     
-    - Select **NFS Share - Quick**
+- Select **NFS Share - Quick**
     
     <img src="./reference_images/NFS_server02.PNG" title="NFS_server02">
     
-    - Create a folder you want to share, and click **"Type a custom path" - "Browse"** button and select the foder.(it will be a local path in NFS Server.)
+- Create a folder you want to share beforehand and click **"Type a custom path" - "Browse"** button and select the foder.(it will be a local path in NFS Server.)
     
     <img src="./reference_images/NFS_server03.PNG" title="NFS_server03">
     
-    - **Remote path to share** is important
+- **Remote path to share** is important
     
     <img src="./reference_images/NFS_server04.PNG" title="NFS_server04">
     
-    - Check all boxes in Authentication setting
+- Check all boxes in Authentication setting
     
     <img src="./reference_images/NFS_server_checkallboxes.PNG" title="NFS_server_checkallboxes">
     
-    - Customize the Share Permissions(click Add button) & Permissions(click Customize permissions button) (*I checked All Machines in this setting*)
+- Customize the Share Permissions(click Add button) & Permissions(click Customize permissions button) (*I checked All Machines in this setting*)
     
     <img src="./reference_images/NFS_server_permmision.PNG" title="NFS_server_permmision">
     
@@ -502,7 +502,7 @@ Reference : https://cloudinfrastructureservices.co.uk/how-to-setup-nfs-server-20
     
     <img src="./reference_images/NFS_server_permmision02.PNG" title="NFS_server_permmision02">
     
-    - Confirm it and complete the setting
+- Confirm it and complete the setting
     
     <img src="./reference_images/NFS_server_permmision03.PNG" title="NFS_server_permmision03">
     
@@ -664,14 +664,14 @@ Reference : https://gruuuuu.github.io/cloud/k8s-volume/#
 		    - name: PROVISIONER_NAME # do not change
 		      value: nfs-of7azure # SAME AS PROVISIONER NAME VALUE IN STORAGECLASS
 		    - name: NFS_SERVER # do not change
-		      value: 65.52.2.96 # Ip of the NFS SERVER
+		      value: 65.52.2.96 # Ip of the NFS SERVER (NFS VM public IP) 
 		    - name: NFS_PATH # do not change
-		      value: "/azure_share" # path to nfs directory setup
+		      value: "/azure_share" # path to nfs directory setup (Remote path to share from NFS share)
 	      volumes:
 	       - name: nfs-provisioner-vol # same as volumemouts name
 		 nfs:
-		   server: 65.52.2.96
-		   path: "/azure_share
+		   server: 65.52.2.96 #same as above 
+		   path: "/azure_share" #same as above 
 	```
 
 	```kubectl create -f nfs_provisioner.yaml```
@@ -720,7 +720,8 @@ Reference : https://gruuuuu.github.io/cloud/k8s-volume/#
 	  ----    ------             ----  ----                   -------
 	  Normal  ScalingReplicaSet  41m   deployment-controller  Scaled up replica set nfs-pod-provisioner-56f87f4bc6 to 1
 	```
-
+    Check the created pod(replica) from the deployment
+    
 	```kubectl describe pod nfs-pod-provisioner-56f87f4bc6-n6nfv```
 
 	```bash
@@ -784,7 +785,7 @@ Reference : https://gruuuuu.github.io/cloud/k8s-volume/#
 	  Normal  Started    41m   kubelet, aks-agentpool-24893396-0  Started container nfs-pod-provisioner
 	```
 
-*Clean it
+*Clean it*
 
 ```kubectl delete deployment nfs-pod-provisioner```
 
