@@ -24,7 +24,7 @@
 + [2. Azure Service](#step-2-azure-service)
   + [2.1 Add Azure Kubernetes service(AKS)](#21-add-azure-kubernetes-serviceaks)
   + [2.2 Set Pods](#22-set-pods)
-  + [2.2 Connect to the running Pod](#23-connect-to-the-running-pod)
+  + [2.3 Connect to the running Pod](#23-connect-to-the-running-pod)
   + [2.4 Set services](#23-set-services)
   + [2.5 Network configuration](#24-network-configuration)
 
