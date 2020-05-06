@@ -278,12 +278,17 @@ create tablespace "OFMGR01" datafile 'OFMGR01.DBF'  size 100M autoextend on  nex
 
 **Container environment does not have make file under /usr/bin**
 
-* Copy make(/usr/bin) file from the host to the container.
+* Install make,wget packages.
+
+```yum install make```
+```yum install wget```
+
+* unixODBC-2.3.7 is suitable for CentOS8 
 
 ```bash
-wget ftp://ftp.unixodbc.org/pub/unixODBC/unixODBC-2.3.4.tar.gz
-tar -zxvf unixODBC-2.3.4.tar.gz
-cd unixODBC-2.3.4
+wget ftp://ftp.unixodbc.org/pub/unixODBC/unixODBC-2.3.7.tar.gz
+tar -zxvf unixODBC-2.3.7.tar.gz
+cd unixODBC-2.3.7
 ./configure --prefix=$HOME/unixODBC --sysconfdir=$HOME/unixODBC/etc
 make
 make install
@@ -301,12 +306,14 @@ export ODBCSYSINI=$HOME
     
     odbcinst -j
 ```bash
-# UNIX ODBC ENV
-export ODBC_HOME=$HOME/unixODBC
-export PATH=$ODBC_HOME/bin:$PATH
-export LD_LIBRARY_PATH=$ODBC_HOME/lib:$LD_LIBRARY_PATH
-export ODBCINI=$HOME/unixODBC/etc/odbc.ini
-export ODBCSYSINI=$HOME
+unixODBC 2.3.7
+DRIVERS............: /home/of7azure/odbcinst.ini
+SYSTEM DATA SOURCES: /home/of7azure/odbc.ini
+FILE DATA SOURCES..: /home/of7azure/ODBCDataSources
+USER DATA SOURCES..: /home/of7azure/unixODBC/etc/odbc.ini
+SQLULEN Size.......: 8
+SQLLEN Size........: 8
+SQLSETPOSIROW Size.: 8
 ```
 
 ### 1.3.5 OFCOBOL installation
