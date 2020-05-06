@@ -316,6 +316,17 @@ SQLLEN Size........: 8
 SQLSETPOSIROW Size.: 8
 ```
 
+```
+ln $ODBC_HOME/lib/libodbc.so $ODBC_HOME/lib/libodbc.so.1
+ln $ODBC_HOME/lib/libodbcinst.so $ODBC_HOME/lib/libodbcinst.so.1
+```
+
+**odbc.ini**
+
+**odbcinst.ini**
+
+
+
 ### 1.3.5 OFCOBOL installation
 
 ### 1.3.6 PROSORT installation
