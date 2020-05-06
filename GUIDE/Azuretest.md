@@ -99,6 +99,13 @@ Example :
 
 ### 1.3.1 Pre settings
 __a.__  Required Package Installation
+
+If you see "error: rpmdbNextIterator: skipping h#" error message, please use this command below.
+
+It happen when followed package that were having problems when querying the rpm database for a package that was installed which cause meta tag mess up:
+
+``` rpm --rebuilddb ```
+
 ```bash 
 yum install -y  dos2unix
 yum install -y  glibc*
@@ -174,6 +181,18 @@ __e.__ Prepare licenses from Technet
 __f.__ Set hostname
 * Use -h option when you run the container. It automatically sets the hostname for the container.
 * Check /etc/hosts file to see if the hostname sets correctly.
+
+__g.__ Add user as hostname
+``` 
+groupadd mqm -g 10000
+useradd -d /home/of7azure -g mqm -s /bin/bash -m of7azure -u 10001
+```
+
+```
+groupadd dba -g 10005
+useradd -d /home/oftibr -g dba -s /bin/bash -m oftibr -u 10002
+```
+
 
 **Copy OpenFrame binary files from host to container**
 ```sudo docker cp [filename] [containername]:[path]```
