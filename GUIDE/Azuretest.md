@@ -323,8 +323,35 @@ ln $ODBC_HOME/lib/libodbcinst.so $ODBC_HOME/lib/libodbcinst.so.1
 
 **odbc.ini**
 
+```
+[oframe]
+Description = Tibero ODBC driver for Tibero6
+Driver = Tibero
+DSN = oframe
+SID = oframe
+User = tibero
+Password = tmax
+```
+
 **odbcinst.ini**
 
+```
+[Tibero]
+Description = Tibero ODBC driver for Tibero6
+Driver = /home/of7azure/tibero6/client/lib/libtbodbc.so
+Setup =
+FileUsage =
+CPTimeout =
+CPReuse =
+Driver Logging = 7
+
+[ODBC]
+Trace = NO
+TraceFile = /home/of7azure/odbc.log
+ForceTrace = Yes
+Pooling = No
+DEBUG = 1
+```
 
 
 ### 1.3.5 OFCOBOL installation
