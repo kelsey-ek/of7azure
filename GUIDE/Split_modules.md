@@ -234,4 +234,4 @@ OSCOIVP1_TCL1   SVGNAME= svg_domain,
                 MIN = 1,
                 CLOPT = "-n -o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
 	
-```bash
+```
