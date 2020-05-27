@@ -33,21 +33,18 @@
 
 ### 1.1 Install docker
 
-First, you need to get the OpenFrame image to use the AKS service. To create it, you need Docker account and install Docker in your VM. Your account will be needed when you push/pull the images in your Dockerhub repository.
-
-```bash
-sudo apt-get update
-
-
-
 Use two containers(work as seperate VMs) for installing OpenFrame for each.
 
 Hostname should be different for each, but username should be the same. (When you check the spool, username should be the same for checking it.)
 
+Here are a few important things when you creat 
+
+__a.__ Hostname should be different by the NODE.
 
 TMAX configuration file 
 
 ```bash
+
 [of7azure@of7azure01 config]$ cat oframe.m 
 ################################################################################
 #                                                                              #
