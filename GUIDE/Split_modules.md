@@ -33,7 +33,9 @@
 
 ### 1.1 Install docker
 
-Use two containers(work as seperate VMs) for installing OpenFrame for each.
+Use thee containers(work as seperate VMs) for installing OSC, Batch and Tibero for each.
+
+
 
 Hostname should be different for each, but username should be the same. (When you check the spool, username should be the same for checking it.)
 
