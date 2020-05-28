@@ -232,3 +232,7 @@ TMAX_RAC_IPV6="SDP"
 SYSTEM_PROTOCOL="IPV6"
 SYSTEM_PROTOCOL="SDP"
 ```
+
+
+/usr/lib
+/usr/lib64 
