@@ -236,3 +236,27 @@ SYSTEM_PROTOCOL="SDP"
 
 /usr/lib
 /usr/lib64 
+
+tjes.conf
+
+```bash
+[NODEINFO]
+#    DOMAINNAME=DOM1
+#    DOMAINLIST=DOM1;DOM2
+    NODENAME=NODE2
+    NODELIST=NODE2
+    
+[INTRDR]
+    HOLD=NO
+    NODENAME=NODE2
+    USERNAME=ROOT
+    GROUPNAME=SYS1
+    PASSWORD=SYS1
+#   ENPASSWD=****
+    
+    
+    
+```
+
+
+
