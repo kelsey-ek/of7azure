@@ -221,3 +221,14 @@ OSCOIVP1_TCL1   SVGNAME= svg_domain,
                 CLOPT = "-n -o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
 	
 ```
+
+.bash_profile
+
+```bash
+# RAC PORT INFORMATION
+export TMAX_RAC_PORT=9450
+TMAX_RAC_IPV6="IPV6"
+TMAX_RAC_IPV6="SDP"
+SYSTEM_PROTOCOL="IPV6"
+SYSTEM_PROTOCOL="SDP"
+```
