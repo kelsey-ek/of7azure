@@ -20,12 +20,13 @@
 
 ### 1.1 Concept of divided modules
 
-Use thee containers(work as seperate VMs) for installing OSC, Batch, Tibero and JEUS for each.
+**Use four containers(work as seperate VMs) for installing OSC, Batch, Tibero and JEUS for each.**
 
+**picture**
 
 ### 1.1.1 TIbero(DB server)
 
-- Install Tibero only in one container.
+- Install only Tibero in one container.
 
 ### 1.1.2 Online / Batch
 
