@@ -326,10 +326,117 @@ tjes.conf
    
 ```
 
+#### Since Tibero, OSC, Batch, JEUS are running on different containers, IP settings should be changed.
+
+- Docker container ip address changes if you run more than one containers.
+
+- First container
+```bash
+18: eth0@if19: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:ac:11:00:03 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.17.0.2/16 brd 172.17.255.255 scope global eth0
+       valid_lft forever preferred_lft forever
+```
+
+- Second container
+```bash
+18: eth0@if19: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:ac:11:00:03 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.17.0.3/16 brd 172.17.255.255 scope global eth0
+       valid_lft forever preferred_lft forever
+```
+
+**TMAX_HOST_ADDR from bash_profile shoule be changed for OSC, Batch containers.**
+
+    vi ~/.bash_profile
+
+```bash
+TMAX_HOST_ADDR= 127.0.0.1 # localhost ip address
+export TMAX_HOST_ADDR
+```
+
+**JEUS bootup/down setting should be changed**
+
+```bash
+alias msdown1='stopServer -u administrator -p tmax123 -host localhost:9936'
+alias msdown2='stopServer -u administrator -p tmax123 -host localhost:9636'
+alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
+```
+    source ~/.bash_profile
+    
+**Region configuration file should be modified.**
+
+    vi osc.OSCOIVP1.conf
+    
+```bash
 [TDQ]
         TDQ_INTRA_DSNAME=OSC.TDQLIB.INTRA
-        TDQ_LOG_ADDRESS=127.0.0.1:8896
+        TDQ_LOG_ADDRESS=127.0.0.1:8896 # localhost ip address
+```
 
+**Webterminal setting should be modified.**
 
+    vi ofgw.properties
+```bash
+tmax.retrytime = 60000
+#tmax.node.list = NODE1,NODE2
+tmax.node.list = NODE1
+tmax.node.NODE1.name = NODE1
+tmax.node.NODE1.ip = 127.0.0.1 # OSC ip address
+tmax.node.NODE1.port = 8001
+tmax.node.NODE1.min = 5
+tmax.node.NODE1.max = 1024
+tmax.node.NODE1.rate = 2
+tmax.node.NODE1.timeout = 20000
+tmax.node.NODE1.idletime = 90
+```
+
+**OFManager setting should be modified**
+
+    vi ofmanager.properties
+```bash
+# OFGW Property
+openframe.webterminal.url = 127.0.0.1:5556/webterminal # localhost ip address
+openframe.webterminal.name= ofgw
+
+# Tmax Property
+openframe.tmax.ip= 127.0.0.1 # localhost ip address
+openframe.tmax.port= 8001
+```
+
+**JEUS setting should be modified**
+
+*Set DB server address for each datasource.*
+
+    vi domain.xml
+```bash
+   <resources>
+      <data-source>
+         <database>
+            <data-source-id>ofgw</data-source-id>
+            <export-name>ofgw</export-name>
+            <data-source-class-name>com.tmax.tibero.jdbc.ext.TbConnectionPoolDataSource</data-source-class-name>
+            <data-source-type>ConnectionPoolDataSource</data-source-type>
+            <vendor>tibero</vendor>
+            <server-name>172.17.0.3</server-name> # DB server ip address
+            <port-number>8629</port-number>
+            <database-name>oframe</database-name>
+            <user>tibero</user>
+            <password>tmax</password>
+
+           (continues)
+
+         <database>
+            <data-source-id>ds_ofm1</data-source-id>
+            <export-name>ds_ofm1</export-name>
+            <data-source-class-name>com.tmax.tibero.jdbc.ext.TbConnectionPoolDataSource</data-source-class-name>
+            <data-source-type>ConnectionPoolDataSource</data-source-type>
+            <vendor>tibero</vendor>
+            <server-name>172.17.0.3</server-name> # DB server ip address
+            <port-number>8629</port-number>
+            <database-name>oframe</database-name>
+            <user>tibero</user>
+            <password>tmax</password>
+```
 
 
