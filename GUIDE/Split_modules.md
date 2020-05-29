@@ -24,11 +24,11 @@
 
 **picture**
 
-### 1.1.1 TIbero(DB server)
+#### 1.1.1 TIbero(DB server)
 
 - Install only Tibero in one container.
 
-### 1.1.2 Online / Batch
+#### 1.1.2 Online / Batch
 
 - Install both Online and Batch in both containers using same DB(1.1.1), but configure TMAX as multi NODE to divide Online/Batch modules.
 
