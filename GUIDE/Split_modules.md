@@ -25,7 +25,7 @@ Here are a few important things when you creat
 
 __a.__ Hostname should be different by the NODE.
 
-**Set hostname in both NODEs.**
+**Set hostname in OSC,Batch NODEs.**
 
 vi /etc/hosts
 
@@ -41,7 +41,7 @@ fe00::2 ip6-allrouters
 10.240.0.54     of7azure01
 ```
 
-**Set tibero client configuration in both NODEs.**
+**Set tibero client configuration in OSC,Batch,JEUS NODEs.**
 
 tibero6/client/config/tbdsn.tbr
 
@@ -58,7 +58,7 @@ oframe=(
 )
 ```
 
-**Set RACPORT on both NODEs.**
+**Set RACPORT on OSC,Batch NODEs.**
 
 ```bash
 
@@ -80,7 +80,7 @@ export LD_LIBRARY_PATH
 
 ```racd -k 9450```
 
-**Set TMAX configuration file.**
+**Set OSC,Batch TMAX configuration file.**
 
 ```bash
 
@@ -296,7 +296,7 @@ SPFMAGENT               SVRNAME = TPFMAGENT
 	
 ```
 
-**Set tjes configuration.**
+**Set OSC,Batch tjes configuration.**
 
 tjes.conf
 
