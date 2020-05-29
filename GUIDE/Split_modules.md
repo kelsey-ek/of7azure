@@ -60,8 +60,6 @@ oframe=(
 
 **Set RACPORT on both NODEs.**
 
-```racd -k 9450```
-
 ```bash
 
 .bash_profile
@@ -72,7 +70,15 @@ TMAX_RAC_IPV6="IPV6"
 TMAX_RAC_IPV6="SDP"
 SYSTEM_PROTOCOL="IPV6"
 SYSTEM_PROTOCOL="SDP"
+
+LD_LIBRARY_PATH_64="${LD_LIBRARY_PATH_64}:$OPENFRAME_HOME/lib:/usr/lib64"
+export LD_LIBRARY_PATH_64
+
+LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:$OPENFRAME_HOME/lib:/usr/lib"
+export LD_LIBRARY_PATH
 ```
+
+```racd -k 9450```
 
 **Set TMAX configuration file.**
 
@@ -290,8 +296,7 @@ SPFMAGENT               SVRNAME = TPFMAGENT
 	
 ```
 
-/usr/lib
-/usr/lib64 
+**Set tjes configuration.**
 
 tjes.conf
 
@@ -313,12 +318,12 @@ tjes.conf
     
 [INTRDR]
     HOLD=NO
-    NODENAME=NODE2             -> NODE which will be used for running JOBs
+    NODENAME=NODE2              -> NODE which will be used for running JOBs
     USERNAME=ROOT
     GROUPNAME=SYS1
     PASSWORD=SYS1
 #   ENPASSWD=**** 
-    
+   
 ```
 
 
