@@ -401,7 +401,7 @@ __b.__ Set DB server address for each datasource.
             <password>tmax</password>
 ```
 
-__b.__ Set ofgw.properties.
+__c.__ Set ofgw.properties.
 
 **ofgw.properties**
 
@@ -419,7 +419,7 @@ tmax.node.NODE1.timeout = 20000
 tmax.node.NODE1.idletime = 90
 ```
 
-__c.__ Set ofmanager.properties.
+__d.__ Set ofmanager.properties.
 
 **ofmanager.properties**
 
