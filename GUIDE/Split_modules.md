@@ -326,6 +326,9 @@ tjes.conf
    
 ```
 
+[TDQ]
+        TDQ_INTRA_DSNAME=OSC.TDQLIB.INTRA
+        TDQ_LOG_ADDRESS=127.0.0.1:8896
 
 
 
