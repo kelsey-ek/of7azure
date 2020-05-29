@@ -30,7 +30,9 @@
 
 #### 1.1.2 Online / Batch
 
-- Install both Online and Batch in both containers using same DB(1.1.1), but configure TMAX as multi NODE to divide Online/Batch modules.
+- Install both Online and Batch in both containers using same the DB(1.1.1), but configure TMAX as multi NODE to divide Online/Batch modules. It will be explained from [Configuration of each modules](#122-online--batch).
+
+- NODE1 will be Online module and NODE2 will be Batch module.
 
 ```bash
 $$1 NODE1 (tmadm): si
@@ -82,13 +84,13 @@ Msg from rnode(NODE2):
     0   tmsvr      (  20)      RDY         0        0         0        0
 ```
 
-### 1.1.3 UI tool
+#### 1.1.3 UI tool
 
 - Install JEUS, OFGW, OFManager in the same container using the same DB(1.1.1).
 
 ### 1.2 Configuration of each modules
 
-### 1.2.1 TIbero(DB server)
+#### 1.2.1 TIbero(DB server)
 
 tibero6/client/config/tbdsn.tbr
 
@@ -105,7 +107,7 @@ oframe=(
 )
 ```
 
-### 1.2.2 Online / Batch
+#### 1.2.2 Online / Batch
 
 __a.__ Hostname should be different by the NODE.
 
@@ -418,7 +420,7 @@ tjes.conf
 ```
 
 
-### 1.2.3 UI tool
+#### 1.2.3 UI tool
 
 __a.__ Set tibero client configuration on both NODEs.
 
