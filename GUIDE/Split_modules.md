@@ -2,15 +2,15 @@
 
 ## Table of Contents
 
-+ [1. Divided modules of OpenFrame as PODs](#1-fail-over-environment-setting)
-  + [1-1. Concept of divided modules](#1-1-fail-over-concept)
-     + [1.1.1 TIbero(DB server)](#a-storage-class-sc)
-     + [1.2.2 Online/Batch](#a-storage-class-sc)
-     + [1.2.3 UI tool](#a-storage-class-sc)
-  + [1-2. Configuration of each modules](#1-2-configure-data-volume)
-     + [1.2.1 TIbero(DB server)](#a-storage-class-sc)
-     + [1.2.2 Online/Batch](#a-storage-class-sc)
-     + [1.2.3 UI tool](#a-storage-class-sc)
++ [1. Divided modules of OpenFrame as PODs](#step-1-divided-modules-of-openframe-as-pods)
+  + [1-1. Concept of divided modules](#11-concept-of-divided-modules)
+     + [1.1.1 TIbero(DB server)](#111-tiberodb-server)
+     + [1.2.2 Online/Batch](#112-online--batch)
+     + [1.2.3 UI tool](#113-ui-tool)
+  + [1-2. Configuration of each modules](#12-configuration-of-each-modules)
+     + [1.2.1 TIbero(DB server)](#121-tiberodb-server)
+     + [1.2.2 Online/Batch](#122-online--batch)
+     + [1.2.3 UI tool](#123-ui-tool)
 
 + [2. Fail-over with PODs of divided modules](#1-fail-over-environment-setting)
   + [2-1.Risk analysis]()
