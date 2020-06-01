@@ -24,7 +24,7 @@
 
 **picture**
 
-#### 1.1.1 TIbero(DB server)
+#### 1.1.1 Tibero(DB server)
 
 - Install only Tibero in one container.
 
