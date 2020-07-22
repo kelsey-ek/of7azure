@@ -112,6 +112,7 @@ oframe=(
 __a.__ Hostname should be different by the NODE.
 
 **Hostname should be different for each, but username should be the same. (When you check the spool, username should be the same for checking it.)**
+/etc/hosts
 
 ```bash
 # Kubernetes-managed hosts file.
