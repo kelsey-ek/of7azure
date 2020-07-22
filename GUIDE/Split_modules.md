@@ -112,8 +112,10 @@ oframe=(
 __a.__ Hostname should be different by the NODE.
 
 **Hostname should be different for each, but username should be the same. (When you check the spool, username should be the same for checking it.)**
-/etc/hosts
 
+-/etc/hosts
+    - Put all hostname & IP in etc/hosts
+    
 ```bash
 # Kubernetes-managed hosts file.
 127.0.0.1       localhost
@@ -127,7 +129,8 @@ fe00::2 ip6-allrouters
 ```
 __b.__ Set tibero client configuration on both NODEs.
 
-tibero6/client/config/tbdsn.tbr
+- tibero6/client/config/tbdsn.tbr
+
 
 ```bash
 #-------------------------------------------------
@@ -144,10 +147,9 @@ oframe=(
 
 __c.__ Set RACPORT and TMAX configuration on both NODEs.
 
+- .bash_profile
+
 ```bash
-
-.bash_profile
-
 # RAC PORT INFORMATION
 export TMAX_RAC_PORT=9450
 TMAX_RAC_IPV6="IPV6"
@@ -161,6 +163,8 @@ export LD_LIBRARY_PATH_64
 LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:$OPENFRAME_HOME/lib:/usr/lib"
 export LD_LIBRARY_PATH
 ```
+
+- Set racd on both NODEs.
 
 ```racd -k 9450```
 
