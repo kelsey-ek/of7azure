@@ -585,7 +585,9 @@ alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
 
 <img src="./reference_images/connect03.jpg" title="connect03">
 
-<img src="./reference_images/connect03-result.jpg" title="connect03-result">
+<img src="./reference_images/connect03-2.jpg" title="connect03-2">
+
+<img src="./reference_images/connect03-3.jpg" title="connect03-3">
 
 <img src="./reference_images/connect04.jpg" title="connect04">
 
