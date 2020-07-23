@@ -547,7 +547,29 @@ alias msdown2='stopServer -u administrator -p tmax123 -host localhost:9636'
 alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
 ```
     source ~/.bash_profile
-    
+
+
+<img src="./reference_images/resource.jpg" title="resource">
+
+<img src="./reference_images/resource_add.jpg" title="resource_add">
+
+<img src="./reference_images/add.jpg" title="add">
+
+<img src="./reference_images/kube.jpg" title="kube">
+
+<img src="./reference_images/kube01.jpg" title="kube01">
+
+<img src="./reference_images/kube02.jpg" title="kube02">
+
+<img src="./reference_images/kube03.jpg" title="kube03">
+
+<img src="./reference_images/kube04.jpg" title="kube04">
+
+<img src="./reference_images/kube05.jpg" title="kube05">
+
+<img src="./reference_images/kube06.jpg" title="kube06">
+
+
 **nfs_deployment_tibero.yaml**
 
 ```
