@@ -659,9 +659,19 @@ NFS service setting
 
 <img src="./reference_images/add05.jpg" title="add05">
 
+<img src="./reference_images/nfs01.jpg" title="nfs01">
 
 <img src="./reference_images/nfs02.jpg" title="nfs02">
 
+<img src="./reference_images/nfs03.jpg" title="nfs03">
+
+<img src="./reference_images/nfs04.jpg" title="nfs04">
+
+<img src="./reference_images/nfs05.jpg" title="nfs05">
+
+<img src="./reference_images/nfs06.jpg" title="nfs06">
+
+<img src="./reference_images/nfs07.jpg" title="nfs07">
 
 
 
