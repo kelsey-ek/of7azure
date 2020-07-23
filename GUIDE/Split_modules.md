@@ -651,6 +651,8 @@ $ sudo su - of7azure
 
 NFS service setting
 
+
+
 <img src="./reference_images/add02.jpg" title="add02">
 
 <img src="./reference_images/add03.jpg" title="add03">
@@ -667,11 +669,143 @@ NFS service setting
 
 <img src="./reference_images/nfs04.jpg" title="nfs04">
 
-<img src="./reference_images/nfs05.jpg" title="nfs05">
 
-<img src="./reference_images/nfs06.jpg" title="nfs06">
+**nfs_provisioner.yaml**
 
-<img src="./reference_images/nfs07.jpg" title="nfs07">
+```
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nfs-pod-provisioner
+spec:
+  selector:
+    matchLabels:
+      app: nfs-pod-provisioner
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nfs-pod-provisioner
+    spec:
+      serviceAccountName: nfs-pod-provisioner-sa # name of service account
+      containers:
+        - name: nfs-pod-provisioner
+          image: quay.io/external_storage/nfs-client-provisioner:latest
+          volumeMounts:
+            - name: nfs-provisioner-vol
+              mountPath: "/mnt/azure"
+          env:
+            - name: PROVISIONER_NAME # do not change
+              value: nfs-of7azure # SAME AS PROVISIONER NAME VALUE IN STORAGECLASS
+            - name: NFS_SERVER # do not change
+              value: 65.52.2.96 # Ip of the NFS SERVER
+            - name: NFS_PATH # do not change
+              value: "/azure_share" # path to nfs directory setup
+      volumes:
+       - name: nfs-provisioner-vol # same as volumemouts name
+         nfs:
+           server: 65.52.2.96
+           path: "/azure_share"
+```
+
+**nfs_serviceaccount.yaml**
+
+```
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: nfs-pod-provisioner-sa
+---
+kind: ClusterRole # Role of kubernetes
+apiVersion: rbac.authorization.k8s.io/v1 # auth API
+metadata:
+  name: nfs-provisioner-clusterrole
+rules:
+  - apiGroups: [""] # rules on persistentvolumes
+    resources: ["persistentvolumes"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list", "watch", "update"]
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["storageclasses"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "update", "patch"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nfs-provisioner-rolebinding
+subjects:
+  - kind: ServiceAccount
+    name: nfs-pod-provisioner-sa
+    namespace: default
+roleRef: # binding cluster role to service account
+  kind: ClusterRole
+  name: nfs-provisioner-clusterrole # name defined in clusterRole
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nfs-pod-provisioner-otherroles
+rules:
+  - apiGroups: [""]
+    resources: ["endpoints"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nfs-pod-provisioner-otherroles
+subjects:
+  - kind: ServiceAccount
+    name: nfs-pod-provisioner-sa # same as top of the file
+    # replace with namespace where provisioner is deployed
+    namespace: default
+roleRef:
+  kind: Role
+  name: nfs-pod-provisioner-otherroles
+  apiGroup: rbac.authorization.k8s.io
+```
+
+**nfs_storage.yaml**
+
+```
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-storageclass # IMPORTANT pvc needs to mention this name
+provisioner: nfs-of7azure # name can be anything
+parameters:
+  archiveOnDelete: "false"
+```
+
+**nfs_pvc.yaml**
+
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-pvc
+spec:
+  storageClassName: nfs-storageclass # SAME NAME AS THE STORAGECLASS
+  accessModes:
+    - ReadWriteMany #  must be the same as PersistentVolume
+  resources:
+    requests:
+      storage: 100Gi
+```
+
+
+
+
+
+
 
 
 
@@ -831,136 +965,7 @@ spec:
           claimName: nfs-pvc
 ```
 
-**nfs_provisioner.yaml**
 
-```
-kind: Deployment
-apiVersion: apps/v1
-metadata:
-  name: nfs-pod-provisioner
-spec:
-  selector:
-    matchLabels:
-      app: nfs-pod-provisioner
-  replicas: 1
-  strategy:
-    type: Recreate
-  template:
-    metadata:
-      labels:
-        app: nfs-pod-provisioner
-    spec:
-      serviceAccountName: nfs-pod-provisioner-sa # name of service account
-      containers:
-        - name: nfs-pod-provisioner
-          image: quay.io/external_storage/nfs-client-provisioner:latest
-          volumeMounts:
-            - name: nfs-provisioner-vol
-              mountPath: "/mnt/azure"
-          env:
-            - name: PROVISIONER_NAME # do not change
-              value: nfs-of7azure # SAME AS PROVISIONER NAME VALUE IN STORAGECLASS
-            - name: NFS_SERVER # do not change
-              value: 65.52.2.96 # Ip of the NFS SERVER
-            - name: NFS_PATH # do not change
-              value: "/azure_share" # path to nfs directory setup
-      volumes:
-       - name: nfs-provisioner-vol # same as volumemouts name
-         nfs:
-           server: 65.52.2.96
-           path: "/azure_share"
-```
-
-**nfs_serviceaccount.yaml**
-
-```
-kind: ServiceAccount
-apiVersion: v1
-metadata:
-  name: nfs-pod-provisioner-sa
----
-kind: ClusterRole # Role of kubernetes
-apiVersion: rbac.authorization.k8s.io/v1 # auth API
-metadata:
-  name: nfs-provisioner-clusterrole
-rules:
-  - apiGroups: [""] # rules on persistentvolumes
-    resources: ["persistentvolumes"]
-    verbs: ["get", "list", "watch", "create", "delete"]
-  - apiGroups: [""]
-    resources: ["persistentvolumeclaims"]
-    verbs: ["get", "list", "watch", "update"]
-  - apiGroups: ["storage.k8s.io"]
-    resources: ["storageclasses"]
-    verbs: ["get", "list", "watch"]
-  - apiGroups: [""]
-    resources: ["events"]
-    verbs: ["create", "update", "patch"]
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: nfs-provisioner-rolebinding
-subjects:
-  - kind: ServiceAccount
-    name: nfs-pod-provisioner-sa
-    namespace: default
-roleRef: # binding cluster role to service account
-  kind: ClusterRole
-  name: nfs-provisioner-clusterrole # name defined in clusterRole
-  apiGroup: rbac.authorization.k8s.io
----
-kind: Role
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: nfs-pod-provisioner-otherroles
-rules:
-  - apiGroups: [""]
-    resources: ["endpoints"]
-    verbs: ["get", "list", "watch", "create", "update", "patch"]
----
-kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: nfs-pod-provisioner-otherroles
-subjects:
-  - kind: ServiceAccount
-    name: nfs-pod-provisioner-sa # same as top of the file
-    # replace with namespace where provisioner is deployed
-    namespace: default
-roleRef:
-  kind: Role
-  name: nfs-pod-provisioner-otherroles
-  apiGroup: rbac.authorization.k8s.io
-```
-
-**nfs_storage.yaml**
-
-```
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: nfs-storageclass # IMPORTANT pvc needs to mention this name
-provisioner: nfs-of7azure # name can be anything
-parameters:
-  archiveOnDelete: "false"
-```
-
-**nfs_pvc.yaml**
-
-```
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: nfs-pvc
-spec:
-  storageClassName: nfs-storageclass # SAME NAME AS THE STORAGECLASS
-  accessModes:
-    - ReadWriteMany #  must be the same as PersistentVolume
-  resources:
-    requests:
-      storage: 100Gi
-```
 
 **NFS_NodePort_8088.yaml**
 
