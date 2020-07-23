@@ -718,8 +718,10 @@ spec:
            path: "/azure_share"
 ```
 
+```
 kelsey@Azure:~$ kubectl create -f nfs_provisioner.yaml
 deployment.apps/nfs-pod-provisioner created
+```
 
 **nfs_serviceaccount.yaml**
 
@@ -784,12 +786,14 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 ```
 
+```
 kelsey@Azure:~$ kubectl create -f nfs_serviceaccount.yaml
 serviceaccount/nfs-pod-provisioner-sa created
 clusterrole.rbac.authorization.k8s.io/nfs-provisioner-clusterrole created
 clusterrolebinding.rbac.authorization.k8s.io/nfs-provisioner-rolebinding created
 role.rbac.authorization.k8s.io/nfs-pod-provisioner-otherroles created
 rolebinding.rbac.authorization.k8s.io/nfs-pod-provisioner-otherroles created
+```
 
 **nfs_storage.yaml**
 
@@ -803,8 +807,10 @@ parameters:
   archiveOnDelete: "false"
 ```
 
+```
 kelsey@Azure:~$ kubectl create -f nfs_storage.yaml
 storageclass.storage.k8s.io/nfs-storageclass created
+```
 
 **nfs_pvc.yaml**
 
@@ -822,11 +828,10 @@ spec:
       storage: 100Gi
 ```
 
+```
 kelsey@Azure:~$ kubectl create -f nfs_pvc.yaml
 persistentvolumeclaim/nfs-pvc created
-
-
-
+```
 
 
 **nfs_deployment_tibero.yaml**
