@@ -575,6 +575,7 @@ alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
 
 <img src="./reference_images/node02.jpg" title="node02">
 
+
 **nfs_deployment_tibero.yaml**
 
 ```
