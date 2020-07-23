@@ -548,7 +548,6 @@ alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
 ```
     source ~/.bash_profile
 
-
 <img src="./reference_images/resource.jpg" title="resource">
 
 <img src="./reference_images/resource_add.jpg" title="resource_add">
@@ -574,6 +573,43 @@ alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
 <img src="./reference_images/node01.jpg" title="node01">
 
 <img src="./reference_images/reset.jpg" title="reset">
+
+username : of7azure
+
+password : Tmaxsoft@1234
+
+    **Use Azure cloud**
+
+* Get access credentials for a managed Kubernetes cluster
+
+    ```az aks get-credentials --resource-group [resource_group_name] --name [AKS_cluster_name]```
+
+    *Example :*
+
+    ``` az aks get-credentials --resource-group OF7Azure_KELSEY --name AKSOF7Azure```
+
+    *Merged "AKSOF7azure" as current context in /home/kelsey/.kube/config*
+
+
+* Check the node status
+
+    ```kubectl get nodes```
+    ```bash
+    kelsey@Azure:~$ kubectl get nodes
+    NAME                       STATUS   ROLES   AGE     VERSION
+    aks-agentpool-24893396-0   Ready    agent   3h44m   v1.16.10
+    aks-agentpool-24893396-1   Ready    agent   3h44m   v1.16.10
+    ```
+
+* When you need to reset the cluster 
+
+    ```kubectl config delete-cluster [cluster name]```
+
+    *Example :*
+
+    ```kubectl config delete-cluster AKSOF7azure```
+
+    *deleted cluster AKSOF7Azure from /home/kelsey/.kube/config*
 
 <img src="./reference_images/network00.jpg" title="network00">
 
@@ -603,11 +639,20 @@ aks-agentpool-#####-0
 aks-agentpool-#####-1
 52.188.139.16:20
 
+```
 ID : of7azure
 Password : Tmaxsoft@1234
+```
 
+```
 $ sudo su - of7azure
 [sudo] password for of7azure: 
+```
+
+NFS service setting
+
+
+
 
 **nfs_deployment_tibero.yaml**
 
