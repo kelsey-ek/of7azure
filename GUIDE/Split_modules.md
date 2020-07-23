@@ -569,8 +569,6 @@ alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
 
 <img src="./reference_images/kube06.jpg" title="kube06">
 
-<img src="./reference_images/kube06.jpg" title="kube06">
-
 <img src="./reference_images/AKS.jpg" title="AKS">
 
 <img src="./reference_images/node01.jpg" title="node01">
