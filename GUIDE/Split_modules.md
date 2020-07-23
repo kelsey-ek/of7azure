@@ -575,6 +575,25 @@ alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
 
 <img src="./reference_images/reset.jpg" title="reset">
 
+<img src="./reference_images/network00.jpg" title="network00">
+
+<img src="./reference_images/network01.jpg" title="network01">
+
+<img src="./reference_images/connect01.jpg" title="connect01">
+
+<img src="./reference_images/connect02.jpg" title="connect02">
+
+<img src="./reference_images/connect03.jpg" title="connect03">
+
+<img src="./reference_images/connect03-result.jpg" title="connect03-result">
+
+<img src="./reference_images/connect04.jpg" title="connect04">
+
+<img src="./reference_images/connect05.jpg" title="connect05">
+
+<img src="./reference_images/connect06.jpg" title="connect06">
+
+<img src="./reference_images/connect06-result.jpg" title="connect06-result">
 
 **nfs_deployment_tibero.yaml**
 
