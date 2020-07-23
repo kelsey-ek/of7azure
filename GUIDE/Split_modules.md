@@ -548,6 +548,293 @@ alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
 ```
     source ~/.bash_profile
     
+**nfs_deployment_tibero.yaml**
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfsof7azure-tibero
+spec:
+  selector:
+    matchLabels:
+      of7azurefinal: nfsof7azure
+  replicas: 1
+  template:
+    metadata:
+      name: of7azure
+      labels:
+        of7azurefinal: nfsof7azure
+    spec:
+      hostname: of7azure
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: of7azure-tibero-link
+        image: kelsey92/of7azure_tibero_link:tibero_link
+        ports:
+        - containerPort: 6066
+        command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
+        lifecycle:
+          preStop:
+            exec:
+              command: [ "/bin/sleep", "120" ]
+        volumeMounts:
+        - name: sharedvolume
+          mountPath: /mnt/azure
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: nfs-pvc
+```
+
+**nfs_deployment_batch.yaml**
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfsof7azure-batch
+spec:
+  selector:
+    matchLabels:
+      of7azurefinal: nfsof7azure
+  replicas: 1
+  template:
+    metadata:
+      name: of7azure
+      labels:
+        of7azurefinal: nfsof7azure
+    spec:
+      hostname: of7azure
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: of7azure-batch-link
+        image: kelsey92/of7azure_batch_link:batch_link
+        ports:
+        - containerPort: 6066
+        command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
+        lifecycle:
+          preStop:
+            exec:
+              command: [ "/bin/sleep", "120" ]
+        volumeMounts:
+        - name: sharedvolume
+          mountPath: /mnt/azure
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: nfs-pvc
+```
+
+**nfs_deployment_osc.yaml**
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfsof7azure-osc
+spec:
+  selector:
+    matchLabels:
+      of7azurefinal: nfsof7azure
+  replicas: 1
+  template:
+    metadata:
+      name: of7azure
+      labels:
+        of7azurefinal: nfsof7azure
+    spec:
+      hostname: of7azure01
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: of7azure-osc-link
+        image: kelsey92/of7azure_osc_link:osc_link
+        ports:
+        - containerPort: 6066
+        command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
+        lifecycle:
+          preStop:
+            exec:
+              command: [ "/bin/sleep", "120" ]
+        volumeMounts:
+        - name: sharedvolume
+          mountPath: /mnt/azure
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: nfs-pvc
+```
+
+**nfs_deployment_jeus.yaml**
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfsof7azure-jeus
+spec:
+  selector:
+    matchLabels:
+      of7azurefinal: nfsof7azure
+  replicas: 1
+  template:
+    metadata:
+      name: of7azure
+      labels:
+        of7azurefinal: nfsof7azure
+    spec:
+      hostname: of7azure
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: of7azure-jeus
+        image: kelsey92/of7azure_jeus:jeus
+        ports:
+        - containerPort: 6066
+        command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
+        lifecycle:
+          preStop:
+            exec:
+              command: [ "/bin/sleep", "120" ]
+        volumeMounts:
+        - name: sharedvolume
+          mountPath: /mnt/azure
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: nfs-pvc
+```
+
+**nfs_provisioner.yaml**
+
+```
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nfs-pod-provisioner
+spec:
+  selector:
+    matchLabels:
+      app: nfs-pod-provisioner
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nfs-pod-provisioner
+    spec:
+      serviceAccountName: nfs-pod-provisioner-sa # name of service account
+      containers:
+        - name: nfs-pod-provisioner
+          image: quay.io/external_storage/nfs-client-provisioner:latest
+          volumeMounts:
+            - name: nfs-provisioner-vol
+              mountPath: "/mnt/azure"
+          env:
+            - name: PROVISIONER_NAME # do not change
+              value: nfs-of7azure # SAME AS PROVISIONER NAME VALUE IN STORAGECLASS
+            - name: NFS_SERVER # do not change
+              value: 65.52.2.96 # Ip of the NFS SERVER
+            - name: NFS_PATH # do not change
+              value: "/azure_share" # path to nfs directory setup
+      volumes:
+       - name: nfs-provisioner-vol # same as volumemouts name
+         nfs:
+           server: 65.52.2.96
+           path: "/azure_share"
+```
+
+**nfs_serviceaccount.yaml**
+
+```
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: nfs-pod-provisioner-sa
+---
+kind: ClusterRole # Role of kubernetes
+apiVersion: rbac.authorization.k8s.io/v1 # auth API
+metadata:
+  name: nfs-provisioner-clusterrole
+rules:
+  - apiGroups: [""] # rules on persistentvolumes
+    resources: ["persistentvolumes"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list", "watch", "update"]
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["storageclasses"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "update", "patch"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nfs-provisioner-rolebinding
+subjects:
+  - kind: ServiceAccount
+    name: nfs-pod-provisioner-sa
+    namespace: default
+roleRef: # binding cluster role to service account
+  kind: ClusterRole
+  name: nfs-provisioner-clusterrole # name defined in clusterRole
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nfs-pod-provisioner-otherroles
+rules:
+  - apiGroups: [""]
+    resources: ["endpoints"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nfs-pod-provisioner-otherroles
+subjects:
+  - kind: ServiceAccount
+    name: nfs-pod-provisioner-sa # same as top of the file
+    # replace with namespace where provisioner is deployed
+    namespace: default
+roleRef:
+  kind: Role
+  name: nfs-pod-provisioner-otherroles
+  apiGroup: rbac.authorization.k8s.io
+```
+
+**nfs_storage.yaml**
+
+```
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-storageclass # IMPORTANT pvc needs to mention this name
+provisioner: nfs-of7azure # name can be anything
+parameters:
+  archiveOnDelete: "false"
+```
+
+**nfs_pvc.yaml**
+
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-pvc
+spec:
+  storageClassName: nfs-storageclass # SAME NAME AS THE STORAGECLASS
+  accessModes:
+    - ReadWriteMany #  must be the same as PersistentVolume
+  resources:
+    requests:
+      storage: 100Gi
+```
+
 
 
 **CONCLUSION**
