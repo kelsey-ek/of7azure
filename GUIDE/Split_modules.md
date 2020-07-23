@@ -651,7 +651,21 @@ $ sudo su - of7azure
 
 NFS service setting
 
+<img src="./reference_images/add02.jpg" title="add02">
 
+<img src="./reference_images/add03.jpg" title="add03">
+
+<img src="./reference_images/add04.jpg" title="add04">
+
+<img src="./reference_images/add05.jpg" title="add05">
+
+<img src="./reference_images/nfs01.jpg" title="nfs01">
+
+<img src="./reference_images/nfs02.jpg" title="nfs02">
+
+<img src="./reference_images/nfs03.jpg" title="nfs03">
+
+<img src="./reference_images/nfs04.jpg" title="nfs04">
 
 
 **nfs_deployment_tibero.yaml**
