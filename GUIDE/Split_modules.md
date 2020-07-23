@@ -585,7 +585,7 @@ alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
 
 <img src="./reference_images/connect03.jpg" title="connect03">
 
-<img src="./reference_images/connect03-2.jpg" title="connect03-2">
+<img src="./reference_images/connect03-1.jpg" title="connect03-1">
 
 <img src="./reference_images/connect03-3.jpg" title="connect03-3">
 
@@ -596,6 +596,18 @@ alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
 <img src="./reference_images/connect06.jpg" title="connect06">
 
 <img src="./reference_images/connect06-result.jpg" title="connect06-result">
+
+aks-agentpool-#####-0
+52.188.139.16:22
+
+aks-agentpool-#####-1
+52.188.139.16:20
+
+ID : of7azure
+Password : Tmaxsoft@1234
+
+$ sudo su - of7azure
+[sudo] password for of7azure: 
 
 **nfs_deployment_tibero.yaml**
 
