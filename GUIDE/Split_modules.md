@@ -669,6 +669,14 @@ NFS service setting
 
 <img src="./reference_images/nfs04.jpg" title="nfs04">
 
+<img src="./reference_images/nfs05.jpg" title="nfs05">
+
+<img src="./reference_images/nfs06.jpg" title="nfs06">
+
+<img src="./reference_images/nfs07.jpg" title="nfs07">
+
+<img src="./reference_images/nfs08.jpg" title="nfs08">
+
 
 **nfs_provisioner.yaml**
 
@@ -709,6 +717,9 @@ spec:
            server: 65.52.2.96
            path: "/azure_share"
 ```
+
+kelsey@Azure:~$ kubectl create -f nfs_provisioner.yaml
+deployment.apps/nfs-pod-provisioner created
 
 **nfs_serviceaccount.yaml**
 
@@ -773,6 +784,13 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 ```
 
+kelsey@Azure:~$ kubectl create -f nfs_serviceaccount.yaml
+serviceaccount/nfs-pod-provisioner-sa created
+clusterrole.rbac.authorization.k8s.io/nfs-provisioner-clusterrole created
+clusterrolebinding.rbac.authorization.k8s.io/nfs-provisioner-rolebinding created
+role.rbac.authorization.k8s.io/nfs-pod-provisioner-otherroles created
+rolebinding.rbac.authorization.k8s.io/nfs-pod-provisioner-otherroles created
+
 **nfs_storage.yaml**
 
 ```
@@ -784,6 +802,9 @@ provisioner: nfs-of7azure # name can be anything
 parameters:
   archiveOnDelete: "false"
 ```
+
+kelsey@Azure:~$ kubectl create -f nfs_storage.yaml
+storageclass.storage.k8s.io/nfs-storageclass created
 
 **nfs_pvc.yaml**
 
@@ -801,9 +822,8 @@ spec:
       storage: 100Gi
 ```
 
-
-
-
+kelsey@Azure:~$ kubectl create -f nfs_pvc.yaml
+persistentvolumeclaim/nfs-pvc created
 
 
 
