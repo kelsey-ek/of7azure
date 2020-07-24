@@ -677,6 +677,59 @@ NFS service setting
 
 <img src="./reference_images/nfs08.jpg" title="nfs08">
 
+ - Connected to NFS Server.
+    
+    <img src="./reference_images/NFS_VM09.PNG" title="NFS_VM089">
+       
+#### 1-3.2.2 Create NFS Share in NFS Server
+
+Reference : https://cloudinfrastructureservices.co.uk/how-to-setup-nfs-server-2016-2019-in-azure-aws-gcp/
+
+1) Create NFS Share using Server Manager
+    
+- Dashboard
+    
+    <img src="./reference_images/NFS_server.PNG" title="NFS_server">
+
+- Click **File and Storage Services - Shares** and hit **New Share** button.
+    
+    <img src="./reference_images/NFS_server01.PNG" title="NFS_server01">
+    
+- Select **NFS Share - Quick**.
+    
+    <img src="./reference_images/NFS_server02.PNG" title="NFS_server02">
+    
+- Create a folder you want to share beforehand and click **"Type a custom path" - "Browse"** button and select the foder.(it will be a local path in NFS Server.)
+    
+    <img src="./reference_images/NFS_server03.PNG" title="NFS_server03">
+    
+- **Remote path to share** is important.
+    
+    <img src="./reference_images/NFS_server04.PNG" title="NFS_server04">
+    
+- Check all boxes in Authentication setting.
+    
+    <img src="./reference_images/NFS_server_checkallboxes.PNG" title="NFS_server_checkallboxes">
+    
+- Customize the Share Permissions(click Add button) & Permissions.(click Customize permissions button) (*I checked All Machines in this setting*)
+    
+    <img src="./reference_images/NFS_server_permmision.PNG" title="NFS_server_permmision">
+    
+    <img src="./reference_images/NFS_server_permmision01.PNG" title="NFS_server_permmision01">
+    
+    <img src="./reference_images/NFS_server_permmision02.PNG" title="NFS_server_permmision02">
+    
+- Confirm it and complete the setting.
+    
+    <img src="./reference_images/NFS_server_permmision03.PNG" title="NFS_server_permmision03">
+    
+    <img src="./reference_images/NFS_server_permmision_last.PNG" title="NFS_server_permmision_last">
+    
+    <img src="./reference_images/NFS_server_result.PNG" title="NFS_server_result">
+
+
+
+
 
 **nfs_provisioner.yaml**
 
