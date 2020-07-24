@@ -886,6 +886,44 @@ kelsey@Azure:~$ kubectl create -f nfs_pvc.yaml
 persistentvolumeclaim/nfs-pvc created
 ```
 
+```
+kelsey@Azure:~$ kubectl get pvc
+NAME      STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS       AGE
+nfs-pvc   Bound    pvc-bbfe213b-df7e-4cae-be4a-b069dceeea57   100Gi      RWX            nfs-storageclass   17h
+```
+
+    <img src="./reference_images/014.jpg" title="014">
+    
+    <img src="./reference_images/015.jpg" title="015">
+
+```
+kelsey@Azure:~$ kubectl describe pv pvc-bbfe213b-df7e-4cae-be4a-b069dceeea57
+Name:            pvc-bbfe213b-df7e-4cae-be4a-b069dceeea57
+Labels:          <none>
+Annotations:     pv.kubernetes.io/provisioned-by: nfs-of7azure
+Finalizers:      [kubernetes.io/pv-protection]
+StorageClass:    nfs-storageclass
+Status:          Bound
+Claim:           default/nfs-pvc
+Reclaim Policy:  Delete
+Access Modes:    RWX
+VolumeMode:      Filesystem
+Capacity:        100Gi
+Node Affinity:   <none>
+Message:
+Source:
+    Type:      NFS (an NFS mount that lasts the lifetime of a pod)
+    Server:    40.114.34.47
+    Path:      /azure_share/default-nfs-pvc-pvc-bbfe213b-df7e-4cae-be4a-b069dceeea57
+    ReadOnly:  false
+Events:        <none>
+```
+
+/azure_share/default-nfs-pvc-pvc-bbfe213b-df7e-4cae-be4a-b069dceeea57
+
+**default-nfs-pvc-pvc-bbfe213b-df7e-4cae-be4a-b069dceeea57**
+
+
 
 **nfs_deployment_tibero.yaml**
 
