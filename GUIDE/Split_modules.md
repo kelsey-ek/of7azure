@@ -892,10 +892,6 @@ NAME      STATUS   VOLUME                                     CAPACITY   ACCESS 
 nfs-pvc   Bound    pvc-bbfe213b-df7e-4cae-be4a-b069dceeea57   100Gi      RWX            nfs-storageclass   17h
 ```
 
-<img src="./reference_images/014.jpg" title="014">
-    
-<img src="./reference_images/015.jpg" title="015">
-
 ```
 kelsey@Azure:~$ kubectl describe pv pvc-bbfe213b-df7e-4cae-be4a-b069dceeea57
 Name:            pvc-bbfe213b-df7e-4cae-be4a-b069dceeea57
@@ -923,7 +919,9 @@ Events:        <none>
 
 **default-nfs-pvc-pvc-bbfe213b-df7e-4cae-be4a-b069dceeea57**
 
-
+<img src="./reference_images/014.jpg" title="014">
+    
+<img src="./reference_images/015.jpg" title="015">
 
 **nfs_deployment_tibero.yaml**
 
