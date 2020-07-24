@@ -705,35 +705,31 @@ Reference : https://cloudinfrastructureservices.co.uk/how-to-setup-nfs-server-20
     
 - Create a folder you want to share beforehand and click **"Type a custom path" - "Browse"** button and select the foder.(it will be a local path in NFS Server.)
     
-    <img src="./reference_images/NFS_server03.PNG" title="NFS_server03">
+    <img src="./reference_images/005.jpg" title="005">
     
 - **Remote path to share** is important.
     
-    <img src="./reference_images/NFS_server04.PNG" title="NFS_server04">
+    <img src="./reference_images/006.jpg" title="006">
     
 - Check all boxes in Authentication setting.
     
-    <img src="./reference_images/NFS_server_checkallboxes.PNG" title="NFS_server_checkallboxes">
+    <img src="./reference_images/007.jpg" title="007">
     
 - Customize the Share Permissions(click Add button) & Permissions.(click Customize permissions button) (*I checked All Machines in this setting*)
     
-    <img src="./reference_images/NFS_server_permmision.PNG" title="NFS_server_permmision">
+    <img src="./reference_images/008.jpg" title="008">
     
-    <img src="./reference_images/NFS_server_permmision01.PNG" title="NFS_server_permmision01">
+    <img src="./reference_images/009.jpg" title="009">
     
-    <img src="./reference_images/NFS_server_permmision02.PNG" title="NFS_server_permmision02">
+    <img src="./reference_images/010.jpg" title="010">
     
 - Confirm it and complete the setting.
     
-    <img src="./reference_images/NFS_server_permmision03.PNG" title="NFS_server_permmision03">
+    <img src="./reference_images/011.jpg" title="011">
     
-    <img src="./reference_images/NFS_server_permmision_last.PNG" title="NFS_server_permmision_last">
+    <img src="./reference_images/012.jpg" title="012">
     
-    <img src="./reference_images/NFS_server_result.PNG" title="NFS_server_result">
-
-
-
-
+    <img src="./reference_images/013.jpg" title="013">
 
 **nfs_provisioner.yaml**
 
