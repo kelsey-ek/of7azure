@@ -679,13 +679,17 @@ NFS service setting
 
  - Connected to NFS Server.
     
-    <img src="./reference_images/NFS_VM09.PNG" title="NFS_VM089">
+    <img src="./reference_images/001.jpg" title="001">
        
 #### 1-3.2.2 Create NFS Share in NFS Server
 
 Reference : https://cloudinfrastructureservices.co.uk/how-to-setup-nfs-server-2016-2019-in-azure-aws-gcp/
 
 1) Create NFS Share using Server Manager
+
+- Execute Server Manager
+
+    <img src="./reference_images/002.jpg" title="002">
     
 - Dashboard
     
@@ -693,11 +697,11 @@ Reference : https://cloudinfrastructureservices.co.uk/how-to-setup-nfs-server-20
 
 - Click **File and Storage Services - Shares** and hit **New Share** button.
     
-    <img src="./reference_images/NFS_server01.PNG" title="NFS_server01">
+    <img src="./reference_images/003.jpg" title="003">
     
 - Select **NFS Share - Quick**.
     
-    <img src="./reference_images/NFS_server02.PNG" title="NFS_server02">
+    <img src="./reference_images/004.jpg" title="004">
     
 - Create a folder you want to share beforehand and click **"Type a custom path" - "Browse"** button and select the foder.(it will be a local path in NFS Server.)
     
