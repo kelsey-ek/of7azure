@@ -116,9 +116,9 @@ __a.__ Hostname should be different by the NODE.
 
 - Prepare licenses with the correct hostnames.
 
-NODE1 : of7azure01
+NODE1 : of7azure01 (TMAX, osc, base)
 
-NODE1 : of7auzre
+NODE2 : of7auzre (TMAX, batch, tacf, base)
 
 - /etc/hosts from both NODEs.
     
