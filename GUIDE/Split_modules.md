@@ -240,19 +240,17 @@ NODE2
 
 
 *SVRGROUP
-svg_domain1
+
+*SVRGROUP
+svg_osc
     NODENAME = "NODE1"
-svg_domain2
+svg_batch
     NODENAME = "NODE2"
-svg_node1
-    NODENAME = "NODE1"
-svg_node2
+svg_batch2
     NODENAME = "NODE2"
 svg_node_all
-    NODENAME = "NODE1",COUSIN = "svg_batch", LOAD = 0
-svg_batch
-    NODENAME = "NODE2", LOAD = -2
-
+    NODENAME = "NODE1" , COUSIN = "svg_batch2"
+       
 *SERVER
 ################################################################################
 # OpenFrame Base Servers                                                       #
@@ -278,10 +276,11 @@ ofrcmsvr    SVGNAME = svg_node_all,   MIN = 1, MAX = 1, SVRTYPE=UCS,
             CLOPT="-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
 ofruisvr    SVGNAME = svg_node_all,    MIN = 2, MAX = 5,
             CLOPT="-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
-ofrsmlog    SVGNAME = svg_node_all,	MIN	= 1, MAX = 1,
+ofrsmlog    SVGNAME = svg_node_all,     MIN     = 1, MAX = 1,
             CLOPT="-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
 vtammgr     SVGNAME = svg_node_all, MIN = 1, MAX = 1, RESTART=NO, SVRTYPE=UCS,
             CLOPT="-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
+
 
 *SERVER
 ################################################################################
@@ -293,83 +292,83 @@ vtammgr     SVGNAME = svg_node_all, MIN = 1, MAX = 1, RESTART=NO, SVRTYPE=UCS,
 # - Spool Backup Server         (UCS)                                          #
 # - Print Management Server     (UCS)                                          #
 ################################################################################
-obmjmsvr    SVGNAME = svg_node2,        MIN = 10, MAX = 10,
+obmjmsvr    SVGNAME = svg_batch,        MIN = 10, MAX = 10,
             CLOPT="-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
-obmjschd    SVGNAME = svg_domain2,
+obmjschd    SVGNAME = svg_batch2,
             MIN = 1, MAX = 1, SVRTYPE=UCS,
             CLOPT="-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
-obmjinit    SVGNAME = svg_node2,
+obmjinit    SVGNAME = svg_batch,
             MIN = 1, MAX = 1, SVRTYPE=UCS,
             CLOPT="-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
-obmjhist    SVGNAME = svg_domain2,
+obmjhist    SVGNAME = svg_batch2,
             CLOPT="-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
-obmjspbk    SVGNAME = svg_domain2,   MIN = 1, MAX = 1, SVRTYPE=UCS,
+obmjspbk    SVGNAME = svg_batch2,   MIN = 1, MAX = 1, SVRTYPE=UCS,
             CLOPT="-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
-ofrpmsvr    SVGNAME = svg_domain2,   MIN = 1, MAX = 1, SVRTYPE=UCS,
+ofrpmsvr    SVGNAME = svg_batch2,   MIN = 1, MAX = 1, SVRTYPE=UCS,
             CLOPT="-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
-obmtsmgr    SVGNAME = svg_domain2,   MIN = 1, MAX = 1, SVRTYPE=UCS,
-	    CLOPT="-o $(SVR)$(DATE).out -e $(SVR)$(DATE).err"
-obmjtimr    SVGNAME = svg_domain2,   MIN = 1, MAX = 1, SVRTYPE=UCS,
-			CLOPT="-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
+obmtsmgr    SVGNAME = svg_batch2,   MIN = 1, MAX = 1, SVRTYPE=UCS,
+            CLOPT="-o $(SVR)$(DATE).out -e $(SVR)$(DATE).err"
+obmjtimr    SVGNAME = svg_batch2,   MIN = 1, MAX = 1, SVRTYPE=UCS,
+                        CLOPT="-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
 
 *SERVER
 ################################################################################
 # OpenFrame TACF  Servers                                                      #
 # - TACF Mangement Server                                                      #
 ################################################################################
-tmsvr		SVGNAME = svg_domain2,
-			MIN = 1, MAX = 1,
-			CLOPT="-o $(SVR)$(DATE).out -e $(SVR)$(DATE).err"
+tmsvr           SVGNAME = svg_batch2,
+                        MIN = 1, MAX = 1,
+                        CLOPT="-o $(SVR)$(DATE).out -e $(SVR)$(DATE).err"
 
 ################################################################################
 #   OpenFrame Online System Servers (OSC)                                      #
 ################################################################################
 ######## OSC svgotpn: Unique for node
-oscmgr           SVGNAME = svg_domain, MAX = 1, SVRTYPE = UCS,
+oscmgr           SVGNAME = svg_osc, MAX = 1, SVRTYPE = UCS,
                  CLOPT = "-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
-oscmcsvr         SVGNAME = svg_domain,
+oscmcsvr         SVGNAME = svg_osc,
                  CLOPT = "-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
-oscmnsvr         SVGNAME = svg_domain, MAX = 1, SVRTYPE = UCS,
+oscmnsvr         SVGNAME = svg_osc, MAX = 1, SVRTYPE = UCS,
                  CLOPT = "-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
 
 ######## OSC svgotpb: BACKUP setting possible
 
-oscncsvr         SVGNAME = svg_domain, MAX = 1, SVRTYPE = UCS,
+oscncsvr         SVGNAME = svg_osc, MAX = 1, SVRTYPE = UCS,
                  CLOPT = "-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
-oscscsvr         SVGNAME = svg_domain, MAX = 1, SVRTYPE = UCS,
+oscscsvr         SVGNAME = svg_osc, MAX = 1, SVRTYPE = UCS,
                  CLOPT = "-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
-oscdfsvr         SVGNAME = svg_domain, MAX = 1, SVRTYPE = UCS,
+oscdfsvr         SVGNAME = svg_osc, MAX = 1, SVRTYPE = UCS,
                  CLOPT = "-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
-oscjcsvr         SVGNAME = svg_domain, MAX = 1, SVRTYPE = UCS,
+oscjcsvr         SVGNAME = svg_osc, MAX = 1, SVRTYPE = UCS,
                  CLOPT = "-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
 
 ################################################################################
 #   OpenFrame OSC User Application                                             #
 ################################################################################
-OSCOIVP1        SVGNAME = svg_domain,
-                MIN = 3, 
-                MAX = 10, 
+OSCOIVP1        SVGNAME = svg_osc,
+                MIN = 3,
+                MAX = 10,
                 SCHEDULE = FA,
                 CLOPT = "-n -o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
 
-OSCOIVP1C       SVGNAME = svg_domain,
+OSCOIVP1C       SVGNAME = svg_osc,
                 TARGET = OSCOIVP1,
                 CONV = O,
-                MAX = 1, 
+                MAX = 1,
                 SCHEDULE = FA,
                 CLOPT = "-n -o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
 
-OSCOIVP1OMC     SVGNAME = svg_domain,
+OSCOIVP1OMC     SVGNAME = svg_osc,
                 TARGET = oscossvr,
-                MIN = 1, 
-                MAX = 5, 
+                MIN = 1,
+                MAX = 5,
                 SCHEDULE = FA,
                 CLOPT = "-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err -x OSCOSSVRSVC1:OSCOIVP1_OMC1,OSCOSSVRSVC2:OSCOIVP1_OMC2,OSCOSSVRMON:OSCOIVP1_MON,OSCOSSVR_ST:OSCOIVP1_ST"
 
-OSCOIVP1TL      SVGNAME = svg_domain, MAX = 1, SVRTYPE = UCS, target=osctlsvr,
+OSCOIVP1TL      SVGNAME = svg_osc, MAX = 1, SVRTYPE = UCS, target=osctlsvr,
                 CLOPT = "-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err -x OSCTLSVRSVC:OSCOIVP1_TL"
 
-OSCOIVP1_TCL1   SVGNAME= svg_domain, 
+OSCOIVP1_TCL1   SVGNAME= svg_osc,
                 TARGET = OSCOIVP1,
                 MIN = 1,
                 CLOPT = "-n -o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
@@ -387,7 +386,6 @@ TPFMAGENT               SVGNAME = OPFMGRP01, MIN = 1, MAX = 1,
                         CLOPT = "-o $(SVR)$(CDATE).out -e $(SVR)$(CDATE).err"
 *SERVICE
 SPFMAGENT               SVRNAME = TPFMAGENT
-	
 ```
 
 **Set OSC,Batch tjes configuration.**
