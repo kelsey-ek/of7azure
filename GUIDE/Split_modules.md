@@ -85,6 +85,13 @@ Msg from rnode(NODE2):
     0   tmsvr      (  20)      RDY         0        0         0        0
 ```
 
+- Check if OSC_TC folder has already generated under the path below.
+
+```
+$OPENFRAME_HOME/temp/
+```
+If OSC_TC(region name) alreay exists when the region server is down, please delete it first.
+
 #### 1.1.3 UI tool
 
 - Install JEUS, OFGW, OFManager in the same container using the same DB(1.1.1).
