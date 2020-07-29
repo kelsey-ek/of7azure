@@ -86,11 +86,11 @@ Msg from rnode(NODE2):
 ```
 
 - Check if OSC_TC folder has already generated under the path below.
+     - If OSC_TC(region name) alreay exists when the region server is down, please delete it first.
 
 ```
 $OPENFRAME_HOME/temp/
 ```
-If OSC_TC(region name) alreay exists when the region server is down, please delete it first.
 
 #### 1.1.3 UI tool
 
