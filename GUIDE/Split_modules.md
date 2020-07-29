@@ -27,6 +27,7 @@
 #### 1.1.1 Tibero(DB server)
 
 - Install only Tibero in one container.
+- Prepare the license with the correct hostname.
 
 #### 1.1.2 Online / Batch
 
@@ -113,7 +114,13 @@ __a.__ Hostname should be different by the NODE.
 
 **Hostname should be different for each, but username should be the same. (When you check the spool, username should be the same for checking it.)**
 
-- /etc/hosts 
+- Prepare licenses with the correct hostnames.
+
+NODE1 : of7azure01
+
+NODE1 : of7auzre
+
+- /etc/hosts from both NODEs.
     
 ```bash
 # Kubernetes-managed hosts file.
