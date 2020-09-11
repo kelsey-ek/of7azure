@@ -375,6 +375,19 @@ Pooling = No
 DEBUG = 1
 ```
 
+- Check the connection using the command below.
+```
+[oframe7@oframe7 ~]$ isql oframe tibero tmax
++---------------------------------------+
+| Connected!                            |
+|                                       |
+| sql-statement                         |
+| help [tablename]                      |
+| quit                                  |
+|                                       |
++---------------------------------------+
+SQL> quit
+```
 
 ### 1.3.5 OFCOBOL installation
 
@@ -402,6 +415,7 @@ For running a JOB, please check the LIBPATH from tjclrun.conf
 
 ### 1.3.13 OFManager installation
 
+### 1.3.14 OFMiner installation
 
 ### 1.4 Create OpenFrame image
 
