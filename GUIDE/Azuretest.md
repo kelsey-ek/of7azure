@@ -19,6 +19,7 @@
       + [1.3.11 JEUS installation](#1311-jeus-installation)
       + [1.3.12 OFGW installation](#1312-ofgw-installation)
       + [1.3.13 OFManager installation](#1313-ofmanager-installation)
+      + [1.3.14 OFMiner installation](#1314-ofminer-installation)
   + [1.4 Create OpenFrame image](#14-create-openframe-image)
   + [1.5 Use OpenFrame image](#15-use-openframe-image)
 + [2. Azure Service](#step-2-azure-service)
@@ -228,20 +229,23 @@ Java HotSpot(TM) 64-Bit Server VM (build 24.79-b02, mixed mode)
 tar -xzvf [tibero tar file]
 mv license.xml tibero6/license/
 ```
-    vi .bash_profile
 ```bash
+vi .bash_profile
+
 # Tibero6 ENV
 export TB_HOME=$HOME/tibero6
 export TB_SID=oframe
 export TB_PROF_DIR=$TB_HOME/bin/prof
 export LD_LIBRARY_PATH=$TB_HOME/lib:$TB_HOME/client/lib:$LD_LIBRARY_PATH
 export PATH=$TB_HOME/bin:$TB_HOME/client/bin:$PATH
+
+source ~/.bash_profile
 ```
-    source ~/.bash_profile
+```
+sh $TB_HOME/config/gen_tip.sh
 
-    sh $TB_HOME/config/gen_tip.sh
-
-    vi $TB_HOME/config/$TB_SID.tip
+vi $TB_HOME/config/$TB_SID.tip
+```
 ```bash
 DB_NAME=oframe
 LISTENER_PORT=8629
@@ -256,10 +260,11 @@ TOTAL_SHM_SIZE=2G
 MEMORY_TARGET=3G 
 THROW_WHEN_GETTING_OSSTAT_FAIL = N # THIS IS IMPORTANT (network Kernel Parameters)
 ```
-    tbboot nomount 
+```
+tbboot nomount 
     
-    tbsql sys/tibero
-```bash
+tbsql sys/tibero
+
 SQL> CREATE DATABASE
 USER SYS IDENTIFIED BY TIBERO
 MAXINSTANCES 8                                            
@@ -281,14 +286,17 @@ TEMPFILE 'temp001.dtf' SIZE 200M autoextend on maxsize 1G
 UNDO TABLESPACE UNDO0                                     
 DATAFILE 'undo001.dtf' SIZE 200M autoextend on maxsize 1G; 
 ```
-    tbboot
+```
+tbboot
     
-    sh $TB_HOME/scripts/system.sh 
-    SYS password : tibero
-    SYSCAT password : syscat
-    
-    tbsql tibero/tmax
-```bash
+sh $TB_HOME/scripts/system.sh 
+
+SYS password : tibero
+SYSCAT password : syscat
+```
+```
+tbsql tibero/tmax
+
 create tablespace "DEFVOL" datafile 'DEFVOL.dbf' size 100M autoextend on;
 create tablespace "TACF00" datafile 'TACF00.dbf' size 50M  autoextend on;
 create tablespace "OFM_REPOSITORY" datafile 'OFM_REPOSITORY.dbf' size 50M  autoextend on;
@@ -315,19 +323,21 @@ cd unixODBC-2.3.7
 make
 make install
 ```
-    vi ~/.bash_profile
-```bash
+```
+vi ~/.bash_profile
 # UNIX ODBC ENV
 export ODBC_HOME=$HOME/unixODBC
 export PATH=$ODBC_HOME/bin:$PATH
 export LD_LIBRARY_PATH=$ODBC_HOME/lib:$LD_LIBRARY_PATH
 export ODBCINI=$HOME/unixODBC/etc/odbc.ini
 export ODBCSYSINI=$HOME
+
+source ~/.bash_profile
+```    
+
 ```
-    source ~/.bash_profile
-    
-    odbcinst -j
-```bash
+odbcinst -j
+
 unixODBC 2.3.7
 DRIVERS............: /home/of7azure/odbcinst.ini
 SYSTEM DATA SOURCES: /home/of7azure/odbc.ini
