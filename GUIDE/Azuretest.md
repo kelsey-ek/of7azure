@@ -325,6 +325,7 @@ make install
 ```
 ```
 vi ~/.bash_profile
+
 # UNIX ODBC ENV
 export ODBC_HOME=$HOME/unixODBC
 export PATH=$ODBC_HOME/bin:$PATH
@@ -400,6 +401,18 @@ SQL> quit
 ```
 
 ### 1.3.5 OFCOBOL installation
+
+```
+./OpenFrame_COBOL_4_0_732_Linux_x86_64.bin
+
+source ~/.bash_profile
+
+cp licofcob.dat $OFCOB_HOME/license
+
+ofcob --version
+
+
+
 
 ### 1.3.6 PROSORT installation
 
