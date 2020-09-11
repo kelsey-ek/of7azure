@@ -168,7 +168,7 @@ sysctl: cannot stat /proc/sys/net/core/wmem_max: No such file or directory
 
 * Refresh the kernel parameters.
 ```bash
-/sbin/sysctl –p 
+/sbin/sysctl -p 
 ```
 
 __d.__ Firewall setting
@@ -207,15 +207,14 @@ useradd -d /home/oftibr -g dba -s /bin/bash -m oftibr -u 10002
 rpm -ivh jdk-7u79-linux-x64.rpm
 ```
 
-bash_profile
-
+Add the part below to .bash_profile
 ```
 # JAVA ENV
 export JAVA_HOME=/usr/java/jdk1.7.0_79/
 export PATH=$JAVA_HOME/bin:$PATH
 export CLASSPATH=$CLASSPATH:$JAVA_HOME/jre/lib/ext:$JAVA_HOME/lib/tools.jar
 ```
-
+- Check the JAVA version
 ```
 java -version
 java version "1.7.0_79"
