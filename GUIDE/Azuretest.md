@@ -174,6 +174,10 @@ sysctl: cannot stat /proc/sys/net/core/wmem_max: No such file or directory
 __d.__ Firewall setting
 * Firewall does not work in the container. Instead, you can use port forwarding option(-p) when you run the container. I will talk about this later in 'use OpenFrame image' part.
 
+```
+chkconfig iptables off
+```
+
 __e.__ Prepare licenses from Technet
 * Use the correct hostname for downloading license files from Technet website.
 * You need to check hostname and the number of cores.
@@ -198,7 +202,26 @@ useradd -d /home/oftibr -g dba -s /bin/bash -m oftibr -u 10002
 ```sudo docker cp [filename] [containername]:[path]```
 
 ### 1.3.2 JAVA installation
+- Prepare JAVA rpm file
+```
+rpm -ivh jdk-7u79-linux-x64.rpm
+```
 
+bash_profile
+
+```
+# JAVA ENV
+export JAVA_HOME=/usr/java/jdk1.7.0_79/
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=$CLASSPATH:$JAVA_HOME/jre/lib/ext:$JAVA_HOME/lib/tools.jar
+```
+
+```
+java -version
+java version "1.7.0_79"
+Java(TM) SE Runtime Environment (build 1.7.0_79-b15)
+Java HotSpot(TM) 64-Bit Server VM (build 24.79-b02, mixed mode)
+```
 
 ### 1.3.3 Tibero installation
 
