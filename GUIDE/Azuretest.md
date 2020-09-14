@@ -410,9 +410,7 @@ source ~/.bash_profile
 cp licofcob.dat $OFCOB_HOME/license
 
 ofcob --version
-
-
-
+```
 
 ### 1.3.6 PROSORT installation
 
