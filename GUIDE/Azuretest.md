@@ -683,7 +683,7 @@ TSAM_USERNAME=tibero
 TSAM_PASSWORD=tmax
 TSAM_DATABASE=oframe
 
-VTAM_PORT=5566
+VTAM_PORT=5556
 ```
 
 ```
@@ -771,9 +771,59 @@ jeus.username=administrator
 nodename=oframe
 ```
 
+```
+systemctl stop firewalld
+
+systemctl disable firewalld
+```
+
 ### 1.3.12 OFGW installation
 
+```
+Jeus Domain Name (DEFAULT: jeus_domain): 
 
+Jeus Server Name (DEFAULT: server1): 
+
+Jeus Administrator Password (DEFAULT: ): tmax123
+
+Jeus DAS IP (DEFAULT: 10.0.2.15): 192.168.55.33
+
+Jeus DAS Base Port (DEFAULT: 9736): 
+
+DataBase Server Name (DEFAULT: 10.0.2.15): 192.168.55.33
+
+DataBase Port (DEFAULT: ): 8629      
+
+DataBase SID (DEFAULT: oframe): 
+
+DataBase User ID (DEFAULT: ): tibero
+
+DataBase User PW (DEFAULT: ): tmax
+
+Enter requested information
+
+Gateway Name (DEFAULT: ofgw): 
+
+Gateway PORT (DEFAULT: 5556): 
+
+Datasource ID (DEFAULT: ofgw): 
+
+Application Name (DEFAULT: webterminal): 
+
+Enter requested information
+($OPENFRAME_HOME/core/config/oframe.m)
+
+Tmax NODE Name (DEFAULT: NODE1): 
+
+Tmax NODE IP (DEFAULT: 10.0.2.15): 192.168.55.33
+
+Tmax NODE PORT (DEFAULT: 7001): 
+
+Enter requested information
+ex) /home/user/license/OFGWLicense
+
+OpenFrame GW License Path (DEFAULT: ): /home/oframe7/BINARY/LICENSE/OFGWLicense
+```
 
 
 
