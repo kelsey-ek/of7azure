@@ -748,8 +748,8 @@ oscdown
 vi ~/.bash_profile
 
 # JEUS ENV
-export JEUS_HOME=/home/oframe7/jeus7
-PATH="/home/oframe7/jeus7/bin:/home/oframe7/jeus7/lib/system:/home/oframe7/jeus7/webserver/bin:${PATH}"
+export JEUS_HOME=$HOME/jeus7
+PATH="$HOME/jeus7/bin:$HOME/jeus7/lib/system:$HOME/jeus7/webserver/bin:${PATH}"
 export PATH
 
 # JEUS alias
