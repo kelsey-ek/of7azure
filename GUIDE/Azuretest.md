@@ -437,7 +437,61 @@ cp licofcob.dat $OFCOB_HOME/license
 ofcob --version
 ```
 
+```
+vi HELLO.cob
+
+000100 IDENTIFICATION DIVISION.
+000200 PROGRAM-ID.     HELLO.
+000300 ENVIRONMENT DIVISION.
+000400 DATA DIVISION.
+000500 WORKING-STORAGE SECTION.
+000600 PROCEDURE DIVISION.
+000600     DISPLAY "Hello world!"
+
+ofcob -x HELLO.cob 
+
+./HELLO
+```
+
 ### 1.3.6 PROSORT installation
+
+```
+tar -xzvf prosort-bin-prosort_2sp3-linux64-2209-opt.tar.gz
+```
+
+```
+vi ~/.bash_profile
+
+# PROSORT ENV
+export PROSORT_HOME=$HOME/prosort
+export PROSORT_SID=gbg
+export PATH=$PATH:$PROSORT_HOME/bin
+export LD_LIBRARY_PATH=$PROSORT_HOME/lib:$LD_LIBRARY_PATH
+export LIBPATH=$PROSORT_HOME/lib:$LD_LIBRARY_PATH
+
+source ~/.bash_profile
+```
+
+```
+mkdir $PROSORT_HOME/license
+
+cp license.xml $PROSORT_HOME/license
+
+$PROSORT_HOME/config/gen_tip.sh
+```
+
+```
+prosort -h
+Usage: prosort [options] [sort script files]
+
+options
+-------
+  -h             Display this information
+  -v             Display version information
+  -s             Display state information
+  -j             Display profile information
+  -x             Use SyncSort compatible mode
+```
 
 ### 1.3.7 Base installation
 
