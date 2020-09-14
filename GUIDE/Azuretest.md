@@ -608,6 +608,66 @@ For running a JOB, please check the LIBPATH from tjclrun.conf
 ```
 
 ### 1.3.9 TACF installation
+- tacf.properties
+```
+OPENFRAME_HOME=/home/oframe1/OpenFrame
+```
+
+```
+./OpenFrame_Tacf7_Fix3_Linux_x86_64.bin -f tacf.properties
+
+source ~/.bash_profile
+```
+
+```
+tmboot
+
+tmadmin
+
+--- Welcome to Tmax Admin (Type "quit" to leave) --- 
+
+$$1 NODE1 (tmadm): si
+------------------------------------------------------------------------
+  clh   svrname    (svri)   status     count   qcount   qpcount  emcount
+------------------------------------------------------------------------
+    0   ofrsasvr   (   4)      RDY         0        0         0        0
+    0   ofrlhsvr   (   5)      RDY         0        0         0        0
+    0   ofrdmsvr   (   6)      RDY         0        0         0        0
+    0   ofrdsedt   (   7)      RDY         0        0         0        0
+    0   ofrcmsvr   (   8)      RDY         0        0         0        0
+    0   ofruisvr   (   9)      RDY         0        0         0        0
+    0   ofrsmlog   (  10)      RDY         0        0         0        0
+    0   vtammgr    (  11)      RDY         0        0         0        0
+    0   obmjmsvr   (  12)      RDY         0        0         0        0
+    0   obmjschd   (  13)      RDY         1        0         0        0
+    0   obmjinit   (  14)      RDY         2        0         0        0
+    0   obmjhist   (  15)      RDY         0        0         0        0
+    0   obmjspbk   (  16)      RDY         0        0         0        0
+    0   ofrpmsvr   (  17)      RDY         0        0         0        0
+    0   obmtsmgr   (  18)      RDY         0        0         0        0
+    0   obmjtimr   (  19)      RDY         0        0         0        0
+    0   tmsvr      (  20)      RDY         0        0         0        0
+
+quit
+
+```
+
+```
+tacfmgr
+
+Input USERNAME  : ROOT
+Input PASSWORD  : SYS1
+
+TACFMGR: TACF MANAGER START!!!
+
+QUIT
+
+tmdown
+
+```
+
+
+
 
 ### 1.3.10 OSC installation
 
