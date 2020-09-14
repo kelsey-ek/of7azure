@@ -659,17 +659,86 @@ Input USERNAME  : ROOT
 Input PASSWORD  : SYS1
 
 TACFMGR: TACF MANAGER START!!!
-
 QUIT
+TACFMGR: TACF MANAGER END!!!
 
 tmdown
 
 ```
 
+```
+cd $OPENFRAME_HOME/lib
 
+ln -s $ODBC_HOME/lib/libodbc.so.2.0.0 libodbc.so
 
+```
 
 ### 1.3.10 OSC installation
+
+- osc.properties
+```
+OPENFRAME_HOME=/home/oframe7/OpenFrame
+
+TSAM_USERNAME=tibero
+TSAM_PASSWORD=tmax
+TSAM_DATABASE=oframe
+
+VTAM_PORT=5566
+```
+
+```
+./OpenFrame_OSC7_Fix3_Linux_x86_64.bin -f osc.properties
+
+source ~/.bash_profile
+```
+
+```
+oscboot -C
+
+oscboot -r OSCOIVP1
+
+tmadmin
+--- Welcome to Tmax Admin (Type "quit" to leave) --- 
+
+$$1 NODE1 (tmadm): si
+------------------------------------------------------------------------
+  clh   svrname    (svri)   status     count   qcount   qpcount  emcount
+------------------------------------------------------------------------
+    0   ofrsasvr   (   4)      RDY         0        0         0        0
+    0   ofrlhsvr   (   5)      RDY        10        0         0        0
+    0   ofrdmsvr   (   6)      RDY         0        0         0        0
+    0   ofrdsedt   (   7)      RDY         0        0         0        0
+    0   ofrcmsvr   (   8)      RDY         0        0         0        0
+    0   ofruisvr   (   9)      RDY         0        0         0        0
+    0   ofrsmlog   (  10)      RDY         0        0         0        0
+    0   vtammgr    (  11)      RDY         0        0         0        0
+    0   obmjmsvr   (  12)      RDY         0        0         0        0
+    0   obmjschd   (  13)      RDY         1        0         0        0
+    0   obmjinit   (  14)      RDY         2        0         0        0
+    0   obmjhist   (  15)      RDY         0        0         0        0
+    0   obmjspbk   (  16)      RDY         0        0         0        0
+    0   ofrpmsvr   (  17)      RDY         0        0         0        0
+    0   obmtsmgr   (  18)      RDY         0        0         0        0
+    0   obmjtimr   (  19)      RDY         0        0         0        0
+    0   tmsvr      (  20)      RDY         0        0         0        0
+    0   oscmgr     (  21)      RDY         2        0         0        0
+    0   oscmcsvr   (  22)      RDY         0        0         0        0
+    0   oscmnsvr   (  23)      RDY         0        0         0        0
+    0   oscncsvr   (  24)      RDY         0        0         0        0
+    0   oscscsvr   (  25)      RDY         2        0         0        0
+    0   oscdfsvr   (  26)      RDY         0        0         0        0
+    0   oscjcsvr   (  27)      RDY         0        0         0        0
+    0   OSCOIVP1   (  28)      RDY         1        0         0        0
+    0   OSCOIVP1C  (  29)      RDY         0        0         0        0
+    0   OSCOIVP1OMC (  30)      RDY         0        0         0        0
+    0   OSCOIVP1TL (  31)      RDY         2        0         0        0
+    0   OSCOIVP1_TCL1 (  32)      RDY         0        0         0        0
+    0   TPFMAGENT  (  33)      RDY        12        0         0        0
+
+quit
+
+oscdown
+```
 
 ### 1.3.11 JEUS installation
 
