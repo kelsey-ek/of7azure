@@ -742,6 +742,35 @@ oscdown
 
 ### 1.3.11 JEUS installation
 
+```
+./jeus7_unix_generic_ko.bin
+
+vi ~/.bash_profile
+
+# JEUS ENV
+export JEUS_HOME=/home/oframe7/jeus7
+PATH="/home/oframe7/jeus7/bin:/home/oframe7/jeus7/lib/system:/home/oframe7/jeus7/webserver/bin:${PATH}"
+export PATH
+
+# JEUS alias
+alias dsboot='startDomainAdminServer -domain jeus_domain -u administrator -p TmaxFall2020'
+alias msboot='startManagedServer -domain jeus_domain -server server1 -u administrator -p TmaxFall2020'
+alias msdown='stopServer -u administrator -p jeusadmin -host 192.168.96.195:9936' -> check port number
+alias dsdown='stopServer -u administrator -p jeusadmin -host 192.168.96.195:9736' -> check port number
+
+source ~/.bash_profile
+```
+
+```
+/home/oframe7/jeus7/setup/domain-config-template.properties
+
+# If you want to set encrypted password, change it by set-password command with algorithm option in jeusadmin
+jeus.password=jeusadmin
+jeus.username=administrator
+# Node configuration
+nodename=oframe
+```
+
 ### 1.3.12 OFGW installation
 
 ### 1.3.13 OFManager installation
