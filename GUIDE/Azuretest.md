@@ -198,6 +198,31 @@ groupadd dba -g 10005
 useradd -d /home/oftibr -g dba -s /bin/bash -m oftibr -u 10002
 ```
 
+__h.__ Add information in bash_profile
+```
+# clear screen
+clear
+
+
+echo ""
+echo "**********************************************"
+echo "***          ##OF 7 DEMO ENV ##            ***"
+echo "**********************************************"
+echo "***              OF PS TEAM                  *"
+echo "**********************************************"
+echo "***  account : oframe7                     ***"
+echo "***  Download binary : IMS-198017          ***"
+echo "***  Installed Product :                   ***"
+echo "***    - java version  1.7.0_80            ***"
+echo "***                                        ***"
+echo "***                            2020.02.19  ***"
+echo "**********************************************"
+echo ""
+```
+
+
+
+
 
 **Copy OpenFrame binary files from host to container**
 ```sudo docker cp [filename] [containername]:[path]```
