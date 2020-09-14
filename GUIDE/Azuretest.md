@@ -495,7 +495,109 @@ options
 
 ### 1.3.7 Base installation
 
+- Copy OpenFrame and Tmax licences under each directory.
+
+- base.properties
+```
+OPENFRAME_HOME=/home/oframe7/OpenFrame
+TP_HOST_NAME=oframe7
+TP_HOST_IP=192.168.105.209
+ODBC_USERNAME=tibero
+ODBC_PASSWORD=tmax
+ODBC_DATABASE=oframe
+TSAM_USERNAME=tibero
+TSAM_PASSWORD=tmax
+TSAM_DATABASE=oframe
+OPENFRAME_LICENSE_PATH=/home/oframe9/Installer/license/OPENFRAME
+TMAX_LICENSE_PATH=/home/oframe9/Installer/license/TMAX
+```
+
+
+
+```
+./OpenFrame_Base7_Fix3R_Linux_x86_64.bin -f base.properties
+
+cp /usr/lib/libtermcap.so.2 $TMAXDIR/lib -> use this only if needed.
+
+source ~/.bash_profile
+```
+
+```
+tmboot
+
+tmadmin
+
+--- Welcome to Tmax Admin (Type "quit" to leave) --- 
+
+$$1 NODE1 (tmadm): si
+------------------------------------------------------------------------
+  clh   svrname    (svri)   status     count   qcount   qpcount  emcount
+------------------------------------------------------------------------
+    0   ofrsasvr   (   4)      RDY         0        0         0        0
+    0   ofrlhsvr   (   5)      RDY         0        0         0        0
+    0   ofrdmsvr   (   6)      RDY         0        0         0        0
+    0   ofrdsedt   (   7)      RDY         0        0         0        0
+    0   ofrcmsvr   (   8)      RDY         0        0         0        0
+    0   ofruisvr   (   9)      RDY         0        0         0        0
+    0   ofrsmlog   (  10)      RDY         0        0         0        0
+    0   vtammgr    (  11)      RDY         0        0         0        0
+    
+quit
+
+tmdown
+
+```
+
 ### 1.3.8 Batch installation
+
+- batch.properties
+```
+OPENFRAME_HOME=/home/oframe1/OpenFrame
+ODBC_USERNAME=tibero
+ODBC_PASSWORD=tmax
+ODBC_DATABASE=oframe
+```
+
+```
+./OpenFrame_Batch7_Fix3_MVS_Linux_x86_64.bin -f batch.properties
+
+source ~/.bash_profile
+```
+
+```
+tmboot
+
+tmadmin
+
+--- Welcome to Tmax Admin (Type "quit" to leave) --- 
+
+$$1 NODE1 (tmadm): si
+------------------------------------------------------------------------
+  clh   svrname    (svri)   status     count   qcount   qpcount  emcount
+------------------------------------------------------------------------
+    0   ofrsasvr   (   4)      RDY         0        0         0        0
+    0   ofrlhsvr   (   5)      RDY         0        0         0        0
+    0   ofrdmsvr   (   6)      RDY         0        0         0        0
+    0   ofrdsedt   (   7)      RDY         0        0         0        0
+    0   ofrcmsvr   (   8)      RDY         0        0         0        0
+    0   ofruisvr   (   9)      RDY         0        0         0        0
+    0   ofrsmlog   (  10)      RDY         0        0         0        0
+    0   vtammgr    (  11)      RDY         0        0         0        0
+    0   obmjmsvr   (  12)      RDY         0        0         0        0
+    0   obmjschd   (  13)      RDY         1        0         0        0
+    0   obmjinit   (  14)      RDY         2        0         0        0
+    0   obmjhist   (  15)      RDY         0        0         0        0
+    0   obmjspbk   (  16)      RDY         0        0         0        0
+    0   ofrpmsvr   (  17)      RDY         0        0         0        0
+    0   obmtsmgr   (  18)      RDY         0        0         0        0
+    0   obmjtimr   (  19)      RDY         0        0         0        0
+
+quit
+
+tmdown
+
+```
+
 For running a JOB, please check the LIBPATH from tjclrun.conf
 
 ```bash
