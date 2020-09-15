@@ -771,6 +771,11 @@ jeus.username=administrator
 nodename=oframe
 ```
 
+- License 
+```
+cp license.bin $JEUS_HOME/license
+```
+
 ```
 systemctl stop firewalld
 
@@ -786,11 +791,11 @@ Jeus Server Name (DEFAULT: server1):
 
 Jeus Administrator Password (DEFAULT: ): tmax123
 
-Jeus DAS IP (DEFAULT: 10.0.2.15): 192.168.55.33
+Jeus DAS IP (DEFAULT: 10.0.2.15): 
 
 Jeus DAS Base Port (DEFAULT: 9736): 
 
-DataBase Server Name (DEFAULT: 10.0.2.15): 192.168.55.33
+DataBase Server Name (DEFAULT: 10.0.2.15):
 
 DataBase Port (DEFAULT: ): 8629      
 
@@ -815,7 +820,7 @@ Enter requested information
 
 Tmax NODE Name (DEFAULT: NODE1): 
 
-Tmax NODE IP (DEFAULT: 10.0.2.15): 192.168.55.33
+Tmax NODE IP (DEFAULT: 10.0.2.15):
 
 Tmax NODE PORT (DEFAULT: 7001): 
 
@@ -824,8 +829,6 @@ ex) /home/user/license/OFGWLicense
 
 OpenFrame GW License Path (DEFAULT: ): /home/oframe7/BINARY/LICENSE/OFGWLicense
 ```
-
-
 
 ### 1.3.13 OFManager installation
 
