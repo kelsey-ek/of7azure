@@ -832,7 +832,50 @@ OpenFrame GW License Path (DEFAULT: ): /home/oframe7/BINARY/LICENSE/OFGWLicense
 
 ### 1.3.13 OFManager installation
 
+```
+JEUS DomainAdminServer Password (DEFAULT: ): tmax123
+
+JEUS DomainAdminServer IP (DEFAULT: 10.0.2.15): 
+
+JEUS DomainAdminServer Base Port (DEFAULT: 9736): 
+
+DataBase Server Name (DEFAULT: 10.0.2.15): 
+
+DataBase Port (DEFAULT: ): 8629
+
+DataBase Name (DEFAULT: oframe): 
+
+DataBase User ID (DEFAULT: ): tibero
+
+DataBase User PW (DEFAULT: ): tmax
+
+Datasource ID (DEFAULT: ds_ofm1): 
+
+Application Name (DEFAULT: ofmanager): 
+
+TABLESPACE Name (DEFAULT: OFMGR01): 
+
+Webterminal IP (DEFAULT: 10.0.2.15): 
+
+Webtermianl Application Name (DEFAULT: webterminal): 
+
+OFGW LU PORT (DEFAULT: 5556): 
+
+OFGW Name (DEFAULT: ofgw): 
+
+Enter requested information
+ex) /home/user/license/OFManagerLicense
+
+OFManager License Path (DEFAULT: ): /home/oframe7/BINARY/LICENSE/OFManagerLicense
+```
+
 ### 1.3.14 OFMiner installation
+
+
+
+
+
+
 
 ### 1.4 Create OpenFrame image
 
