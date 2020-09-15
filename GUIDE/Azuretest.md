@@ -830,6 +830,10 @@ ex) /home/user/license/OFGWLicense
 OpenFrame GW License Path (DEFAULT: ): /home/oframe7/BINARY/LICENSE/OFGWLicense
 ```
 
+```
+http://192.168.55.33:8088/webterminal/
+```
+
 ### 1.3.13 OFManager installation
 
 ```
@@ -869,6 +873,10 @@ ex) /home/user/license/OFManagerLicense
 OFManager License Path (DEFAULT: ): /home/oframe7/BINARY/LICENSE/OFManagerLicense
 ```
 
+```
+http://192.168.55.33:8088/ofmanager
+```
+
 ### 1.3.14 OFMiner installation
 
 ```
@@ -895,7 +903,14 @@ Enter requested information
 ex) /home/user1/license/OFMinerLicense
 
 OFMiner License Path (DEFAULT: ): /home/oframe7/BINARY/LICENSE/OFMinerLicense
+```
 
+```
+cp OFMinerLicense $OFMINER_HOME/license
+```
+
+```
+http://192.168.55.33:8088/OFMiner/
 ```
 
 ### 1.4 Create OpenFrame image
