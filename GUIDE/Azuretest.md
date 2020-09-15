@@ -871,11 +871,32 @@ OFManager License Path (DEFAULT: ): /home/oframe7/BINARY/LICENSE/OFManagerLicens
 
 ### 1.3.14 OFMiner installation
 
+```
+Plase Enter the Domain Name and the Server name
+(Installation Server Folder)
 
+Jeus Server Name (DEFAULT: server1): 
 
+Jeus Administrator PW (DEFAULT: ): tmax123
 
+Jeus PORT (DEFAULT: ): 9736
 
+DataBase IP (DEFAULT: 10.0.2.15): 
 
+DataBase PORT (DEFAULT: 8629): 
+
+DataBase NAME (DEFAULT: oframe): 
+
+DataBase User ID (DEFAULT: tibero): 
+
+DataBase User PW (DEFAULT: tmax): 
+
+Enter requested information
+ex) /home/user1/license/OFMinerLicense
+
+OFMiner License Path (DEFAULT: ): /home/oframe7/BINARY/LICENSE/OFMinerLicense
+
+```
 
 ### 1.4 Create OpenFrame image
 
