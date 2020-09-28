@@ -108,6 +108,7 @@ It happen when followed package that were having problems when querying the rpm 
 ``` rpm --rebuilddb ```
 
 ```bash 
+yum install -y wget
 yum install -y  dos2unix
 yum install -y  glibc*
 yum install -y  glibc.i686 glibc.x86_64
