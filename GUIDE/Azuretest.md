@@ -1299,7 +1299,7 @@ openframe.tmax.port= 8001
 
     ID : of7azure
     
-    Password : Tmaxsoft@1234
+    Password : TmaxSnow2020
 
     ```bash
     $ sudo su - of7azure
