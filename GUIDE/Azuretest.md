@@ -511,9 +511,13 @@ TSAM_PASSWORD=tmax
 TSAM_DATABASE=oframe
 OPENFRAME_LICENSE_PATH=/home/oframe9/Installer/license/OPENFRAME
 TMAX_LICENSE_PATH=/home/oframe9/Installer/license/TMAX
+
+TSAM_INCLUDE1=/usr/include
+TSAM_INCLUDE2=/usr/local/include
+TSAM_INCLUDE3=/usr/lib/gcc/x86_64-redhat-linux/8/include
 ```
 
-
+* Please check the include directory!!!!!
 
 ```
 ./OpenFrame_Base7_Fix3R_Linux_x86_64.bin -f base.properties
