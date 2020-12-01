@@ -778,7 +778,7 @@ nodename=oframe
 
 - License 
 ```
-cp license.bin $JEUS_HOME/license
+cp license.bin $JEUS_HOME/license/license
 ```
 
 ```
