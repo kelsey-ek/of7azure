@@ -787,6 +787,11 @@ systemctl stop firewalld
 systemctl disable firewalld
 ```
 
+- Connect to JEUS administrator
+```
+http://192.168.55.33:9736/webadmin
+```
+
 ### 1.3.12 OFGW installation
 
 ```
