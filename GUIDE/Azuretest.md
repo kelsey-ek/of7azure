@@ -846,6 +846,62 @@ http://192.168.55.33:8088/webterminal/
 
 ### 1.3.13 OFManager installation
 
+**ADD A NEW SERVER TO JEUS**
+
+```
+* jeusadmin 콘솔 툴을 이용하여 서버 추가 방법
+
+1. DAS 기동
+$startDomainAdminServer -u <user-name> -p <password>
+사용 예) startDomainAdminServer -u administrator -p 1111111
+
+2. jps명령어로 DAS 기동상태 확인
+$jps
+62936 DomainAdminServerBootstrapper
+48116 Jps
+
+3. jeusadmin 툴에 접속
+$jeusadmin -u <user-name> -p <password> -p <DAS base port>
+사용 예)jeusadmin -u administrator -p 1111111 -port 9736
+
+4. jeusadmin툴에 접속하여 server2라는 이름으로 서버 추가 
+[DAS]jeus_domain.adminServer> add-server <SERVER_NAME> -addr <JEUS_IP> -baseport <Server_BasePort> -node <DAS_Nodename> -jvm "-Xmx512m -XX:MaxPermSize=128m"
+사용 예) add-server server2 -addr 192.168.105.196 -baseport 9636 -node ofLinux64 -jvm "-Xmx512m -XX:MaxPermSize=128m"
+
+5. server2에 listener 추가
+[DAS]jeus_domain.adminServer> add-listener -server <SERVER_NAME> -name <LISTENER_NAME> -port <LISTENER_PORT>
+사용 예) add-listener -server server2 -name http-server2 -port 8087
+
+6. server2에 http listener 추가
+[DAS]jeus_domain.adminServer> add-web-listener -name <HTTP_NAME> -server <SERVER_NAME> -slref <LISTENER_NAME> -tmin 10
+사용 예) add-web-listener -name http2 -server server2 -slref http-server2 -tmin 10
+
+7. JEUS 재기동
+Domain.xml에 server2가 추가된 것을 확인
+
+
+
+위 명령어를 수행한 예시 내용입니다.
+$ jeusadmin -u administrator -p 1111111 -port 9736
+Attempting to connect to 127.0.0.1:9736.
+The connection has been established to Domain Administration Server adminServer in the domain jeus_domain.
+JEUS7 Administration Tool
+To view help, use the 'help' command.
+
+[DAS]jeus_domain.adminServer>add-server server2 -addr 192.168.105.196 -baseport 9636 -node ofLinux64 -jvm "-Xmx512m -XX:MaxPermSize=128m"
+Successfully performed the ADD operation for server (server2).
+Check the results using "list-servers or add-server"
+
+[DAS]qa_domain.adminServer>add-listener -server server2 -name http-server2 -port 8087
+Executed successfully, but some configurations were not applied dynamically. It might be necessary to restart the server.
+Check the result using 'list-server-listeners -server server2 -name http-server2.
+
+[DAS]qa_domain.adminServer>add-web-listener -name http2 -server server2 -slref http-server2 -tmin 10
+Successfully changed only the XML.
+Restart the server to apply the changes.
+For detailed web connection information, use the 'show-web-engine-configuration -cn' command.
+```
+
 ```
 JEUS DomainAdminServer Password (DEFAULT: ): tmax123
 
