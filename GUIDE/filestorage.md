@@ -47,16 +47,14 @@ CentOS 8
 
 ### 4. Mount Azure File Share Premium to DB Servers
 
-sudo yum update
-
-- Install Azure CLI
+1) Install Azure CLI
 
 ```
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 ```
 
 ```
-bash_profile
+vi bash_profile
 
 echo -e "[azure-cli]
 name=Azure CLI
@@ -64,12 +62,17 @@ baseurl=https://packages.microsoft.com/yumrepos/azure-cli
 enabled=1
 gpgcheck=1
 gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/azure-cli.repo
+
+source ~/.bash_profile
 ```
 
 ```
 sudo yum install azure-cli
 ```
 
+- Follow the steps
+    - Go to https://microsoft.com/devicelogin and enter the code, then check the account you are going to use.
+    
 ```
 az login
 To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code S7QNPWTRB to authenticate.
@@ -98,13 +101,13 @@ When you need to logout
 az logout
 ```
 
+2) Mount the storage
 
-
-
-
+```
 sudo yum install cifs-utils 
+```
 
-[Azure Command Line Interface (CLI)]
+
 
 ```
 resourceGroupName="<your-resource-group>"
