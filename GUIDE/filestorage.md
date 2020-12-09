@@ -74,6 +74,14 @@ fileHost=$(echo $smbPath | tr -d "/")
 nc -zvw3 $fileHost 445
 ```
 
+```
+-bash: nc: command not found 에러
+
+sudo yum install -y nmap-ncat 설치
+```
+
+
+
 Connection to <your-storage-account> 445 port [tcp/microsoft-ds] succeeded!
 
 ```
