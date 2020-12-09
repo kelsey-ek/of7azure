@@ -23,7 +23,7 @@ gpgcheck=1
 gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/azure-cli.repo
 ```
 
-``
+```
 sudo yum install azure-cli
 ```
 
@@ -50,6 +50,9 @@ The following tenants don't contain accessible subscriptions. Use 'az login --al
 ]
 ```
 
+```
+az logout
+```
 
 
 sudo yum install cifs-utils 
