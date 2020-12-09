@@ -2,10 +2,10 @@
 
 ## Table of Contents
 
-+ [1. Architecture](#architecture)
-+ [2. Create Azure File Share Premium](#11-install-docker)
-+ [3. Create Two DB Servers](#13-install-openframe)
-+ [4. Mount Azure File Share Premium to DB Servers](#13-install-openframe)
++ [1. Architecture](#1-architecture)
++ [2. Create Azure File Share Premium](#2-create-azure-file-share-premium)
++ [3. Create Two DB Servers](#3-create-two-db-servers)
++ [4. Mount Azure File Share Premium to DB Servers](#4-mount-azure-file-share-premium-to-db-servers)
 
 ### 1. Architecture
 
@@ -27,23 +27,26 @@
 
 ### 3. Create Two DB Servers
 
-### 4. Mount Azure File Share Premium to DB Servers
+- Specification
 
-
-
-
-
-2)  Create two DB servers
-
-- Use two VMs.
 ```
 CentOS 8
 2 core
 8GB
 ```
 
+- Create VMs 
 
-[VM]
+   - Check the image version
+
+ <img src="./reference_images/dbservers01.png" title="dbservers01">
+
+   - Check the VM size
+ 
+ <img src="./reference_images/dbservers02.png" title="dbservers02">
+
+### 4. Mount Azure File Share Premium to DB Servers
+
 sudo yum update
 
 - Install Azure CLI
