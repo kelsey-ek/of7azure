@@ -1,10 +1,36 @@
-[Architecture]
+# TAC environment configuration using Azure File Share Premium by Kelsey
 
-image
+## Table of Contents
 
-1) First, you need to create file share premium
++ [1. Architecture](#architecture)
++ [2. Create Azure File Share Premium](#11-install-docker)
++ [3. Create Two DB Servers](#13-install-openframe)
++ [4. Mount Azure File Share Premium to DB Servers](#13-install-openframe)
 
-image
+### 1. Architecture
+
+ <img src="./reference_images/architecture.jpg" title="architecture">
+    
+- Use Azure File Share Premium as a storage.
+
+- Mount this storage to each DB server.
+
+### 2. Create Azure File Share Premium
+
+- Create storage account
+
+ <img src="./reference_images/create-filestorage-account.png" title="storage account">
+ 
+- Create file share
+ 
+ <img src="./reference_images/create-premium-file-share.png" title="file share">
+
+### 3. Create Two DB Servers
+
+### 4. Mount Azure File Share Premium to DB Servers
+
+
+
 
 
 2)  Create two DB servers
