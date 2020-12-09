@@ -110,13 +110,17 @@ sudo yum install cifs-utils
 
 
 ```
-resourceGroupName="<your-resource-group>"
-storageAccountName="<your-storage-account>"
+vi 445.sh
+
+#!/bin/bash
+
+#resourceGroupName="Storagetest"
+#storageAccountName="tmaxaccount"
 
 # This command assumes you have logged in with az login
 httpEndpoint=$(az storage account show \
-    --resource-group $resourceGroupName \
-    --name $storageAccountName \
+    --resource-group Storagetest \
+    --name tmaxaccount \
     --query "primaryEndpoints.file" | tr -d '"')
 smbPath=$(echo $httpEndpoint | cut -c7-$(expr length $httpEndpoint))
 fileHost=$(echo $smbPath | tr -d "/")
@@ -125,19 +129,26 @@ nc -zvw3 $fileHost 445
 ```
 
 ```
--bash: nc: command not found 에러
+-bash: nc: command not found 
 
-sudo yum install -y nmap-ncat 설치
+sudo yum install -y nmap-ncat
 ```
 
-
-
-Connection to <your-storage-account> 445 port [tcp/microsoft-ds] succeeded!
+```
+[azureuser@02DBserver ~]$ sh 445.sh 
+Ncat: Version 7.70 ( https://nmap.org/ncat )
+Ncat: Connected to 52.239.164.232:445.
+Ncat: 0 bytes sent, 0 bytes received in 0.07 seconds.
+```
 
 ```
-resourceGroupName="<your-resource-group>"
-storageAccountName="<your-storage-account>"
-fileShareName="<your-file-share>"
+vi directory.sh
+
+#!/bin/bash
+
+resourceGroupName="Storagetest"
+storageAccountName="tmaxaccount"
+fileShareName="tmaxfile"
 
 mntPath="/mnt/$storageAccountName/$fileShareName"
 
@@ -146,58 +157,55 @@ sudo mkdir -p $mntPath
 
 
 ```
-# This command assumes you have logged in with az login
-httpEndpoint=$(az storage account show \
-    --resource-group $resourceGroupName \
-    --name $storageAccountName \
-    --query "primaryEndpoints.file" | tr -d '"')
-smbPath=$(echo $httpEndpoint | cut -c7-$(expr length $httpEndpoint))$fileShareName
+vi cre.sh 
+
+#!/bin/bash
+
+if [ ! -d "/etc/smbcredentials" ]; then
+    sudo mkdir "/etc/smbcredentials"
+fi
 
 storageAccountKey=$(az storage account keys list \
-    --resource-group $resourceGroupName \
-    --account-name $storageAccountName \
+    --resource-group StorageTest \
+    --account-name tmaxaccount \
     --query "[0].value" | tr -d '"')
 
-sudo mount -t cifs $smbPath $mntPath -o vers=3.0,username=$storageAccountName,password=$storageAccountKey,serverino
+smbCredentialFile="/etc/smbcredentials/tmaxaccount.cred"
+if [ ! -f $smbCredentialFile ]; then
+    echo "username=tmaxaccount" | sudo tee $smbCredentialFile > /dev/null
+    echo "password=$storageAccountKey" | sudo tee -a $smbCredentialFile > /dev/null
+else
+    echo "The credential file $smbCredentialFile already exists, and was not modified."
+fi
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ```
-sudo modinfo -p cifs | grep disable_legacy_dialects
+sudo chmod 600 $smbCredentialFile
 ```
 
-disable_legacy_dialects: To improve security it may be helpful to restrict the ability to override the default dialects (SMB2.1, SMB3 and SMB3.02) on mount with old dialects (CIFS/SMB1 and SMB2) since vers=1.0 (CIFS/SMB1) and vers=2.0 are weaker and less secure. Default: n/N/0 (bool)
-
-
-
-
-
-
-
-
 ```
-sudo modprobe cifs
-cat /sys/module/cifs/parameters/disable_legacy_dialects
+vi mount.sh
+
+#!/bin/bash
+
+# This command assumes you have logged in with az login
+httpEndpoint=$(az storage account show \
+    --resource-group StorageTest \
+    --name tmaxaccount \
+    --query "primaryEndpoints.file" | tr -d '"')
+
+smbPath=$(echo $httpEndpoint | cut -c7-$(expr length $httpEndpoint))tmaxfile
+
+smbCredentialFile="/etc/smbcredentials/tmaxaccount.cred"
+
+if [ -z "$(grep $smbPath\ /mnt/tmaxaccount/tmaxfile /etc/fstab)" ]; then
+    echo "$smbPath /mnt/tmaxaccount/tmaxfile cifs nofail,vers=3.0,credentials=$smbCredentialFile,serverino" | sudo tee -a /etc/fstab > /dev/null
+else
+    echo "/etc/fstab was not modified to avoid conflicting entries as this Azure file share was already present. You may want to double check /etc/fstab to ensure the configuration is as desired."
+fi
+
+sudo mount -a
 ```
-
-
-
 
 
 
