@@ -1,6 +1,20 @@
+[Architecture]
+
+image
+
+1) First, you need to create file share premium
+
+image
 
 
-https://docs.microsoft.com/en-us/azure/storage/files/storage-how-to-create-premium-fileshare?tabs=azure-portal
+2)  Create two DB servers
+
+- Use two VMs.
+```
+CentOS 8
+2 core
+8GB
+```
 
 
 [VM]
@@ -50,9 +64,13 @@ The following tenants don't contain accessible subscriptions. Use 'az login --al
 ]
 ```
 
+When you need to logout
 ```
 az logout
 ```
+
+
+
 
 
 sudo yum install cifs-utils 
