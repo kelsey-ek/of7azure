@@ -6,6 +6,52 @@ https://docs.microsoft.com/en-us/azure/storage/files/storage-how-to-create-premi
 [VM]
 sudo yum update
 
+- Install Azure CLI
+
+```
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+```
+
+```
+bash_profile
+
+echo -e "[azure-cli]
+name=Azure CLI
+baseurl=https://packages.microsoft.com/yumrepos/azure-cli
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/azure-cli.repo
+```
+
+``
+sudo yum install azure-cli
+```
+
+```
+az login
+To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code S7QNPWTRB to authenticate.
+The following tenants don't contain accessible subscriptions. Use 'az login --allow-no-subscriptions' to have tenant level access.
+693358f3-dc90-4442-aeec-274d3289a40e
+[
+  {
+    "cloudName": "AzureCloud",
+    "homeTenantId": "ef439009-53c1-4a0c-8012-edabcdeb7e05",
+    "id": "9c327935-ea7c-4dfe-a425-f45aee2a1959",
+    "isDefault": true,
+    "managedByTenants": [],
+    "name": "Pay-As-You-Go",
+    "state": "Enabled",
+    "tenantId": "ef439009-53c1-4a0c-8012-edabcdeb7e05",
+    "user": {
+      "name": "kelsey.lee@tmaxsoft.com",
+      "type": "user"
+    }
+  }
+]
+```
+
+
+
 sudo yum install cifs-utils 
 
 [Azure Command Line Interface (CLI)]
