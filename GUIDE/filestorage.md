@@ -9,7 +9,7 @@
 
 ### 1. Architecture
 
- <img src="./reference_images/architecture.jpg" title="architecture">
+   <img src="./reference_images/architecture.jpg" title="architecture">
     
 - Use Azure File Share Premium as a storage.
 
@@ -19,11 +19,11 @@
 
 - Create storage account
 
- <img src="./reference_images/create-filestorage-account.png" title="storage account">
+   <img src="./reference_images/create-filestorage-account.png" title="storage account">
  
 - Create file share
  
- <img src="./reference_images/create-premium-file-share.png" title="file share">
+   <img src="./reference_images/create-premium-file-share.png" title="file share">
 
 ### 3. Create Two DB Servers
 
@@ -39,11 +39,11 @@ CentOS 8
 
    - Check the image version
 
- <img src="./reference_images/dbservers01.png" title="dbservers01">
+        <img src="./reference_images/dbservers01.png" title="dbservers01">
 
    - Check the VM size
  
- <img src="./reference_images/dbservers02.png" title="dbservers02">
+       <img src="./reference_images/dbservers02.png" title="dbservers02">
 
 ### 4. Mount Azure File Share Premium to DB Servers
 
