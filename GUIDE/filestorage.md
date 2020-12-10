@@ -213,6 +213,7 @@ sudo mount -a
          ```
          groupadd dba -g 10005
          useradd -d /home/oftibr -g dba -s /bin/bash -m oftibr -u 10002
+         passwd oftibr
          ```
 
 ```
