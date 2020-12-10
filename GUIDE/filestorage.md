@@ -208,6 +208,13 @@ sudo mount -a
 ```
 - You can set UID and GID when you mount the directory.
 
+     - Tibero group and user setting like below.
+
+```
+groupadd dba -g 10005
+useradd -d /home/oftibr -g dba -s /bin/bash -m oftibr -u 10002
+```
+
 ```
 sudo mount /mnt/tmaxaccount/tmaxfile -o uid=oftibr -o gid=dba
 ```
