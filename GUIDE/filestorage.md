@@ -206,6 +206,37 @@ fi
 
 sudo mount -a
 ```
+- You can set UID and GID when you mount the directory.
+
+```
+sudo mount /mnt/tmaxaccount/tmaxfile -o uid=oftibr -o gid=dba
+```
+
+- When you need to unmount 
+
+1. Use the unmount comment
+
+```
+umount /mnt/tmaxaccount/tmaxfile/
+```
+
+2. Modify the fstab file
+
+```
+sudo vi fstab
+
+UUID=60e06333-2fb4-4e92-aa22-2644748fde8a       /               xfs     defaults        0 0
+/dev/disk/cloud/azure_resource-part1    /mnt/resource   auto    defaults,nofail,x-systemd.requires=cloud-init.service,comment=cloudconfig       0       2
+//tmaxaccount.file.core.windows.net/tmaxfile /mnt/tmaxaccount/tmaxfile cifs nofail,vers=3.0,credentials=/etc/smbcredentials/tmaxaccount.cred,serverino
+
+Delete the last line.
+
+```
+
+
+
+
+
 
 
 
