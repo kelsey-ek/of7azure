@@ -215,10 +215,17 @@ sudo mount -a
          useradd -d /home/oftibr -g dba -s /bin/bash -m oftibr -u 10002
          passwd oftibr
          ```
+```
+    echo "$smbPath /mnt/tmaxaccount/tmaxfile cifs nofail,vers=3.0,credentials=$smbCredentialFile,serverino" | sudo tee -a /etc/fstab > /dev/null
+-->> Put uid,gid information like below.    
+    echo "$smbPath /mnt/tmaxaccount/tmaxfile cifs nofail,vers=3.0,credentials=$smbCredentialFile,serverino,uid=oftibr,gid=dba" | sudo tee -a /etc/fstab > /dev/null
+```
 
 ```
 sudo mount /mnt/tmaxaccount/tmaxfile -o uid=oftibr -o gid=dba
 ```
+
+
 
 - When you need to unmount 
 
