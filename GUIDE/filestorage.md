@@ -225,14 +225,12 @@ sudo mount -a
 sudo mount /mnt/tmaxaccount/tmaxfile -o uid=oftibr -o gid=dba
 ```
 
-
-
 - When you need to unmount 
 
    1. Use the unmount comment
 
    ```
-   umount /mnt/tmaxaccount/tmaxfile/
+   sudo umount /mnt/tmaxaccount/tmaxfile/
    ```
 
    2. Modify the fstab file
