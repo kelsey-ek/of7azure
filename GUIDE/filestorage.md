@@ -372,3 +372,19 @@ sh  mount.sh
       username : azureuser
       public key : 2222DBtest_key.pem 
       ```
+
+
+<img src="./reference_images/network001.png" title="network001">
+
+<img src="./reference_images/network002.png" title="network002">
+
+<img src="./reference_images/network003.png" title="network003">
+
+<img src="./reference_images/network01-01.png" title="network01-01">
+
+<img src="./reference_images/network01-02.png" title="network01-02">
+
+<img src="./reference_images/network02-01.png" title="network02-01">
+
+<img src="./reference_images/network02-02.png" title="network02-02">
+
