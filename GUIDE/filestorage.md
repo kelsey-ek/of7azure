@@ -289,5 +289,92 @@ sh  mount.sh
 
 ### 5. IP Configuration
 
+- 1111DBtest
+   - IP address
+      ```
+      [azureuser@1111DBtest ~]$ ifconfig
+      eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+              inet 192.168.0.4  netmask 255.255.255.0  broadcast 192.168.0.255
+              inet6 fe80::222:48ff:fe44:9106  prefixlen 64  scopeid 0x20<link>
+              ether 00:22:48:44:91:06  txqueuelen 1000  (Ethernet)
+              RX packets 341  bytes 158200 (154.4 KiB)
+              RX errors 0  dropped 0  overruns 0  frame 0
+              TX packets 393  bytes 73460 (71.7 KiB)
+              TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
+      eth1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+              inet 172.17.0.11  netmask 255.255.255.0  broadcast 172.17.0.255
+              inet6 fe80::908a:c54a:fceb:c760  prefixlen 64  scopeid 0x20<link>
+              ether 00:0d:3a:a4:f5:f4  txqueuelen 1000  (Ethernet)
+              RX packets 1  bytes 381 (381.0 B)
+              RX errors 0  dropped 0  overruns 0  frame 0
+              TX packets 13  bytes 1328 (1.2 KiB)
+              TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
+      lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+              inet 127.0.0.1  netmask 255.0.0.0
+              inet6 ::1  prefixlen 128  scopeid 0x10<host>
+              loop  txqueuelen 1000  (Local Loopback)
+              RX packets 0  bytes 0 (0.0 B)
+              RX errors 0  dropped 0  overruns 0  frame 0
+              TX packets 0  bytes 0 (0.0 B)
+              TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+      ```
+      
+      ```
+
+- Public ip address - 52.176.56.147 / Private ip address - 192.168.0.4
+
+- Another network ip address - 172.17.0.11
+
+- Login information
+
+```
+Connection ip - 52.176.56.147
+username : azureuser
+public key : 1111DBtest_key.pem 
+```
+
+- 2222DBtest
+   - IP address
+      ```
+      [azureuser@2222DBtest ~]$ ifconfig
+      eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+              inet 192.168.0.5  netmask 255.255.255.0  broadcast 192.168.0.255
+              inet6 fe80::20d:3aff:fe43:a245  prefixlen 64  scopeid 0x20<link>
+              ether 00:0d:3a:43:a2:45  txqueuelen 1000  (Ethernet)
+              RX packets 22099  bytes 19175591 (18.2 MiB)
+              RX errors 0  dropped 0  overruns 0  frame 0
+              TX packets 16705  bytes 3076297 (2.9 MiB)
+              TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+      eth1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+              inet 172.17.0.22  netmask 255.255.255.0  broadcast 172.17.0.255
+              inet6 fe80::9d7b:1942:504d:b690  prefixlen 64  scopeid 0x20<link>
+              ether 00:0d:3a:a4:fc:3a  txqueuelen 1000  (Ethernet)
+              RX packets 20  bytes 2517 (2.4 KiB)
+              RX errors 0  dropped 0  overruns 0  frame 0
+              TX packets 17  bytes 1664 (1.6 KiB)
+              TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+      lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+              inet 127.0.0.1  netmask 255.0.0.0
+              inet6 ::1  prefixlen 128  scopeid 0x10<host>
+              loop  txqueuelen 1000  (Local Loopback)
+              RX packets 0  bytes 0 (0.0 B)
+              RX errors 0  dropped 0  overruns 0  frame 0
+              TX packets 0  bytes 0 (0.0 B)
+              TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+      ```
+
+- Public ip address - 52.173.23.68 / Private ip address - 192.168.0.5
+
+- Another network ip address - 172.17.0.22
+
+- Login information
+
+```
+Connection IP - 52.173.23.68
+username : azureuser
+public key : 2222DBtest_key.pem 
+```
