@@ -388,3 +388,6 @@ sh  mount.sh
 
 <img src="./reference_images/network02-02.png" title="network02-02">
 
+<img src="./reference_images/newnic01.png" title="newnic01">
+
+<img src="./reference_images/newnic02.png" title="newnic02">
