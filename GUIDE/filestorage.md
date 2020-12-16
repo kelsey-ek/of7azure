@@ -39,11 +39,11 @@
 - Specification
     - Need to use CentOS8 for using file share.
 
-```
-CentOS 8
-4 core
-16 GB
-```
+      ```
+      CentOS 8
+      4 core
+      16 GB
+      ```
 
 - Create VMs 
 
