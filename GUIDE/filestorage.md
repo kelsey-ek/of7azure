@@ -71,30 +71,37 @@ sudo yum install azure-cli
 ```
 
 - Follow the steps
-    - Go to https://microsoft.com/devicelogin and enter the code, then check the account you are going to use.
     
-```
-az login
-To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code S7QNPWTRB to authenticate.
-The following tenants don't contain accessible subscriptions. Use 'az login --allow-no-subscriptions' to have tenant level access.
-693358f3-dc90-4442-aeec-274d3289a40e
-[
-  {
-    "cloudName": "AzureCloud",
-    "homeTenantId": "ef439009-53c1-4a0c-8012-edabcdeb7e05",
-    "id": "9c327935-ea7c-4dfe-a425-f45aee2a1959",
-    "isDefault": true,
-    "managedByTenants": [],
-    "name": "Pay-As-You-Go",
-    "state": "Enabled",
-    "tenantId": "ef439009-53c1-4a0c-8012-edabcdeb7e05",
-    "user": {
-      "name": "kelsey.lee@tmaxsoft.com",
-      "type": "user"
-    }
-  }
-]
-```
+    
+    - az login
+      ```
+      Go to https://microsoft.com/devicelogin and enter the code, then check the account you are going to use.
+
+
+
+      az login
+      To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code S7QNPWTRB to authenticate.
+      The following tenants don't contain accessible subscriptions. Use 'az login --allow-no-subscriptions' to have tenant level access.
+      693358f3-dc90-4442-aeec-274d3289a40e
+      [
+        {
+          "cloudName": "AzureCloud",
+          "homeTenantId": "ef439009-53c1-4a0c-8012-edabcdeb7e05",
+          "id": "9c327935-ea7c-4dfe-a425-f45aee2a1959",
+          "isDefault": true,
+          "managedByTenants": [],
+          "name": "Pay-As-You-Go",
+          "state": "Enabled",
+          "tenantId": "ef439009-53c1-4a0c-8012-edabcdeb7e05",
+          "user": {
+            "name": "kelsey.lee@tmaxsoft.com",
+            "type": "user"
+          }
+        }
+      ]
+      ```
+
+
 
 When you need to logout
 ```
