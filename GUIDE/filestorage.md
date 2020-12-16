@@ -6,6 +6,7 @@
 + [2. Create Azure File Share Premium](#2-create-azure-file-share-premium)
 + [3. Create Two DB Servers](#3-create-two-db-servers)
 + [4. Mount Azure File Share Premium to DB Servers](#4-mount-azure-file-share-premium-to-db-servers)
++ [5. IP Configuration](#5-ip-configuration)
 
 ### 1. Architecture
 
@@ -119,15 +120,17 @@ az logout
 
 2) Mount the storage
 
+- Install the pakage
+
 ```
 sudo yum install cifs-utils 
 ```
 
-
-
 ```
 vi 445.sh
+```
 
+```
 #!/bin/bash
 
 #resourceGroupName="Storagetest"
@@ -145,6 +148,10 @@ nc -zvw3 $fileHost 445
 ```
 
 ```
+sh 445.sh
+```
+
+```
 -bash: nc: command not found 
 
 sudo yum install -y nmap-ncat
@@ -159,7 +166,9 @@ Ncat: 0 bytes sent, 0 bytes received in 0.07 seconds.
 
 ```
 vi directory.sh
+```
 
+```
 #!/bin/bash
 
 resourceGroupName="Storagetest"
@@ -171,10 +180,15 @@ mntPath="/mnt/$storageAccountName/$fileShareName"
 sudo mkdir -p $mntPath
 ```
 
+```
+sh directory.sh
+```
 
 ```
 vi cre.sh 
+```
 
+```
 #!/bin/bash
 
 if [ ! -d "/etc/smbcredentials" ]; then
@@ -196,12 +210,18 @@ fi
 ```
 
 ```
+sh cre.sh
+```
+
+```
 sudo chmod 600 $smbCredentialFile
 ```
 
 ```
 vi mount.sh
+```
 
+```
 #!/bin/bash
 
 # This command assumes you have logged in with az login
@@ -222,6 +242,7 @@ fi
 
 sudo mount -a
 ```
+
 - You can set UID and GID when you mount the directory.
 
      - Tibero group and user setting like below.
@@ -231,15 +252,20 @@ sudo mount -a
          useradd -d /home/oftibr -g dba -s /bin/bash -m oftibr -u 10002
          passwd oftibr
          ```
-```
-    echo "$smbPath /mnt/tmaxaccount/tmaxfile cifs nofail,vers=3.0,credentials=$smbCredentialFile,serverino" | sudo tee -a /etc/fstab > /dev/null
--->> Put uid,gid information like below.    
-    echo "$smbPath /mnt/tmaxaccount/tmaxfile cifs nofail,vers=3.0,credentials=$smbCredentialFile,serverino,uid=oftibr,gid=dba" | sudo tee -a /etc/fstab > /dev/null
-```
+         
+         ```
+             echo "$smbPath /mnt/tmaxaccount/tmaxfile cifs nofail,vers=3.0,credentials=$smbCredentialFile,serverino" | sudo tee -a /etc/fstab > /dev/null
+         -->> Put uid,gid information like below.    
+             echo "$smbPath /mnt/tmaxaccount/tmaxfile cifs nofail,vers=3.0,credentials=$smbCredentialFile,serverino,uid=oftibr,gid=dba" | sudo tee -a /etc/fstab > /dev/null 
+         ```
 
+         ```
+         sudo mount /mnt/tmaxaccount/tmaxfile -o uid=oftibr -o gid=dba
+         ```
+         
 ```
-sudo mount /mnt/tmaxaccount/tmaxfile -o uid=oftibr -o gid=dba
-```
+sh  mount.sh
+```         
 
 - When you need to unmount 
 
@@ -259,5 +285,9 @@ sudo mount /mnt/tmaxaccount/tmaxfile -o uid=oftibr -o gid=dba
    //tmaxaccount.file.core.windows.net/tmaxfile /mnt/tmaxaccount/tmaxfile cifs nofail,vers=3.0,credentials=/etc/smbcredentials/tmaxaccount.cred,serverino
 
    Delete the last line.
+   ```
 
-```
+### 5. IP Configuration
+
+
+
