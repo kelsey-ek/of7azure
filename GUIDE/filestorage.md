@@ -15,24 +15,33 @@
 
 - Mount this storage to each DB server.
 
+- One IP is for public use and another one is for internal use.
+
 ### 2. Create Azure File Share Premium
 
 - Create storage account
 
    <img src="./reference_images/create-filestorage-account.png" title="storage account">
+   
+   <img src="./reference_images/fileaccount01.png" title="fileaccount01">
  
 - Create file share
  
-   <img src="./reference_images/create-premium-file-share.png" title="file share">
+   <img src="./reference_images/fileaccount02.png" title="fileaccount02">
+   
+   <img src="./reference_images/fileaccount03.png" title="fileaccount03">
+   
+   <img src="./reference_images/fileaccount04.png" title="fileaccount04">
 
 ### 3. Create Two DB Servers
 
 - Specification
+    - Need to use CentOS8 for using file share.
 
 ```
 CentOS 8
-2 core
-8GB
+4 core
+16 GB
 ```
 
 - Create VMs 
