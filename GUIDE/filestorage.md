@@ -320,20 +320,16 @@ sh  mount.sh
               TX packets 0  bytes 0 (0.0 B)
               TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
       ```
-      
+   - Public ip address - 52.176.56.147 / Private ip address - 192.168.0.4
+
+   - Another network ip address - 172.17.0.11
+
+   - Login information
       ```
-
-- Public ip address - 52.176.56.147 / Private ip address - 192.168.0.4
-
-- Another network ip address - 172.17.0.11
-
-- Login information
-
-```
-Connection ip - 52.176.56.147
-username : azureuser
-public key : 1111DBtest_key.pem 
-```
+      Connection ip - 52.176.56.147
+      username : azureuser
+      public key : 1111DBtest_key.pem 
+      ```
 
 - 2222DBtest
    - IP address
@@ -366,15 +362,13 @@ public key : 1111DBtest_key.pem
               TX packets 0  bytes 0 (0.0 B)
               TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
       ```
+   - Public ip address - 52.173.23.68 / Private ip address - 192.168.0.5
 
-- Public ip address - 52.173.23.68 / Private ip address - 192.168.0.5
+   - Another network ip address - 172.17.0.22
 
-- Another network ip address - 172.17.0.22
-
-- Login information
-
-```
-Connection IP - 52.173.23.68
-username : azureuser
-public key : 2222DBtest_key.pem 
-```
+   - Login information
+      ```
+      Connection IP - 52.173.23.68
+      username : azureuser
+      public key : 2222DBtest_key.pem 
+      ```
