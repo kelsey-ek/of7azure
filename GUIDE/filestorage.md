@@ -54,7 +54,7 @@ sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 ```
 
 ```
-vi bash_profile
+vi .bash_profile
 
 echo -e "[azure-cli]
 name=Azure CLI
