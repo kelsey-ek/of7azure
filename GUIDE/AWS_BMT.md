@@ -177,4 +177,12 @@ Generating TRADE, SETTLEMENT, TRADE HISTORY, CASH TRANSACTION, HOLDING_HISTORY, 
 
 
 Generate and load time: 01:22:58
+```
 
+- Those tables are empty. They do not have any data in it.
+
+```
+TRADE_REQUEST
+NEXT_ID
+TRADEX
+```
