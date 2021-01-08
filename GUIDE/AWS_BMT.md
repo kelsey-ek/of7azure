@@ -129,11 +129,11 @@ Generating ADDRESS table..............loaded.
 
 Generating CUSTOMER table..........loaded.
 
-Generating CUSTOMER_ACCOUNT table and ACCOUNT_PERMISSION table..............................................................................loaded.
+Generating CUSTOMER_ACCOUNT table and ACCOUNT_PERMISSION table......................loaded.
 
 Generating CUSTOMER_TAX_RATE table..................loaded.
 
-Generating WATCH_LIST table and WATCH_ITEM table....................................................loaded.
+Generating WATCH_LIST table and WATCH_ITEM table...........................loaded.
 
 Generating COMPANY table...loaded.
 
@@ -141,11 +141,11 @@ Generating COMPANY_COMPETITOR table...loaded.
 
 Generating DAILY_MARKET table....loaded.
 
-Generating FINANCIAL table..............................................................................loaded.
+Generating FINANCIAL table....................................loaded.
 
 Generating LAST TRADE table...loaded.
 
-Generating NEWS_ITEM and NEWS_XREF table.................................................................................................loaded.
+Generating NEWS_ITEM and NEWS_XREF table...........................loaded.
 
 Generating SECURITY table........loaded.
 
@@ -173,7 +173,7 @@ Using the following settings.
         Caching Enabled:        true
 
 
-Generating TRADE, SETTLEMENT, TRADE HISTORY, CASH TRANSACTION, HOLDING_HISTORY, HOLDING_SUMMARY, HOLDING, and BROKER tables.................................................................50.loaded.
+Generating TRADE, SETTLEMENT, TRADE HISTORY, CASH TRANSACTION, HOLDING_HISTORY, HOLDING_SUMMARY, HOLDING, and BROKER tables...........50.loaded.
 
 
 Generate and load time: 01:22:58
