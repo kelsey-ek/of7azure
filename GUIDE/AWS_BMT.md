@@ -232,9 +232,15 @@ Create empty tables with the correct column and key information.
 
 __B.__ 
 
+Data file?
+
 __C.__ 
 
+PK and FK??
+
 __D.__ 
+
+Load data??
 
 __E.__ 
 
