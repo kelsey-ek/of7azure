@@ -228,6 +228,17 @@ TRADEX
 
 __A.__ 
 
-
 Create empty tables with the correct column and key information.
+
+__B.__ 
+
+__C.__ 
+
+__D.__ 
+
+__E.__ 
+
+__F.__ 
+
+__G.__ 
 
