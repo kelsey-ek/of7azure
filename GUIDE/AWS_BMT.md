@@ -225,3 +225,9 @@ TRADE_REQUEST
 NEXT_ID
 TRADEX
 ```
+
+__A.__ 
+
+
+Create empty tables with the correct column and key information.
+
