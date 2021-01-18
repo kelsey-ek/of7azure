@@ -32,17 +32,22 @@
 
 ## 1. Concept
 
-### 1.1 
+# Make Tibero, OpenFrame, Jeus running when the pod is created in the first place.
 
-- Create Azure image repository
+## 2. Process
 
-- Generate the image of OpenFrame
+__a.__ Create Azure image repository
+
+__b.__ Generate the image of OpenFrame and push it to the Azure image repository
 
 *in this case, I created the image as the name below.
 
 ```
 of7container.azurecr.io/of7pvimage-v1:boot2
 ```
+
+__c.__ Write the yaml file for creating a pod.
+
 
 ```
 apiVersion: apps/v1
