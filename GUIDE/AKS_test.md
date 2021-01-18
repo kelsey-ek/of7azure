@@ -91,7 +91,6 @@ spec:
              claimName: of7pvcoftibr
 ```
 
-
 - Booting script which should be located under the designated path. (/home/oftibr in this case)
 
 ```
@@ -99,6 +98,8 @@ spec:
            exec:
             command: ["/bin/bash", "-c", "/home/oftibr/new_of_boot.sh"]
 ```        
+
+- Use oftibr user for booting up Tibero, oframe user for booting up OpenFrame and Jeus.
 
 ```
 #!/bin/bash
