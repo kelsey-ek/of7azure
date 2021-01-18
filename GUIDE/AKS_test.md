@@ -86,6 +86,15 @@ spec:
              claimName: of7pvcoftibr
 ```
 
+
+- Booting script which should be located under the designated path. (/home/oftibr in this case)
+
+```
+          postStart:
+           exec:
+            command: ["/bin/bash", "-c", "/home/oftibr/new_of_boot.sh"]
+```        
+
 ```
 #!/bin/bash
 
