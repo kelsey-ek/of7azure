@@ -66,7 +66,7 @@ spec:
              claimName: of7pvcoftibr
 ```
 
-- Booting script which should be located under the designated path. (/home/oftibr in this case)
+- Write a booting script which should be located under the designated path. (/home/oftibr in this case)
 
 ```
           postStart:
