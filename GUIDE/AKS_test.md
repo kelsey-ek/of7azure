@@ -7,7 +7,7 @@
 
 ## 1. Concept
 
-### Make Tibero, OpenFrame, Jeus running when the pod is created in the first place.
+### To make Tibero, OpenFrame, Jeus running in the first place when the pod is created.
 
 ## 2. Process
 
