@@ -15,7 +15,7 @@ __a.__ Create Azure image repository
 
 __b.__ Generate the image of OpenFrame and push it to the Azure image repository
 
-*in this case, I created the image as the name below.
+*in this case, I created the image as the name below.*
 
 ```
 of7container.azurecr.io/of7pvimage-v1:boot2
