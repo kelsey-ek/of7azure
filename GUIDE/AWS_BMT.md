@@ -1616,7 +1616,7 @@ ALTER INDEX PK_WL  REBUILD PARALLEL 4;
 ALTER INDEX PK_ZC  REBUILD PARALLEL 4;
 ```
 
-__F.__ Enable the Foreign keys.
+__E.__ Enable the Foreign keys.
 
 - Total 49.
 
@@ -1671,5 +1671,44 @@ ALTER TABLE WATCH_ITEM ENABLE CONSTRAINT FK_S_WI_CC;
 ALTER TABLE WATCH_ITEM ENABLE CONSTRAINT FK_WL_WI_CC;
 ALTER TABLE WATCH_LIST ENABLE CONSTRAINT FK_C_WL_CC;
 ```
-__G.__ 
+__F.__ Check the rows of each table.
 
+- Total 35.
+
+```
+select count(*) from ACCOUNT_PERMISSION;
+select count(*) from ADDRESS01;
+select count(*) from BROKER;
+select count(*) from CASH_TRANSACTION;
+select count(*) from CHARGE;
+select count(*) from COMMISSION_RATE;
+select count(*) from COMPANY;
+select count(*) from COMPANY_COMPETITOR;
+select count(*) from CUSTOMER;
+select count(*) from CUSTOMER_ACCOUNT;
+select count(*) from CUSTOMER_TAXRATE;
+select count(*) from DAILY_MARKET;
+select count(*) from EXCHANGE;
+select count(*) from FINANCIAL;
+select count(*) from HOLDING;
+select count(*) from HOLDING_HISTORY;
+select count(*) from HOLDING_SUMMARY;
+select count(*) from INDUSTRY;
+select count(*) from LAST_TRADE;
+select count(*) from NEWS_ITEM;
+select count(*) from NEWS_XREF;
+select count(*) from SECTOR;
+select count(*) from SECURITY;
+select count(*) from SETTLEMENT;
+select count(*) from STATUS_TYPE;
+select count(*) from TAXRATE;
+select count(*) from TRADE;
+select count(*) from TRADE_HISTORY;
+select count(*) from TRADE_REQUEST;
+select count(*) from TRADE_TYPE;
+select count(*) from WATCH_ITEM;
+select count(*) from WATCH_LIST;
+select count(*) from ZIP_CODE;
+select count(*) from NEXT_ID;
+select count(*) from TRADEX;
+```
