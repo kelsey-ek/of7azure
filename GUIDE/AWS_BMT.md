@@ -51,6 +51,20 @@ EGenLoader [options]
    -g                                      Disable caching when generating growing tables
 ```
 
+__A.__ Fixed tables.
+
+```
+1. CHARGE
+2. COMMISSION_RATE
+3. EXCHANGE
+4. INDUSTRY
+5. SECTOR
+6. STATUS_TYPE
+7. TAXRATE
+8. TRADE_TYPE
+9. ZIP_CODE
+```
+
 ```
 oftibr@OFDB1:/opt2/tmaxdb/EGENLOADER/bin /> ./EGenLoader -c 150000 -xf -w 60
 EGen v1.14.0
@@ -91,6 +105,26 @@ Generating ZIP_CODE table...loaded.
 
 
 Generate and load time: 00:00:06
+```
+
+__B.__ Scaling tables.
+
+```
+1. ADDRESS
+2. CUSTOMER
+3. CUSTOMER_ACCOUNT 
+4. ACCOUNT_PERMISSION
+5. CUSTOMER_TAX_RATE
+6. WATCH_LIST
+7. WATCH_ITEM 
+8. COMPANY
+9. COMPANY_COMPETITOR
+10. DAILY_MARKET
+11. FINANCIAL
+12. LAST TRADE
+13. NEWS_ITEM
+14. NEWS_XREF 
+15. SECURITY
 ```
 
 ```
@@ -141,6 +175,18 @@ Generating SECURITY table........loaded.
 Generate and load time: 00:16:22
 ```
 
+__C.__ Growing tables.
+
+```
+1. TRADE
+2. SETTLEMENT
+3. TRADE HISTORY
+4. CASH TRANSACTION
+5. HOLDING_HISTORY
+6. HOLDING_SUMMARY
+7. HOLDING
+8. BROKER
+```
 ```
 oftibr@OFDB1:/opt2/tmaxdb/EGENLOADER/bin /> ./EGenLoader -c 50000 -xg -w 60
 EGen v1.14.0
