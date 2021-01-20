@@ -1159,9 +1159,7 @@ ALTER TABLE WATCH_ITEM ADD CONSTRAINT FK_WL_WI_CC FOREIGN KEY ( WI_WL_ID ) REFER
 ALTER TABLE WATCH_LIST ADD CONSTRAINT FK_C_WL_CC FOREIGN KEY ( WL_C_ID ) REFERENCES CUSTOMER ( C_ID ) ON DELETE CASCADE;
 ```
 
-
-
-Disable the Foreign keys.
+__E.__ Disable the Foreign keys.
 
 - Total 49.
 
@@ -1216,7 +1214,7 @@ ALTER TABLE WATCH_ITEM DISABLE CONSTRAINT FK_S_WI_CC;
 ALTER TABLE WATCH_ITEM DISABLE CONSTRAINT FK_WL_WI_CC;
 ALTER TABLE WATCH_LIST DISABLE CONSTRAINT FK_C_WL_CC;
 ```
-__C.__ Load the data.
+__F.__ Load the data.
 
 - oftibr@OFDB1:/opt2/tmaxdb/zrefdata/azure_load_resutlts /> cat tbloader.sh
 
@@ -1599,7 +1597,7 @@ exit 0;
 ```
 
 
-__D.__ Rebuild the indexes. 
+__G.__ Rebuild the indexes. 
 
 - Total 56.
 
@@ -1662,7 +1660,7 @@ ALTER INDEX PK_WL  REBUILD PARALLEL 4;
 ALTER INDEX PK_ZC  REBUILD PARALLEL 4;
 ```
 
-__E.__ Enable the Foreign keys.
+__H.__ Enable the Foreign keys.
 
 - Total 49.
 
@@ -1717,7 +1715,7 @@ ALTER TABLE WATCH_ITEM ENABLE CONSTRAINT FK_S_WI_CC;
 ALTER TABLE WATCH_ITEM ENABLE CONSTRAINT FK_WL_WI_CC;
 ALTER TABLE WATCH_LIST ENABLE CONSTRAINT FK_C_WL_CC;
 ```
-__F.__ Check the rows of each table.
+__I.__ Check the rows of each table.
 
 - Total 35.
 
