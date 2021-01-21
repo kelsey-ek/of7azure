@@ -2031,3 +2031,35 @@ NEXT_ID             1
 TRADEX              TRADEX 없음
 ```
 
+__J.__ Remaining issues.
+
+1) Broker table only has 500 rows.
+
+- ADD 1000 BROKER rows. The ZREF generator only generated 500 BROKER rows and other tables expected 1500 BROKER tables to be generated.
+
+```
+insert into broker
+select b_id + 500,
+b_st_id,
+b_name,
+b_num_trades,
+b_comm_total
+from broker
+where b_id < 4300000501;
+
+
+insert into broker
+select b_id + 1000,
+b_st_id,
+b_name,
+b_num_trades,
+b_comm_total
+from broker
+where b_id < 4300000501;
+
+commit;
+
+ALTER TABLE ZREF.CUSTOMER_ACCOUNT ENABLE CONSTRAINT FK_B_CA_CC;
+```
+
+
