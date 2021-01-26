@@ -2070,3 +2070,55 @@ INSERT INTO NEXT_ID (KEY1, KEY2, ID_VALUE, ORDINAL) values ('TRADE', 'BMK-JOB000
 INSERT INTO NEXT_ID (KEY1, KEY2, ID_VALUE, ORDINAL) VALUES ('TRADE', 'BASE', 200100000000000, 0);
 ```
 
+3) NEWS_ITEM table data exceeds the column length.
+
+```
+awk -F'|' 'BEGIN{OFS="|";} {print $1,$2,$3," ",$5,$6,$7;}' NEWS_ITEM.txt > NEWS_ITEM3.txt
+
+-rw-r--r--. 1 oftibr dba    57696889 Jun 22 21:52 NEWS_ITEM3.txt
+```
+
+```
+cp loader_NEWS_ITEM.ctl loader_NEWS_ITEM3.ctl
+```
+
+```
+vi loader_NEWS_ITEM3.ctl
+
+LOAD DATA
+INFILE 'NEWS_ITEM3.txt'
+LOGFILE 'NEWS_ITEM3.log'
+BADFILE 'NEWS_ITEM3.bad'
+TRUNCATE
+INTO TABLE TIBERO.NEWS_ITEM
+FIELDS TERMINATED BY '|'
+           OPTIONALLY ENCLOSED BY '"'
+TRAILING NULLCOLS
+```
+
+```
+tbloader userid=tibero/tmax@TVSAM control=loader_NEWS_ITEM3.ctl message=10000000 rows=10000000
+```
+
+```
+NEWS_ITEM3.txt
+
+Table TIBERO.NEWS_ITEM, was loaded from the data file.
+
+COLUMN_NAME                      POSITION DATATYPE
+------------------------------ ---------- ----------------
+NI_ID                                   1 CHARACTER
+NI_HEADLINE                             2 CHARACTER
+NI_SUMMARY                              3 CHARACTER
+NI_ITEM                                 4 CHARACTER
+NI_DTS                                  5 CHARACTER
+NI_SOURCE                               6 CHARACTER
+NI_AUTHOR                               7 CHARACTER
+
+Table TIBERO.NEWS_ITEM :
+        150000 Rows were requested to load.
+        150000 Rows were loaded successfully.
+        0 Rows were failed to load because of some errors
+
+Total Elapsed Time was    : 00:00:31.371371
+```
