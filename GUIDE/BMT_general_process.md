@@ -10,7 +10,10 @@
   + [3.3 Configure OpenFrame](#23-connect-to-the-running-pod)
     + [3.3.1 Online](#331-connect-to-the-running-pod)
     + [3.3.2 Batch](#332-connect-to-the-running-pod)
-  + [3.4 DB migration](23-connect-to-the-running-pod)
+  + [3.4 Prepare applications](#23-connect-to-the-running-pod)
+    + [3.4.1 Online](#331-connect-to-the-running-pod)
+    + [3.4.2 Batch](#332-connect-to-the-running-pod)    
+  + [3.5 DB migration](23-connect-to-the-running-pod)
 
 ## 1. DB Migration
 
