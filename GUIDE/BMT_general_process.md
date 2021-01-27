@@ -8,9 +8,9 @@
   + [3.1 Planning](#21-add-azure-kubernetes-serviceaks)
   + [3.2 Pre-setting](#22-set-pods)
   + [3.3 Configure OpenFrame](#23-connect-to-the-running-pod)
-   + [3.3.1 Online](#331-connect-to-the-running-pod)
-   + [3.3.2 Batch](#332-connect-to-the-running-pod)
-  + [3.4 DB migration]  23-connect-to-the-running-pod)
+    + [3.3.1 Online](#331-connect-to-the-running-pod)
+    + [3.3.2 Batch](#332-connect-to-the-running-pod)
+  + [3.4 DB migration](23-connect-to-the-running-pod)
 
 ## 1. DB Migration
 
