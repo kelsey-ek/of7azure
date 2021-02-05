@@ -2140,6 +2140,7 @@ Total Elapsed Time was    : 00:00:31.371371
     - [3.7. SD modification](#37-sd-modification)
     - [3.8. update VTAM info](#38-update-vtam-info)
     - [3.9. Increase region process number](#39-increase-region-process-number)
+    - [3.10. Transaction file](#30-transaction-file)
   - [4. Oftest](#4-oftest)
     - [4.1. Usage](#41-usage)
     - [4.2. run test script](#42-run-test-script)
@@ -2593,6 +2594,13 @@ ZREFMEE_TCL1   SVGNAME = svgtboiv,
                 LIFESPAN = IDLE_600,
                 CLOPT = "-n -o $(SVR)_$(CDATE).out -e $(SVR)_$(CDATE).err"
 ```
+
+### 3.10. Transaction file
+
+- Transaction files are proviede by the customer.
+    - Use transaction file to generate the iput dataset for running batch jobs.
+    - Transaction file is an input for the online scenarios.
+        - Oftest tool uses this file as an input.
 
 ## 4. Oftest
 
