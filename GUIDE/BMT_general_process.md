@@ -2119,3 +2119,506 @@ Table TIBERO.NEWS_ITEM :
 
 Total Elapsed Time was    : 00:00:31.371371
 ```
+
+
+
+# zref
+
+## Table of Contents <!-- omit in toc -->
+
+- [zref](#zref)
+  - [1. Overview](#1-overview)
+  - [2. Environment](#2-environment)
+    - [2.1. directory structure](#21-directory-structure)
+    - [2.2. Online scenario](#22-online-scenario)
+  - [3. Issues](#3-issues)
+    - [3.1. Compilation issue](#31-compilation-issue)
+    - [3.2. Runtime issue](#32-runtime-issue)
+    - [3.3. VARCHAR type column](#33-varchar-type-column)
+    - [3.4. Copybooks](#34-copybooks)
+    - [3.5. Invalid char in source](#35-invalid-char-in-source)
+    - [3.6. modification on JCL](#36-modification-on-jcl)
+    - [3.7. SD modification](#37-sd-modification)
+    - [3.8. update VTAM info](#38-update-vtam-info)
+    - [3.9. Increase region process number](#39-increase-region-process-number)
+  - [4. Oftest](#4-oftest)
+    - [4.1. Usage](#41-usage)
+    - [4.2. run test script](#42-run-test-script)
+
+## 1. Overview
+
+ZREF BMT: https://docs.google.com/spreadsheets/d/1kMBK1A1tQn2g0cn2J7YKh66Q9tuVhgQyo7XNKqxKE2c/edit#gid=392064127
+- WBS
+- VARCHAR
+- COPY
+- BATDRVR
+- JCL
+
+## 2. Environment
+
+### 2.1. directory structure
+
+- COBOL: cd /opt2/tmaxapp/zref/Tmaxwork/TEST
+- COPYBOOK: cd /opt2/tmaxapp/zref/Tmaxwork/TEST/copybook
+- CICS compile script: cics/compile.sh
+- Batch compile script: batch/compile.sh
+
+### 2.2. Online scenario
+
+- ZREFMEE region (HPMEE3270)
+  - TR01: SQL ERR:-654657|23000|TR2Z| UNIQUE constraint violation ('TIBERO'.'PK_HH'). -> Need to use different scenarios each time.
+  - MF01: OK
+
+- ZREFCE region (HPCE)
+  - BV01: OK
+  - CP01: OK
+  - SD01: OK
+  - MW01: OK
+  - TO01: OK
+  - TS01: OK
+  - TU01: OK
+  - TL01: OK
+  
+### 2.3. Steps to compile
+
+>> Note that you need to remove .cob extension on PROGRAN-NAME
+  
+- Batch compile
+  1. cd /opt2/tmaxapp/zref/Tmaxwork/TEST/COBOL/batch
+  2. sh compile.sh PROGRAM-NAME
+
+- Online compile
+  1. cd /opt2/tmaxapp/zref/Tmaxwork/TEST/COBOL/cics
+  2. sh compile.sh PROGRAM-NAME
+
+## 3. Issues
+
+### 3.1. Compilation issue
+
+3.1.1 COMMENT OUT(DOES NOT WORK in OF)
+
+- WITH (ROWLOCK) & WITH (ROWLOCK,UPDLOCK)
+- $IF  APPDBMS = "DB2"
+- $IF PLATFORM = "MFSEE"
+
+3.1.2 MODIFY
+
+- SELECT TOP n    
+
+  ```bash
+  SELECT * FROM (SELECT
+  ~~~~~~~~~~~~~~~~~~~
+  ) WHERE ROWNUM <= n
+  ```
+  **After tbdb2cblcv, take "" out from ROWNUM**
+
+  ```bash
+  WHERE ("ROWNUM" <= N)
+   WHERE (ROWNUM <= N)
+  ```
+
+- BLOB 
+
+  ```bash
+  KELSEY      05  W-NI-ITEM       PIC X(102400).
+  KELSEY*      05  W-NI-ITEM       USAGE IS SQL TYPE IS BLOB(102400).
+  ```
+
+### 3.2. Runtime issue
+
+3.2.1 TIP file modification
+```
+#---------------------------------------------------------
+## DATE & TIME FORMAT
+###---------------------------------------------------------
+NLS_TIME_FORMAT="HH24.MI.SSXFF"
+NLS_TIMESTAMP_FORMAT="YYYY-MM-DD-HH24.MI.SSXFF"
+NLS_TIMESTAMP_TZ_FORMAT="YYYY-MM-DD-HH24.MI.SSXFF"
+NLS_DATE_FORMAT="YYYY-MM-DD"
+```
+
+```
+SQL> SELECT DISTINCT(SYSTIMESTAMP) from dual; -> before the change
+
+SYSTIMESTAMP
+---------------------------------------------
+2020/04/23 05:51:26.456306 Etc/Universal
+1 row selected.
+
+
+SQL> SELECT DISTINCT(SYSTIMESTAMP) from dual; -> after the change
+
+SYSTIMESTAMP
+----------------------------------------------
+2020-04-23-06.23.00.301
+
+1 row selected.
+```
+
+3.2.2 Change ADDRESS table name to ADDRESS01
+```
+ FROM
+         SECURITY,
+         COMPANY,
+         ADDRESS01 CA,
+         ADDRESS01 EA,
+         ZIP_CODE ZCA,
+         ZIP_CODE ZEA,
+         EXCHANGE
+ WHERE
+
+ *> -------------------------------------------
+ *> DECLARE TABLE for ADDRESS
+ *> -------------------------------------------
+    EXEC SQL DECLARE TABLE ADDRESS01
+    ( AD_ID                 bigint       NOT NULL
+    , AD_LINE1              varchar(80)
+    , AD_LINE2              varchar(80)
+    , AD_ZC_CODE            varchar(12)  NOT NULL
+    , AD_CTRY               varchar(80)
+    ) END-EXEC.
+ *> -------------------------------------------
+```
+  
+3.3.3 COBOL modification 
+- DATE format of SD transaction from Batch(SDFRBTCH.cob)
+  - MM/DD/YYYY from transaction file should be converted to YYYY-MM-DD
+    ```
+    01 WS-START-DATE-TEMP.
+      03 WS-YYYY                   PIC X(4).
+      03 WS-SEP1                   PIC X(1) VALUE '-'.
+      03 WS-MM                     PIC X(2).
+      03 WS-SEP2                   PIC X(1) VALUE '-'.
+      03 WS-DD                     PIC X(2).
+
+    01 WS-START-DATE                PIC X(10) VALUE SPACE.
+
+    MOVE MWF1-IN-START-DAY(1:2) TO WS-MM.
+    MOVE MWF1-IN-START-DAY(4:2) TO WS-DD.
+    MOVE MWF1-IN-START-DAY(7:4) TO WS-YYYY.
+
+    MOVE WS-START-DATE-TEMP     TO WS-START-DATE.
+
+    DM_DATE   >= :WS-START-DATE
+    ```
+- SET ADDRESS does not work in runtime.(TOF4BTCH.cob)
+    ```
+      *$IF PLATFORM = "MFSEE"
+      *       REQUIRED MICRO FOCUS CALL FOR NOAMODE COMPILE
+      *       CALL 'MFJZLPSA' RETURNING MFSEE-PSA-PTR
+      *       SET ADDRESS OF IHAPSA TO MFSEE-PSA-PTR
+
+      *       BELOW IS NOT WORKING FOR MFSEE (UNASSIGNED LINKAGE)
+      *       SO USE DUMMY VALUES
+               MOVE 'JOB00000'       TO CURRENT-JOBID
+               MOVE 'BMK-BTCH'       TO CURRENT-SYSTEMID
+      *$ELSE
+      *         SET ADDRESS OF IHAPSA   TO NULL
+      *         SET ADDRESS OF CVT      TO FLCCVT
+      *         SET ADDRESS OF IKJTCB   TO PSATOLD
+      *         SET ADDRESS OF IEFTIOT1 TO TCBTIO
+      *         SET ADDRESS OF IEZJSCB TO TCBJSCB
+      *         SET ADDRESS OF IEFJSSIB TO JSCBSSIB
+      *         SET ADDRESS OF IEESMCA TO CVTSMCA
+      *         MOVE   SSIBJBID         TO CURRENT-JOBID
+      *         MOVE   SMCASID          TO CURRENT-SYSTEMID
+      *$END
+      *     END-IF
+    ```
+    
+### 3.3. VARCHAR type column
+
+- COPYBOOK modification
+  - Generate new copybook by the name of "####-VAR"
+  - Host variables for VARCHAR column should be in a structure format.(LEN + TEXT)
+    ```
+    10  ##########.
+        49  ##########-LEN   PIC S9(04)  COMP-5.
+        49  ##########-TEXT  PIC X(15).
+    ```
+  - Batch driver program modification
+    ```
+     MOVE ######      TO ######-TEXT.
+     MOVE 0 TO ######-LEN.
+     INSPECT ######-TEXT
+     TALLYING ######-LEN
+        FOR CHARACTERS BEFORE INITIAL SPACE.
+    ```     
+  - Frame programs, Business logic program modification
+    - Change the copybook name from ### to ###-VAR from EXEC INCLUDE or COPY statement.
+      ```
+      BVF1-VAR
+      BVTX-VAR
+      CPF1-VAR
+      CPTX-VAR
+      DMF1-VAR
+      DMTX-VAR
+      MFF1-VAR
+      MFMSGIN-VAR
+      MFTX-VAR
+      MSTQ-VAR
+      MSTQXP-VAR
+      SDF1-VAR
+      SDTX-VAR
+      TLF3-VAR
+      TLTX-VAR
+      TOF1-VAR
+      TOF2-VAR
+      TOF3-VAR
+      TOF4-VAR
+      TOTX-VAR
+      TRF1-VAR
+      TRF2-VAR
+      TRF4-VAR
+      TRF6-VAR
+      TSF1-VAR
+      TUF3-VAR
+      TUTX-VAR
+      ```
+     - d
+      ```
+      * MOVE SDF1-IN-SYMBOL         TO  W-SYMBOL-TEXT 
+      MOVE SDF1-IN-SYMBOL         TO  W-SYMBOL
+
+     * MOVE CO-DESC-TEXT(1:CO-DESC-LEN)  TO SDF1-OUT-CO-DESC
+      MOVE CO-DESC-TEXT(1:CO-DESC-LEN)  TO SDF1-OUT-CO-DESC-TEXT
+      
+      * MOVE  SYMBOL1I              TO MAP1-SYMBOL.
+       MOVE  SYMBOL1I              TO MAP1-SYMBOL-TEXT.
+       MOVE  SYMBOL1L              TO MAP1-SYMBOL-LEN.
+     
+       05  MAP1-SYMBOL.
+          49  MAP1-SYMBOL-LEN      PIC S9(04)  COMP-5.
+          49  MAP1-SYMBOL-TEXT     PIC X(15).
+        
+      * MOVE  MAP1-SYMBOL           TO TUTX-IN-SYMBOL.
+       MOVE  MAP1-SYMBOL-LEN           TO TUTX-IN-SYMBOL-LEN.
+       MOVE  MAP1-SYMBOL-TEXT           TO TUTX-IN-SYMBOL-TEXT.
+      ```
+
+     - d
+      ```
+      IF (TOF3-IN-SYMBOL EQUAL TO SPACES  OR
+         TOF3-IN-SYMBOL EQUAL TO LOW-VALUES)
+      IF (TOF3-IN-SYMBOL-TEXT EQUAL TO SPACES  OR
+          TOF3-IN-SYMBOL-TEXT EQUAL TO LOW-VALUES)
+      ```
+      - d
+      ```
+      IF SQL-ERR-COUNT = 120000
+      DISPLAY 'ERROR LIMIT (120000) REACHED IN TO ROUTINE '
+      ```
+      
+### 3.4. Copybooks
+
+- Variables which should be expanded by ofcbpp.
+  ```
+  *EXEC SQL INCLUDE ERRWA END-EXEC. (BTCHDRVR.COB)
+  COPY ERRWA.
+
+  *EXEC SQL INCLUDE SDF1 END-EXEC. (SDFRBTCH.COB)
+  COPY SDF1.
+
+  *EXEC SQL INCLUDE TUF3 END-EXEC. (TUF3BTCH.COB)
+  COPY TUF3. 
+  ```
+
+- Seperate a copybook into two parts.(TABLENAME_TABLE.cpy , TABLENAME_DATA.cpy)
+  - DECLARE TABLE (COPY TABLENAME_DATA from WORKING-STORAGE SECTION)
+  - EXEC SQL DECLARE **TABLENAME TABLE** -> EXEC SQL DECLARE **TABLE TABLENAME**
+    ```
+     *> -------------------------------------------
+     *> DECLARE TABLE for TABLENAME
+     *> -------------------------------------------
+        EXEC SQL DECLARE TABLE TABLENAME( 
+        ) END-EXEC.
+    ```
+  - COBOL HOST VARIABLES FOR TABLE (COPY TABLENAME_TABLE PROCEDURE DIVISION)
+    ```
+    *> -------------------------------------------
+    *> COBOL HOST VARIABLES FOR TABLE TABLENAME
+    *> -------------------------------------------
+    
+     *> -------------------------------------------
+     *> COBOL INDICATOR VARIABLES FOR TABLE TABLENAME
+     *> -------------------------------------------
+    ```
+    - EXTCACCT.COB - CUSTOMER_ACCOUNT.cpy
+    - EXTTRADE.COB - TRADE.cpy
+    - EXTCUST1.COB - CUSTOMER.cpy
+    - EXTADDR1.COB - ADDRESS.cpy
+
+- SQLCA
+  - SQLCODE was defined as COMP-4 from the old one but it should be changed to COMP-5.
+  
+  
+
+### 3.5. Invalid char in source
+
+- Delete ^Z from copybook
+- Put an empty line in between 
+
+```bash 
+     EXEC SQL INCLUDE TOF4 END-EXEC.
+     (put an empty line in between)
+     EXEC SQL INCLUDE ERRWA END-EXEC.  
+
+     EXEC SQL INCLUDE TSF1 END-EXEC.
+     (put an empty line in between)
+     EXEC SQL INCLUDE ERRWA END-EXEC.
+```
+
+### 3.6. modification on JCL
+3.6.1 SETUP JCL
+- dos2unix ALL JCL
+- In case of JCL that uses "idcams define", copybook is needed for the dataset.
+  - OpenFrame/tsam/copybook
+     - ZREF.KSDS.CONFIG.cpy
+      ```
+      01 APP-CONFIG-REC.
+        05 ACR-KEY PIC X(8).
+        05 ACR-DATA.
+          10 ACR-GLOBAL-CONFIG.
+            15 ACR-GC-WRITE-AUDIT-FLAG PIC X.
+            15 ACR-GC-EXPLICIT-DBCONN-FLAG PIC X.
+            15 ACR-GC-DBCONN-NAME PIC X(20).
+            15 FILLER PIC X(8).
+          10 ACR-MSTQ-CONFIG.
+            15 ACR-MSTQ-SEND-METHOD PIC X.
+            15 ACR-MSTQ-SEND-TO-MACHINE PIC X(50).
+            15 ACR-MSTQ-SEND-TO-PORT PIC X(5).
+            15 FILLER PIC X(14).
+        05 FILLER PIC X(92).
+      ```
+      - ZREF.ESDS.AUDTRAIL.cpy &  PPLIP.ZREF.BAT##.AUDTRAIL.cpy
+      ```
+      004100 01 FD-AUDREC.
+      004200     05 AUDIT-KEY.
+      004300       10 A-TRANS-ID.
+      004400         15 A-TRAN-ID PIC X(02).
+      004500         15 FILLER-ID PIC X(02).
+      004600       10 A-DATE.
+      004700         15 A-DTE PIC X(08).
+      004800         15 FILLER PIC X(02).
+      004900       10 A-TIME PIC X(06).
+      005000     05 A-DATA-AREA PIC X(2413).
+      005000     05 A-DATA-FILLER PIC X(4).
+      ```
+- Modification
+  - RECFM=LSEQ -> RECFM=FB
+  - Delete "//MFE:" line.
+  - VOLUMES(PIPV01) ->  VOLUMES(DEFVOL)
+  
+3.6.2 JCL
+- Modification
+  - When the first time you run the BATBR**.JCL, modify the JCL to report the dataset as below.
+     - BATBDR**.JCL   
+     ```
+     AS IS
+     //BVREPORT  DD DUMMY,DCB=(RECFM=FBA,LRECL=133)             
+     //*VREPORT  DD DSN=PPLIP.ZREF.REPT.BV,                     
+     //*            DISP=(NEW,CATLG,DELETE),                    
+     //*            DISP=OLD,                                   
+     //*            UNIT=SYSDA,                                 
+     //*            SPACE=(CYL,(111,22),RLSE),                  
+     //*            DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0,BUFNO=60)
+     
+     TO BE
+     //*BVREPORT  DD DUMMY,DCB=(RECFM=FBA,LRECL=133)           
+     //BVREPORT  DD DSN=PPLIP.ZREF.REPT.BV,                    
+     //            DISP=(NEW,CATLG,DELETE),                    
+     //*            DISP=OLD,                                  
+     //            UNIT=SYSDA,                                 
+     //            SPACE=(CYL,(111,22),RLSE),                  
+     //            DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0,BUFNO=60)
+    ```
+
+### 3.7. SD modification
+
+- ADD TERMINAL (For loading testing, a lot of terminals are needed T000~T999)
+  ```
+  DEFINE TERMINAL(T000) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TESTT000) INSERVICE(YES)
+  DEFINE TERMINAL(T001) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TESTT001) INSERVICE(YES)
+
+  DEFINE TERMINAL(TRM9) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TESTTRM9) INSERVICE(YES)
+  DEFINE TERMINAL(TTRM) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TESTTERM) INSERVICE(YES)
+  ```
+
+- ADD missing PROGRAMS in each region
+  ```
+  DEFINE PROGRAM(##BL0001) GROUP(ZREFCE) LANGUAGE(COBOL)
+  DEFINE PROGRAM(##FR000#) GROUP(ZREFCE) LANGUAGE(COBOL)
+  ```
+
+### 3.8. Update VTAM info
+
+- VTAMDUMP -> VTAMGEN (*modify the dump file and generate a new vtam definition.*)
+  - TESTT000..TESTT999.. -> match it with the TERMINAL NETNAME from SD.
+  - FFFFFNNN -> match the format
+    ```
+      BEGINVTAM
+      PORT 5556
+      LUGROUP LUGRP1 TESTT000..TESTT999..FFFFFNNN ENDLUGROUP
+      LUGROUP LUGRP2 TESTTERM ENDLUGROUP
+      IPGROUP IPGRP1 1.1.1.1..100.100.100.100 ENDIPGROUP
+      IPGROUP IPGRP2 100.100.100.101..255.255.255.255 ENDIPGROUP
+      LUMAP LUGRP1 IPGRP1
+      LUMAP LUGRP2 IPGRP2
+        ENDVTAM
+    ```
+
+### 3.9. Increase region process number
+
+- modify oframe.m and increase MIN of the region process
+```
+ZREFMEE_TCL1   SVGNAME = svgtboiv,
+                TARGET = ZREFMEE,
+                SVRTYPE = STD_DYN,
+                MIN = 20,
+                MAX = 128,
+                ASQCOUNT = 1,
+                MAXQCOUNT = -1,
+                MAXRSTART = -1,
+                GPERIOD = 86400,
+                LIFESPAN = IDLE_600,
+                CLOPT = "-n -o $(SVR)_$(CDATE).out -e $(SVR)_$(CDATE).err"
+```
+Reset the NEXT_ID table with two SQLs below.
+
+```
+SQL> INSERT INTO ZREF.NEXT_ID (KEY1, KEY2, ID_VALUE, ORDINAL) values ('TRADE', 'BMK-JOB00000', 0, 0);
+
+SQL> INSERT INTO ZREF.NEXT_ID (KEY1, KEY2, ID_VALUE, ORDINAL) VALUES ('TRADE', 'BASE', 200100000000000, 0);
+```
+
+## 4. Oftest
+
+### 4.1. Usage
+
+```bash
+jangwon@jangwon:~/git/zref$ oftest -h
+usage: oftest [-h] -i INPUT -s SERVER [-w WAIT] [-l LOG] [--ssl] [--visible]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        test input as JSON format
+  -s SERVER, --server SERVER
+                        3270 server URL <ip>:<port> ex) 127.0.0.1:5556
+  -w WAIT, --wait WAIT  wait given seconds after the test is over
+  -l LOG, --log LOG     set log level (DEBUG|INFO|WARNING|ERROR|CRITICAL).
+                        default is INFO
+  --ssl                 enable ssl
+  --visible             make 3270 emulator visible
+```
+
+### 4.2. run test script
+
+- sequence.sh
+- parallel.sh
+
+### 5. TPC-E
+
+- TPC-E is an On-Line Transaction Processing Benchmark
+  - Approved in February of 2007, TPC Benchmark E is an on-line transaction processing (OLTP) benchmark. TPC-E is more complex than previous OLTP benchmarks such as TPC-C because of its diverse transaction types, more complex database and overall execution structure. TPC-E involves a mix of twelve concurrent transactions of different types and complexity, either executed on-line or triggered by price or time criteria. The database is comprised of thirty-three tables with a wide range of columns, cardinality, and scaling properties. TPC-E is measured in transactions per second (tpsE). While the benchmark portrays the activity of a stock brokerage firm, TPC-E is not limited to the activity of any particular business segment, but rather represents any industry that must report upon and execute transactions of a financial nature.
+
