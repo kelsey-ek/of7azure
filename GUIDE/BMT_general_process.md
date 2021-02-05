@@ -2156,52 +2156,36 @@ ZREF BMT: https://docs.google.com/spreadsheets/d/1kMBK1A1tQn2g0cn2J7YKh66Q9tuVhg
 
 ## 2. Environment
 
-### 2.1. directory structure
+### 2.1. Directory Structure
 
 - COBOL: cd /opt2/tmaxapp/zref/Tmaxwork/TEST
 - COPYBOOK: cd /opt2/tmaxapp/zref/Tmaxwork/TEST/copybook
 - CICS compile script: cics/compile.sh
 - Batch compile script: batch/compile.sh
 
-### 2.2. Online scenario
 
-- ZREFMEE region (HPMEE3270)
-  - TR01: SQL ERR:-654657|23000|TR2Z| UNIQUE constraint violation ('TIBERO'.'PK_HH'). -> Need to use different scenarios each time.
-  - MF01: OK
+## 3. Unit Test 
 
-- ZREFCE region (HPCE)
-  - BV01: OK
-  - CP01: OK
-  - SD01: OK
-  - MW01: OK
-  - TO01: OK
-  - TS01: OK
-  - TU01: OK
-  - TL01: OK
-  
-### 2.3. Steps to compile
+### 3.1 Transaction file
 
->> Note that you need to remove .cob extension on PROGRAN-NAME
-  
-- Batch compile
-  1. cd /opt2/tmaxapp/zref/Tmaxwork/TEST/COBOL/batch
-  2. sh compile.sh PROGRAM-NAME
+- Transaction files are proviede by the customer.
+  - These files are modified to match the DB data.
+    - Use transaction file to generate the iput dataset for running batch jobs.
+        - command line for generating a dataset using transaction file.
+    - Transaction file is an input for the online scenarios.
+        - Oftest tool uses this file as an input.
 
-- Online compile
-  1. cd /opt2/tmaxapp/zref/Tmaxwork/TEST/COBOL/cics
-  2. sh compile.sh PROGRAM-NAME
+### 3.2 COBOL Complie
 
-## 3. Issues
+- Modifications are needed both for Batch and Online programs.
 
-### 3.1. Compilation issue
-
-3.1.1 COMMENT OUT(DOES NOT WORK in OF)
+3.2.1 COMMENT OUT(DOES NOT WORK in OF)
 
 - WITH (ROWLOCK) & WITH (ROWLOCK,UPDLOCK)
 - $IF  APPDBMS = "DB2"
 - $IF PLATFORM = "MFSEE"
 
-3.1.2 MODIFY
+3.2.2 SELECT TOP ~ clause
 
 - SELECT TOP n    
 
@@ -2217,45 +2201,14 @@ ZREF BMT: https://docs.google.com/spreadsheets/d/1kMBK1A1tQn2g0cn2J7YKh66Q9tuVhg
    WHERE (ROWNUM <= N)
   ```
 
-- BLOB 
+3.2.3 BLOB 
 
   ```bash
   KELSEY      05  W-NI-ITEM       PIC X(102400).
   KELSEY*      05  W-NI-ITEM       USAGE IS SQL TYPE IS BLOB(102400).
   ```
 
-### 3.2. Runtime issue
-
-3.2.1 TIP file modification
-```
-#---------------------------------------------------------
-## DATE & TIME FORMAT
-###---------------------------------------------------------
-NLS_TIME_FORMAT="HH24.MI.SSXFF"
-NLS_TIMESTAMP_FORMAT="YYYY-MM-DD-HH24.MI.SSXFF"
-NLS_TIMESTAMP_TZ_FORMAT="YYYY-MM-DD-HH24.MI.SSXFF"
-NLS_DATE_FORMAT="YYYY-MM-DD"
-```
-
-```
-SQL> SELECT DISTINCT(SYSTIMESTAMP) from dual; -> before the change
-
-SYSTIMESTAMP
----------------------------------------------
-2020/04/23 05:51:26.456306 Etc/Universal
-1 row selected.
-
-
-SQL> SELECT DISTINCT(SYSTIMESTAMP) from dual; -> after the change
-
-SYSTIMESTAMP
-----------------------------------------------
-2020-04-23-06.23.00.301
-
-1 row selected.
-```
-
-3.2.2 Change ADDRESS table name to ADDRESS01
+3.2.4 Change ADDRESS table name to ADDRESS01
 ```
  FROM
          SECURITY,
@@ -2280,8 +2233,7 @@ SYSTIMESTAMP
  *> -------------------------------------------
 ```
   
-3.3.3 COBOL modification 
-- DATE format of SD transaction from Batch(SDFRBTCH.cob)
+3.2.5 DATE format of SD transaction from Batch(SDFRBTCH.cob)
   - MM/DD/YYYY from transaction file should be converted to YYYY-MM-DD
     ```
     01 WS-START-DATE-TEMP.
@@ -2301,7 +2253,9 @@ SYSTIMESTAMP
 
     DM_DATE   >= :WS-START-DATE
     ```
-- SET ADDRESS does not work in runtime.(TOF4BTCH.cob)
+
+3.2.6 SET ADDRESS does not work in runtime.(TOF4BTCH.cob)
+
     ```
       *$IF PLATFORM = "MFSEE"
       *       REQUIRED MICRO FOCUS CALL FOR NOAMODE COMPILE
@@ -2325,8 +2279,8 @@ SYSTIMESTAMP
       *$END
       *     END-IF
     ```
-    
-### 3.3. VARCHAR type column
+
+3.2.7 VARCHAR type column
 
 - COPYBOOK modification
   - Generate new copybook by the name of "####-VAR"
@@ -2408,8 +2362,9 @@ SYSTIMESTAMP
       IF SQL-ERR-COUNT = 120000
       DISPLAY 'ERROR LIMIT (120000) REACHED IN TO ROUTINE '
       ```
-      
-### 3.4. Copybooks
+3.2.8 Copybooks
+
+- Delete ^Z from copybook.
 
 - Variables which should be expanded by ofcbpp.
   ```
@@ -2447,14 +2402,7 @@ SYSTIMESTAMP
     - EXTTRADE.COB - TRADE.cpy
     - EXTCUST1.COB - CUSTOMER.cpy
     - EXTADDR1.COB - ADDRESS.cpy
-
-- SQLCA
-  - SQLCODE was defined as COMP-4 from the old one but it should be changed to COMP-5.
-  
-  
-### 3.5. Invalid char in source
-
-- Delete ^Z from copybook
+    
 - Put an empty line in between 
 
 ```bash 
@@ -2465,6 +2413,81 @@ SYSTIMESTAMP
      EXEC SQL INCLUDE TSF1 END-EXEC.
      (put an empty line in between)
      EXEC SQL INCLUDE ERRWA END-EXEC.
+```
+    
+    
+3.2.9 SQLCA
+  - SQLCODE was defined as COMP-4 from the old one but it should be changed to COMP-5.
+  
+  
+>> Note that you need to remove .cob extension on PROGRAN-NAME
+  
+- Batch compile
+  1. cd /opt2/tmaxapp/zref/Tmaxwork/TEST/COBOL/batch
+  2. sh compile.sh PROGRAM-NAME
+
+- Online compile
+  1. cd /opt2/tmaxapp/zref/Tmaxwork/TEST/COBOL/cics
+  2. sh compile.sh PROGRAM-NAME
+  
+  
+
+
+### 3.1 Batch
+
+
+
+
+### 2.2. Online scenario
+
+- ZREFMEE region (HPMEE3270)
+  - TR01: SQL ERR:-654657|23000|TR2Z| UNIQUE constraint violation ('TIBERO'.'PK_HH'). -> Need to use different scenarios each time.
+  - MF01: OK
+
+- ZREFCE region (HPCE)
+  - BV01: OK
+  - CP01: OK
+  - SD01: OK
+  - MW01: OK
+  - TO01: OK
+  - TS01: OK
+  - TU01: OK
+  - TL01: OK
+  
+### 2.3. Steps to compile
+
+## 3. Issues
+
+
+### 3.2. Runtime issue
+
+3.2.1 TIP file modification
+```
+#---------------------------------------------------------
+## DATE & TIME FORMAT
+###---------------------------------------------------------
+NLS_TIME_FORMAT="HH24.MI.SSXFF"
+NLS_TIMESTAMP_FORMAT="YYYY-MM-DD-HH24.MI.SSXFF"
+NLS_TIMESTAMP_TZ_FORMAT="YYYY-MM-DD-HH24.MI.SSXFF"
+NLS_DATE_FORMAT="YYYY-MM-DD"
+```
+
+```
+SQL> SELECT DISTINCT(SYSTIMESTAMP) from dual; -> before the change
+
+SYSTIMESTAMP
+---------------------------------------------
+2020/04/23 05:51:26.456306 Etc/Universal
+1 row selected.
+
+
+SQL> SELECT DISTINCT(SYSTIMESTAMP) from dual; -> after the change
+
+SYSTIMESTAMP
+----------------------------------------------
+2020-04-23-06.23.00.301
+
+1 row selected.
 ```
 
 ### 3.6. modification on JCL
@@ -2594,15 +2617,6 @@ ZREFMEE_TCL1   SVGNAME = svgtboiv,
                 LIFESPAN = IDLE_600,
                 CLOPT = "-n -o $(SVR)_$(CDATE).out -e $(SVR)_$(CDATE).err"
 ```
-
-### 3.10. Transaction file
-
-- Transaction files are proviede by the customer.
-  - These files are modified to match the DB data.
-    - Use transaction file to generate the iput dataset for running batch jobs.
-        - command line for generating a dataset using transaction file.
-    - Transaction file is an input for the online scenarios.
-        - Oftest tool uses this file as an input.
 
 ## 4. Oftest
 
