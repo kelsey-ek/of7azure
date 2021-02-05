@@ -2468,40 +2468,53 @@ SYSTIMESTAMP
 
 ### 3.6. modification on JCL
 3.6.1 SETUP JCL
+
 - dos2unix ALL JCL
+
+    - Total 7.
+          ```
+          DEFAUDB.JCL
+          DEFAUDB1.JCL
+          DEFAUDOL.JCL
+          DEFCONFG.JCL
+          DEFTXNFL.JCL
+          DEFTXNLB.JCL
+          GDGDEFINE.JCL
+          ```
+
 - In case of JCL that uses "idcams define", copybook is needed for the dataset.
   - OpenFrame/tsam/copybook
      - ZREF.KSDS.CONFIG.cpy
-      ```
-      01 APP-CONFIG-REC.
-        05 ACR-KEY PIC X(8).
-        05 ACR-DATA.
-          10 ACR-GLOBAL-CONFIG.
-            15 ACR-GC-WRITE-AUDIT-FLAG PIC X.
-            15 ACR-GC-EXPLICIT-DBCONN-FLAG PIC X.
-            15 ACR-GC-DBCONN-NAME PIC X(20).
-            15 FILLER PIC X(8).
-          10 ACR-MSTQ-CONFIG.
-            15 ACR-MSTQ-SEND-METHOD PIC X.
-            15 ACR-MSTQ-SEND-TO-MACHINE PIC X(50).
-            15 ACR-MSTQ-SEND-TO-PORT PIC X(5).
-            15 FILLER PIC X(14).
-        05 FILLER PIC X(92).
-      ```
-      - ZREF.ESDS.AUDTRAIL.cpy &  PPLIP.ZREF.BAT##.AUDTRAIL.cpy
-      ```
-      004100 01 FD-AUDREC.
-      004200     05 AUDIT-KEY.
-      004300       10 A-TRANS-ID.
-      004400         15 A-TRAN-ID PIC X(02).
-      004500         15 FILLER-ID PIC X(02).
-      004600       10 A-DATE.
-      004700         15 A-DTE PIC X(08).
-      004800         15 FILLER PIC X(02).
-      004900       10 A-TIME PIC X(06).
-      005000     05 A-DATA-AREA PIC X(2413).
-      005000     05 A-DATA-FILLER PIC X(4).
-      ```
+          ```
+          01 APP-CONFIG-REC.
+            05 ACR-KEY PIC X(8).
+            05 ACR-DATA.
+              10 ACR-GLOBAL-CONFIG.
+                15 ACR-GC-WRITE-AUDIT-FLAG PIC X.
+                15 ACR-GC-EXPLICIT-DBCONN-FLAG PIC X.
+                15 ACR-GC-DBCONN-NAME PIC X(20).
+                15 FILLER PIC X(8).
+              10 ACR-MSTQ-CONFIG.
+                15 ACR-MSTQ-SEND-METHOD PIC X.
+                15 ACR-MSTQ-SEND-TO-MACHINE PIC X(50).
+                15 ACR-MSTQ-SEND-TO-PORT PIC X(5).
+                15 FILLER PIC X(14).
+            05 FILLER PIC X(92).
+          ```
+      - ZREF.ESDS.AUDTRAIL.cpy &  PPLIP.ZREF.BAT##.AUDTRAIL.cpy (PPLIP.ZREF.BAT01.AUDTRAIL.cpy ~ PPLIP.ZREF.BAT10.AUDTRAIL.cpy)
+          ```
+          004100 01 FD-AUDREC.
+          004200     05 AUDIT-KEY.
+          004300       10 A-TRANS-ID.
+          004400         15 A-TRAN-ID PIC X(02).
+          004500         15 FILLER-ID PIC X(02).
+          004600       10 A-DATE.
+          004700         15 A-DTE PIC X(08).
+          004800         15 FILLER PIC X(02).
+          004900       10 A-TIME PIC X(06).
+          005000     05 A-DATA-AREA PIC X(2413).
+          005000     05 A-DATA-FILLER PIC X(4).
+          ```
 - Modification
   - RECFM=LSEQ -> RECFM=FB
   - Delete "//MFE:" line.
@@ -2511,25 +2524,25 @@ SYSTIMESTAMP
 - Modification
   - When the first time you run the BATBR**.JCL, modify the JCL to report the dataset as below.
      - BATBDR**.JCL   
-     ```
-     AS IS
-     //BVREPORT  DD DUMMY,DCB=(RECFM=FBA,LRECL=133)             
-     //*VREPORT  DD DSN=PPLIP.ZREF.REPT.BV,                     
-     //*            DISP=(NEW,CATLG,DELETE),                    
-     //*            DISP=OLD,                                   
-     //*            UNIT=SYSDA,                                 
-     //*            SPACE=(CYL,(111,22),RLSE),                  
-     //*            DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0,BUFNO=60)
-     
-     TO BE
-     //*BVREPORT  DD DUMMY,DCB=(RECFM=FBA,LRECL=133)           
-     //BVREPORT  DD DSN=PPLIP.ZREF.REPT.BV,                    
-     //            DISP=(NEW,CATLG,DELETE),                    
-     //*            DISP=OLD,                                  
-     //            UNIT=SYSDA,                                 
-     //            SPACE=(CYL,(111,22),RLSE),                  
-     //            DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0,BUFNO=60)
-    ```
+         ```
+         AS IS
+         //BVREPORT  DD DUMMY,DCB=(RECFM=FBA,LRECL=133)             
+         //*VREPORT  DD DSN=PPLIP.ZREF.REPT.BV,                     
+         //*            DISP=(NEW,CATLG,DELETE),                    
+         //*            DISP=OLD,                                   
+         //*            UNIT=SYSDA,                                 
+         //*            SPACE=(CYL,(111,22),RLSE),                  
+         //*            DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0,BUFNO=60)
+
+         TO BE
+         //*BVREPORT  DD DUMMY,DCB=(RECFM=FBA,LRECL=133)           
+         //BVREPORT  DD DSN=PPLIP.ZREF.REPT.BV,                    
+         //            DISP=(NEW,CATLG,DELETE),                    
+         //*            DISP=OLD,                                  
+         //            UNIT=SYSDA,                                 
+         //            SPACE=(CYL,(111,22),RLSE),                  
+         //            DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0,BUFNO=60)
+        ```
 
 ### 3.7. SD modification
 
