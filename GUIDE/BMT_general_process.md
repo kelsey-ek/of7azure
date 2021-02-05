@@ -2148,11 +2148,6 @@ Total Elapsed Time was    : 00:00:31.371371
 ## 1. Overview
 
 ZREF BMT: https://docs.google.com/spreadsheets/d/1kMBK1A1tQn2g0cn2J7YKh66Q9tuVhgQyo7XNKqxKE2c/edit#gid=392064127
-- WBS
-- VARCHAR
-- COPY
-- BATDRVR
-- JCL
 
 ## 2. Environment
 
@@ -2162,7 +2157,6 @@ ZREF BMT: https://docs.google.com/spreadsheets/d/1kMBK1A1tQn2g0cn2J7YKh66Q9tuVhg
 - COPYBOOK: cd /opt2/tmaxapp/zref/Tmaxwork/TEST/copybook
 - CICS compile script: cics/compile.sh
 - Batch compile script: batch/compile.sh
-
 
 ## 3. Unit Test 
 
@@ -2256,7 +2250,6 @@ ZREF BMT: https://docs.google.com/spreadsheets/d/1kMBK1A1tQn2g0cn2J7YKh66Q9tuVhg
 
 3.2.6 SET ADDRESS does not work in runtime.(TOF4BTCH.cob)
 
-    ```
       *$IF PLATFORM = "MFSEE"
       *       REQUIRED MICRO FOCUS CALL FOR NOAMODE COMPILE
       *       CALL 'MFJZLPSA' RETURNING MFSEE-PSA-PTR
@@ -2278,7 +2271,6 @@ ZREF BMT: https://docs.google.com/spreadsheets/d/1kMBK1A1tQn2g0cn2J7YKh66Q9tuVhg
       *         MOVE   SMCASID          TO CURRENT-SYSTEMID
       *$END
       *     END-IF
-    ```
 
 3.2.7 VARCHAR type column
 
@@ -2643,68 +2635,12 @@ fi
 done
 ```
   
-  
 
+### 3.3 Batch
 
-### 3.1 Batch
+3.3.1 Prepare JCL
 
-
-
-
-### 2.2. Online scenario
-
-- ZREFMEE region (HPMEE3270)
-  - TR01: SQL ERR:-654657|23000|TR2Z| UNIQUE constraint violation ('TIBERO'.'PK_HH'). -> Need to use different scenarios each time.
-  - MF01: OK
-
-- ZREFCE region (HPCE)
-  - BV01: OK
-  - CP01: OK
-  - SD01: OK
-  - MW01: OK
-  - TO01: OK
-  - TS01: OK
-  - TU01: OK
-  - TL01: OK
-  
-### 2.3. Steps to compile
-
-## 3. Issues
-
-
-### 3.2. Runtime issue
-
-3.2.1 TIP file modification
-```
-#---------------------------------------------------------
-## DATE & TIME FORMAT
-###---------------------------------------------------------
-NLS_TIME_FORMAT="HH24.MI.SSXFF"
-NLS_TIMESTAMP_FORMAT="YYYY-MM-DD-HH24.MI.SSXFF"
-NLS_TIMESTAMP_TZ_FORMAT="YYYY-MM-DD-HH24.MI.SSXFF"
-NLS_DATE_FORMAT="YYYY-MM-DD"
-```
-
-```
-SQL> SELECT DISTINCT(SYSTIMESTAMP) from dual; -> before the change
-
-SYSTIMESTAMP
----------------------------------------------
-2020/04/23 05:51:26.456306 Etc/Universal
-1 row selected.
-
-
-SQL> SELECT DISTINCT(SYSTIMESTAMP) from dual; -> after the change
-
-SYSTIMESTAMP
-----------------------------------------------
-2020-04-23-06.23.00.301
-
-1 row selected.
-```
-
-### 3.6. modification on JCL
-3.6.1 SETUP JCL
+1) SETUP JCL
 
 - dos2unix ALL JCL
 
@@ -2756,7 +2692,18 @@ SYSTIMESTAMP
   - Delete "//MFE:" line.
   - VOLUMES(PIPV01) ->  VOLUMES(DEFVOL)
   
-3.6.2 JCL
+2) Transaction JCL
+
+- dos2unix ALL JCL
+
+    - Total 5 (2 Pairs).
+    
+          BATBDRVR.JCL
+          BATBDR##.JCL
+          BATBDRVA##.JCL
+          INDXWT#.JCL
+          RPTONLY#.JCL
+
 - Modification
   - When the first time you run the BATBR**.JCL, modify the JCL to report the dataset as below.
      - BATBDR**.JCL   
@@ -2780,7 +2727,15 @@ SYSTIMESTAMP
          //            DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0,BUFNO=60)
         ```
 
-### 3.7. SD modification
+### 3.4 Online
+
+1) SD modification
+
+- ADD missing PROGRAMS in each region
+  ```
+  DEFINE PROGRAM(##BL0001) GROUP(ZREFCE) LANGUAGE(COBOL)
+  DEFINE PROGRAM(##FR000#) GROUP(ZREFCE) LANGUAGE(COBOL)
+  ```
 
 - ADD TERMINAL (For loading testing, a lot of terminals are needed T000~T999)
   ```
@@ -2791,13 +2746,23 @@ SYSTIMESTAMP
   DEFINE TERMINAL(TTRM) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TESTTERM) INSERVICE(YES)
   ```
 
-- ADD missing PROGRAMS in each region
-  ```
-  DEFINE PROGRAM(##BL0001) GROUP(ZREFCE) LANGUAGE(COBOL)
-  DEFINE PROGRAM(##FR000#) GROUP(ZREFCE) LANGUAGE(COBOL)
-  ```
+2) Scenarios
+- ZREFMEE region (HPMEE3270)
+  - TR01: SQL ERR:-654657|23000|TR2Z| UNIQUE constraint violation ('TIBERO'.'PK_HH'). -> Need to use different scenarios each time.
+  - MF01: OK
 
-### 3.8. Update VTAM info
+- ZREFCE region (HPCE)
+  - BV01: OK
+  - CP01: OK
+  - SD01: OK
+  - MW01: OK
+  - TO01: OK
+  - TS01: OK
+  - TU01: OK
+  - TL01: OK
+  
+  
+ 3) Update VTAM Setting
 
 - VTAMDUMP -> VTAMGEN (*modify the dump file and generate a new vtam definition.*)
   - TESTT000..TESTT999.. -> match it with the TERMINAL NETNAME from SD.
@@ -2813,6 +2778,43 @@ SYSTIMESTAMP
       LUMAP LUGRP2 IPGRP2
         ENDVTAM
     ```
+  
+### 3.2. Runtime issue
+
+3.2.1 TIP file modification
+```
+#---------------------------------------------------------
+## DATE & TIME FORMAT
+###---------------------------------------------------------
+NLS_TIME_FORMAT="HH24.MI.SSXFF"
+NLS_TIMESTAMP_FORMAT="YYYY-MM-DD-HH24.MI.SSXFF"
+NLS_TIMESTAMP_TZ_FORMAT="YYYY-MM-DD-HH24.MI.SSXFF"
+NLS_DATE_FORMAT="YYYY-MM-DD"
+```
+
+```
+SQL> SELECT DISTINCT(SYSTIMESTAMP) from dual; -> before the change
+
+SYSTIMESTAMP
+---------------------------------------------
+2020/04/23 05:51:26.456306 Etc/Universal
+1 row selected.
+
+
+SQL> SELECT DISTINCT(SYSTIMESTAMP) from dual; -> after the change
+
+SYSTIMESTAMP
+----------------------------------------------
+2020-04-23-06.23.00.301
+
+1 row selected.
+```
+
+
+
+### 3.7. 
+
+### 3.8. 
 
 ### 3.9. Increase region process number
 
