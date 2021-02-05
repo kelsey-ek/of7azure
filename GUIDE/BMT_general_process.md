@@ -212,20 +212,20 @@ Generate and load time: 01:22:58
 
 1) Create tablespaces (seperate)
 
-- Create Data tablepace
+- Create Data tablepace.
+    - Becareful not to use autoextend. It will later cause the 'TBR-21004: No more extent available in tablespace' issue.
 ```
 DROP TABLESPACE ZREF_DATA INCLUDING CONTENTS AND DATAFILES; 
 
 CREATE TABLESPACE ZREF_DATA DATAFILE
- '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_DATA.dbf' 
-SIZE 16M AUTOEXTEND 
-ON NEXT 5M 
-MAXSIZE 34M
+ '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_DATA01.dbf' 
+SIZE 20G
 LOGGING
 ONLINE
 PERMANENT
 EXTENT MANAGEMENT LOCAL AUTOALLOCATE;
 ```
+
 
 - Add datafile
 ```
@@ -235,15 +235,14 @@ ALTER TABLESPACE ZREF_DATA ADD DATAFILE '/opt2/tmaxdb/tibero6/database/TVSAM/ZRE
 ALTER TABLESPACE ZREF_DATA ADD DATAFILE '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_DATA05.dbf' SIZE 20G;
 ```
 
-- Create Index tablepace
+- Create Index tablepace.
+    - Becareful not to use autoextend. It will later cause the 'TBR-21004: No more extent available in tablespace' issue.
 ```
 DROP TABLESPACE ZREF_INDEX_TS INCLUDING CONTENTS AND DATAFILES; 
 
 CREATE TABLESPACE ZREF_INDEX_TS DATAFILE
  '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_IDX.dbf' 
-SIZE 8M AUTOEXTEND 
-ON NEXT 5M 
-MAXSIZE 34M
+SIZE 20G
 LOGGING
 ONLINE
 PERMANENT
