@@ -2374,7 +2374,7 @@ SYSTIMESTAMP
       TUF3-VAR
       TUTX-VAR
       ```
-     - d
+     - Modification01
       ```
       * MOVE SDF1-IN-SYMBOL         TO  W-SYMBOL-TEXT 
       MOVE SDF1-IN-SYMBOL         TO  W-SYMBOL
@@ -2395,14 +2395,14 @@ SYSTIMESTAMP
        MOVE  MAP1-SYMBOL-TEXT           TO TUTX-IN-SYMBOL-TEXT.
       ```
 
-     - d
+     - Modification02
       ```
       IF (TOF3-IN-SYMBOL EQUAL TO SPACES  OR
          TOF3-IN-SYMBOL EQUAL TO LOW-VALUES)
       IF (TOF3-IN-SYMBOL-TEXT EQUAL TO SPACES  OR
           TOF3-IN-SYMBOL-TEXT EQUAL TO LOW-VALUES)
       ```
-      - d
+      - Modification03
       ```
       IF SQL-ERR-COUNT = 120000
       DISPLAY 'ERROR LIMIT (120000) REACHED IN TO ROUTINE '
@@ -2451,7 +2451,6 @@ SYSTIMESTAMP
   - SQLCODE was defined as COMP-4 from the old one but it should be changed to COMP-5.
   
   
-
 ### 3.5. Invalid char in source
 
 - Delete ^Z from copybook
@@ -2581,13 +2580,6 @@ ZREFMEE_TCL1   SVGNAME = svgtboiv,
                 GPERIOD = 86400,
                 LIFESPAN = IDLE_600,
                 CLOPT = "-n -o $(SVR)_$(CDATE).out -e $(SVR)_$(CDATE).err"
-```
-Reset the NEXT_ID table with two SQLs below.
-
-```
-SQL> INSERT INTO ZREF.NEXT_ID (KEY1, KEY2, ID_VALUE, ORDINAL) values ('TRADE', 'BMK-JOB00000', 0, 0);
-
-SQL> INSERT INTO ZREF.NEXT_ID (KEY1, KEY2, ID_VALUE, ORDINAL) VALUES ('TRADE', 'BASE', 200100000000000, 0);
 ```
 
 ## 4. Oftest
