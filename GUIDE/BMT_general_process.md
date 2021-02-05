@@ -2473,7 +2473,6 @@ SYSTIMESTAMP
 
     - Total 7.
     
-          ```
           DEFAUDB.JCL
           DEFAUDB1.JCL
           DEFAUDOL.JCL
@@ -2481,8 +2480,7 @@ SYSTIMESTAMP
           DEFTXNFL.JCL
           DEFTXNLB.JCL
           GDGDEFINE.JCL
-          ```
-
+          
 - In case of JCL that uses "idcams define", copybook is needed for the dataset.
   - OpenFrame/tsam/copybook
      - ZREF.KSDS.CONFIG.cpy
