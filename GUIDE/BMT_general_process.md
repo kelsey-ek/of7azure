@@ -2419,16 +2419,229 @@ ZREF BMT: https://docs.google.com/spreadsheets/d/1kMBK1A1tQn2g0cn2J7YKh66Q9tuVhg
 3.2.9 SQLCA
   - SQLCODE was defined as COMP-4 from the old one but it should be changed to COMP-5.
   
-  
+
+### Compile and Deploy 
+
 >> Note that you need to remove .cob extension on PROGRAN-NAME
   
-- Batch compile
-  1. cd /opt2/tmaxapp/zref/Tmaxwork/TEST/COBOL/batch
-  2. sh compile.sh PROGRAM-NAME
+- Batch script
+    - Need to check tbpcb and ofcob options.
 
-- Online compile
-  1. cd /opt2/tmaxapp/zref/Tmaxwork/TEST/COBOL/cics
-  2. sh compile.sh PROGRAM-NAME
+```
+#!/bin/sh
+#set -x
+CPYPATH=/opt2/tmaxapp/zref/Tmaxwork/TEST/copybook
+
+CBPPOPT="--enable-include --enable-declare"
+OFCBOPT="--enable-debug -g --trace"
+
+COBDIR=`pwd`
+#COBLIST=`ls -al ${COBDIR}/*.cob | awk '{print $9}' | awk -F["/"] '{print $NF}' | awk -F["."] '{print $1}'`
+COBLIST=${1}
+
+cd ${COBDIR}
+
+for cobfile in ${COBLIST}
+do
+  echo "-------------- OFCBPP STEP : ${cobfile}.cob --------------"
+  egrep "EXEC.*SQL| COPY " ${cobfile}.cob > /dev/null; RC=`echo ${?}`
+  if [ ${RC} != 0 ]; then
+    echo "[SKIP] OFCBPP STEP"
+    cp ${cobfile}.cob ${cobfile}.cbpp
+  else
+    cmd="ofcbpp -i ${cobfile}.cob -o ${cobfile}.cbpp -copypath ${CPYPATH}"
+    $cmd
+    if [ $? -ne 0 ]; then
+       echo "[FAIL] OFCBPP STEP : $cmd"
+       exit 1;
+     else
+       echo "[SUCCESS] OFCBPP STEP"
+    fi
+  fi
+
+  echo "------------ TBDB2CBLCV STEP : ${cobfile}.cbpp ------------"
+  grep "EXEC.*SQL" ${cobfile}.cbpp > /dev/null; RC=`echo ${?}`
+  if [ ${RC} != 0 ]; then
+   echo "[SKIP] TBDB2CBLCV STEP"
+   cp ${cobfile}.cbpp ${cobfile}.cbl
+  else
+   tbdb2cblcv ${cobfile}.cbpp > ${cobfile}.cbl
+   sed -i 's/"ROWNUM"/ROWNUM/g' ${cobfile}.cbl
+   if [ $? -ne 0 ]; then
+      echo "[FAIL] TBDB2CBLCV STEP"
+      exit 1;
+     else
+       echo "[SUCCESS] TBDB2CBLCV STEP"
+  fi
+ fi
+
+  echo "-------------   TBPCB STEP : ${cobfile}.cbl   -------------"
+  grep "EXEC.*SQL" ${cobfile}.cbl > /dev/null; RC=`echo ${?}`
+  if [ ${RC} != 0 ]; then
+   echo "[SKIP] TBPCB STEP"
+   cp ${cobfile}.cbl ${cobfile}_tbpcb.cbl
+  else
+#  cmd="tbpcb INCLUDE=${CPYPATH} END_OF_FETCH=100 COMP5=NO CODE=COBOL UNSAFE_NULL=YES VARCHAR=YES DB2_SYNTAX=YES INAME=${cobfile}.cbl ONAME=${cobfile}_tbpcb.cbl LOG_LVL=TRACE"
+  cmd="tbpcb INCLUDE=${CPYPATH} END_OF_FETCH=100 COMP5=NO CODE=COBOL UNSAFE_NULL=YES VARCHAR=YES DB2_SYNTAX=YES INAME=${cobfile}.cbl ONAME=${cobfile}_tbpcb.cbl"
+  $cmd
+  if [ $? -ne 0 ]; then
+     echo "[FAIL] TBPCB STEP : $cmd"
+     exit 1;
+    else
+       echo "[SUCCESS] TBPCB STEP"
+  fi
+ fi
+ 
+
+  echo "------------ OSCCBLPP STEP : ${cobfile}_tbpcb.cbl ------------"
+  grep "EXEC.*CICS" ${cobfile}_tbpcb.cbl > /dev/null; RC=`echo ${?}`
+  if [ ${RC} != 0 ]; then
+    echo "[SKIP] OSCCBLPP STEP"
+    cp ${cobfile}_tbpcb.cbl ${cobfile}_osccblpp.cbl
+  else
+    cmd="osccblpp -o ${cobfile}_osccblpp.cbl ${cobfile}_tbpcb.cbl"
+    $cmd
+    if [ $? -ne 0 ]; then
+     echo "[FAIL] OSCCBLPP STEP : $cmd"
+     exit 1;
+    else
+       echo "[SUCCESS] OSCCBLPP STEP"
+  fi
+ fi
+
+
+  echo "------------ OFCOB STEP : ${cobfile}_osccblpp.cbl -------------"
+#  cmd="ofcob -U -o ${cobfile}.so ${cobfile}_osccblpp.cbl -L$OPENFRAME_HOME/lib --trace -lofcee -ltextfh -ltextsm -L$TB_HOME/client/lib/ -ltbertl -L$ODBC_HOME/lib -lodbc -ltbertl_odbc -lclientcommon -lofcom -g --force-trace2 --enable-debug"
+  cmd="ofcob -U -o ${cobfile}.so ${cobfile}_osccblpp.cbl -L$OPENFRAME_HOME/lib --trace -lofcee -ltextfh -ltextsm -L$TB_HOME/client/lib/ -ltbertl -L$ODBC_HOME/lib -lodbc -ltbertl_odbc -lclientcommon -lofcom -g "
+#  cmd="ofcob -U -x  ${cobfile}_osccblpp.cbl -L$OPENFRAME_HOME/lib --trace -lofcee -ltextfh -ltextsm -L$TB_HOME/client/lib/ -ltbertl -L$ODBC_HOME/lib -lodbc -ltbertl_odbc -lclientcommon -lofcom -g --force-trace2 --enable-debug"
+#  cmd="ofcob -U -o ${cobfile}.so ${cobfile}_osccblpp.cbl -L$OPENFRAME_HOME/lib --trace -lofcee -ltextfh -ltextsm -L$TB_HOME/client/lib/ -ltbertl -L$ODBC_HOME/lib -lodbc -lclientcommon -lofcom -g --force-trace2 --enable-debug"
+  $cmd
+  if [ $? -ne 0 ]; then
+    echo "[FAIL] OFCOB STEP : $cmd"
+    exit 1;
+    else
+       echo "[SUCCESS] OFCOB STEP"
+  fi
+
+  echo "-------------    DEPLOY STEP : ${cobfile}.so   --------------"
+  cp ${cobfile}.so $OPENFRAME_HOME/volume_default/PPLIP.ZREF.LIBLOAD
+  cp ${cobfile}.so $OPENFRAME_HOME/volume_default/SYS1.USERLIB
+
+done
+```
+
+- Online script
+    - Need to check tbpcb and ofcob options.
+```
+#!/bin/sh
+#set -x
+CPYPATH=/opt2/tmaxapp/zref/Tmaxwork/TEST/copybook
+
+CBPPOPT="--enable-include --enable-declare"
+OFCBOPT="--enable-debug -g --trace"
+
+COBDIR=`pwd`
+#COBLIST=`ls -al ${COBDIR}/*.cob | awk '{print $9}' | awk -F["/"] '{print $NF}' | awk -F["."] '{print $1}'`
+COBLIST=${1}
+
+cd ${COBDIR}
+
+for cobfile in ${COBLIST}
+do
+  echo "-------------- OFCBPP STEP : ${cobfile}.cob --------------"
+  egrep "EXEC.*SQL| COPY " ${cobfile}.cob > /dev/null; RC=`echo ${?}`
+  if [ ${RC} != 0 ]; then
+    echo "[SKIP] OFCBPP STEP"
+    cp ${cobfile}.cob ${cobfile}.cbpp
+  else
+    cmd="ofcbpp -i ${cobfile}.cob -o ${cobfile}.cbpp -copypath ${CPYPATH}"
+    $cmd
+    if [ $? -ne 0 ]; then
+       echo "[FAIL] OFCBPP STEP : $cmd"
+       exit 1;
+     else
+       echo "[SUCCESS] OFCBPP STEP"
+    fi
+  fi
+
+  echo "------------ TBDB2CBLCV STEP : ${cobfile}.cbpp ------------"
+  grep "EXEC.*SQL" ${cobfile}.cbpp > /dev/null; RC=`echo ${?}`
+  if [ ${RC} != 0 ]; then
+   echo "[SKIP] TBDB2CBLCV STEP"
+   cp ${cobfile}.cbpp ${cobfile}.cbl
+  else
+   tbdb2cblcv ${cobfile}.cbpp > ${cobfile}.cbl
+   sed -i 's/"ROWNUM"/ROWNUM/g' ${cobfile}.cbl
+   if [ $? -ne 0 ]; then
+      echo "[FAIL] TBDB2CBLCV STEP"
+      exit 1;
+     else
+       echo "[SUCCESS] TBDB2CBLCV STEP"
+  fi
+ fi
+
+  echo "-------------   TBPCB STEP : ${cobfile}.cbl   -------------"
+  grep "EXEC.*SQL" ${cobfile}.cbl > /dev/null; RC=`echo ${?}`
+  if [ ${RC} != 0 ]; then
+   echo "[SKIP] TBPCB STEP"
+   cp ${cobfile}.cbl ${cobfile}_tbpcb.cbl
+  else
+# cmd="tbpcb INCLUDE=${CPYPATH} END_OF_FETCH=100 COMP5=NO CODE=COBOL UNSAFE_NULL=YES VARCHAR=YES DB2_SYNTAX=YES INAME=${cobfile}.cbl ONAME=${cobfile}_tbpcb.cbl LOG_LVL=TRACE RUNTIME_MODE=ODBC"
+  cmd="tbpcb INCLUDE=${CPYPATH} END_OF_FETCH=100 COMP5=NO CODE=COBOL UNSAFE_NULL=YES VARCHAR=YES DB2_SYNTAX=YES INAME=${cobfile}.cbl ONAME=${cobfile}_tbpcb.cbl"
+#  cmd="tbpcb INCLUDE=${CPYPATH} END_OF_FETCH=100 COMP5=NO CODE=COBOL UNSAFE_NULL=YES VARCHAR=YES DB2_SYNTAX=YES INAME=${cobfile}.cbl ONAME=${cobfile}_tbpcb.cbl  RUNTIME_MODE=ODBC"
+  $cmd
+  if [ $? -ne 0 ]; then
+     echo "[FAIL] TBPCB STEP : $cmd"
+     exit 1;
+    else
+       echo "[SUCCESS] TBPCB STEP"
+  fi
+ fi
+ 
+
+  echo "------------ OSCCBLPP STEP : ${cobfile}_tbpcb.cbl ------------"
+  grep "EXEC.*CICS" ${cobfile}_tbpcb.cbl > /dev/null; RC=`echo ${?}`
+  if [ ${RC} != 0 ]; then
+    echo "[SKIP] OSCCBLPP STEP"
+    cp ${cobfile}_tbpcb.cbl ${cobfile}_osccblpp.cbl
+  else
+    cmd="osccblpp -o ${cobfile}_osccblpp.cbl ${cobfile}_tbpcb.cbl"
+    $cmd
+    if [ $? -ne 0 ]; then
+     echo "[FAIL] OSCCBLPP STEP : $cmd"
+     exit 1;
+    else
+       echo "[SUCCESS] OSCCBLPP STEP"
+  fi
+ fi
+
+
+  echo "------------ OFCOB STEP : ${cobfile}_osccblpp.cbl -------------"
+  cmd="ofcob -U -o ${cobfile}.so ${cobfile}_osccblpp.cbl -L$OPENFRAME_HOME/lib --trace -lofcee -ltextfh -ltextsm -L$TB_HOME/client/lib/ -ltbertl -L$ODBC_HOME/lib -lodbc -ltbertl_odbc -lclientcommon -lofcom -g"
+#  cmd="ofcob -U -o ${cobfile}.so ${cobfile}_osccblpp.cbl -L$OPENFRAME_HOME/lib --trace -lofcee -ltextfh -ltextsm -L$TB_HOME/client/lib/ -ltbertl -L$ODBC_HOME/lib -lodbc -lclientcommon -lofcom -g --force-trace2 --enable-debug"
+  $cmd
+  if [ $? -ne 0 ]; then
+    echo "[FAIL] OFCOB STEP : $cmd"
+    exit 1;
+    else
+       echo "[SUCCESS] OFCOB STEP"
+  fi
+
+  echo "-------------    TDLUPDATE STEP : ${cobfile}.so   --------------"
+#  cp ${cobfile}.so $OPENFRAME_HOME/osc/region/ZREFCE/tdl/mod
+  cp ${cobfile}.so $OPENFRAME_HOME/osc/region/ZREFMEE/tdl/mod
+#  cmd="osctdlupdate ZREFCE ${cobfile}"
+  cmd="osctdlupdate ZREFMEE ${cobfile}"
+  $cmd
+   if [ $? -ne 0 ]; then
+   echo "[FAIL] TDLUPDATE STEP : $cmd"
+else
+  echo "[SUCCESS] TDLUPDATE  STEP"
+fi
+
+
+done
+```
   
   
 
