@@ -2598,7 +2598,9 @@ ZREFMEE_TCL1   SVGNAME = svgtboiv,
 ### 3.10. Transaction file
 
 - Transaction files are proviede by the customer.
+  - These files are modified to match the DB data.
     - Use transaction file to generate the iput dataset for running batch jobs.
+        - command line for generating a dataset using transaction file.
     - Transaction file is an input for the online scenarios.
         - Oftest tool uses this file as an input.
 
