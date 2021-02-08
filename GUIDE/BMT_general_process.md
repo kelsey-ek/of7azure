@@ -3245,8 +3245,7 @@ cp -a ZREFMEE $TMAXDIR/appbin/
 	```	
 	idcams define -t CL -n [TSQ DATA dataset name] -o KS -k 18,0 -l 128,32760 -b 32767 -s 1024,128,128 -v DEFVOL
 	```
-[REGION BUILD]
-
+[REGION BUILD] PDF file
 <img src="./reference_images/Region build - Kelsey.pdf" title="Region build">
 
   - SD modification.
