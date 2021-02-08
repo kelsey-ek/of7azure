@@ -3272,11 +3272,33 @@ Register User CSD
 oscsdgen -c -d [SD dataset name] [user resource file]
 ```
   
-  0) Map complie
+0) Map complie
 
-- mscasmc
+- mscasmc [map file]
 
-- mcsmapc
+- mcsmapc [map file] -r [region name]
+
+- masmapupdate
+	```
+	mscmapupdate version 7.0.3(5) obuild@tplinux64:ofsrc7/osc(#1) 2019-12-17 16:18:32
+	MSC Map dynamic Update Utility
+
+	Usage: mscmapupdate [options]
+	     | mscmapupdate <region>
+	     | mscmapupdate <region> -f <file_name> [-n]
+	     | mscmapupdate <region> -l <mapset> [-n]
+	     | mscmapupdate <region> -r <mapset> [-n]
+	     <region>              Specify region name
+				   (if no options used, display loaded mapset list)
+	    -f <physical map file> Load specified file as mapset file
+				   (can not use with '-n' option)
+	    -l <mapset>            Load mapset from default mapset directory
+	    -r <mapset>            Release mapset
+	Options:
+	    -h                     Display this information
+	    -v                     Display version information
+	    -n (optional)          Syncronize mapupdate in multi-clustering environment
+	```
 
 1) SD modification
 
