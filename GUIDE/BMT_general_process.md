@@ -3265,11 +3265,11 @@ cp -a ZREFMEE $TMAXDIR/appbin/
 - Register the CSD resource definition to SD dataset.
 ```
 Register system online resource
-oscsdgen -c -d SD dataset name $OPENFRAME_HOME/osc/resource/osc.dat
+oscsdgen -c -d [SD dataset name] $OPENFRAME_HOME/osc/resource/osc.dat
 
 
 Register User CSD
-oscsdgen -c -d SD dataset name user resource file
+oscsdgen -c -d [SD dataset name] [user resource file]
 ```
   
   0) Map complie
