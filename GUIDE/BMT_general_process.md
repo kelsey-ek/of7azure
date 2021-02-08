@@ -3204,17 +3204,47 @@ cp -a ZREFMEE $TMAXDIR/appbin/
 
 - Online datasets.
 
-```
-SD dataset
-idcams define -t CL -n SD dataset name -o KS -k 18,0 -b 32768 -l 128,32760 -s 1024,128,128 -v DEFVOL
+   - SD dataset
+	```
+	01 VSAM-RECORD.
+	    03 VSAM-KEY  PIC X(18).
+	    03 VSAM-DATA PIC X(4078).
+	    03 VSAM-DUMMY REDEFINES VSAM-DATA PIC X(4078).
+	``` 
+	```
+	idcams define -t CL -n [SD dataset name] -o KS -k 18,0 -b 32768 -l 4096,4096 -s 1024,128,128 -v DEFVOL
+	```
 
-TDQ dataset.
-idcams define -t CL -n TDQ dataset name -o KS -k 8,0 -l 128,32760 -b 32767 -s 1024,128,128 -v DEFVOL
+   - TDQ dataset
+	```
+	01 VSAM-RECORD.
+	    03 VSAM-KEY  PIC X(8).
+	    03 VSAM-DATA PIC X(32752).
+	    03 VSAM-DUMMY REDEFINES VSAM-DATA PIC X(32752).
+	``` 
+	```
+	idcams define -t CL -n [TDQ dataset name] -o KS -k 8,0 -l 128,32760 -b 32767 -s 1024,128,128 -v DEFVOL
+	```
 
-TSQ(KEY and DATA) dataset.
-idcams define -t CL -n TSQ KEY dataset name -o KS -k 16,0 -l 64,64 -s 1024,128,128 -v DEFVOL
-idcams define -t CL -n TSQ DATA dataset name -o KS -k 18,0 -l 128,32760 -b 32767 -s 1024,128,128 -v DEFVOL
-```
+   - TSQ(KEY and DATA) dataset
+	```
+	01 VSAM-RECORD.
+	    03 VSAM-KEY  PIC X(16).
+	    03 VSAM-DATA PIC X(48).
+	    03 VSAM-DUMMY REDEFINES VSAM-DATA PIC X(48).
+	``` 
+	```
+	idcams define -t CL -n [TSQ KEY dataset name] -o KS -k 16,0 -l 64,64 -s 1024,128,128 -v DEFVOL
+	```
+	```
+	01 VSAM-RECORD.
+	    03 VSAM-KEY  PIC X(18).
+	    03 VSAM-DATA PIC X(32742).
+	    03 VSAM-DUMMY REDEFINES VSAM-DATA PIC X(32742).
+	```
+	```	
+	idcams define -t CL -n [TSQ DATA dataset name] -o KS -k 18,0 -l 128,32760 -b 32767 -s 1024,128,128 -v DEFVOL
+	```
 
   - SD modification.
       - ADD missing PROGRAMS in each region
