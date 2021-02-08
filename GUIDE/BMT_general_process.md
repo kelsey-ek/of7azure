@@ -2760,6 +2760,7 @@ ZREF BMT: https://docs.google.com/spreadsheets/d/1kMBK1A1tQn2g0cn2J7YKh66Q9tuVhg
       IF SQL-ERR-COUNT = 120000
       DISPLAY 'ERROR LIMIT (120000) REACHED IN TO ROUTINE '
       ```
+      
 3.2.8 Copybooks
 
 - Delete ^Z from copybook.
@@ -3040,7 +3041,30 @@ fi
 
 done
 ```
-  
+
+- If all programs are modified and compiled successfully, you only need to move the complied modules like below.
+
+```
+[Online]
+
+cp ${cobfile}.so $OPENFRAME_HOME/osc/region/ZREFMEE/tdl/mod
+
+cp ${cobfile}.so $OPENFRAME_HOME/osc/region/ZREFCE/tdl/mod
+
+[Batch]
+
+cp ${cobfile}.so $OPENFRAME_HOME/volume_default/PPLIP.ZREF.LIBLOAD
+
+cp ${cobfile}.so $OPENFRAME_HOME/volume_default/SYS1.USERLIB
+```
+
+-> tdlupdate will automatically occurs when you boot up the region, or you need to use 
+
+```
+osctdlupdate ZREFCE ${cobfile}
+
+osctdlupdate ZREFMEE ${cobfile}
+```  
 
 ### 3.3 Batch
 
@@ -3134,6 +3158,12 @@ done
         ```
 
 ### 3.4 Online
+
+0) Map complie
+
+- mscasmc
+
+- mcsmapc
 
 1) SD modification
 
