@@ -3159,6 +3159,43 @@ osctdlupdate ZREFMEE ${cobfile}
 
 ### 3.4 Online
 
+1) Online region build
+
+- $OPENFRAME_HOME/tsam/copybook
+   - Need to generate the correct copybooks for SD datasets.
+   ```
+   OFAPP1@oframe:/opt2/tmaxapp/OpenFrame/tsam/copybook>ls -al
+	-rwxr-xr-x 1 oframe mqm  394 Dec  1 23:23 OSC.OIVP.FILE.cpy
+	-rwxr-xr-x 1 oframe mqm  394 Dec  1 23:23 OSC.PIVP.FILE.cpy
+	-rwxr-xr-x 1 oframe mqm  154 Dec  1 23:23 OSC.SCSVRLIB.OSCOIVP1.cpy
+	-rwxr-xr-x 1 oframe mqm  153 Dec  1 23:23 OSC.SDLIB.OSCOIVP1.cpy
+	-rwxr-xr-x 1 oframe mqm  153 Dec  1 21:05 OSC.SDLIB.TEST.cpy
+	-rwxr-xr-x 1 oframe mqm  153 Dec  1 21:05 OSC.SDLIB.ZREFCE.cpy
+	-rwxr-xr-x 1 oframe mqm  153 Dec  1 21:05 OSC.SDLIB.ZREFMEE.cpy
+	-rwxr-xr-x 1 oframe mqm  154 Dec  1 23:23 OSC.TDQLIB.INTRA.cpy
+	-rwxr-xr-x 1 oframe mqm  155 Dec  1 23:23 OSC.TSQLIB.DATA.cpy
+	-rwxr-xr-x 1 oframe mqm  149 Dec  1 23:23 OSC.TSQLIB.KEY.cpy
+	-rwxr-xr-x 1 oframe mqm  153 Dec  1 23:23 OSC.VTAM.DEF.cpy
+	-rwxr-xr-x 1 oframe mqm  430 Dec  1 21:05 PPLIP.ZREF.BAT01.AUDTRAIL.cpy
+	-rwxr-xr-x 1 oframe mqm  430 Dec  1 21:05 PPLIP.ZREF.BAT02.AUDTRAIL.cpy
+	-rwxr-xr-x 1 oframe mqm  430 Dec  1 21:05 PPLIP.ZREF.BAT03.AUDTRAIL.cpy
+	-rwxr-xr-x 1 oframe mqm  430 Dec  1 21:05 PPLIP.ZREF.BAT04.AUDTRAIL.cpy
+	-rwxr-xr-x 1 oframe mqm  430 Dec  1 21:05 PPLIP.ZREF.BAT05.AUDTRAIL.cpy
+	-rwxr-xr-x 1 oframe mqm  430 Dec  1 21:05 PPLIP.ZREF.BAT06.AUDTRAIL.cpy
+	-rwxr-xr-x 1 oframe mqm  430 Dec  1 21:05 PPLIP.ZREF.BAT07.AUDTRAIL.cpy
+	-rwxr-xr-x 1 oframe mqm  430 Dec  1 21:05 PPLIP.ZREF.BAT08.AUDTRAIL.cpy
+	-rwxr-xr-x 1 oframe mqm  430 Dec  1 21:05 PPLIP.ZREF.BAT09.AUDTRAIL.cpy
+	-rwxr-xr-x 1 oframe mqm  430 Dec  1 21:05 PPLIP.ZREF.BAT10.AUDTRAIL.cpy
+	-rwxr-xr-x 1 oframe mqm  430 Dec  1 21:05 PPLIP.ZREF.BAT12.AUDTRAIL.cpy
+	-rwxr-xr-x 1 oframe mqm  430 Dec  1 21:05 PPLIP.ZREF.BAT19.AUDTRAIL.cpy
+	-rwxr-xr-x 1 oframe mqm  116 Dec  1 21:05 SYS1.VTAMLST.cpy
+	-rwxr-xr-x 1 oframe mqm  430 Dec  1 21:05 ZREFB.ESDS.AUDTRAIL.cpy
+	-rwxr-xr-x 1 oframe mqm  430 Dec  1 21:05 ZREF.ESDS.AUDTRAIL.cpy
+	-rwxr-xr-x 1 oframe mqm  773 Dec  1 21:05 ZREF.KSDS.CONFIG.cpy
+   ```
+  
+
+
 0) Map complie
 
 - mscasmc
