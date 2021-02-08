@@ -330,6 +330,17 @@ create tablespace "OFMLOG" datafile 'OFM_LOG.dbf' size 300M  autoextend on next 
 create tablespace "OFMGR01" datafile 'OFMGR01.DBF'  size 100M autoextend on  next 50M;
 ```
 
+- When you need to reinstall the modules.
+
+```
+drop tablespace "DEFVOL" including contents and datafiles;
+drop tablespace "TACF00" including contents and datafiles;
+drop tablespace "OFM_REPOSITORY" including contents and datafiles;
+drop tablespace "OFMLOG" including contents and datafiles;
+drop tablespace "OFMGR01" including contents and datafiles;
+```
+
+
 ### 1.3.4 UnixODBC installation
 
 **Container environment does not have make file under /usr/bin**
