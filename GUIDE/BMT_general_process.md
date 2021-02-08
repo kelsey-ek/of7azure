@@ -3232,14 +3232,14 @@ idcams define -t CL -n TSQ DATA dataset name -o KS -k 18,0 -l 128,32760 -b 32767
 	  DEFINE TERMINAL(TTRM) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TESTTERM) INSERVICE(YES)
 	  ```
 
-    - Register the CSD resource definition to SD dataset.
-	```
-	Register system online resource
-	oscsdgen -c -d SD dataset name $OPENFRAME_HOME/osc/resource/osc.dat
+- Register the CSD resource definition to SD dataset.
+```
+Register system online resource
+oscsdgen -c -d SD dataset name $OPENFRAME_HOME/osc/resource/osc.dat
 
 
-	Register User CSD
-	oscsdgen -c -d SD dataset name user resource file
+Register User CSD
+oscsdgen -c -d SD dataset name user resource file
 ```
   
   0) Map complie
