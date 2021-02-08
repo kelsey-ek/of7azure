@@ -15,6 +15,412 @@
     + [3.4.2 Batch](#332-connect-to-the-running-pod)    
   + [3.5 DB migration](23-connect-to-the-running-pod)
 
+### Installation
+
+- vi /etc/hosts (Both)
+
+- Use private ip.
+
+
+```
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost6 localhost6.localdomain6
+10.0.1.212  OFAPP1 OFAPP1
+10.0.2.78   OFDB1  OFDB1
+```
+
+```
+sudo hostname OFDB1
+```
+
+
+g. Add user as hostname
+
+groupadd mqm -g 10000
+useradd -d /home/oframe -g mqm -s /bin/bash -m oframe -u 10001
+groupadd dba -g 10005
+useradd -d /home/oftibr -g dba -s /bin/bash -m oftibr -u 10002
+
+[ec2-user@ip-10-0-1-73 ~]$ sudo passwd oftibr
+Changing password for user oftibr.
+New password: 
+Retype new password: 
+passwd: all authentication tokens updated successfully.
+
+
+
+- OpenFrame bash_profile
+
+```
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+. ~/.bashrc
+fi
+PS1=$HOSTNAME'@$LOGNAME:$PWD>'
+LS_COLORS="di=01;35:or=1;40;31:*.gz=1;35:*.bz2=1;35:*.tar=1;35:*.h=1;37:*.c=1;37"
+export LS_COLORS
+alias cdof='cd $OPENFRAME_HOME'
+alias ulog='cd $OPENFRAME_HOME/log/tmax/ulog'
+alias sysjcl='cd $OPENFRAME_HOME/volume_default/SYS1.JCLLIB'
+alias defvol='cd $OPENFRAME_HOME/volume_default'
+alias tmaxsw='cd /opt2/tmaxsw'
+alias tmaxapp='cd /opt2/tmaxapp/'
+alias tmaxdb='cd /opt2/tmaxdb'
+alias tmaxui='cd /opt2/tmaxui'
+alias ofminer='cd /opt2/tmaxapp/OFMiner/repository'
+alias jeuslog='cd /opt2/tmaxapp/jeus7/domains/jeus_domain/servers/server1/logs'
+alias ofgwlog='cd /opt2/tmaxapp/jeus7/domains/jeus_domain/servers/server1/lib/application/logs'
+alias zref='cd /opt2/tmaxapp/zref'
+alias tmax='cd /opt2/tmaxapp/zref/Tmaxwork'
+alias test='cd /opt2/tmaxapp/zref/Tmaxwork/TEST'
+alias kelsey='cd /opt2/tmaxapp/zref/Tmaxwork/KELSEY'
+alias sel='cd /opt2/tmaxapp/zref/Tmaxwork/SELENA'
+alias bat05='cd /opt2/tmaxapp/zref/Tmaxwork/SELENA/BATTX05'
+alias dave='cd /opt2/tmaxapp/zref/Tmaxwork/DAVE'
+alias bat='cd /opt2/tmaxapp/zref/Tmaxwork/TEST/COBOL/batch'
+alias cic='cd /opt2/tmaxapp/zref/Tmaxwork/TEST/COBOL/cics'
+
+export boost_path=/opt2/tmaxapp/zref/HPC/boost_1_57_0
+export PATH=$PATH:/opt2/tmaxapp/zref/HPC/boost_1_57_0
+#User specific environment and startup programs
+export DOTNET_ROOT=/opt2/tmaxapp/zref/HPC/DOTNET
+export PATH=$PATH:/opt2/tmaxapp/zref/HPC/DOTNET
+
+PATH=$PATH:$HOME/.local/bin:$HOME/bin
+export PATH
+
+# shell script path
+PATH=$PATH:/opt2/tmaxapp/zref/script/
+export PATH
+
+#CURRENT_TIMESTAMP
+#export TB_NLS_TIMESTAMP_FORMAT='YYYY-MM-DD-HH24.MI.SS.FF6'
+
+# UNIX ODBC ENV
+export ODBC_HOME=/opt2/tmaxapp/unixODBC
+export PATH=$ODBC_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$ODBC_HOME/lib:$LD_LIBRARY_PATH
+export ODBCINI=$ODBC_HOME/etc/odbc.ini
+export ODBCSYSINI=$ODBC_HOME
+
+# Tibero6 ENV
+export TB_HOME=/opt2/tmaxapp/tibero6
+export TB_SID=TVSAM
+export TB_PROF_DIR=$TB_HOME/bin/prof
+export LD_LIBRARY_PATH=$TB_HOME/lib:$TB_HOME/client/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH_64=$TB_HOME/lib:$TB_HOME/client/lib:$LD_LIBRARY_PATH_64
+export PATH=$TB_HOME/bin:$TB_HOME/client/bin:$PATH:$TB_HOME/script
+
+# New environment setting added by OpenFrame COBOL 4.0 on Mon Apr 13 07:28:43 UTC 2020 1.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1867721042.
+# Do NOT modify these lines; they are used to uninstall.
+OFCOB_HOME=/opt2/tmaxapp/OFCOBOL
+export OFCOB_HOME
+# End comments by InstallAnywhere on Mon Apr 13 07:28:43 UTC 2020 1.
+
+# New environment setting added by OpenFrame COBOL 4.0 on Mon Apr 13 07:28:43 UTC 2020 2.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1867721042.
+# Do NOT modify these lines; they are used to uninstall.
+COBPARSER_HOME=$OFCOB_HOME/cobolparser
+export COBPARSER_HOME
+# End comments by InstallAnywhere on Mon Apr 13 07:28:43 UTC 2020 2.
+
+# New environment setting added by OpenFrame COBOL 4.0 on Mon Apr 13 07:28:43 UTC 2020 3.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1867721042.
+# Do NOT modify these lines; they are used to uninstall.
+LLVM_HOME=$OFCOB_HOME/llvm
+export LLVM_HOME
+# End comments by InstallAnywhere on Mon Apr 13 07:28:43 UTC 2020 3.
+
+# New environment setting added by OpenFrame COBOL 4.0 on Mon Apr 13 07:28:43 UTC 2020 4.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1867721042.
+# Do NOT modify these lines; they are used to uninstall.
+PATH="${PATH}:$OFCOB_HOME/bin:$COBPARSER_HOME/bin:$LLVM_HOME/bin"
+export PATH
+# End comments by InstallAnywhere on Mon Apr 13 07:28:43 UTC 2020 4.
+
+# New environment setting added by OpenFrame COBOL 4.0 on Mon Apr 13 07:28:43 UTC 2020 5.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1867721042.
+# Do NOT modify these lines; they are used to uninstall.
+LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:$OFCOB_HOME/lib:$COBPARSER_HOME/lib:$LLVM_HOME/lib"
+export LD_LIBRARY_PATH
+# End comments by InstallAnywhere on Mon Apr 13 07:28:43 UTC 2020 5.
+
+# New environment setting added by OpenFrame COBOL 4.0 on Mon Apr 13 07:28:43 UTC 2020 6.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1867721042.
+# Do NOT modify these lines; they are used to uninstall.
+OFCOBCPY="${OFCOBCPY}:$OFCOB_HOME/copybook"
+export OFCOBCPY
+# End comments by InstallAnywhere on Mon Apr 13 07:28:43 UTC 2020 6.
+
+# OFPLI ENV
+export OFPLI_HOME=/opt2/tmaxapp/OFPLI
+export PATH="${PATH}:$OFPLI_HOME/bin:"
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:$OFPLI_HOME/lib"
+
+# OFASM ENV
+export OFASM_HOME=/opt2/tmaxapp/OFASM
+export OFASM_MACLIB=$OFASM_HOME/maclib/ofmac
+export PATH="${PATH}:$OFASM_HOME/bin:"
+export LD_LIBRARY_PATH="./:$OFASM_HOME/lib:$LD_LIBRARY_PATH"
+
+# PROSORT ENV
+export PROSORT_HOME=/opt2/tmaxapp/prosort
+export PROSORT_SID=gbg
+export PATH=$PATH:$PROSORT_HOME/bin
+export LD_LIBRARY_PATH=$PROSORT_HOME/lib:$LD_LIBRARY_PATH
+export LIBPATH=$PROSORT_HOME/lib:$LD_LIBRARY_PATH
+
+# New environment setting added by OpenFrame_PLI on Mon Apr 13 08:44:03 UTC 2020 1.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile26784584.
+# Do NOT modify these lines; they are used to uninstall.
+OFPLI_HOME=/opt2/tmaxapp/OFPLI
+export OFPLI_HOME
+# End comments by InstallAnywhere on Mon Apr 13 08:44:03 UTC 2020 1.
+
+# New environment setting added by OpenFrame_PLI on Mon Apr 13 08:44:03 UTC 2020 2.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile26784584.
+# Do NOT modify these lines; they are used to uninstall.
+PATH="${PATH}:$OFPLI_HOME/bin:"
+export PATH
+# End comments by InstallAnywhere on Mon Apr 13 08:44:03 UTC 2020 2.
+
+# New environment setting added by OpenFrame_PLI on Mon Apr 13 08:44:03 UTC 2020 3.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile26784584.
+# Do NOT modify these lines; they are used to uninstall.
+LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:$OFPLI_HOME/lib"
+export LD_LIBRARY_PATH
+# End comments by InstallAnywhere on Mon Apr 13 08:44:03 UTC 2020 3.
+
+# New environment setting added by OpenFrame_ASM on Mon Apr 13 08:48:03 UTC 2020 1.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile123115485.
+# Do NOT modify these lines; they are used to uninstall.
+OFASM_HOME=/opt2/tmaxapp/OFASM
+export OFASM_HOME
+# End comments by InstallAnywhere on Mon Apr 13 08:48:03 UTC 2020 1.
+
+# New environment setting added by OpenFrame_ASM on Mon Apr 13 08:48:03 UTC 2020 2.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile123115485.
+# Do NOT modify these lines; they are used to uninstall.
+PATH="${PATH}:$OFASM_HOME/bin:"
+export PATH
+# End comments by InstallAnywhere on Mon Apr 13 08:48:03 UTC 2020 2.
+
+# New environment setting added by OpenFrame_ASM on Mon Apr 13 08:48:03 UTC 2020 3.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile123115485.
+# Do NOT modify these lines; they are used to uninstall.
+LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:$OFASM_HOME/lib"
+export LD_LIBRARY_PATH
+# End comments by InstallAnywhere on Mon Apr 13 08:48:03 UTC 2020 3.
+
+# New environment setting added by OpenFrame_ASM on Mon Apr 13 08:48:03 UTC 2020 4.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile123115485.
+# Do NOT modify these lines; they are used to uninstall.
+OFASM_MACLIB=$OFASM_HOME/maclib/ofmac:$OFASM_HOME/maclib/
+export OFASM_MACLIB
+# End comments by InstallAnywhere on Mon Apr 13 08:48:03 UTC 2020 4.
+
+
+# JEUS ENV
+export JEUS_HOME=/opt2/tmaxapp/jeus7
+
+# JAVA ENV
+export JAVA_HOME=/usr/java/jdk1.7.0_79/
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=$CLASSPATH:$JAVA_HOME/jre/lib/ext:$JAVA_HOME/lib/tools.jar
+
+alias dsboot='startDomainAdminServer -domain jeus_domain -u administrator -p tmax123'
+alias msboot1='startManagedServer -domain jeus_domain -server server1 -u administrator -p tmax123'
+alias msboot2='startManagedServer -domain jeus_domain -server server2 -u administrator -p tmax123'
+alias msdown1='stopServer -u administrator -p tmax123 -host localhost:9936'
+alias msdown2='stopServer -u administrator -p tmax123 -host localhost:9636'
+alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
+
+# End comments by InstallAnywhere on Mon Apr 13 10:32:20 UTC 2020 1.
+alias python=/usr/local/bin/python3.7
+alias pip=/usr/local/bin/pip3.7
+
+# New environment setting added by OpenFrame_Base7_Fix3 on Tue Dec 01 01:39:25 UTC 2020 1.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1365660301.
+# Do NOT modify these lines; they are used to uninstall.
+OPENFRAME_HOME=/opt2/tmaxapp/OpenFrame
+export OPENFRAME_HOME
+# End comments by InstallAnywhere on Tue Dec 01 01:39:25 UTC 2020 1.
+
+# New environment setting added by OpenFrame_Base7_Fix3 on Tue Dec 01 01:39:25 UTC 2020 2.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1365660301.
+# Do NOT modify these lines; they are used to uninstall.
+PATH="${PATH}:${OPENFRAME_HOME}/bin:${OPENFRAME_HOME}/util"
+export PATH
+# End comments by InstallAnywhere on Tue Dec 01 01:39:25 UTC 2020 2.
+
+# New environment setting added by OpenFrame_Base7_Fix3 on Tue Dec 01 01:39:25 UTC 2020 3.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1365660301.
+# Do NOT modify these lines; they are used to uninstall.
+LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:$OPENFRAME_HOME/lib"
+export LD_LIBRARY_PATH
+# End comments by InstallAnywhere on Tue Dec 01 01:39:25 UTC 2020 3.
+
+# New environment setting added by OpenFrame_Base7_Fix3 on Tue Dec 01 01:39:25 UTC 2020 4.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1365660301.
+# Do NOT modify these lines; they are used to uninstall.
+LD_LIBRARY_PATH_64="${LD_LIBRARY_PATH_64}:$OPENFRAME_HOME/lib"
+export LD_LIBRARY_PATH_64
+# End comments by InstallAnywhere on Tue Dec 01 01:39:25 UTC 2020 4.
+
+# New environment setting added by OpenFrame_Base7_Fix3 on Tue Dec 01 01:39:25 UTC 2020 5.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1365660301.
+# Do NOT modify these lines; they are used to uninstall.
+TMAXDIR=/opt2/tmaxapp/OpenFrame/core
+export TMAXDIR
+# End comments by InstallAnywhere on Tue Dec 01 01:39:25 UTC 2020 5.
+
+# New environment setting added by OpenFrame_Base7_Fix3 on Tue Dec 01 01:39:25 UTC 2020 6.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1365660301.
+# Do NOT modify these lines; they are used to uninstall.
+TMAX_HOST_ADDR=127.0.0.1
+export TMAX_HOST_ADDR
+# End comments by InstallAnywhere on Tue Dec 01 01:39:25 UTC 2020 6.
+
+# New environment setting added by OpenFrame_Base7_Fix3 on Tue Dec 01 01:39:25 UTC 2020 7.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1365660301.
+# Do NOT modify these lines; they are used to uninstall.
+TMAX_HOST_PORT=8001
+export TMAX_HOST_PORT
+# End comments by InstallAnywhere on Tue Dec 01 01:39:25 UTC 2020 7.
+
+# New environment setting added by OpenFrame_Base7_Fix3 on Tue Dec 01 01:39:25 UTC 2020 8.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1365660301.
+# Do NOT modify these lines; they are used to uninstall.
+PATH="${PATH}:$TMAXDIR/bin"
+export PATH
+# End comments by InstallAnywhere on Tue Dec 01 01:39:25 UTC 2020 8.
+
+# New environment setting added by OpenFrame_Base7_Fix3 on Tue Dec 01 01:39:25 UTC 2020 9.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1365660301.
+# Do NOT modify these lines; they are used to uninstall.
+FDLFILE=$TMAXDIR/fdl/oframe.fdl
+export FDLFILE
+# End comments by InstallAnywhere on Tue Dec 01 01:39:25 UTC 2020 9.
+
+# New environment setting added by OpenFrame_Base7_Fix3 on Tue Dec 01 01:39:25 UTC 2020 10.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1365660301.
+# Do NOT modify these lines; they are used to uninstall.
+TDLDIR=$TMAXDIR/tdl
+export TDLDIR
+# End comments by InstallAnywhere on Tue Dec 01 01:39:25 UTC 2020 10.
+
+# New environment setting added by OpenFrame_Base7_Fix3 on Tue Dec 01 01:39:25 UTC 2020 11.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1365660301.
+# Do NOT modify these lines; they are used to uninstall.
+LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:$TMAXDIR/lib"
+export LD_LIBRARY_PATH
+# End comments by InstallAnywhere on Tue Dec 01 01:39:25 UTC 2020 11.
+
+# New environment setting added by OpenFrame_Base7_Fix3 on Tue Dec 01 01:39:25 UTC 2020 12.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1365660301.
+# Do NOT modify these lines; they are used to uninstall.
+LD_LIBRARY_PATH_64="${LD_LIBRARY_PATH_64}:$TMAXDIR/lib64"
+export LD_LIBRARY_PATH_64
+# End comments by InstallAnywhere on Tue Dec 01 01:39:25 UTC 2020 12.
+
+
+
+
+# New environment setting added by JEUS7.0 on Tue Dec 01 05:15:37 UTC 2020 1.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1469689962.
+# Do NOT modify these lines; they are used to uninstall.
+PATH="/opt2/tmaxapp/jeus7/bin:/opt2/tmaxapp/jeus7/lib/system:/opt2/tmaxapp/jeus7/webserver/bin:${PATH}"
+export PATH
+# End comments by InstallAnywhere on Tue Dec 01 05:15:37 UTC 2020 1.
+
+# New environment setting added by OpenFrame_GW_7_Fix1 on Tue Dec 01 06:04:36 UTC 2020 1.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1617093246.
+# Do NOT modify these lines; they are used to uninstall.
+OFGW_HOME=/opt2/tmaxapp/jeus7/domains/jeus_domain/servers/server1/lib/application
+export OFGW_HOME
+# End comments by InstallAnywhere on Tue Dec 01 06:04:36 UTC 2020 1.
+
+# New environment setting added by OpenFrame_Manager7.1 on Tue Dec 01 06:45:42 UTC 2020 1.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile1365346253.
+# Do NOT modify these lines; they are used to uninstall.
+OFMANAGER_HOME=/opt2/tmaxapp/jeus7/domains/jeus_domain/servers/server2/lib/application/ofmanager
+export OFMANAGER_HOME
+# End comments by InstallAnywhere on Tue Dec 01 06:45:42 UTC 2020 1.
+
+
+# New environment setting added by OpenFrame_Miner_7_Fix1 on Tue Dec 01 07:07:07 UTC 2020 1.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile626870240.
+# Do NOT modify these lines; they are used to uninstall.
+OFMINER_HOME=/opt2/tmaxapp/OFMiner
+export OFMINER_HOME
+# End comments by InstallAnywhere on Tue Dec 01 07:07:07 UTC 2020 1.
+
+# New environment setting added by OpenFrame_OSC7_Fix3 on Tue Dec 01 23:22:58 UTC 2020 1.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile405696543.
+# Do NOT modify these lines; they are used to uninstall.
+OFCOBCPY="${OFCOBCPY}:${OPENFRAME_HOME}/osc/copybook:${OPENFRAME_HOME}/osc/region/OSCOIVP1/map/symbolic"
+export OFCOBCPY
+# End comments by InstallAnywhere on Tue Dec 01 23:22:58 UTC 2020 1.
+
+# New environment setting added by OpenFrame_OSC7_Fix3 on Tue Dec 01 23:22:58 UTC 2020 2.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile405696543.
+# Do NOT modify these lines; they are used to uninstall.
+TCACHECONF=${TMAXDIR}/config/pfmtcache.cfg
+export TCACHECONF
+# End comments by InstallAnywhere on Tue Dec 01 23:22:58 UTC 2020 2.
+
+# New environment setting added by OpenFrame_OSC7_Fix3 on Tue Dec 01 23:22:58 UTC 2020 3.
+# The unmodified version of this file is saved in /home/oframe/.bash_profile405696543.
+# Do NOT modify these lines; they are used to uninstall.
+PFM_ADM_LOG_DIR=${OPENFRAME_HOME}/log/sys
+export PFM_ADM_LOG_DIR
+# End comments by InstallAnywhere on Tue Dec 01 23:22:58 UTC 2020 3.
+```
+
+- TIBERO bash_profile
+
+```
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/.local/bin:$HOME/bin
+
+export PATH
+
+HOSTNAME=`hostname`
+USERID=`whoami`
+export PS1='${USERID}@${HOSTNAME}:${PWD} /> '
+
+################################################################################
+#
+#       TSAM/TIBERO (or TIBERO VSAM)
+#
+################################################################################
+
+TB_HOME=/opt2/tmaxdb/tibero6; export TB_HOME
+TB_SID=TVSAM; export TB_SID
+SEM_KEY=148050; export SEM_KEY
+TB_PROF_DIR=$TB_HOME/bin/prof; export TB_PROF_DIR
+PATH=$TB_HOME/script:$TB_HOME/bin:$TB_HOME/client/bin:$PATH; export PATH
+LD_LIBRARY_PATH=$TB_HOME/lib:$TB_HOME/client/lib:/lib:$LD_LIBRARY_PATH; export LD_LIBRARY_PATH
+LD_LIBRARY_PATH_64=$TB_HOME/lib:$TB_HOME/client/lib:$LD_LIBRARY_PATH_64; export LD_LIBRARY_PATH_64
+export TB_NLS_DATE_FORMAT="YYYY-MM-DD HH24:MI:SS"
+TBMON_HOME=$TB_HOME/tbmon; export TBMON_HOME
+AIXTHREAD_SCOPE=S; export AIXTHREAD_SCOPE
+
+#TB_CONN_TIMEOUT=10; export TB_CONN_TIMEOUT
+#TB_READ_TIMEOUT=180; export TB_READ_TIMEOUT
+```
+
 ## 1. DB Migration
 
 ### 1.1 Generate DB bulk data using EgenLoader
