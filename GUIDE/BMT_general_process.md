@@ -3192,32 +3192,63 @@ osctdlupdate ZREFMEE ${cobfile}
 	-rwxr-xr-x 1 oframe mqm  430 Dec  1 21:05 ZREFB.ESDS.AUDTRAIL.cpy
 	-rwxr-xr-x 1 oframe mqm  430 Dec  1 21:05 ZREF.ESDS.AUDTRAIL.cpy
 	-rwxr-xr-x 1 oframe mqm  773 Dec  1 21:05 ZREF.KSDS.CONFIG.cpy
-   ```
+   ``` 
+- Region build
+```
+oscbuild -o LINUX64 -d TIBERO -s ZREFCE -b OFCOBOL
+oscbuild -o LINUX64 -d TIBERO -s ZREFMEE -b OFCOBOL
+
+cp -a ZREFCE $TMAXDIR/appbin/
+cp -a ZREFMEE $TMAXDIR/appbin/
+```
+
+- Online datasets.
+
+```
+SD dataset
+idcams define -t CL -n SD dataset name -o KS -k 18,0 -b 32768 -l 128,32760 -s 1024,128,128 -v DEFVOL
+
+TDQ dataset.
+idcams define -t CL -n TDQ dataset name -o KS -k 8,0 -l 128,32760 -b 32767 -s 1024,128,128 -v DEFVOL
+
+TSQ(KEY and DATA) dataset.
+idcams define -t CL -n TSQ KEY dataset name -o KS -k 16,0 -l 64,64 -s 1024,128,128 -v DEFVOL
+idcams define -t CL -n TSQ DATA dataset name -o KS -k 18,0 -l 128,32760 -b 32767 -s 1024,128,128 -v DEFVOL
+```
+
+  - SD modification.
+      - ADD missing PROGRAMS in each region
+	  ```
+	  DEFINE PROGRAM(##BL0001) GROUP(ZREFCE) LANGUAGE(COBOL)
+	  DEFINE PROGRAM(##FR000#) GROUP(ZREFCE) LANGUAGE(COBOL)
+	  ```
+
+     - ADD TERMINAL (For loading testing, a lot of terminals are needed T000~T999)
+	  ```
+	  DEFINE TERMINAL(T000) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TESTT000) INSERVICE(YES)
+	  DEFINE TERMINAL(T001) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TESTT001) INSERVICE(YES)
+
+	  DEFINE TERMINAL(TRM9) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TESTTRM9) INSERVICE(YES)
+	  DEFINE TERMINAL(TTRM) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TESTTERM) INSERVICE(YES)
+	  ```
+
+    - Register the CSD resource definition to SD dataset.
+	```
+	Register system online resource
+	oscsdgen -c -d SD dataset name $OPENFRAME_HOME/osc/resource/osc.dat
+
+
+	Register User CSD
+	oscsdgen -c -d SD dataset name user resource file
+```
   
-
-
-0) Map complie
+  0) Map complie
 
 - mscasmc
 
 - mcsmapc
 
 1) SD modification
-
-- ADD missing PROGRAMS in each region
-  ```
-  DEFINE PROGRAM(##BL0001) GROUP(ZREFCE) LANGUAGE(COBOL)
-  DEFINE PROGRAM(##FR000#) GROUP(ZREFCE) LANGUAGE(COBOL)
-  ```
-
-- ADD TERMINAL (For loading testing, a lot of terminals are needed T000~T999)
-  ```
-  DEFINE TERMINAL(T000) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TESTT000) INSERVICE(YES)
-  DEFINE TERMINAL(T001) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TESTT001) INSERVICE(YES)
-
-  DEFINE TERMINAL(TRM9) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TESTTRM9) INSERVICE(YES)
-  DEFINE TERMINAL(TTRM) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TESTTERM) INSERVICE(YES)
-  ```
 
 2) Scenarios
 - ZREFMEE region (HPMEE3270)
