@@ -3245,6 +3245,9 @@ cp -a ZREFMEE $TMAXDIR/appbin/
 	```	
 	idcams define -t CL -n [TSQ DATA dataset name] -o KS -k 18,0 -l 128,32760 -b 32767 -s 1024,128,128 -v DEFVOL
 	```
+[REGION BUILD]
+
+<img src="./reference_images/Region build - Kelsey.pdf" title="Region build">
 
   - SD modification.
       - ADD missing PROGRAMS in each region
@@ -3271,7 +3274,10 @@ oscsdgen -c -d [SD dataset name] $OPENFRAME_HOME/osc/resource/osc.dat
 Register User CSD
 oscsdgen -c -d [SD dataset name] [user resource file]
 ```
-  
+
+
+
+
 0) Map complie
 
 - mscasmc [map file]
