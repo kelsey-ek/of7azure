@@ -2176,6 +2176,16 @@ __G.__ Rebuild the indexes.
 
 ### set timing on
 
+
+### TEMP Tablespace issue.
+
+```
+TBR-21004: No more extent available in tablespace 'TEMP'. 
+```
+```
+ALTER TABLESPACE TEMP ADD tempFILE '/opt2/tmaxdb/tibero6/database/TVSAM/temp002.dbf' SIZE 10G;
+```
+
 ```
 ALTER INDEX IDX_B_ID_NAME_UNIQ REBUILD PARALLEL 4;
 ALTER INDEX IDX_B_NAME_ID_UNIQ REBUILD PARALLEL 4;
