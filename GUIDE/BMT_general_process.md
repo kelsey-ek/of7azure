@@ -3331,11 +3331,11 @@ oscsdgen -c -d [SD dataset name] [user resource file]
   
 4) Update VTAM Setting
 
-- VTAMDUMP -> VTAMGEN (*modify the dump file and generate a new vtam definition.*)
+- vtamdump -> vtamgen <file name> (*modify the dump file and generate a new vtam definition.*)
   - TESTT000..TESTT999.. -> match it with the TERMINAL NETNAME from SD.
   - FFFFFNNN -> match the format
     ```
-      BEGINVTAM
+     BEGINVTAM
       PORT 5556
       LUGROUP LUGRP1 TESTT000..TESTT999..FFFFFNNN ENDLUGROUP
       LUGROUP LUGRP2 TESTTERM ENDLUGROUP
@@ -3343,7 +3343,7 @@ oscsdgen -c -d [SD dataset name] [user resource file]
       IPGROUP IPGRP2 100.100.100.101..255.255.255.255 ENDIPGROUP
       LUMAP LUGRP1 IPGRP1
       LUMAP LUGRP2 IPGRP2
-        ENDVTAM
+     ENDVTAM
     ```
   
 ### 3.2. Runtime issue
