@@ -3219,7 +3219,7 @@ osctdlupdate ZREFMEE ${cobfile}
 	- In case of JCL that uses "idcams define", copybook is needed for the dataset.
 	  - OpenFrame/tsam/copybook
 	     - ZREF.KSDS.CONFIG.cpy
-		  ```
+		  
 		  01 APP-CONFIG-REC.
 		    05 ACR-KEY PIC X(8).
 		    05 ACR-DATA.
@@ -3234,9 +3234,9 @@ osctdlupdate ZREFMEE ${cobfile}
 			15 ACR-MSTQ-SEND-TO-PORT PIC X(5).
 			15 FILLER PIC X(14).
 		    05 FILLER PIC X(92).
-		  ```
+		  
 	      - ZREF.ESDS.AUDTRAIL.cpy &  PPLIP.ZREF.BAT##.AUDTRAIL.cpy (PPLIP.ZREF.BAT01.AUDTRAIL.cpy ~ PPLIP.ZREF.BAT10.AUDTRAIL.cpy)
-		  ```
+		  
 		  004100 01 FD-AUDREC.
 		  004200     05 AUDIT-KEY.
 		  004300       10 A-TRANS-ID.
@@ -3248,7 +3248,7 @@ osctdlupdate ZREFMEE ${cobfile}
 		  004900       10 A-TIME PIC X(06).
 		  005000     05 A-DATA-AREA PIC X(2413).
 		  005000     05 A-DATA-FILLER PIC X(4).
-		  ```
+		  
 	- Modification
 	  - RECFM=LSEQ -> RECFM=FB
 	  - Delete "//MFE:" line.
@@ -3269,7 +3269,7 @@ osctdlupdate ZREFMEE ${cobfile}
 	- Modification
 	  - When the first time you run the BATBR**.JCL, modify the JCL to report the dataset as below.
 	     - BATBDR**.JCL   
-		 ```
+		 
 		 AS IS
 		 //BVREPORT  DD DUMMY,DCB=(RECFM=FBA,LRECL=133)             
 		 //*VREPORT  DD DSN=PPLIP.ZREF.REPT.BV,                     
@@ -3287,16 +3287,14 @@ osctdlupdate ZREFMEE ${cobfile}
 		 //            UNIT=SYSDA,                                 
 		 //            SPACE=(CYL,(111,22),RLSE),                  
 		 //            DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0,BUFNO=60)
-		```
+		
 
 3.3.3 Prepare input datasets using transaction file.
 	- Transaction files are provided by cutomer side.
 
-	```
+	
 	//TXNFILE   DD DSN=PPLIP1.ZREF.LIBBATTX(BATTX##),DISP=SHR
-	```
-
-	```
+	
 	hostname@oframe:/opt2/tmaxapp/zref/Tmaxwork/KELSEY>listcat -a PPLIP1.ZREF.LIBBATTX
 	listcat version 7.0.3(10) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
 	List Catalog Entry Information
@@ -3337,10 +3335,9 @@ osctdlupdate ZREFMEE ${cobfile}
 	  BATTX19                         8401445        2020/07/07 21:35:41
 	-----------------------------------------------------------------------------
 	* Total 1 entries in catalog SYS1.MASTER.ICFCAT printed.
-	```
 
 	- Generation command.
-	```
+	
 	OFAPP1@oframe:/home/oframe/KELSEY/Tmaxwork/TEST/TXNFILES>dscreate PPLIP1.ZREF.LIBBATTX -f LB -l 32760 -b 32768 -o PO
 	dscreate version 7.0.3(7) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
 	Create a New Dataset or a Member of PDS Dataset
@@ -3373,10 +3370,10 @@ osctdlupdate ZREFMEE ${cobfile}
 
 	OFRUISVRDSSAVE: Dataset Is Saved Successfully
 	COMPLETED SUCCESSFULLY.
-	```
+	
 	
 3.3.4 Set the DB connection as described in the JCL.
-	```
+	
 	ikjeft01.conf
 
 	[SYSTEM:ZREF]
@@ -3386,7 +3383,7 @@ osctdlupdate ZREFMEE ${cobfile}
 	    INSTANCE=TIBERO
 	    USERNAME=tibero
 	    PASSWORD=tmax
-	```
+	
 
 ### 3.4 Online
 
