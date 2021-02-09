@@ -3083,215 +3083,213 @@ osctdlupdate ZREFMEE ${cobfile}
 
 3.3.1 Prepare PDS and Batch modules.
 
-- Create a correct PDS for locating batch modules.
-```
-OFAPP1@oframe:/home/oframe/KELSEY/Tmaxwork>pdsgen PPLIP.ZREF.LIBLOAD DEFVOL -l 2062
-pdsgen version 7.0.3(2) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
-PDS Dataset Generation Program
+	- Create a correct PDS for locating batch modules.
+	```
+	OFAPP1@oframe:/home/oframe/KELSEY/Tmaxwork>pdsgen PPLIP.ZREF.LIBLOAD DEFVOL -l 2062
+	pdsgen version 7.0.3(2) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
+	PDS Dataset Generation Program
 
-pdsgen: *** PDS PPLIP.ZREF.LIBLOAD is created.
-```
+	pdsgen: *** PDS PPLIP.ZREF.LIBLOAD is created.
+	```
 
-- Deploy batch modules under the created PDS.
-```
-hostname@oframe:/home/oframe>listcat -a PPLIP.ZREF.LIBLOAD
-listcat version 7.0.3(10) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
-List Catalog Entry Information
+	- Deploy batch modules under the created PDS.
+	```
+	hostname@oframe:/home/oframe>listcat -a PPLIP.ZREF.LIBLOAD
+	listcat version 7.0.3(10) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
+	List Catalog Entry Information
 
------------------------------------------------------------------------------
-  Data Set Name . . . : PPLIP.ZREF.LIBLOAD
-  Data Set Type . . . : NONVSAM
-  Catalog Name  . . . : SYS1.MASTER.ICFCAT
+	-----------------------------------------------------------------------------
+	  Data Set Name . . . : PPLIP.ZREF.LIBLOAD
+	  Data Set Type . . . : NONVSAM
+	  Catalog Name  . . . : SYS1.MASTER.ICFCAT
 
-  Management Class  . : 
-    Creation Date . . : 2020/04/20      Data Set Owner  . : oframe
-    Expiration Date . : ***None***
+	  Management Class  . : 
+	    Creation Date . . : 2020/04/20      Data Set Owner  . : oframe
+	    Expiration Date . : ***None***
 
-  Storage Class . . . : 
-    Volume Serial . . : DEFVOL          Device Type . . . : 3380
+	  Storage Class . . . : 
+	    Volume Serial . . : DEFVOL          Device Type . . . : 3380
 
-  Data Class  . . . . : 
-    Organization  . . : PO              Record Format . . : FB
-    KEYLEN  . . . . . : 0               Record Length . . : 2062
-    KEYPOS  . . . . . : 0               Block Size  . . . : 4096
+	  Data Class  . . . . : 
+	    Organization  . . : PO              Record Format . . : FB
+	    KEYLEN  . . . . . : 0               Record Length . . : 2062
+	    KEYPOS  . . . . . : 0               Block Size  . . . : 4096
 
-  Current Allocation
-    Primary Space . . : 2048(MB)        Number of Extents : 0
-    Secondary Space . : 0(KB)           Data Set Size . . : 0
+	  Current Allocation
+	    Primary Space . . : 2048(MB)        Number of Extents : 0
+	    Secondary Space . : 0(KB)           Data Set Size . . : 0
 
-  Last Access Date
-    Last Access Date  : 2020/04/20      Last Access Time  : 02:22:03
+	  Last Access Date
+	    Last Access Date  : 2020/04/20      Last Access Time  : 02:22:03
 
-  Members
-  ------------------------------------------------------------------
-  Name                  Owner     Size           Last Access Date
-  ------------------------------------------------------------------
-  ACINSTAL.so                     44120          2020/05/17 02:32:13
-  ACUI0001.so                     91992          2020/05/17 02:32:13
-  AUDTRAIL.so                     44584          2020/05/17 02:32:13
-  BTCHDRVA.so                     176528         2020/06/26 13:50:28
-  BTCHDRVR.so                     345616         2020/07/01 19:24:08
-  BTCHDRVR1.so                    243056         2020/05/13 02:55:27
-  BVBL0001.so                     51568          2020/05/17 02:32:12
-  BVBLBTCH.so                     37832          2020/06/26 13:50:30
-  BVFR0001.so                     131248         2020/05/17 02:32:12
-  BVFRBTCH.so                     242640         2020/06/26 13:50:31
-  BVINBTCH.so                     18656          2020/06/26 13:50:31
-  BVUI0001.so                     89816          2020/05/17 02:32:11
-  CPBL0001.so                     71928          2020/05/17 02:32:11
-  CPBLBTCH.so                     45392          2020/06/26 13:50:31
-  CPF1.so                         67544          2020/06/08 06:54:52
-  CPF1BTCH.so                     233512         2020/06/26 13:50:33
-  CPF1BTCH.so_ORIG                233104         2020/04/28 07:07:04
-  CPF1BTCH_sample.so              67592          2020/06/08 06:48:07
-  CPF1BTCH_test.so                41944          2020/05/04 05:02:31
-  CPF1TEST.so                     88040          2020/06/05 00:56:23
-  CPF2BTCH.so                     155784         2020/06/26 13:50:33
-  CPF3BTCH.so                     25912          2020/06/26 13:50:34
-  CPFR0003.so                     37664          2020/05/17 02:32:10
-  CPINBTCH.so                     20400          2020/06/26 13:50:34
-  DAVEDRVR.so                     176080         2020/06/02 23:19:21
-  DAVEEXTR.so                     34496          2020/06/24 01:34:12
-  DAVESCHM.so                     27328          2020/06/22 16:12:47
-  EXTADDR1.so                     70448          2020/06/26 13:50:34
-  EXTCACCT.so                     74592          2020/06/26 13:50:34
-  EXTCUST1.so                     132944         2020/06/26 13:50:35
-  EXTTRADE.so                     158712         2020/06/26 13:50:36
-  KELSDRVR.so                     91648          2020/05/13 08:27:48
-  MRGCADDR.so                     32608          2020/06/26 13:50:36
-  MRGCCACT.so                     32504          2020/06/26 13:50:36
-  MRGCTRAD.so                     56456          2020/06/26 13:50:36
-  MRGREPT.so                      27512          2020/06/26 13:50:37
-  MRGTRRPT.so                     57016          2020/06/26 13:50:37
-  MWBLBTCH.so                     20456          2020/06/26 13:50:37
-  MWFRBTCH.so                     278144         2020/06/26 13:50:39
-  MWINBTCH.so                     18408          2020/06/26 13:50:39
-  SDBLBTCH.so                     439968         2020/06/26 18:27:21
-  SDFRBTCH.so                     803008         2020/06/26 13:50:41
-  SDINBTCH.so                     18432          2020/06/26 13:50:42
-  TLBLBTCH.so                     138032         2020/06/26 13:50:42
-  TLF1BTCH.so                     189944         2020/07/01 22:37:43
-  TLF2BTCH.so                     207752         2020/06/26 13:50:44
-  TLF3BTCH.so                     226128         2020/06/26 13:50:45
-  TLF4BTCH.so                     147672         2020/06/26 13:50:46
-  TLINBTCH.so                     18920          2020/06/26 13:50:46
-  TOBLBTCH.so                     42824          2020/06/26 13:50:46
-  TOBLBTCH_selena.so              40752          2020/05/12 07:22:29
-  TODRVR.so                       86952          2020/05/13 09:04:41
-  TOF1BTCH.so                     108200         2020/06/26 13:50:47
-  TOF2BTCH.so                     56368          2020/06/26 13:50:47
-  TOF3BTCH.so                     525648         2020/06/26 13:50:50
-  TOF4BTCH.so                     302984         2020/06/26 19:34:33
-  TOF4BTCH_final.so               315344         2020/05/18 05:29:53
-  TOF5BTCH.so                     29304          2020/06/26 13:50:52
-  TOF6BTCH.so                     20512          2020/06/26 13:50:52
-  TOFR0006.so                     20128          2020/05/15 22:38:07
-  TOINBTCH.so                     19656          2020/06/26 13:50:52
-  TOUI0001.so                     85992          2020/05/14 00:22:33
-  TSBLBTCH.so                     56880          2020/06/26 13:50:52
-  TSF1BTCH.so                     204928         2020/06/26 13:50:53
-  TSINBTCH.so                     17960          2020/06/26 13:50:54
-  TUBLBTCH.so                     121240         2020/06/26 19:49:48
-  TUF1BTCH.so                     266752         2020/07/14 16:46:27
-  TUF2BTCH.so                     377440         2020/07/14 16:44:32
-  TUF3BTCH.so                     372128         2020/07/14 16:38:18
-  TUINBTCH.so                     18920          2020/06/26 19:49:30
------------------------------------------------------------------------------
-* Total 1 entries in catalog SYS1.MASTER.ICFCAT printed.
-```
+	  Members
+	  ------------------------------------------------------------------
+	  Name                  Owner     Size           Last Access Date
+	  ------------------------------------------------------------------
+	  ACINSTAL.so                     44120          2020/05/17 02:32:13
+	  ACUI0001.so                     91992          2020/05/17 02:32:13
+	  AUDTRAIL.so                     44584          2020/05/17 02:32:13
+	  BTCHDRVA.so                     176528         2020/06/26 13:50:28
+	  BTCHDRVR.so                     345616         2020/07/01 19:24:08
+	  BTCHDRVR1.so                    243056         2020/05/13 02:55:27
+	  BVBL0001.so                     51568          2020/05/17 02:32:12
+	  BVBLBTCH.so                     37832          2020/06/26 13:50:30
+	  BVFR0001.so                     131248         2020/05/17 02:32:12
+	  BVFRBTCH.so                     242640         2020/06/26 13:50:31
+	  BVINBTCH.so                     18656          2020/06/26 13:50:31
+	  BVUI0001.so                     89816          2020/05/17 02:32:11
+	  CPBL0001.so                     71928          2020/05/17 02:32:11
+	  CPBLBTCH.so                     45392          2020/06/26 13:50:31
+	  CPF1.so                         67544          2020/06/08 06:54:52
+	  CPF1BTCH.so                     233512         2020/06/26 13:50:33
+	  CPF1BTCH.so_ORIG                233104         2020/04/28 07:07:04
+	  CPF1BTCH_sample.so              67592          2020/06/08 06:48:07
+	  CPF1BTCH_test.so                41944          2020/05/04 05:02:31
+	  CPF1TEST.so                     88040          2020/06/05 00:56:23
+	  CPF2BTCH.so                     155784         2020/06/26 13:50:33
+	  CPF3BTCH.so                     25912          2020/06/26 13:50:34
+	  CPFR0003.so                     37664          2020/05/17 02:32:10
+	  CPINBTCH.so                     20400          2020/06/26 13:50:34
+	  DAVEDRVR.so                     176080         2020/06/02 23:19:21
+	  DAVEEXTR.so                     34496          2020/06/24 01:34:12
+	  DAVESCHM.so                     27328          2020/06/22 16:12:47
+	  EXTADDR1.so                     70448          2020/06/26 13:50:34
+	  EXTCACCT.so                     74592          2020/06/26 13:50:34
+	  EXTCUST1.so                     132944         2020/06/26 13:50:35
+	  EXTTRADE.so                     158712         2020/06/26 13:50:36
+	  KELSDRVR.so                     91648          2020/05/13 08:27:48
+	  MRGCADDR.so                     32608          2020/06/26 13:50:36
+	  MRGCCACT.so                     32504          2020/06/26 13:50:36
+	  MRGCTRAD.so                     56456          2020/06/26 13:50:36
+	  MRGREPT.so                      27512          2020/06/26 13:50:37
+	  MRGTRRPT.so                     57016          2020/06/26 13:50:37
+	  MWBLBTCH.so                     20456          2020/06/26 13:50:37
+	  MWFRBTCH.so                     278144         2020/06/26 13:50:39
+	  MWINBTCH.so                     18408          2020/06/26 13:50:39
+	  SDBLBTCH.so                     439968         2020/06/26 18:27:21
+	  SDFRBTCH.so                     803008         2020/06/26 13:50:41
+	  SDINBTCH.so                     18432          2020/06/26 13:50:42
+	  TLBLBTCH.so                     138032         2020/06/26 13:50:42
+	  TLF1BTCH.so                     189944         2020/07/01 22:37:43
+	  TLF2BTCH.so                     207752         2020/06/26 13:50:44
+	  TLF3BTCH.so                     226128         2020/06/26 13:50:45
+	  TLF4BTCH.so                     147672         2020/06/26 13:50:46
+	  TLINBTCH.so                     18920          2020/06/26 13:50:46
+	  TOBLBTCH.so                     42824          2020/06/26 13:50:46
+	  TOBLBTCH_selena.so              40752          2020/05/12 07:22:29
+	  TODRVR.so                       86952          2020/05/13 09:04:41
+	  TOF1BTCH.so                     108200         2020/06/26 13:50:47
+	  TOF2BTCH.so                     56368          2020/06/26 13:50:47
+	  TOF3BTCH.so                     525648         2020/06/26 13:50:50
+	  TOF4BTCH.so                     302984         2020/06/26 19:34:33
+	  TOF4BTCH_final.so               315344         2020/05/18 05:29:53
+	  TOF5BTCH.so                     29304          2020/06/26 13:50:52
+	  TOF6BTCH.so                     20512          2020/06/26 13:50:52
+	  TOFR0006.so                     20128          2020/05/15 22:38:07
+	  TOINBTCH.so                     19656          2020/06/26 13:50:52
+	  TOUI0001.so                     85992          2020/05/14 00:22:33
+	  TSBLBTCH.so                     56880          2020/06/26 13:50:52
+	  TSF1BTCH.so                     204928         2020/06/26 13:50:53
+	  TSINBTCH.so                     17960          2020/06/26 13:50:54
+	  TUBLBTCH.so                     121240         2020/06/26 19:49:48
+	  TUF1BTCH.so                     266752         2020/07/14 16:46:27
+	  TUF2BTCH.so                     377440         2020/07/14 16:44:32
+	  TUF3BTCH.so                     372128         2020/07/14 16:38:18
+	  TUINBTCH.so                     18920          2020/06/26 19:49:30
+	-----------------------------------------------------------------------------
+	* Total 1 entries in catalog SYS1.MASTER.ICFCAT printed.
+	```
 
 3.3.2 Prepare JCL.
 
-1) SETUP JCL
+	1) SETUP JCL
 
-- dos2unix ALL JCL
+	- dos2unix ALL JCL
 
-    - Total 7.
-    
-          DEFAUDB.JCL
-          DEFAUDB1.JCL
-          DEFAUDOL.JCL
-          DEFCONFG.JCL
-          DEFTXNFL.JCL
-          DEFTXNLB.JCL
-          GDGDEFINE.JCL
-          
-- In case of JCL that uses "idcams define", copybook is needed for the dataset.
-  - OpenFrame/tsam/copybook
-     - ZREF.KSDS.CONFIG.cpy
-          ```
-          01 APP-CONFIG-REC.
-            05 ACR-KEY PIC X(8).
-            05 ACR-DATA.
-              10 ACR-GLOBAL-CONFIG.
-                15 ACR-GC-WRITE-AUDIT-FLAG PIC X.
-                15 ACR-GC-EXPLICIT-DBCONN-FLAG PIC X.
-                15 ACR-GC-DBCONN-NAME PIC X(20).
-                15 FILLER PIC X(8).
-              10 ACR-MSTQ-CONFIG.
-                15 ACR-MSTQ-SEND-METHOD PIC X.
-                15 ACR-MSTQ-SEND-TO-MACHINE PIC X(50).
-                15 ACR-MSTQ-SEND-TO-PORT PIC X(5).
-                15 FILLER PIC X(14).
-            05 FILLER PIC X(92).
-          ```
-      - ZREF.ESDS.AUDTRAIL.cpy &  PPLIP.ZREF.BAT##.AUDTRAIL.cpy (PPLIP.ZREF.BAT01.AUDTRAIL.cpy ~ PPLIP.ZREF.BAT10.AUDTRAIL.cpy)
-          ```
-          004100 01 FD-AUDREC.
-          004200     05 AUDIT-KEY.
-          004300       10 A-TRANS-ID.
-          004400         15 A-TRAN-ID PIC X(02).
-          004500         15 FILLER-ID PIC X(02).
-          004600       10 A-DATE.
-          004700         15 A-DTE PIC X(08).
-          004800         15 FILLER PIC X(02).
-          004900       10 A-TIME PIC X(06).
-          005000     05 A-DATA-AREA PIC X(2413).
-          005000     05 A-DATA-FILLER PIC X(4).
-          ```
-- Modification
-  - RECFM=LSEQ -> RECFM=FB
-  - Delete "//MFE:" line.
-  - VOLUMES(PIPV01) ->  VOLUMES(DEFVOL)
-  
-2) Transaction JCL
+	    - Total 7.
 
-- dos2unix ALL JCL
+		  DEFAUDB.JCL
+		  DEFAUDB1.JCL
+		  DEFAUDOL.JCL
+		  DEFCONFG.JCL
+		  DEFTXNFL.JCL
+		  DEFTXNLB.JCL
+		  GDGDEFINE.JCL
 
-    - Total 5 (2 Pairs).
-    
-          BATBDRVR.JCL
-          BATBDR##.JCL
-          BATBDRVA##.JCL
-          INDXWT#.JCL
-          RPTONLY#.JCL
+	- In case of JCL that uses "idcams define", copybook is needed for the dataset.
+	  - OpenFrame/tsam/copybook
+	     - ZREF.KSDS.CONFIG.cpy
+		  ```
+		  01 APP-CONFIG-REC.
+		    05 ACR-KEY PIC X(8).
+		    05 ACR-DATA.
+		      10 ACR-GLOBAL-CONFIG.
+			15 ACR-GC-WRITE-AUDIT-FLAG PIC X.
+			15 ACR-GC-EXPLICIT-DBCONN-FLAG PIC X.
+			15 ACR-GC-DBCONN-NAME PIC X(20).
+			15 FILLER PIC X(8).
+		      10 ACR-MSTQ-CONFIG.
+			15 ACR-MSTQ-SEND-METHOD PIC X.
+			15 ACR-MSTQ-SEND-TO-MACHINE PIC X(50).
+			15 ACR-MSTQ-SEND-TO-PORT PIC X(5).
+			15 FILLER PIC X(14).
+		    05 FILLER PIC X(92).
+		  ```
+	      - ZREF.ESDS.AUDTRAIL.cpy &  PPLIP.ZREF.BAT##.AUDTRAIL.cpy (PPLIP.ZREF.BAT01.AUDTRAIL.cpy ~ PPLIP.ZREF.BAT10.AUDTRAIL.cpy)
+		  ```
+		  004100 01 FD-AUDREC.
+		  004200     05 AUDIT-KEY.
+		  004300       10 A-TRANS-ID.
+		  004400         15 A-TRAN-ID PIC X(02).
+		  004500         15 FILLER-ID PIC X(02).
+		  004600       10 A-DATE.
+		  004700         15 A-DTE PIC X(08).
+		  004800         15 FILLER PIC X(02).
+		  004900       10 A-TIME PIC X(06).
+		  005000     05 A-DATA-AREA PIC X(2413).
+		  005000     05 A-DATA-FILLER PIC X(4).
+		  ```
+	- Modification
+	  - RECFM=LSEQ -> RECFM=FB
+	  - Delete "//MFE:" line.
+	  - VOLUMES(PIPV01) ->  VOLUMES(DEFVOL)
 
-- Modification
-  - When the first time you run the BATBR**.JCL, modify the JCL to report the dataset as below.
-     - BATBDR**.JCL   
-         ```
-         AS IS
-         //BVREPORT  DD DUMMY,DCB=(RECFM=FBA,LRECL=133)             
-         //*VREPORT  DD DSN=PPLIP.ZREF.REPT.BV,                     
-         //*            DISP=(NEW,CATLG,DELETE),                    
-         //*            DISP=OLD,                                   
-         //*            UNIT=SYSDA,                                 
-         //*            SPACE=(CYL,(111,22),RLSE),                  
-         //*            DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0,BUFNO=60)
+	2) Transaction JCL
 
-         TO BE
-         //*BVREPORT  DD DUMMY,DCB=(RECFM=FBA,LRECL=133)           
-         //BVREPORT  DD DSN=PPLIP.ZREF.REPT.BV,                    
-         //            DISP=(NEW,CATLG,DELETE),                    
-         //*            DISP=OLD,                                  
-         //            UNIT=SYSDA,                                 
-         //            SPACE=(CYL,(111,22),RLSE),                  
-         //            DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0,BUFNO=60)
-        ```
+	- dos2unix ALL JCL
 
+	    - Total 5 (2 Pairs).
 
+		  BATBDRVR.JCL
+		  BATBDR##.JCL
+		  BATBDRVA##.JCL
+		  INDXWT#.JCL
+		  RPTONLY#.JCL
 
-3.3.2 Prepare input datasets using transaction file.
+	- Modification
+	  - When the first time you run the BATBR**.JCL, modify the JCL to report the dataset as below.
+	     - BATBDR**.JCL   
+		 ```
+		 AS IS
+		 //BVREPORT  DD DUMMY,DCB=(RECFM=FBA,LRECL=133)             
+		 //*VREPORT  DD DSN=PPLIP.ZREF.REPT.BV,                     
+		 //*            DISP=(NEW,CATLG,DELETE),                    
+		 //*            DISP=OLD,                                   
+		 //*            UNIT=SYSDA,                                 
+		 //*            SPACE=(CYL,(111,22),RLSE),                  
+		 //*            DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0,BUFNO=60)
+
+		 TO BE
+		 //*BVREPORT  DD DUMMY,DCB=(RECFM=FBA,LRECL=133)           
+		 //BVREPORT  DD DSN=PPLIP.ZREF.REPT.BV,                    
+		 //            DISP=(NEW,CATLG,DELETE),                    
+		 //*            DISP=OLD,                                  
+		 //            UNIT=SYSDA,                                 
+		 //            SPACE=(CYL,(111,22),RLSE),                  
+		 //            DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0,BUFNO=60)
+		```
+
+3.3.3 Prepare input datasets using transaction file.
 	- Transaction files are provided by cutomer side.
 
 	```
@@ -3376,7 +3374,19 @@ List Catalog Entry Information
 	OFRUISVRDSSAVE: Dataset Is Saved Successfully
 	COMPLETED SUCCESSFULLY.
 	```
+	
+3.3.4 Set the DB connection as described in the JCL.
+	```
+	ikjeft01.conf
 
+	[SYSTEM:ZREF]
+	    DBTYPE=TIBERO
+	    DBAUTH=PUBLIC
+	    DATABASE=TVSAM
+	    INSTANCE=TIBERO
+	    USERNAME=tibero
+	    PASSWORD=tmax
+	```
 
 ### 3.4 Online
 
