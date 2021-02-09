@@ -2184,6 +2184,8 @@ TBR-21004: No more extent available in tablespace 'TEMP'.
 ```
 ```
 ALTER TABLESPACE TEMP ADD tempFILE '/opt2/tmaxdb/tibero6/database/TVSAM/temp002.dbf' SIZE 10G;
+
+ALTER TABLESPACE TEMP ADD tempFILE '/opt2/tmaxdb/tibero6/database/TVSAM/temp003.dbf' SIZE 20G;
 ```
 
 ```
