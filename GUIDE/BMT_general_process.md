@@ -3289,6 +3289,95 @@ List Catalog Entry Information
          //            DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0,BUFNO=60)
         ```
 
+
+
+3.3.2 Prepare input datasets using transaction file.
+	- Transaction files are provided by cutomer side.
+
+	```
+	//TXNFILE   DD DSN=PPLIP1.ZREF.LIBBATTX(BATTX##),DISP=SHR
+	```
+
+	```
+	hostname@oframe:/opt2/tmaxapp/zref/Tmaxwork/KELSEY>listcat -a PPLIP1.ZREF.LIBBATTX
+	listcat version 7.0.3(10) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
+	List Catalog Entry Information
+
+	-----------------------------------------------------------------------------
+	  Data Set Name . . . : PPLIP1.ZREF.LIBBATTX
+	  Data Set Type . . . : NONVSAM
+	  Catalog Name  . . . : SYS1.MASTER.ICFCAT
+
+	  Management Class  . : 
+	    Creation Date . . : 2020/05/11      Data Set Owner  . : oframe
+	    Expiration Date . : ***None***
+
+	  Storage Class . . . : 
+	    Volume Serial . . : DEFVOL          Device Type . . . : 3380
+
+	  Data Class  . . . . : 
+	    Organization  . . : PO              Record Format . . : LB
+	    KEYLEN  . . . . . : 0               Record Length . . : 32760
+	    KEYPOS  . . . . . : 0               Block Size  . . . : 32768
+
+	  Current Allocation
+	    Primary Space . . : N.A.            Number of Extents : 
+	    Secondary Space . : N.A.            Data Set Size . . : 0
+
+	  Last Access Date
+	    Last Access Date  : 2021/02/09      Last Access Time  : 10:51:28
+
+	  Members
+	  ------------------------------------------------------------------
+	  Name                  Owner     Size           Last Access Date
+	  ------------------------------------------------------------------
+	  BATTX00                         8413800        2020/07/13 04:34:26
+	  BATTX05                         8413800        2020/07/07 21:35:09
+	  BATTX06                         8411083        2020/07/07 21:35:18
+	  BATTX07                         8405258        2020/07/07 21:35:26
+	  BATTX12                         8407441        2020/07/07 21:35:34
+	  BATTX19                         8401445        2020/07/07 21:35:41
+	-----------------------------------------------------------------------------
+	* Total 1 entries in catalog SYS1.MASTER.ICFCAT printed.
+	```
+
+	- Generation command.
+	```
+	OFAPP1@oframe:/home/oframe/KELSEY/Tmaxwork/TEST/TXNFILES>dscreate PPLIP1.ZREF.LIBBATTX -f LB -l 32760 -b 32768 -o PO
+	dscreate version 7.0.3(7) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
+	Create a New Dataset or a Member of PDS Dataset
+
+	DSCREATE DSNAME=PPLIP1.ZREF.LIBBATTX,CATALOG=,VOLSER=,MEMBER=
+	OFRUISVRDSCRE: Dataset Create OK. dsn=PPLIP1.ZREF.LIBBATTX
+	COMPLETED SUCCESSFULLY.
+	
+	
+	OFAPP1@oframe:/home/oframe/KELSEY/Tmaxwork/TEST/TXNFILES>dscreate "PPLIP1.ZREF.LIBBATTX(BATTX05)"
+	dscreate version 7.0.3(7) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
+	Create a New Dataset or a Member of PDS Dataset
+
+	DSCREATE DSNAME=PPLIP1.ZREF.LIBBATTX(BATTX05),CATALOG=,VOLSER=,MEMBER=
+	OFRUISVRDSCRE: Dataset Create OK. dsn=PPLIP1.ZREF.LIBBATTX(BATTX05)
+	COMPLETED SUCCESSFULLY.
+	
+	
+	OFAPP1@oframe:/home/oframe/KELSEY/Tmaxwork/TEST/TXNFILES>dssave "PPLIP1.ZREF.LIBBATTX(BATTX05)" -s $PWD/BATTX05.DAT -d "\r\n"
+	dssave version 7.0.3(7) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
+	Dataset Save Program for External Editor
+
+	DSSAVE
+	Source File        : [/home/oframe/KELSEY/Tmaxwork/TEST/TXNFILES/BATTX05.DAT]
+	Destination Dataset: [PPLIP1.ZREF.LIBBATTX(BATTX05)]
+	Destination Member : []
+	User Catalog       : []
+	Volume Serial      : []
+	Delimiter          : [\r\n]
+
+	OFRUISVRDSSAVE: Dataset Is Saved Successfully
+	COMPLETED SUCCESSFULLY.
+	```
+
+
 ### 3.4 Online
 
 1) Online region build
