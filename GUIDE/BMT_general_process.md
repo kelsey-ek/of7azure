@@ -3286,10 +3286,7 @@ Register User CSD
 oscsdgen -c -d [SD dataset name] [user resource file]
 ```
 
-
-
-
-0) Map complie
+2) Map complie
 
 - mscasmc [map file]
 
@@ -3317,9 +3314,7 @@ oscsdgen -c -d [SD dataset name] [user resource file]
 	    -n (optional)          Syncronize mapupdate in multi-clustering environment
 	```
 
-1) SD modification
-
-2) Scenarios
+3) Scenarios
 - ZREFMEE region (HPMEE3270)
   - TR01: SQL ERR:-654657|23000|TR2Z| UNIQUE constraint violation ('TIBERO'.'PK_HH'). -> Need to use different scenarios each time.
   - MF01: OK
@@ -3334,8 +3329,7 @@ oscsdgen -c -d [SD dataset name] [user resource file]
   - TU01: OK
   - TL01: OK
   
-  
- 3) Update VTAM Setting
+4) Update VTAM Setting
 
 - VTAMDUMP -> VTAMGEN (*modify the dump file and generate a new vtam definition.*)
   - TESTT000..TESTT999.. -> match it with the TERMINAL NETNAME from SD.
@@ -3355,13 +3349,28 @@ oscsdgen -c -d [SD dataset name] [user resource file]
 ### 3.2. Runtime issue
 
 3.2.1 TIP file modification
+
+- Match the DATE&TIME format from the TABLE.txt file.
+
+```
+00000000000002|2005-01-03 09:00:00.778|SBMT
+00000000000002|2005-01-03 09:00:02.141|CMPT
+00000000000003|2005-01-03 09:00:01.381|SBMT
+00000000000003|2005-01-03 09:00:02.859|CMPT
+
+2000-01-03
+2000-01-04
+2000-01-05
+2000-01-06
+```
+
 ```
 #---------------------------------------------------------
-## DATE & TIME FORMAT
-###---------------------------------------------------------
-NLS_TIME_FORMAT="HH24.MI.SSXFF"
-NLS_TIMESTAMP_FORMAT="YYYY-MM-DD-HH24.MI.SSXFF"
-NLS_TIMESTAMP_TZ_FORMAT="YYYY-MM-DD-HH24.MI.SSXFF"
+#DATE & TIME FORMAT
+#---------------------------------------------------------
+NLS_TIME_FORMAT="HH24:MI:SS.FF3"
+NLS_TIMESTAMP_FORMAT="YYYY-MM-DD HH24:MI:SS.FF3"
+NLS_TIMESTAMP_TZ_FORMAT="YYYY-MM-DD HH24:MI:SS.FF3"
 NLS_DATE_FORMAT="YYYY-MM-DD"
 ```
 
@@ -3383,7 +3392,52 @@ SYSTIMESTAMP
 1 row selected.
 ```
 
+3.2.2 OpenFrame Configuration
 
+- $OPENFRAME_HOME/config
+
+```
+osc.ZREFCETL.conf
+osc.ZREFMEETL.conf
+osc.ZREFMEE.conf
+osc.ZREFCE.conf
+```
+
+```
+osc.region.list
+
+Add region
+```
+
+```
+osc.conf
+[OSCMCSVR]                           
+        REGION=3                     
+        REGION_OSCOIVP1=0-10,100-30  
+        REGION_ZREFCE=0-10,100-30    
+        REGION_ZREFMEE=0-10,100-30   
+```
+
+```
+tjes.conf
+[INITDEF]
+    INITNUM=280
+    INIT0000-0029 = INIT00,ABCD,ACTIVE
+    INIT0030-0059 = INIT01,EFGH,ACTIVE
+    INIT0060-0089 = INIT02,IJKL,ACTIVE
+    INIT0090-0119 = INIT02,MNOP,ACTIVE
+    INIT0120-0149 = INIT03,QRST,ACTIVE
+    INIT0150-0179 = INIT03,UVWX,ACTIVE
+    INIT0180-0219 = INIT04,YZ01,ACTIVE
+    INIT0220-0249 = INIT05,2345,ACTIVE
+    INIT0250-0279 = INIT05,6789,ACTIVE
+```
+
+```
+ftp.conf	
+[DATASET_DEFAULT]      
+    CHECK_DSAUTH_V2=NO 
+```
 
 ### 3.7. 
 
