@@ -3351,7 +3351,6 @@ oscsdgen -c -d [SD dataset name] [user resource file]
 3.2.1 TIP file modification
 
 - Match the DATE&TIME format from the TABLE.txt file.
-
 ```
 00000000000002|2005-01-03 09:00:00.778|SBMT
 00000000000002|2005-01-03 09:00:02.141|CMPT
@@ -3364,6 +3363,7 @@ oscsdgen -c -d [SD dataset name] [user resource file]
 2000-01-06
 ```
 
+- Add DATE&TIME format from tip file.
 ```
 #---------------------------------------------------------
 #DATE & TIME FORMAT
@@ -3374,6 +3374,7 @@ NLS_TIMESTAMP_TZ_FORMAT="YYYY-MM-DD HH24:MI:SS.FF3"
 NLS_DATE_FORMAT="YYYY-MM-DD"
 ```
 
+- Check the result.
 ```
 SQL> SELECT DISTINCT(SYSTIMESTAMP) from dual; -> before the change
 
