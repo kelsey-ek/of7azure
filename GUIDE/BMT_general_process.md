@@ -3083,17 +3083,16 @@ osctdlupdate ZREFMEE ${cobfile}
 
 3.3.1 Prepare PDS and Batch modules.
 
-	- Create a correct PDS for locating batch modules.
-	```
+	1) Create a correct PDS for locating batch modules.
+	
 	OFAPP1@oframe:/home/oframe/KELSEY/Tmaxwork>pdsgen PPLIP.ZREF.LIBLOAD DEFVOL -l 2062
 	pdsgen version 7.0.3(2) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
 	PDS Dataset Generation Program
 
 	pdsgen: *** PDS PPLIP.ZREF.LIBLOAD is created.
-	```
-
-	- Deploy batch modules under the created PDS.
-	```
+	
+	2) Deploy batch modules under the created PDS.
+	
 	hostname@oframe:/home/oframe>listcat -a PPLIP.ZREF.LIBLOAD
 	listcat version 7.0.3(10) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
 	List Catalog Entry Information
@@ -3198,7 +3197,7 @@ osctdlupdate ZREFMEE ${cobfile}
 	  TUINBTCH.so                     18920          2020/06/26 19:49:30
 	-----------------------------------------------------------------------------
 	* Total 1 entries in catalog SYS1.MASTER.ICFCAT printed.
-	```
+	
 
 3.3.2 Prepare JCL.
 
@@ -3207,7 +3206,6 @@ osctdlupdate ZREFMEE ${cobfile}
 	- dos2unix ALL JCL
 
 	    - Total 7.
-
 		  DEFAUDB.JCL
 		  DEFAUDB1.JCL
 		  DEFAUDOL.JCL
@@ -3218,8 +3216,8 @@ osctdlupdate ZREFMEE ${cobfile}
 
 	- In case of JCL that uses "idcams define", copybook is needed for the dataset.
 	  - OpenFrame/tsam/copybook
-	     - ZREF.KSDS.CONFIG.cpy
-		  
+
+		- ZREF.KSDS.CONFIG.cpy 
 		  01 APP-CONFIG-REC.
 		    05 ACR-KEY PIC X(8).
 		    05 ACR-DATA.
@@ -3236,7 +3234,6 @@ osctdlupdate ZREFMEE ${cobfile}
 		    05 FILLER PIC X(92).
 		  
 	      - ZREF.ESDS.AUDTRAIL.cpy &  PPLIP.ZREF.BAT##.AUDTRAIL.cpy (PPLIP.ZREF.BAT01.AUDTRAIL.cpy ~ PPLIP.ZREF.BAT10.AUDTRAIL.cpy)
-		  
 		  004100 01 FD-AUDREC.
 		  004200     05 AUDIT-KEY.
 		  004300       10 A-TRANS-ID.
@@ -3259,7 +3256,6 @@ osctdlupdate ZREFMEE ${cobfile}
 	- dos2unix ALL JCL
 
 	    - Total 5 (2 Pairs).
-
 		  BATBDRVR.JCL
 		  BATBDR##.JCL
 		  BATBDRVA##.JCL
@@ -3268,8 +3264,8 @@ osctdlupdate ZREFMEE ${cobfile}
 
 	- Modification
 	  - When the first time you run the BATBR**.JCL, modify the JCL to report the dataset as below.
-	     - BATBDR**.JCL   
-		 
+
+		- BATBDR**.JCL   
 		 AS IS
 		 //BVREPORT  DD DUMMY,DCB=(RECFM=FBA,LRECL=133)             
 		 //*VREPORT  DD DSN=PPLIP.ZREF.REPT.BV,                     
@@ -3290,9 +3286,9 @@ osctdlupdate ZREFMEE ${cobfile}
 		
 
 3.3.3 Prepare input datasets using transaction file.
+
 	- Transaction files are provided by cutomer side.
 
-	
 	//TXNFILE   DD DSN=PPLIP1.ZREF.LIBBATTX(BATTX##),DISP=SHR
 	
 	hostname@oframe:/opt2/tmaxapp/zref/Tmaxwork/KELSEY>listcat -a PPLIP1.ZREF.LIBBATTX
