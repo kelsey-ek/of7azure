@@ -332,10 +332,11 @@ tbpcb DISCONN.cob RUNTIME_MODE=ODBC INCLUDE=/tmaxapp/common/copy/ ONAME=tbpcb_DI
 ofcob tbpcb_DISCONN.cbl -o libDISCONN.so -L/opt/tmaxapp/OpenFrame/lib -ltextfh -ltextsm -lconcli -ladjust -L/opt/tmaxapp/unixODBC/lib -lodbc -L/opt/tmaxdb/tibero6/client/lib -ltbertl_odbc -lclientcommon -ltbertl
 ```
 
+- Name of shared object files for linking should start with 'lib'. ex) libCOMMIT.so
 
+- Do not use the reserved words for tbpcb because it can make syntax error. ex) ROLLBACK -> TROLLBACK 
 
-* link거는 shared object의 파일명은 lib으로 시작해야한다.
-* tbcpb에서 예약어사용은 syntax error를 발생시키기 때문에 피한다 .( ROLLBACK -> TROLLBACK )
+```
 oframe@aebdas-tmax01.sccompanies.com:/home/oframe/nick/DBTEST /> ll object/
 total 96
 -rwxr-xr-x. 1 oframe mqm 22392 Jun  1 16:39  libCOMMIT.so
@@ -343,5 +344,79 @@ total 96
 -rwxr-xr-x. 1 oframe mqm 27008 Sep 12 02:55 libRECONNECT.so
 -rwxr-xr-x. 1 oframe mqm 22408 Jun  1 16:39  libTROLLBACK.so
 -rwxr-xr-x. 1 oframe mqm 18432 Jun 14 00:25  libDISCONN.so
+```
 
+## 3. Deploy five programs.
 
+- Deploy the compiled five shared object under $OPENFRAME_HOME/lib
+
+```
+cp libCOMMIT.so libCONNECT.so libRECONNECT.so libTROLLBACK.so libDISCONN.so $OPENFRAME_HOME/lib/
+```
+
+## 4. Modify the OSC00001.c file.
+
+- $OPENFRAME_HOME/osc/build/OSC00001.c
+
+```
+/*
+ * OpenFrame Online System type C(OSC) C Source File
+ *
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int otpsvrinit(int argc, char *argv[])
+{
+    CONNECT();
+    return 0;
+}
+
+int otpsvcinit()
+{
+    RECONNECT();
+    return 0;
+}
+
+ int otpsvrcommit()
+{
+    COMMIT();
+    return 0;
+}
+
+int otpsvrrollback()
+{
+    TROLLBACK();
+    return 0;
+}
+
+int otpsvrdone()
+{
+    DISCONN();
+    return 0;
+}
+```
+
+## 5. Build region processes.
+
+```
+oscbuild -o LINUX64 -s OSCOIVP1 -b OFCOBOL -d TIBERO -f OSC00001.c -l '-L$OPENFRAME_HOME/lib -lCONNECT -lCOMMIT -lTROLLBACK -lDISCONN -lRECONNECT'
+```
+
+## 6. Deploy the region process.
+
+```
+cp -a OSCOIVP1 $TMAXDIR/appbin/
+```
+
+## 7. Use the right compile option.
+- Do not forget to use the correct compile option for using application programs.
+
+<tbpcb>
+       
+```
+RUNTIME_MODE=ODBC
+```
+
+```
