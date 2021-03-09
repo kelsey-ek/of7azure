@@ -1,6 +1,9 @@
-DB Connection 
+### Use OSCBUILD to make DB Connection
 
-- CONNECT.cob
+## 1. Write five programs.
+
+1) CONNECT.cob
+- Make DB connection.
 
 ```
 IDENTIFICATION      DIVISION.
@@ -96,7 +99,8 @@ IDENTIFICATION      DIVISION.
            EXIT.
 ```
 
-- RECONNECT.cob
+2) RECONNECT.cob
+- Do the reconnection.
 
 ```
 IDENTIFICATION      DIVISION.
@@ -189,7 +193,8 @@ IDENTIFICATION      DIVISION.
            EXIT.
 ```
 
-- COMMIT.cob
+3) COMMIT.cob
+- Do commit.
 
 ```
        IDENTIFICATION      DIVISION.
@@ -222,7 +227,8 @@ IDENTIFICATION      DIVISION.
            EXIT.
 ```
 
-- TROLLBACK.cob
+4) TROLLBACK.cob
+- Do Rollback.
 
 ```
        IDENTIFICATION      DIVISION.
@@ -255,7 +261,8 @@ IDENTIFICATION      DIVISION.
            EXIT.
 ```
 
-- DISCONN.cob
+5) DISCONN.cob
+- Do Disconncetion.
 
 ```
        IDENTIFICATION      DIVISION.
@@ -288,40 +295,43 @@ IDENTIFICATION      DIVISION.
            EXIT.
 ```
 
-<CONNECT.cob>
+## 2. Compile five programs.
+
+1) CONNECT.cob
 
 ```
 tbpcb CONNECT.cob RUNTIME_MODE=ODBC INCLUDE=/tmaxapp/common/copy/ ONAME=tbpcb_CONNECT.cbl
 ofcob tbpcb_CONNECT.cbl -o libCONNECT.so -L/opt/tmaxapp/OpenFrame/lib -ltextfh -ltextsm -lconcli -ladjust -L/opt/tmaxapp/unixODBC/lib -lodbc -L/opt/tmaxdb/tibero6/client/lib -ltbertl_odbc -lclientcommon -ltbertl 
 ```
 
-<RECONNECT.cob>
+2) RECONNECT.cob
 
 ```
 tbpcb RECONNECT.cob RUNTIME_MODE=ODBC INCLUDE=/tmaxapp/common/copy/ ONAME=tbpcb_RECONNECT.cbl
 ofcob tbpcb_RECONNECT.cbl -o libRECONNECT.so -L/opt/tmaxapp/OpenFrame/lib -ltextfh -ltextsm -lconcli -ladjust -L/opt/tmaxapp/unixODBC/lib -lodbc -L/opt/tmaxdb/tibero6/client/lib -ltbertl_odbc -lclientcommon –ltbertl
 ```
 
-<COMMIT.cob>
+3) COMMIT.cob
 
 ```
 tbpcb COMMIT.cob RUNTIME_MODE=ODBC INCLUDE=/tmaxapp/common/copy/ ONAME=tbpcb_COMMIT.cbl
 ofcob tbpcb_COMMIT.cbl -o libCOMMIT.so -L/opt/tmaxapp/OpenFrame/lib -ltextfh -ltextsm -lconcli -ladjust -L/opt/tmaxapp/unixODBC/lib -lodbc -L/opt/tmaxdb/tibero6/client/lib -ltbertl_odbc -lclientcommon –ltbertl
 ```
 
-<TROLLBACK.cob>
+4) TROLLBACK.cob
 
 ```
 tbpcb TROLLBACK.cob RUNTIME_MODE=ODBC INCLUDE=/tmaxapp/common/copy/ ONAME=tbpcb_TROLLBACK.cbl
 ofcob tbpcb_TROLLBACK.cbl  -o libTROLLBACK.so -L/opt/tmaxapp/OpenFrame/lib -ltextfh -ltextsm -lconcli -ladjust -L/opt/tmaxapp/unixODBC/lib -lodbc -L/opt/tmaxdb/tibero6/client/lib -ltbertl_odbc -lclientcommon -ltbertl
 ```
 
-<DISCONN.cob>
+5) DISCONN.cob
 
 ```
 tbpcb DISCONN.cob RUNTIME_MODE=ODBC INCLUDE=/tmaxapp/common/copy/ ONAME=tbpcb_DISCONN.cbl
 ofcob tbpcb_DISCONN.cbl -o libDISCONN.so -L/opt/tmaxapp/OpenFrame/lib -ltextfh -ltextsm -lconcli -ladjust -L/opt/tmaxapp/unixODBC/lib -lodbc -L/opt/tmaxdb/tibero6/client/lib -ltbertl_odbc -lclientcommon -ltbertl
 ```
+
 
 
 * link거는 shared object의 파일명은 lib으로 시작해야한다.
