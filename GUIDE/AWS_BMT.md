@@ -213,24 +213,24 @@ Generating TRADE, SETTLEMENT, TRADE HISTORY, CASH TRANSACTION, HOLDING_HISTORY, 
 Generate and load time: 01:22:58
 ```
 
-### 1.2 Create tablespaces (seperate)
+1) Create tablespaces (seperate)
 
-1-1) Create Data tablepace
+- Create Data tablepace.
+    - Becareful not to use autoextend. It will later cause the 'TBR-21004: No more extent available in tablespace' issue.
 ```
 DROP TABLESPACE ZREF_DATA INCLUDING CONTENTS AND DATAFILES; 
 
 CREATE TABLESPACE ZREF_DATA DATAFILE
- '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_DATA.dbf' 
-SIZE 16M AUTOEXTEND 
-ON NEXT 5M 
-MAXSIZE 34M
+ '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_DATA01.dbf' 
+SIZE 20G
 LOGGING
 ONLINE
 PERMANENT
 EXTENT MANAGEMENT LOCAL AUTOALLOCATE;
 ```
 
-1-2) Add datafile
+
+- Add datafile
 ```
 ALTER TABLESPACE ZREF_DATA ADD DATAFILE '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_DATA02.dbf' SIZE 20G;
 ALTER TABLESPACE ZREF_DATA ADD DATAFILE '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_DATA03.dbf' SIZE 20G;
@@ -238,25 +238,25 @@ ALTER TABLESPACE ZREF_DATA ADD DATAFILE '/opt2/tmaxdb/tibero6/database/TVSAM/ZRE
 ALTER TABLESPACE ZREF_DATA ADD DATAFILE '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_DATA05.dbf' SIZE 20G;
 ```
 
-2-1) Create Index tablepace
+- Create Index tablepace.
+    - Becareful not to use autoextend. It will later cause the 'TBR-21004: No more extent available in tablespace' issue.
 ```
 DROP TABLESPACE ZREF_INDEX_TS INCLUDING CONTENTS AND DATAFILES; 
 
 CREATE TABLESPACE ZREF_INDEX_TS DATAFILE
  '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_IDX.dbf' 
-SIZE 8M AUTOEXTEND 
-ON NEXT 5M 
-MAXSIZE 34M
+SIZE 20G
 LOGGING
 ONLINE
 PERMANENT
 EXTENT MANAGEMENT LOCAL AUTOALLOCATE;
 ```
 
-2-2) Add datafile
+- Add datafile
 ```
 ALTER TABLESPACE ZREF_INDEX_TS ADD DATAFILE '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_IDX02.dbf' SIZE 20G;
 ALTER TABLESPACE ZREF_INDEX_TS ADD DATAFILE '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_IDX03.dbf' SIZE 20G;
+ALTER TABLESPACE ZREF_INDEX_TS ADD DATAFILE '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_IDX04.dbf' SIZE 20G;
 ```
 
 - Total 35 tables.
@@ -305,9 +305,7 @@ NEXT_ID
 TRADEX
 ```
 
-### 1.3 Create tables
-
-1) Create empty tables with the correct column and key information.
+__A.__ Create empty tables with the correct column and key information.
 
 1. ACCOUNT_PERMISSION
 ```
@@ -980,7 +978,7 @@ LOGGING
 NOPARALLEL;
 ```
 
-2) Create indexes for each table.
+__B.__ Create indexes for each table.
 
 - Total 56.
 
@@ -1043,7 +1041,7 @@ CREATE UNIQUE INDEX PK_TR ON TRADE_REQUEST ( TR_T_ID ASC ) LOGGING TABLESPACE ZR
 CREATE UNIQUE INDEX IDX_NE_KEY_UNIQ ON NEXT_ID ( KEY1 ASC, KEY2 ASC ) LOGGING TABLESPACE ZREF_INDEX_TS PCTFREE 10 INITRANS 2;
 ```
 
-3) Add constraints.
+__C.__ Add constraints.
 
 - Total 56.
 
@@ -1106,7 +1104,7 @@ ALTER TABLE TRADE_REQUEST ADD CONSTRAINT CK_TR_BID_PRICE CHECK (TR_BID_PRICE > 0
 ALTER TABLE TRADE_REQUEST ADD CONSTRAINT CK_TR_QTY CHECK (TR_QTY > 0);
 ```
 
-4) Alter tables.
+__D.__ Alter tables.
 
 - Total 49.
 ```
@@ -1161,7 +1159,7 @@ ALTER TABLE WATCH_ITEM ADD CONSTRAINT FK_WL_WI_CC FOREIGN KEY ( WI_WL_ID ) REFER
 ALTER TABLE WATCH_LIST ADD CONSTRAINT FK_C_WL_CC FOREIGN KEY ( WL_C_ID ) REFERENCES CUSTOMER ( C_ID ) ON DELETE CASCADE;
 ```
 
-5) Disable the Foreign keys.
+__E.__ Disable the Foreign keys.
 
 - Total 49.
 
@@ -1278,7 +1276,7 @@ FK_WL_WI_CC WATCH_ITEM DISABLED TIBERO
 FK_ZC_AD_CC ADDRESS01 DISABLED TIBERO
 ```
 
-6) Load the data.
+__F.__ Load the data.
 
 - oftibr@OFDB1:/opt2/tmaxdb/zrefdata/azure_load_resutlts /> cat tbloader.sh
 
@@ -1411,8 +1409,8 @@ BADFILE '$1.bad'
 TRUNCATE
 --REPLACE
 --APPEND
-INTO TABLE ZREF.$1
---INTO TABLE TIBERO.$1
+--INTO TABLE ZREF.$1
+INTO TABLE TIBERO.$1
 --FIELDS TERMINATED BY ','
 FIELDS TERMINATED BY '|'
 OPTIONALLY ENCLOSED BY '\"'
@@ -1775,6 +1773,18 @@ __G.__ Rebuild the indexes.
 - Total 56.
 
 ### set timing on
+
+
+### TEMP Tablespace issue.
+
+```
+TBR-21004: No more extent available in tablespace 'TEMP'. 
+```
+```
+ALTER TABLESPACE TEMP ADD tempFILE '/opt2/tmaxdb/tibero6/database/TVSAM/temp002.dbf' SIZE 10G;
+
+ALTER TABLESPACE TEMP ADD tempFILE '/opt2/tmaxdb/tibero6/database/TVSAM/temp003.dbf' SIZE 20G;
+```
 
 ```
 ALTER INDEX IDX_B_ID_NAME_UNIQ REBUILD PARALLEL 4;
