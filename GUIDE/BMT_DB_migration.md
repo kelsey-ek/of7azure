@@ -2,23 +2,13 @@
 
 ## Table of Contents
 
-+ [1. Generate DB bulk data using EgenLoader](#db-migration)
-  + [1.1 Generate DB bulk data using EgenLoader](#11-install-docker)
-  + [1.2 Get centos container](#12-get-centos-container)
-  + [1.3 Install OpenFrame](#13-install-openframe)
-      + [1.3.1 Pre settings](#131-pre-settings)
-  + [1.4 Create OpenFrame image](#14-create-openframe-image)
-  + [1.5 Use OpenFrame image](#15-use-openframe-image)
-+ [2. Batch Unit Test](#step-2-azure-service)
-  + [2.1 Add Azure Kubernetes service(AKS)](#21-add-azure-kubernetes-serviceaks)
-  + [2.2 Set Pods](#22-set-pods)
-  + [2.3 Connect to the running Pod](#23-connect-to-the-running-pod)
-+ [3. Online Unit Test](#step-2-azure-service)
-  + [3.1 Add Azure Kubernetes service(AKS)](#21-add-azure-kubernetes-serviceaks)
-  + [3.2 Set Pods](#22-set-pods)
-  + [3.3 Connect to the running Pod](#23-connect-to-the-running-pod)
++ [1. Generate DB Bulk Data Using EgenLoader](#1-generate-db-bulk-data-using-egenloader)
++ [2. Create Tablespaces](#2-create-tablespaces-seperate)
++ [3. Create Tables](3-create-tables)
++ [4. Load Tables](#4-load-tables)
++ [5. Remaining Issues](#5-remaining-issues)
 
-### 1. Generate DB bulk data using EgenLoader
+### 1. Generate DB Bulk Data Using EgenLoader
 
 ```
 oftibr@OFDB1:/opt2/tmaxdb/EGENLOADER/bin /> ./EGenLoader -h
@@ -211,7 +201,7 @@ Generating TRADE, SETTLEMENT, TRADE HISTORY, CASH TRANSACTION, HOLDING_HISTORY, 
 Generate and load time: 01:22:58
 ```
 
-### 2. Create tablespaces (seperate)
+### 2. Create Tablespaces. (seperate)
 
 1-1) Create Data tablepace.
 
@@ -306,7 +296,7 @@ NEXT_ID
 TRADEX
 ```
 
-### 3. Create tables.
+### 3. Create Tables.
 
 __A.__ Create empty tables with the correct column and key information.
 
@@ -1279,7 +1269,7 @@ FK_WL_WI_CC WATCH_ITEM DISABLED TIBERO
 FK_ZC_AD_CC ADDRESS01 DISABLED TIBERO
 ```
 
-### 4. Load tables.
+### 4. Load Tables.
 
 __A.__ Load script.
 
@@ -2052,7 +2042,7 @@ NEXT_ID             1
 TRADEX              TRADEX 없음
 ```
 
-### 5. Remaining issues.
+### 5. Remaining Issues.
 
 1) Broker table only has 500 rows.
 
