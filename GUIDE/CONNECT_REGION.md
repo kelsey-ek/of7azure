@@ -418,3 +418,24 @@ cp -a OSCOIVP1 $TMAXDIR/appbin/
 ```
 RUNTIME_MODE=ODBC
 ```
+
+
+```
+* 단독 실행파일로 테스트 수행시 컴파일 및 실행방법 *
+```
+
+```
+cmd : ofcbpp -i CONNECT.cob -o ofcbpp_CONNECT.cob
+cmd : tbpcb INAME=ofcbpp_CONNECT.cob RUNTIME_MODE=ODBC VARCHAR=YES INCLUDE=/tmaxapp/common/copy/ END_OF_FETCH=100 ONAME=tbpcb_CONNECT.cbl
+cmd : ofcob -x tbpcb_CONNECT.cbl -o CONNECT -L/opt/tmaxapp/unixODBC/lib -lodbc -L/opt/tmaxdb/tibero6/client/lib -ltbertl_odbc -lclientcommon -ltbertl --force-trace
+oframe@aebdas-tmax01.sccompanies.com:/home/oframe/nick/DBTEST /> ./object/CONNECT
+M0-MAIN
+M0-CHECK
+[INFO] Check DB connection.
+[INFO] The DB connection is already disconnected.
+M1-DBCONN
+[INFO] Create a DB connection.
+M1-DBCONN-EXIT
+M0-CHECK-EXIT
+M0-MAIN-EXIT
+```
