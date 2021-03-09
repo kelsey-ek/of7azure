@@ -418,5 +418,3 @@ cp -a OSCOIVP1 $TMAXDIR/appbin/
 ```
 RUNTIME_MODE=ODBC
 ```
-
-```
