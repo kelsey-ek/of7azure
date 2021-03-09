@@ -214,7 +214,9 @@ Generate and load time: 01:22:58
 ### 2. Create tablespaces (seperate)
 
 1-1) Create Data tablepace.
-    - Becareful not to use autoextend. It will later cause the 'TBR-21004: No more extent available in tablespace' issue.
+
+- Becareful not to use autoextend. It will later cause the 'TBR-21004: No more extent available in tablespace' issue.
+
 ```
 DROP TABLESPACE ZREF_DATA INCLUDING CONTENTS AND DATAFILES; 
 
@@ -236,7 +238,9 @@ ALTER TABLESPACE ZREF_DATA ADD DATAFILE '/opt2/tmaxdb/tibero6/database/TVSAM/ZRE
 ```
 
 2-1) Create Index tablepace.
-    - Becareful not to use autoextend. It will later cause the 'TBR-21004: No more extent available in tablespace' issue.
+
+- Becareful not to use autoextend. It will later cause the 'TBR-21004: No more extent available in tablespace' issue.
+
 ```
 DROP TABLESPACE ZREF_INDEX_TS INCLUDING CONTENTS AND DATAFILES; 
 
@@ -1839,7 +1843,7 @@ ALTER INDEX PK_WL REBUILD PARALLEL 4;
 ALTER INDEX PK_ZC REBUILD PARALLEL 4;
 ```
 
-__E.__TEMP Tablespace issue.
+__E.__ TEMP Tablespace issue.
 
 ```
 TBR-21004: No more extent available in tablespace 'TEMP'. 
