@@ -4,7 +4,7 @@
 
 + [1. Generate DB Bulk Data Using EgenLoader](#1-generate-db-bulk-data-using-egenloader)
 + [2. Create Tablespaces](#2-create-tablespaces-seperate)
-+ [3. Create Tables](3-create-tables)
++ [3. Create Tables](#3-create-tables)
 + [4. Load Tables](#4-load-tables)
 + [5. Remaining Issues](#5-remaining-issues)
 
