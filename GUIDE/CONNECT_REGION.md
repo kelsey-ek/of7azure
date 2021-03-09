@@ -413,7 +413,7 @@ cp -a OSCOIVP1 $TMAXDIR/appbin/
 ## 7. Use the right compile option.
 - Do not forget to use the correct compile option for using application programs.
 
-<tbpcb>
+**tbpcb**
        
 ```
 RUNTIME_MODE=ODBC
