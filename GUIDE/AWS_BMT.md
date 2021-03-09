@@ -1,9 +1,9 @@
-# AWS BMT by Kelsey
+# BMT DB Migraation by Kelsey
 
 ## Table of Contents
 
 + [1. DB Migration](#db-migration)
-  + [1.1 Install docker](#11-install-docker)
+  + [1.1 Generate DB bulk data using EgenLoader](#11-install-docker)
   + [1.2 Get centos container](#12-get-centos-container)
   + [1.3 Install OpenFrame](#13-install-openframe)
       + [1.3.1 Pre settings](#131-pre-settings)
@@ -213,9 +213,9 @@ Generating TRADE, SETTLEMENT, TRADE HISTORY, CASH TRANSACTION, HOLDING_HISTORY, 
 Generate and load time: 01:22:58
 ```
 
-1) Create tablespaces (seperate)
+### 1.2 Create tablespaces (seperate)
 
-- Create Data tablepace
+1-1) Create Data tablepace
 ```
 DROP TABLESPACE ZREF_DATA INCLUDING CONTENTS AND DATAFILES; 
 
@@ -230,7 +230,7 @@ PERMANENT
 EXTENT MANAGEMENT LOCAL AUTOALLOCATE;
 ```
 
-- Add datafile
+1-2) Add datafile
 ```
 ALTER TABLESPACE ZREF_DATA ADD DATAFILE '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_DATA02.dbf' SIZE 20G;
 ALTER TABLESPACE ZREF_DATA ADD DATAFILE '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_DATA03.dbf' SIZE 20G;
@@ -238,7 +238,7 @@ ALTER TABLESPACE ZREF_DATA ADD DATAFILE '/opt2/tmaxdb/tibero6/database/TVSAM/ZRE
 ALTER TABLESPACE ZREF_DATA ADD DATAFILE '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_DATA05.dbf' SIZE 20G;
 ```
 
-- Create Index tablepace
+2-1) Create Index tablepace
 ```
 DROP TABLESPACE ZREF_INDEX_TS INCLUDING CONTENTS AND DATAFILES; 
 
@@ -253,7 +253,7 @@ PERMANENT
 EXTENT MANAGEMENT LOCAL AUTOALLOCATE;
 ```
 
-- Add datafile
+2-2) Add datafile
 ```
 ALTER TABLESPACE ZREF_INDEX_TS ADD DATAFILE '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_IDX02.dbf' SIZE 20G;
 ALTER TABLESPACE ZREF_INDEX_TS ADD DATAFILE '/opt2/tmaxdb/tibero6/database/TVSAM/ZREF_IDX03.dbf' SIZE 20G;
@@ -305,7 +305,9 @@ NEXT_ID
 TRADEX
 ```
 
-__A.__ Create empty tables with the correct column and key information.
+### 1.3 Create tables
+
+1) Create empty tables with the correct column and key information.
 
 1. ACCOUNT_PERMISSION
 ```
@@ -978,7 +980,7 @@ LOGGING
 NOPARALLEL;
 ```
 
-__B.__ Create indexes for each table.
+2) Create indexes for each table.
 
 - Total 56.
 
@@ -1041,7 +1043,7 @@ CREATE UNIQUE INDEX PK_TR ON TRADE_REQUEST ( TR_T_ID ASC ) LOGGING TABLESPACE ZR
 CREATE UNIQUE INDEX IDX_NE_KEY_UNIQ ON NEXT_ID ( KEY1 ASC, KEY2 ASC ) LOGGING TABLESPACE ZREF_INDEX_TS PCTFREE 10 INITRANS 2;
 ```
 
-__C.__ Add constraints.
+3) Add constraints.
 
 - Total 56.
 
@@ -1104,7 +1106,7 @@ ALTER TABLE TRADE_REQUEST ADD CONSTRAINT CK_TR_BID_PRICE CHECK (TR_BID_PRICE > 0
 ALTER TABLE TRADE_REQUEST ADD CONSTRAINT CK_TR_QTY CHECK (TR_QTY > 0);
 ```
 
-__D.__ Alter tables.
+4) Alter tables.
 
 - Total 49.
 ```
@@ -1159,7 +1161,7 @@ ALTER TABLE WATCH_ITEM ADD CONSTRAINT FK_WL_WI_CC FOREIGN KEY ( WI_WL_ID ) REFER
 ALTER TABLE WATCH_LIST ADD CONSTRAINT FK_C_WL_CC FOREIGN KEY ( WL_C_ID ) REFERENCES CUSTOMER ( C_ID ) ON DELETE CASCADE;
 ```
 
-__E.__ Disable the Foreign keys.
+5) Disable the Foreign keys.
 
 - Total 49.
 
@@ -1276,7 +1278,7 @@ FK_WL_WI_CC WATCH_ITEM DISABLED TIBERO
 FK_ZC_AD_CC ADDRESS01 DISABLED TIBERO
 ```
 
-__F.__ Load the data.
+6) Load the data.
 
 - oftibr@OFDB1:/opt2/tmaxdb/zrefdata/azure_load_resutlts /> cat tbloader.sh
 
