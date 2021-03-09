@@ -1,5 +1,32 @@
 ### Use OSCBUILD to make DB Connection
 
+## 0. Set the DB connection from configuration files.
+
+1) osc.conf
+
+```
+[DB_INFO]
+    DATABASE=TVSAM
+    USERNAME=tibero
+    PASSWORD=tmax
+    ENPASSWD=
+```
+
+2) $ODBCINI
+
+```
+[TVSAM]
+Description = Tibero ODBC driver for Tibero6
+Driver = /opt2/tmaxapp/tibero6/client/lib/libtbodbc.so
+SERVER = 10.0.1.73
+PORT = 8629
+DSN=TVSAM
+TB_SID=TVSAM
+User = tibero
+Password = tmax
+DATABASE= TVSAM
+```
+
 ## 1. Write five programs.
 
 1) CONNECT.cob
@@ -420,9 +447,7 @@ RUNTIME_MODE=ODBC
 ```
 
 
-```
-* 단독 실행파일로 테스트 수행시 컴파일 및 실행방법 *
-```
+## 8. 단독 실행파일로 테스트 수행시 컴파일 및 실행방법 (참고)
 
 ```
 cmd : ofcbpp -i CONNECT.cob -o ofcbpp_CONNECT.cob
@@ -439,3 +464,4 @@ M1-DBCONN-EXIT
 M0-CHECK-EXIT
 M0-MAIN-EXIT
 ```
+
