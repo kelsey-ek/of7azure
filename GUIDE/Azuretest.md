@@ -1,16 +1,16 @@
 # Azure service with OpenFrame by Kelsey
 
-+ [2. Azure Service](#step-2-azure-service)
-  + [2.1 Add Azure Kubernetes service(AKS)](#21-add-azure-kubernetes-serviceaks)
-  + [2.2 Set Pods](#22-set-pods)
-  + [2.3 Connect to the running Pod](#23-connect-to-the-running-pod)
-  + [2.4 Set services](#23-set-services)
-  + [2.5 Network configuration](#24-network-configuration)
++ [1. Azure Service](#step-2-azure-service)
+  + [1.1 Add Azure Kubernetes service(AKS)](#21-add-azure-kubernetes-serviceaks)
+  + [1.2 Set Pods](#22-set-pods)
+  + [1.3 Connect to the running Pod](#23-connect-to-the-running-pod)
+  + [1.4 Set services](#23-set-services)
+  + [1.5 Network configuration](#24-network-configuration)
 
 
-## Step 2. Azure Service
+## Step 1. Azure Service
 
-### 2.1 Add Azure Kubernetes service(AKS)
+### 1.1 Add Azure Kubernetes service(AKS)
 
 1. Add the service from Azure Website.
 
@@ -87,7 +87,7 @@
 
     *deleted cluster AKSOF7Azure from /home/kelsey/.kube/config*
 
-### 2.2 Set Pods
+### 1.2 Set Pods
 
 1. Crate a Pod yaml file
 
@@ -196,7 +196,7 @@
   ```
 
 
-### 2.3 Connect to the running Pod
+### 1.3 Connect to the running Pod
 
 1) Execute a running Pod from Azure Cloud
 
@@ -259,7 +259,7 @@
   ```kubectl delete pod --all```
   
 
-### 2.4 Set services
+### 1.4 Set services
 
 * Nodeport service for using JEUS, Webterminal, OFManager
 
@@ -398,7 +398,7 @@
    ```kubectl delete service [service name]```
 
 
-### 2.5 Network configuration 
+### 1.5 Network configuration 
 
 1. Set the Inbound NAT rules of Kubernetes with the Nodeports.
 
