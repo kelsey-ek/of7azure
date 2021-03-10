@@ -15,41 +15,39 @@
     + [3.4.2 Batch](#332-connect-to-the-running-pod)    
   + [3.5 DB migration](23-connect-to-the-running-pod)
 
-### Installation
+### Setting
 
-- vi /etc/hosts (Both)
-
-- Use private ip.
-
+- Ip Setting. Use private ip.
 
 ```
+vi /etc/hosts (Both)
+
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ::1         localhost6 localhost6.localdomain6
 10.0.1.212  OFAPP1 OFAPP1
 10.0.2.78   OFDB1  OFDB1
 ```
 
+- Add user as hostname
+
 ```
-sudo hostname OFDB1
-```
-
-
-g. Add user as hostname
-
 groupadd mqm -g 10000
 useradd -d /home/oframe -g mqm -s /bin/bash -m oframe -u 10001
+
 groupadd dba -g 10005
 useradd -d /home/oftibr -g dba -s /bin/bash -m oftibr -u 10002
 
-[ec2-user@ip-10-0-1-73 ~]$ sudo passwd oftibr
+
+sudo passwd oftibr
 Changing password for user oftibr.
 New password: 
 Retype new password: 
 passwd: all authentication tokens updated successfully.
+```
 
+- .bash_profile Setting
 
-
-- OpenFrame bash_profile
+1) OpenFrame
 
 ```
 # .bash_profile
@@ -222,7 +220,6 @@ OFASM_MACLIB=$OFASM_HOME/maclib/ofmac:$OFASM_HOME/maclib/
 export OFASM_MACLIB
 # End comments by InstallAnywhere on Mon Apr 13 08:48:03 UTC 2020 4.
 
-
 # JEUS ENV
 export JEUS_HOME=/opt2/tmaxapp/jeus7
 
@@ -326,9 +323,6 @@ LD_LIBRARY_PATH_64="${LD_LIBRARY_PATH_64}:$TMAXDIR/lib64"
 export LD_LIBRARY_PATH_64
 # End comments by InstallAnywhere on Tue Dec 01 01:39:25 UTC 2020 12.
 
-
-
-
 # New environment setting added by JEUS7.0 on Tue Dec 01 05:15:37 UTC 2020 1.
 # The unmodified version of this file is saved in /home/oframe/.bash_profile1469689962.
 # Do NOT modify these lines; they are used to uninstall.
@@ -349,7 +343,6 @@ export OFGW_HOME
 OFMANAGER_HOME=/opt2/tmaxapp/jeus7/domains/jeus_domain/servers/server2/lib/application/ofmanager
 export OFMANAGER_HOME
 # End comments by InstallAnywhere on Tue Dec 01 06:45:42 UTC 2020 1.
-
 
 # New environment setting added by OpenFrame_Miner_7_Fix1 on Tue Dec 01 07:07:07 UTC 2020 1.
 # The unmodified version of this file is saved in /home/oframe/.bash_profile626870240.
@@ -380,7 +373,7 @@ export PFM_ADM_LOG_DIR
 # End comments by InstallAnywhere on Tue Dec 01 23:22:58 UTC 2020 3.
 ```
 
-- TIBERO bash_profile
+2) Tibero
 
 ```
 # .bash_profile
@@ -1248,7 +1241,6 @@ osctdlupdate ZREFMEE ${cobfile}
 	OFRUISVRDSSAVE: Dataset Is Saved Successfully
 	COMPLETED SUCCESSFULLY.
 	
-	
 3.3.4 Set the DB connection as described in the JCL.
 	
 	ikjeft01.conf
@@ -1553,35 +1545,4 @@ ZREFMEE_TCL1   SVGNAME = svgtboiv,
                 LIFESPAN = IDLE_600,
                 CLOPT = "-n -o $(SVR)_$(CDATE).out -e $(SVR)_$(CDATE).err"
 ```
-
-## 4. Oftest
-
-### 4.1. Usage
-
-```bash
-jangwon@jangwon:~/git/zref$ oftest -h
-usage: oftest [-h] -i INPUT -s SERVER [-w WAIT] [-l LOG] [--ssl] [--visible]
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -i INPUT, --input INPUT
-                        test input as JSON format
-  -s SERVER, --server SERVER
-                        3270 server URL <ip>:<port> ex) 127.0.0.1:5556
-  -w WAIT, --wait WAIT  wait given seconds after the test is over
-  -l LOG, --log LOG     set log level (DEBUG|INFO|WARNING|ERROR|CRITICAL).
-                        default is INFO
-  --ssl                 enable ssl
-  --visible             make 3270 emulator visible
-```
-
-### 4.2. run test script
-
-- sequence.sh
-- parallel.sh
-
-### 5. TPC-E
-
-- TPC-E is an On-Line Transaction Processing Benchmark
-  - Approved in February of 2007, TPC Benchmark E is an on-line transaction processing (OLTP) benchmark. TPC-E is more complex than previous OLTP benchmarks such as TPC-C because of its diverse transaction types, more complex database and overall execution structure. TPC-E involves a mix of twelve concurrent transactions of different types and complexity, either executed on-line or triggered by price or time criteria. The database is comprised of thirty-three tables with a wide range of columns, cardinality, and scaling properties. TPC-E is measured in transactions per second (tpsE). While the benchmark portrays the activity of a stock brokerage firm, TPC-E is not limited to the activity of any particular business segment, but rather represents any industry that must report upon and execute transactions of a financial nature.
 
