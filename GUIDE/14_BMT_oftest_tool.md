@@ -422,3 +422,36 @@ hostname@oframe:/home/oframe>oftest test3270 -i output.json -s <ip>:<port> -p 5
 
 > Note: 127.0.0.1 may not work with -p option based on your system setting.
 
+
+## 4. Oftest
+
+### 4.1. Usage
+
+```bash
+jangwon@jangwon:~/git/zref$ oftest -h
+usage: oftest [-h] -i INPUT -s SERVER [-w WAIT] [-l LOG] [--ssl] [--visible]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        test input as JSON format
+  -s SERVER, --server SERVER
+                        3270 server URL <ip>:<port> ex) 127.0.0.1:5556
+  -w WAIT, --wait WAIT  wait given seconds after the test is over
+  -l LOG, --log LOG     set log level (DEBUG|INFO|WARNING|ERROR|CRITICAL).
+                        default is INFO
+  --ssl                 enable ssl
+  --visible             make 3270 emulator visible
+```
+
+### 4.2. run test script
+
+- sequence.sh
+- parallel.sh
+
+### 5. TPC-E
+
+- TPC-E is an On-Line Transaction Processing Benchmark
+  - Approved in February of 2007, TPC Benchmark E is an on-line transaction processing (OLTP) benchmark. TPC-E is more complex than previous OLTP benchmarks such as TPC-C because of its diverse transaction types, more complex database and overall execution structure. TPC-E involves a mix of twelve concurrent transactions of different types and complexity, either executed on-line or triggered by price or time criteria. The database is comprised of thirty-three tables with a wide range of columns, cardinality, and scaling properties. TPC-E is measured in transactions per second (tpsE). While the benchmark portrays the activity of a stock brokerage firm, TPC-E is not limited to the activity of any particular business segment, but rather represents any industry that must report upon and execute transactions of a financial nature.
+
+
