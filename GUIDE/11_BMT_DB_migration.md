@@ -2133,3 +2133,5 @@ Table TIBERO.NEWS_ITEM :
 
 Total Elapsed Time was    : 00:00:31.371371
 ```
+
+# Copyrighted by Kelsey
