@@ -1,4 +1,4 @@
-# AKS test by Kelsey
+# AKS automatic boot by Kelsey
 
 ## Table of Contents
 
@@ -245,3 +245,4 @@ doMsboot2()
 main_proc $@;
 ```
 
+# Copyrighted by Kelsey
