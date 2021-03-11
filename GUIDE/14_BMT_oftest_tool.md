@@ -2,7 +2,7 @@
 
 ## Table of Contents
 
-+ [1. Concept](#concept)
++ [1. OFTest Install](#concept)
 + [2. Process](#process)
 
 
