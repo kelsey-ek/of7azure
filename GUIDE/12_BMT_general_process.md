@@ -1,4 +1,4 @@
-# AWS BMT by Kelsey
+# BMT general process by Kelsey
 
 ## Table of Contents
 
@@ -1546,3 +1546,4 @@ ZREFMEE_TCL1   SVGNAME = svgtboiv,
                 CLOPT = "-n -o $(SVR)_$(CDATE).out -e $(SVR)_$(CDATE).err"
 ```
 
+# Copyrighted by Kelsey
