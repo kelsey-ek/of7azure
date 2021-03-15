@@ -7,7 +7,7 @@
 + [3. Create Two DB Servers](#3-create-two-db-servers)
 + [4. Mount Azure File Share Premium to DB Servers](#4-mount-azure-file-share-premium-to-db-servers)
 + [5. IP Configuration](#5-ip-configuration)
-+ [6. How To Validate the Performance](#6-how-to-validate-the-result)
++ [6. How To Validate the Performance](#6-how-to-validate-the-performance)
 
 ### 1. Architecture
 
