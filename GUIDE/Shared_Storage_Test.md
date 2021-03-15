@@ -7,6 +7,7 @@
 + [3. Create Two DB Servers](#3-create-two-db-servers)
 + [4. Mount Azure File Share Premium to DB Servers](#4-mount-azure-file-share-premium-to-db-servers)
 + [5. IP Configuration](#5-ip-configuration)
++ [6. How To Validate the Performance](#6-how-to-validate-the-result)
 
 ### 1. Architecture
 
@@ -391,3 +392,26 @@ sh  mount.sh
 <img src="./reference_images/newnic01.png" title="newnic01">
 
 <img src="./reference_images/newnic02.png" title="newnic02">
+
+
+### 6. How To Validate the Performance
+
+- tbiobench
+   - This tool creates the 1GB file for checking I/O and you can use various options. Please refer to the manual if needed.
+```
+oftibr@DB1:/home/oftibr> tbiobench -h
+-h : help
+-H <header size>
+-b <block size>
+-s <total size>
+-F <flag> : O_DIRECT|O_SYNC|O_DSYNC|O_TRUNC|O_NONBLOCK
+-t <target file>
+-f : overwrite target file ("force")
+-k : keep target file after test
+-i <io_type> : SW|SR|RR|RW|SEQ|RND|ALL
+-T <thread count>
+-S <random seed>
+-o <output file>
+```
+
+
