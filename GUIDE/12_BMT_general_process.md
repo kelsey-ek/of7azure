@@ -1,5 +1,14 @@
 # BMT general process by Kelsey
+
 IMS#210963
+
+```
+IMS#210963 was used for Azure BMT, Please use the same one for AWS BMT.
+
+Please use the Tibero binary from IMS#202734, Action No.   1314675
+tibero6-bin-FS06_CS_1902-linux64-172015-opt-20191122153758-tested.tar.gz(467,472 KB) - 2019.12.03 15:28:41.
+```
+
 ## Table of Contents
 
 + [1. Check process of BMT](#db-migration)
