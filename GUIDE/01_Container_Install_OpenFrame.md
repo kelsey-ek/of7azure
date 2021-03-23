@@ -526,9 +526,9 @@ TSAM_INCLUDE3=/usr/lib/gcc/x86_64-redhat-linux/8/include
 ```
 ./OpenFrame_Base7_Fix3R_Linux_x86_64.bin -f base.properties
 
-cp /usr/lib/libtermcap.so.2 $TMAXDIR/lib -> use this only if needed.
-
 source ~/.bash_profile
+
+cp /usr/lib/libtermcap.so.2 $TMAXDIR/lib -> use this only if needed.
 ```
 
 ```
