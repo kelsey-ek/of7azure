@@ -1,5 +1,32 @@
 # BMT general process by Kelsey
 
+
+APP SERVER 1,2
+
+ncpu -16
+memory - 30G
+size - 450 G
+
+```
+Filesystem                     Size  Used Avail Use% Mounted on
+devtmpfs                        16G     0   16G   0% /dev
+tmpfs                           16G   60M   16G   1% /dev/shm
+tmpfs                           16G  508K   16G   1% /run
+tmpfs                           16G     0   16G   0% /sys/fs/cgroup
+/dev/nvme0n1p1                 8.0G  6.5G  1.5G  82% /
+/dev/mapper/appsvrvg-appsvrlv  450G  259M  450G   1% /opt2
+tmpfs                          3.1G     0  3.1G   0% /run/user/10001
+```
+
+DB SERVER 1,2
+
+ncpu -16
+memory - 124G
+size - 450 G
+
+
+
+
 IMS#210963
 
 ```
