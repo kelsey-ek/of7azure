@@ -3,9 +3,11 @@
 
 APP SERVER 1,2
 
+```
 ncpu -16
-memory - 30G
-size - 450 G
+memory - 32G
+size - 500 G 
+```
 
 ```
 Filesystem                     Size  Used Avail Use% Mounted on
@@ -20,11 +22,11 @@ tmpfs                          3.1G     0  3.1G   0% /run/user/10001
 
 DB SERVER 1,2
 
-ncpu -16
-memory - 124G
-size - 450 G
-
-
+```
+ncpu - 16
+memory - 128G
+size - 1 TB
+```
 
 
 IMS#210963
