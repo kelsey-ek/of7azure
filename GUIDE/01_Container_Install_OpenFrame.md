@@ -506,7 +506,7 @@ options
 ```
 OPENFRAME_HOME=/home/oframe7/OpenFrame
 TP_HOST_NAME=oframe7
-TP_HOST_IP=192.168.105.209
+TP_HOST_IP=127.0.0.1
 ODBC_USERNAME=tibero
 ODBC_PASSWORD=tmax
 ODBC_DATABASE=oframe
@@ -611,9 +611,10 @@ For running a JOB, please check the LIBPATH from tjclrun.conf
 
 ```bash
 [SYSLIB]
- BIN_PATH=${OFDATA_HOME}/volume_default/SYS1.USERLIB:${OPENFRAME_HOME}/bin:${OPENFRAME_HOME}/util:${COBDIR}/bin:/usr/local/bin:/bin
- LIB_PATH=${OPENFRAME_HOME}/lib:${OPENFRAME_HOME}/core/lib:${TB_HOME}/client/lib:${COBDIR}/lib:/usr/lib:/lib:/lib/i686:/usr/local/lib:${PROSORT_HOME}/lib:/opt/FSUNbsort/lib:${ODBC_HOME}/lib:${OFCOB_HOME}/lib:${OFASM_HOME}/lib
- COB_PATH=${COBPATH}
+    BIN_PATH=${OPENFRAME_HOME}/bin:${OPENFRAME_HOME}/util:${COBDIR}/bin:/usr/local/bin:/bin:${OPENFRAME_HOME}/volume_default/SYS1.USERLIB
+    LIB_PATH=${OPENFRAME_HOME}/lib:${OPENFRAME_HOME}/core/lib:${TB_HOME}/client/lib:${COBDIR}/lib:/usr/lib:/lib:/lib/i686:/usr/local/lib:${PROSORT_HOME}/lib:/opt/FSUNbsort/lib:${ODBC_HOME}/lib:${OFCOB_HOME}/lib:${OFASM_HOME}/lib
+    COB_PATH=${COBPATH}
+
 ```
 
 ### 1.3.9 TACF installation
