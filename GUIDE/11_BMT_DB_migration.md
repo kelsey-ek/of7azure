@@ -201,6 +201,44 @@ Generating TRADE, SETTLEMENT, TRADE HISTORY, CASH TRANSACTION, HOLDING_HISTORY, 
 Generate and load time: 01:22:58
 ```
 
+```
+[oframe@ofapp1 flat_out]$ ls -rtl
+total 94619932
+-rw-r--r-- 1 oframe mqm          94 Mar 24 07:47 TradeType.txt
+-rw-r--r-- 1 oframe mqm       16719 Mar 24 07:47 TaxRate.txt
+-rw-r--r-- 1 oframe mqm          69 Mar 24 07:47 StatusType.txt
+-rw-r--r-- 1 oframe mqm         193 Mar 24 07:47 Sector.txt
+-rw-r--r-- 1 oframe mqm        2664 Mar 24 07:47 Industry.txt
+-rw-r--r-- 1 oframe mqm         383 Mar 24 07:47 Exchange.txt
+-rw-r--r-- 1 oframe mqm        6000 Mar 24 07:47 CommissionRate.txt
+-rw-r--r-- 1 oframe mqm         165 Mar 24 07:47 Charge.txt
+-rw-r--r-- 1 oframe mqm      284001 Mar 24 07:47 ZipCode.txt
+-rw-r--r-- 1 oframe mqm    10361338 Mar 24 07:47 Address.txt
+-rw-r--r-- 1 oframe mqm    24635226 Mar 24 07:47 Customer.txt
+-rw-r--r-- 1 oframe mqm    57493887 Mar 24 07:47 CustomerAccount.txt
+-rw-r--r-- 1 oframe mqm    49555915 Mar 24 07:47 AccountPermission.txt
+-rw-r--r-- 1 oframe mqm     4504322 Mar 24 07:47 CustomerTaxrate.txt
+-rw-r--r-- 1 oframe mqm     3300000 Mar 24 07:47 WatchList.txt
+-rw-r--r-- 1 oframe mqm   275075802 Mar 24 07:47 WatchItem.txt
+-rw-r--r-- 1 oframe mqm    15893835 Mar 24 07:47 Company.txt
+-rw-r--r-- 1 oframe mqm     5625000 Mar 24 07:47 CompanyCompetitor.txt
+-rw-r--r-- 1 oframe mqm  5542396125 Mar 24 07:50 DailyMarket.txt
+-rw-r--r-- 1 oframe mqm   206745692 Mar 24 07:50 Financial.txt
+-rw-r--r-- 1 oframe mqm     4658035 Mar 24 07:50 LastTrade.txt
+-rw-r--r-- 1 oframe mqm     2588895 Mar 24 07:53 NewsXRef.txt
+-rw-r--r-- 1 oframe mqm 15057546889 Mar 24 07:53 NewsItem.txt
+-rw-r--r-- 1 oframe mqm    16099650 Mar 24 07:53 Security.txt
+-rw-r--r-- 1 oframe mqm        8966 Mar 24 08:23 tbloader.sh
+-rw-r--r-- 1 oframe mqm 20531338272 Mar 24 08:23 Trade.txt
+-rw-r--r-- 1 oframe mqm 18662278275 Mar 24 08:23 TradeHistory.txt
+-rw-r--r-- 1 oframe mqm  8360421041 Mar 24 08:23 Settlement.txt
+-rw-r--r-- 1 oframe mqm  1383709596 Mar 24 08:23 Holding.txt
+-rw-r--r-- 1 oframe mqm    60207234 Mar 24 08:23 HoldingSummary.txt
+-rw-r--r-- 1 oframe mqm  8905989258 Mar 24 08:23 HoldingHistory.txt
+-rw-r--r-- 1 oframe mqm 17519432209 Mar 24 08:23 CashTransaction.txt
+-rw-r--r-- 1 oframe mqm       26050 Mar 24 08:23 Broker.txt
+```
+
 ### 2. Create Tablespaces. (seperate)
 
 1-1) Create Data tablepace.
