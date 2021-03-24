@@ -2150,6 +2150,10 @@ tbloader userid=tibero/tmax@TVSAM control=loader_NEWS_ITEM3.ctl message=10000000
 ```
 
 ```
+ALTER TABLE NEWS_XREF ENABLE CONSTRAINT FK_NI_NX_CC;
+```
+
+```
 NEWS_ITEM3.txt
 
 Table TIBERO.NEWS_ITEM, was loaded from the data file.
