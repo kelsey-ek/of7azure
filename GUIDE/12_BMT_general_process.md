@@ -1681,6 +1681,27 @@ domain
     MAXSVR      = 128 -> 1000,      
 ```
 
+```
+*DOMAIN
+domain
+    SHMKEY      = 80111,
+#   MAXUSER     = 256,
+    MINCLH      = 4,
+    MAXCLH      = 8,
+    CPC= 2,
+    BLOCKTIME   = 600,
+    MAXCPC      = 1000,
+#   TXTIME      = 60,
+    MAXSPR      = 4000,
+    MAXSVR      = 1000,
+    MAXSVC      = 2048,
+    DOMAINID    = 4,
+    IPCPERM     = 0777,
+    TIPSVC      = TIPSVC,
+    MAXSACALL   = 1024,
+    MAXCACALL   = 1024
+```    
+
 - Change the MIN and MAX number of [_region_name_]_TCL1 server.
 ```
 [region_name]_TCL1   SVGNAME = svgtboiv,                                            
