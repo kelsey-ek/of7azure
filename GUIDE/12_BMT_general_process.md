@@ -1655,6 +1655,81 @@ tac2=(
 
 ### 3.11.
 
+- ofgw.properties
+```
+dbqueue.maxsize = 100 -> 4096	
+translate.threadPool.core = 5 -> 500	
+translate.threadPool.max = 30 -> 5000	
+tmax.node.NODENAME.max = 1024 -> 4096
+```
+
+### 3.12.
+
+- oframe.m
+```
+*DOMAIN                      
+domain                       
+
+#   MAXUSER     = 256, (comment out)       
+    MINCLH      = 1 -> 4,         
+    MAXCLH      = 3 -> 10,        
+    CPC         = 2,         
+    BLOCKTIME   = 60 -> 600,       
+    MAXCPC      = 256 -> 1000,      
+#   TXTIME      = 60, (comment out)       
+    MAXSPR      = 512 -> 4000,      
+    MAXSVR      = 128 -> 1000,      
+```
+
+- Change the MIN and MAX number of [_region_name_]_TCL1 server.
+```
+[region_name]_TCL1   SVGNAME = svgtboiv,                                            
+                     TARGET = ZREFCE,                                             
+                     SVRTYPE = STD_DYN,                                           
+                     MIN = 256,                                                   
+                     MAX = 256,                                                   
+                     ASQCOUNT = 1,                                                
+                     MAXQCOUNT = -1,                                              
+                     MAXRSTART = -1,                                              
+                     GPERIOD = 86400,                                             
+                     LIFESPAN = IDLE_600,                                         
+                     CLOPT = "-n -o $(SVR)_$(CDATE).out -e $(SVR)_$(CDATE).err"   
+```
+
+_If you need detailed information on each option, please check manuals. (TMAX, OFGW manual.)_
+
+### 3.13.
+
+- domain.xml
+
+- Identify the data source for ofgw and increase the connection pool settings.
+
+```
+      <data-source>
+         <database>
+            <data-source-id>ofgw</data-source-id>
+            <export-name>ofgw</export-name>
+            <data-source-class-name>com.tmax.tibero.jdbc.ext.TbConnectionPoolDataSource</data-source-class-name>
+            <data-source-type>ConnectionPoolDataSource</data-source-type>
+            <vendor>tibero</vendor>
+            <server-name>172.16.0.5</server-name>
+            <port-number>8629</port-number>
+            <database-name>TVSAM</database-name>
+            <user>tibero</user>
+            <password>tmax</password>
+            <login-timeout>0</login-timeout>
+            <auto-commit>DRIVER</auto-commit>
+            <stmt-query-timeout>0</stmt-query-timeout>
+            <pool-destroy-timeout>10000</pool-destroy-timeout>
+            <support-xa-emulation>false</support-xa-emulation>
+            <connection-pool>
+               <pooling>
+                  <min>**2 -> 100**</min> 
+                  <max>**30 -> 1000**</max> 
+                  <step>1</step>
+                  <period>3600000</period>
+               </pooling>
+```
 
 
 
