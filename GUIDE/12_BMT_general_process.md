@@ -1731,6 +1731,16 @@ _If you need detailed information on each option, please check manuals. (TMAX, O
                </pooling>
 ```
 
+### 3.14.
+
+- logback.xml
+
+```
+        <root level="DEBUG -> OFF">  
+                <appender-ref ref="ROLLING" />
+                <appender-ref ref="STDOUT"/>
+        </root>
+```
 
 
 # Copyrighted by Kelsey
