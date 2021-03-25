@@ -1566,7 +1566,41 @@ ftp.conf
 
 ### 3.7. 
 
+- vi /etc/security/limits.conf
+
+```
+oftibr           soft    nofile          65536
+oftibr           hard    nofile          65536
+oftibr           soft    nproc           unlimited
+oftibr           hard    nproc           unlimited
+
+oframe           soft    nofile          65536
+oframe           hard    nofile          65536
+oframe           soft    nproc           unlimited
+oframe           hard    nproc           unlimited
+oframe           soft    core            unlimited
+oframe           hard    core            unlimited
+```
+
 ### 3.8. 
+
+- vi /etc/sysctl.conf 
+
+```
+kernel.shmall = 8589934592
+kernel.shmmax = 107374182400
+kernel.shmmni = 4096
+kernel.sem = 100000 32000 10000 10000
+fs.file-max=6815744
+net.ipv4.ip_local_port_range = 1024 65000
+
+net.core.rmem_default=362144
+net.core.rmem_max=4194304
+net.core.wmem_default=362144
+net.core.wmem_max=1048576
+fs.aio-max-nr = 1048576
+
+```
 
 ### 3.9. Increase region process number
 
@@ -1584,5 +1618,44 @@ ZREFMEE_TCL1   SVGNAME = svgtboiv,
                 LIFESPAN = IDLE_600,
                 CLOPT = "-n -o $(SVR)_$(CDATE).out -e $(SVR)_$(CDATE).err"
 ```
+
+### 3.10.
+
+- tbdsn.tbr
+ - If tibero is used as client, just untar the tibero binary and generate tbdsn.tbr under $TB_HOME/client/config.
+ - Check firewall and shut it down.
+```
+tac1=(
+    (INSTANCE=(HOST=172.31.47.43)
+              (PORT=8629)
+              (DB_NAME=tac)
+    )
+    (INSTANCE=(HOST=172.31.38.209)
+              (PORT=8629)
+              (DB_NAME=tac)
+    )
+    (USE_FAILOVER=Y)
+)
+```
+
+```
+tac2=(
+    (INSTANCE=(HOST=172.31.38.209)
+              (PORT=8629)
+              (DB_NAME=tac)
+    )
+    (INSTANCE=(HOST=172.31.47.43)
+              (PORT=8629)
+              (DB_NAME=tac)
+    )
+    (USE_FAILOVER=Y)
+
+)
+```
+
+### 3.11.
+
+
+
 
 # Copyrighted by Kelsey
