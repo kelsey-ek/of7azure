@@ -10,7 +10,7 @@
   + [1.5 Network configuration](#24-network-configuration)
 
 
-## Step 1. Azure Service
+## 1. Azure Service
 
 ### 1.1 Add Azure Kubernetes service(AKS)
 
