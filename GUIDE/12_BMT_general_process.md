@@ -569,9 +569,8 @@ dscreate "PPLIP1.ZREF.LIBBATTX(BATTX05)"
 
 <pre>
 dssave "PPLIP1.ZREF.LIBBATTX(BATTX05)" -s $PWD/BATTX05.DAT -d "\r\n"
-</pre>
-
 <details>
+    <summary>log</summary>
 dssave version 7.0.3(7) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
 Dataset Save Program for External Editor
 
@@ -586,7 +585,7 @@ Delimiter          : [\r\n]
 OFRUISVRDSSAVE: Dataset Is Saved Successfully
 COMPLETED SUCCESSFULLY.
 </details>
-	
+</pre>	
 	
 2.2.2 Online - Oftest tool uses transaction files as an input
 
