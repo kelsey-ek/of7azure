@@ -755,9 +755,10 @@ ZREF BMT: https://docs.google.com/spreadsheets/d/1kMBK1A1tQn2g0cn2J7YKh66Q9tuVhg
 ### Compile and Deploy 
 
 >> Note that you need to remove .cob extension on PROGRAN-NAME
-  
-- Batch script
-    - Need to check tbpcb and ofcob options.
+
+<details>
+	<summary>Batch script (click here)</summary>
+	    - Need to check tbpcb and ofcob options.
 
 ```
 #!/bin/sh
@@ -861,9 +862,12 @@ do
 
 done
 ```
+</details>
 
-- Online script
-    - Need to check tbpcb and ofcob options.
+<details>
+	<summary>Online script (click here)</summary>
+	    - Need to check tbpcb and ofcob options.
+	    
 ```
 #!/bin/sh
 #set -x
@@ -974,6 +978,7 @@ fi
 
 done
 ```
+</details>
 
 - If all programs are modified and compiled successfully, you only need to move the complied modules like below.
 
