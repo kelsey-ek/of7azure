@@ -566,9 +566,12 @@ dscreate PPLIP1.ZREF.LIBBATTX -f LB -l 32760 -b 32768 -o PO
 <pre>
 dscreate "PPLIP1.ZREF.LIBBATTX(BATTX05)"
 </pre>
-	
+
 <pre>
-OFAPP1@oframe:/home/oframe/KELSEY/Tmaxwork/TEST/TXNFILES>dssave "PPLIP1.ZREF.LIBBATTX(BATTX05)" -s $PWD/BATTX05.DAT -d "\r\n"
+dssave "PPLIP1.ZREF.LIBBATTX(BATTX05)" -s $PWD/BATTX05.DAT -d "\r\n"
+</pre>
+
+<details>
 dssave version 7.0.3(7) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
 Dataset Save Program for External Editor
 
@@ -582,7 +585,7 @@ Delimiter          : [\r\n]
 
 OFRUISVRDSSAVE: Dataset Is Saved Successfully
 COMPLETED SUCCESSFULLY.
-</pre>	
+</details>
 	
 	
 2.2.2 Online - Oftest tool uses transaction files as an input
@@ -628,7 +631,7 @@ KELSEY      05  W-NI-ITEM       PIC X(102400).
 KELSEY*      05  W-NI-ITEM       USAGE IS SQL TYPE IS BLOB(102400).
 </pre>
 
-D.Change ADDRESS table name to ADDRESS01
+D. Change ADDRESS table name to ADDRESS01
 
 
 ```
