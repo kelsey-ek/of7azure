@@ -1213,40 +1213,38 @@ listcat -a PPLIP.ZREF.LIBLOAD
 </details>
 </pre>	
 	
+B. Prepare JCL.
+<pre>
+1) SETUP JCL
+  - dos2unix ALL JCL.
+  - Total 7.
+     DEFAUDB.JCL
+     DEFAUDB1.JCL
+     DEFAUDOL.JCL
+     DEFCONFG.JCL
+     DEFTXNFL.JCL
+     DEFTXNLB.JCL
+     GDGDEFINE.JCL
+  - In case of JCL that uses "idcams define", copybook is needed for the dataset. ( $OPENFRAME_HOME/tsam/copybook)
+    <details>
+    <summary>ZREF.KSDS.CONFIG.cpy</summary>
+   01 APP-CONFIG-REC.
+    05 ACR-KEY PIC X(8).
+    05 ACR-DATA.
+      10 ACR-GLOBAL-CONFIG.
+	15 ACR-GC-WRITE-AUDIT-FLAG PIC X.
+	15 ACR-GC-EXPLICIT-DBCONN-FLAG PIC X.
+	15 ACR-GC-DBCONN-NAME PIC X(20).
+	15 FILLER PIC X(8).
+      10 ACR-MSTQ-CONFIG.
+	15 ACR-MSTQ-SEND-METHOD PIC X.
+	15 ACR-MSTQ-SEND-TO-MACHINE PIC X(50).
+	15 ACR-MSTQ-SEND-TO-PORT PIC X(5).
+	15 FILLER PIC X(14).
+    05 FILLER PIC X(92).
+    </details>
+</pre>
 
-3.3.2 Prepare JCL.
-
-	1) SETUP JCL
-
-	- dos2unix ALL JCL
-
-	    - Total 7.
-		  DEFAUDB.JCL
-		  DEFAUDB1.JCL
-		  DEFAUDOL.JCL
-		  DEFCONFG.JCL
-		  DEFTXNFL.JCL
-		  DEFTXNLB.JCL
-		  GDGDEFINE.JCL
-
-	- In case of JCL that uses "idcams define", copybook is needed for the dataset.
-	  - OpenFrame/tsam/copybook
-
-		- ZREF.KSDS.CONFIG.cpy 
-		  01 APP-CONFIG-REC.
-		    05 ACR-KEY PIC X(8).
-		    05 ACR-DATA.
-		      10 ACR-GLOBAL-CONFIG.
-			15 ACR-GC-WRITE-AUDIT-FLAG PIC X.
-			15 ACR-GC-EXPLICIT-DBCONN-FLAG PIC X.
-			15 ACR-GC-DBCONN-NAME PIC X(20).
-			15 FILLER PIC X(8).
-		      10 ACR-MSTQ-CONFIG.
-			15 ACR-MSTQ-SEND-METHOD PIC X.
-			15 ACR-MSTQ-SEND-TO-MACHINE PIC X(50).
-			15 ACR-MSTQ-SEND-TO-PORT PIC X(5).
-			15 FILLER PIC X(14).
-		    05 FILLER PIC X(92).
 		  
 	      - ZREF.ESDS.AUDTRAIL.cpy &  PPLIP.ZREF.BAT##.AUDTRAIL.cpy (PPLIP.ZREF.BAT01.AUDTRAIL.cpy ~ PPLIP.ZREF.BAT10.AUDTRAIL.cpy)
 		  004100 01 FD-AUDREC.
