@@ -1086,10 +1086,44 @@ osctdlupdate ZREFCE ${cobfile}
 osctdlupdate ZREFMEE ${cobfile}
 </pre>
   
+### 6. Map Sources
 
-### 5. Unit Test
+- Map compile
 
-5.1 Batch
+<pre>
+mscasmc [map file]
+</pre>
+
+<pre>
+mcsmapc [map file] -r [region name]
+</pre>
+
+<pre>
+mscmapupdate
+</pre>
+
+	mscmapupdate version 7.0.3(5) obuild@tplinux64:ofsrc7/osc(#1) 2019-12-17 16:18:32
+	MSC Map dynamic Update Utility
+
+	Usage: mscmapupdate [options]
+	     | mscmapupdate <region>
+	     | mscmapupdate <region> -f <file_name> [-n]
+	     | mscmapupdate <region> -l <mapset> [-n]
+	     | mscmapupdate <region> -r <mapset> [-n]
+	     <region>              Specify region name
+				   (if no options used, display loaded mapset list)
+	    -f <physical map file> Load specified file as mapset file
+				   (can not use with '-n' option)
+	    -l <mapset>            Load mapset from default mapset directory
+	    -r <mapset>            Release mapset
+	Options:
+	    -h                     Display this information
+	    -v                     Display version information
+	    -n (optional)          Syncronize mapupdate in multi-clustering environment
+
+### 6. Unit Test
+
+6.1 Batch
 
 A. Prepare PDS and Batch modules.
 <pre>
@@ -1315,9 +1349,11 @@ B. Prepare JCL.
 	    PASSWORD=tmax
 	
 
-### 3.4 Online
+6.2 Online
 
 1) Online region build
+
+[리전빌드 링크 첨부]
 
 - $OPENFRAME_HOME/tsam/copybook
    - Need to generate the correct copybooks for SD datasets.
@@ -1351,114 +1387,31 @@ B. Prepare JCL.
 	-rwxr-xr-x 1 oframe mqm  430 Dec  1 21:05 ZREF.ESDS.AUDTRAIL.cpy
 	-rwxr-xr-x 1 oframe mqm  773 Dec  1 21:05 ZREF.KSDS.CONFIG.cpy
    ``` 
-- Region build
-```
-oscbuild -o LINUX64 -d TIBERO -s ZREFCE -b OFCOBOL
-oscbuild -o LINUX64 -d TIBERO -s ZREFMEE -b OFCOBOL
 
-cp -a ZREFCE $TMAXDIR/appbin/
-cp -a ZREFMEE $TMAXDIR/appbin/
-```
+2) SD modification.
+- ADD missing PROGRAMS in each region
+  ```
+  DEFINE PROGRAM(##BL0001) GROUP(ZREFCE) LANGUAGE(COBOL)
+  DEFINE PROGRAM(##FR000#) GROUP(ZREFCE) LANGUAGE(COBOL)
+  ```
 
-- Online datasets.
+- ADD TERMINAL (For loading testing, a lot of terminals - 5000 in this case.. are needed)
+  ```
+  DEFINE TERMINAL(0001) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TEST0001) INSERVICE(YES)
+  DEFINE TERMINAL(0002) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TEST0002) INSERVICE(YES)
 
-   - SD dataset
-	```
-	01 VSAM-RECORD.
-	    03 VSAM-KEY  PIC X(18).
-	    03 VSAM-DATA PIC X(4078).
-	    03 VSAM-DUMMY REDEFINES VSAM-DATA PIC X(4078).
-	``` 
-	```
-	idcams define -t CL -n [SD dataset name] -o KS -k 18,0 -b 32768 -l 4096,4096 -s 1024,128,128 -v DEFVOL
-	```
-
-   - TDQ dataset
-	```
-	01 VSAM-RECORD.
-	    03 VSAM-KEY  PIC X(8).
-	    03 VSAM-DATA PIC X(32752).
-	    03 VSAM-DUMMY REDEFINES VSAM-DATA PIC X(32752).
-	``` 
-	```
-	idcams define -t CL -n [TDQ dataset name] -o KS -k 8,0 -l 128,32760 -b 32767 -s 1024,128,128 -v DEFVOL
-	```
-
-   - TSQ(KEY and DATA) dataset
-	```
-	01 VSAM-RECORD.
-	    03 VSAM-KEY  PIC X(16).
-	    03 VSAM-DATA PIC X(48).
-	    03 VSAM-DUMMY REDEFINES VSAM-DATA PIC X(48).
-	``` 
-	```
-	idcams define -t CL -n [TSQ KEY dataset name] -o KS -k 16,0 -l 64,64 -s 1024,128,128 -v DEFVOL
-	```
-	```
-	01 VSAM-RECORD.
-	    03 VSAM-KEY  PIC X(18).
-	    03 VSAM-DATA PIC X(32742).
-	    03 VSAM-DUMMY REDEFINES VSAM-DATA PIC X(32742).
-	```
-	```	
-	idcams define -t CL -n [TSQ DATA dataset name] -o KS -k 18,0 -l 128,32760 -b 32767 -s 1024,128,128 -v DEFVOL
-	```
-[REGION BUILD] PDF file
-<img src="./reference_images/Region build - Kelsey.pdf" title="Region build">
-
-  - SD modification.
-      - ADD missing PROGRAMS in each region
-	  ```
-	  DEFINE PROGRAM(##BL0001) GROUP(ZREFCE) LANGUAGE(COBOL)
-	  DEFINE PROGRAM(##FR000#) GROUP(ZREFCE) LANGUAGE(COBOL)
-	  ```
-
-     - ADD TERMINAL (For loading testing, a lot of terminals - 5000 in this case.. are needed)
-	  ```
-	  DEFINE TERMINAL(0001) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TEST0001) INSERVICE(YES)
-	  DEFINE TERMINAL(0002) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TEST0002) INSERVICE(YES)
-
-	  DEFINE TERMINAL(5000) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TEST5000) INSERVICE(YES)
-	  DEFINE TERMINAL(TTRM) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TESTTERM) INSERVICE(YES)
-	  ```
+  DEFINE TERMINAL(5000) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TEST5000) INSERVICE(YES)
+  DEFINE TERMINAL(TTRM) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TESTTERM) INSERVICE(YES)
+  ```
 
 - Register the CSD resource definition to SD dataset.
 ```
 Register system online resource
 oscsdgen -c -d [SD dataset name] $OPENFRAME_HOME/osc/resource/osc.dat
 
-
 Register User CSD
 oscsdgen -c -d [SD dataset name] [user resource file]
 ```
-
-2) Map complie
-
-- mscasmc [map file]
-
-- mcsmapc [map file] -r [region name]
-
-- masmapupdate
-	```
-	mscmapupdate version 7.0.3(5) obuild@tplinux64:ofsrc7/osc(#1) 2019-12-17 16:18:32
-	MSC Map dynamic Update Utility
-
-	Usage: mscmapupdate [options]
-	     | mscmapupdate <region>
-	     | mscmapupdate <region> -f <file_name> [-n]
-	     | mscmapupdate <region> -l <mapset> [-n]
-	     | mscmapupdate <region> -r <mapset> [-n]
-	     <region>              Specify region name
-				   (if no options used, display loaded mapset list)
-	    -f <physical map file> Load specified file as mapset file
-				   (can not use with '-n' option)
-	    -l <mapset>            Load mapset from default mapset directory
-	    -r <mapset>            Release mapset
-	Options:
-	    -h                     Display this information
-	    -v                     Display version information
-	    -n (optional)          Syncronize mapupdate in multi-clustering environment
-	```
 
 3) Scenarios
 - ZREFMEE region (HPMEE3270)
@@ -1493,9 +1446,9 @@ oscsdgen -c -d [SD dataset name] [user resource file]
 	ENDVTAM
     ```
   
-### 3.2. Runtime issue
+### 7. Runtime issue
 
-3.2.1 TIP file modification
+7.1 TIP file modification
 
 - Match the DATE&TIME format from the TABLE.txt file.
 ```
@@ -1587,9 +1540,9 @@ ftp.conf
     CHECK_DSAUTH_V2=NO 
 ```
 
-### 3.7. 
+### 8. Performance enhancement
 
-- vi /etc/security/limits.conf
+A. /etc/security/limits.conf
 
 ```
 oftibr           soft    nofile          65536
@@ -1605,9 +1558,7 @@ oframe           soft    core            unlimited
 oframe           hard    core            unlimited
 ```
 
-### 3.8. 
-
-- vi /etc/sysctl.conf 
+B. /etc/sysctl.conf 
 
 ```
 kernel.shmall = 8589934592
@@ -1625,21 +1576,91 @@ fs.aio-max-nr = 1048576
 
 ```
 
-### 3.9. Increase region process number
+C. oframe.m
+- Change the MIN and MAX df region process number
 
-- modify oframe.m and increase MIN of the region process
 ```
 ZREFMEE_TCL1   SVGNAME = svgtboiv,
                 TARGET = ZREFMEE,
                 SVRTYPE = STD_DYN,
-                MIN = 20,
-                MAX = 128,
+                MIN = 256,
+                MAX = 256,
                 ASQCOUNT = 1,
                 MAXQCOUNT = -1,
                 MAXRSTART = -1,
                 GPERIOD = 86400,
                 LIFESPAN = IDLE_600,
                 CLOPT = "-n -o $(SVR)_$(CDATE).out -e $(SVR)_$(CDATE).err"
+```
+
+- Modify the domain setting.
+
+```
+*DOMAIN
+domain
+    SHMKEY      = 80111,
+#   MAXUSER     = 256, (comment out) 
+    MINCLH      = 1 -> 4,
+    MAXCLH      = 3 -> 8,
+    CPC         = 2,
+    BLOCKTIME   = 60 -> 600,
+    MAXCPC      = 256 -> 1000,
+#   TXTIME      = 60,  (comment out)
+    MAXSPR      = 512 -> 4000,
+    MAXSVR      = 128 -> 1000,
+    MAXSVC      = 2048,
+    DOMAINID    = 4,
+    IPCPERM     = 0777,
+    TIPSVC      = TIPSVC,
+    MAXSACALL   = 1024,
+    MAXCACALL   = 1024
+```    
+
+D. ofgw.properties
+```
+dbqueue.maxsize = 100 -> 4096	
+translate.threadPool.core = 5 -> 500	
+translate.threadPool.max = 30 -> 5000	
+tmax.node.NODENAME.max = 1024 -> 4096
+```
+
+E. domain.xml
+- Identify the data source for ofgw and increase the connection pool settings.
+
+```
+      <data-source>
+         <database>
+            <data-source-id>ofgw</data-source-id>
+            <export-name>ofgw</export-name>
+            <data-source-class-name>com.tmax.tibero.jdbc.ext.TbConnectionPoolDataSource</data-source-class-name>
+            <data-source-type>ConnectionPoolDataSource</data-source-type>
+            <vendor>tibero</vendor>
+            <server-name>172.16.0.5</server-name>
+            <port-number>8629</port-number>
+            <database-name>TVSAM</database-name>
+            <user>tibero</user>
+            <password>tmax</password>
+            <login-timeout>0</login-timeout>
+            <auto-commit>DRIVER</auto-commit>
+            <stmt-query-timeout>0</stmt-query-timeout>
+            <pool-destroy-timeout>10000</pool-destroy-timeout>
+            <support-xa-emulation>false</support-xa-emulation>
+            <connection-pool>
+               <pooling>
+                  <min>**2 -> 100**</min> 
+                  <max>**30 -> 1000**</max> 
+                  <step>1</step>
+                  <period>3600000</period>
+               </pooling>
+```
+
+F. logback.xml
+
+```
+        <root level="DEBUG -> OFF">  
+                <appender-ref ref="ROLLING" />
+                <appender-ref ref="STDOUT"/>
+        </root>
 ```
 
 ### 3.10.
@@ -1675,116 +1696,4 @@ tac2=(
 
 )
 ```
-
-### 3.11.
-
-- ofgw.properties
-```
-dbqueue.maxsize = 100 -> 4096	
-translate.threadPool.core = 5 -> 500	
-translate.threadPool.max = 30 -> 5000	
-tmax.node.NODENAME.max = 1024 -> 4096
-```
-
-### 3.12.
-
-- oframe.m
-```
-*DOMAIN                      
-domain                       
-
-#   MAXUSER     = 256, (comment out)       
-    MINCLH      = 1 -> 4,         
-    MAXCLH      = 3 -> 10,        
-    CPC         = 2,         
-    BLOCKTIME   = 60 -> 600,       
-    MAXCPC      = 256 -> 1000,      
-#   TXTIME      = 60, (comment out)       
-    MAXSPR      = 512 -> 4000,      
-    MAXSVR      = 128 -> 1000,      
-```
-
-```
-*DOMAIN
-domain
-    SHMKEY      = 80111,
-#   MAXUSER     = 256,
-    MINCLH      = 4,
-    MAXCLH      = 8,
-    CPC= 2,
-    BLOCKTIME   = 600,
-    MAXCPC      = 1000,
-#   TXTIME      = 60,
-    MAXSPR      = 4000,
-    MAXSVR      = 1000,
-    MAXSVC      = 2048,
-    DOMAINID    = 4,
-    IPCPERM     = 0777,
-    TIPSVC      = TIPSVC,
-    MAXSACALL   = 1024,
-    MAXCACALL   = 1024
-```    
-
-- Change the MIN and MAX number of [_region_name_]_TCL1 server.
-```
-[region_name]_TCL1   SVGNAME = svgtboiv,                                            
-                     TARGET = ZREFCE,                                             
-                     SVRTYPE = STD_DYN,                                           
-                     MIN = 256,                                                   
-                     MAX = 256,                                                   
-                     ASQCOUNT = 1,                                                
-                     MAXQCOUNT = -1,                                              
-                     MAXRSTART = -1,                                              
-                     GPERIOD = 86400,                                             
-                     LIFESPAN = IDLE_600,                                         
-                     CLOPT = "-n -o $(SVR)_$(CDATE).out -e $(SVR)_$(CDATE).err"   
-```
-
-_If you need detailed information on each option, please check manuals. (TMAX, OFGW manual.)_
-
-### 3.13.
-
-- domain.xml
-
-- Identify the data source for ofgw and increase the connection pool settings.
-
-```
-      <data-source>
-         <database>
-            <data-source-id>ofgw</data-source-id>
-            <export-name>ofgw</export-name>
-            <data-source-class-name>com.tmax.tibero.jdbc.ext.TbConnectionPoolDataSource</data-source-class-name>
-            <data-source-type>ConnectionPoolDataSource</data-source-type>
-            <vendor>tibero</vendor>
-            <server-name>172.16.0.5</server-name>
-            <port-number>8629</port-number>
-            <database-name>TVSAM</database-name>
-            <user>tibero</user>
-            <password>tmax</password>
-            <login-timeout>0</login-timeout>
-            <auto-commit>DRIVER</auto-commit>
-            <stmt-query-timeout>0</stmt-query-timeout>
-            <pool-destroy-timeout>10000</pool-destroy-timeout>
-            <support-xa-emulation>false</support-xa-emulation>
-            <connection-pool>
-               <pooling>
-                  <min>**2 -> 100**</min> 
-                  <max>**30 -> 1000**</max> 
-                  <step>1</step>
-                  <period>3600000</period>
-               </pooling>
-```
-
-### 3.14.
-
-- logback.xml
-
-```
-        <root level="DEBUG -> OFF">  
-                <appender-ref ref="ROLLING" />
-                <appender-ref ref="STDOUT"/>
-        </root>
-```
-
-
 # Copyrighted by Kelsey
