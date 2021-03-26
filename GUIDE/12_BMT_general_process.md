@@ -515,47 +515,48 @@ A. Check the PDS information before generating input datasets.
 
 <pre>
 listcat -a PPLIP1.ZREF.LIBBATTX
+<details>
+<summary>result</summary>
+List Catalog Entry Information
+
+-----------------------------------------------------------------------------
+  Data Set Name . . . : PPLIP1.ZREF.LIBBATTX
+  Data Set Type . . . : NONVSAM
+  Catalog Name  . . . : SYS1.MASTER.ICFCAT
+
+  Management Class  . : 
+    Creation Date . . : 2020/05/11      Data Set Owner  . : oframe
+    Expiration Date . : ***None***
+
+  Storage Class . . . : 
+    Volume Serial . . : DEFVOL          Device Type . . . : 3380
+
+  Data Class  . . . . : 
+    Organization  . . : PO              Record Format . . : LB
+    KEYLEN  . . . . . : 0               Record Length . . : 32760
+    KEYPOS  . . . . . : 0               Block Size  . . . : 32768
+
+  Current Allocation
+    Primary Space . . : N.A.            Number of Extents : 
+    Secondary Space . : N.A.            Data Set Size . . : 0
+
+  Last Access Date
+    Last Access Date  : 2021/02/09      Last Access Time  : 10:51:28
+
+  Members
+  ------------------------------------------------------------------
+  Name                  Owner     Size           Last Access Date
+  ------------------------------------------------------------------
+  BATTX00                         8413800        2020/07/13 04:34:26
+  BATTX05                         8413800        2020/07/07 21:35:09
+  BATTX06                         8411083        2020/07/07 21:35:18
+  BATTX07                         8405258        2020/07/07 21:35:26
+  BATTX12                         8407441        2020/07/07 21:35:34
+  BATTX19                         8401445        2020/07/07 21:35:41
+-----------------------------------------------------------------------------
+* Total 1 entries in catalog SYS1.MASTER.ICFCAT printed.
+</details>
 </pre>
-	
-	List Catalog Entry Information
-
-	-----------------------------------------------------------------------------
-	  Data Set Name . . . : PPLIP1.ZREF.LIBBATTX
-	  Data Set Type . . . : NONVSAM
-	  Catalog Name  . . . : SYS1.MASTER.ICFCAT
-
-	  Management Class  . : 
-	    Creation Date . . : 2020/05/11      Data Set Owner  . : oframe
-	    Expiration Date . : ***None***
-
-	  Storage Class . . . : 
-	    Volume Serial . . : DEFVOL          Device Type . . . : 3380
-
-	  Data Class  . . . . : 
-	    Organization  . . : PO              Record Format . . : LB
-	    KEYLEN  . . . . . : 0               Record Length . . : 32760
-	    KEYPOS  . . . . . : 0               Block Size  . . . : 32768
-
-	  Current Allocation
-	    Primary Space . . : N.A.            Number of Extents : 
-	    Secondary Space . : N.A.            Data Set Size . . : 0
-
-	  Last Access Date
-	    Last Access Date  : 2021/02/09      Last Access Time  : 10:51:28
-
-	  Members
-	  ------------------------------------------------------------------
-	  Name                  Owner     Size           Last Access Date
-	  ------------------------------------------------------------------
-	  BATTX00                         8413800        2020/07/13 04:34:26
-	  BATTX05                         8413800        2020/07/07 21:35:09
-	  BATTX06                         8411083        2020/07/07 21:35:18
-	  BATTX07                         8405258        2020/07/07 21:35:26
-	  BATTX12                         8407441        2020/07/07 21:35:34
-	  BATTX19                         8401445        2020/07/07 21:35:41
-	-----------------------------------------------------------------------------
-	* Total 1 entries in catalog SYS1.MASTER.ICFCAT printed.
-	
 	
 B. Create empty datasets and use dssave to load the transaction file to it.
 	
