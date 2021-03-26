@@ -15,8 +15,32 @@
     + [3.4.2 Batch](#332-connect-to-the-running-pod)    
   + [3.5 DB migration](23-connect-to-the-running-pod)
 
+## Table of Contents
 
-1. Servers Hardware Spec.
+- [zref](#zref)
+  - [1. Overview](#1-overview)
+  - [2. Environment](#2-environment)
+    - [2.1. directory structure](#21-directory-structure)
+    - [2.2. Online scenario](#22-online-scenario)
+  - [3. Issues](#3-issues)
+    - [3.1. Compilation issue](#31-compilation-issue)
+    - [3.2. Runtime issue](#32-runtime-issue)
+    - [3.3. VARCHAR type column](#33-varchar-type-column)
+    - [3.4. Copybooks](#34-copybooks)
+    - [3.5. Invalid char in source](#35-invalid-char-in-source)
+    - [3.6. modification on JCL](#36-modification-on-jcl)
+    - [3.7. SD modification](#37-sd-modification)
+    - [3.8. update VTAM info](#38-update-vtam-info)
+    - [3.9. Increase region process number](#39-increase-region-process-number)
+    - [3.10. Transaction file](#30-transaction-file)
+  - [4. Oftest](#4-oftest)
+    - [4.1. Usage](#41-usage)
+    - [4.2. run test script](#42-run-test-script)
+
+
+### 1. Server Setting.
+
+Hardware Spec.
 
 A. APP Servers
 
@@ -64,10 +88,9 @@ tibero6-bin-FS06_CS_1902-linux64-172015-opt-20191122153758-tested.tar.gz(467,472
 </details>
 
 
+Others 
 
-### Setting
-
-- Ip Setting. Use private ip.
+A. Ip Setting. Use private ip.
 
 ```
 vi /etc/hosts (Both)
@@ -78,7 +101,7 @@ vi /etc/hosts (Both)
 10.0.2.78   OFDB1  OFDB1
 ```
 
-- Add user as hostname
+B. Add user as hostname
 
 ```
 groupadd mqm -g 10000
@@ -95,7 +118,7 @@ Retype new password:
 passwd: all authentication tokens updated successfully.
 ```
 
-- .bash_profile Setting
+C. bash_profile
 
 <details>
 	<summary>OpenFrame</summary>
@@ -440,12 +463,6 @@ HOSTNAME=`hostname`
 USERID=`whoami`
 export PS1='${USERID}@${HOSTNAME}:${PWD} /> '
 
-################################################################################
-#
-#       TSAM/TIBERO (or TIBERO VSAM)
-#
-################################################################################
-
 TB_HOME=/opt2/tmaxdb/tibero6; export TB_HOME
 TB_SID=TVSAM; export TB_SID
 PATH=$TB_HOME/script:$TB_HOME/bin:$TB_HOME/client/bin:$PATH; export PATH
@@ -460,37 +477,13 @@ AIXTHREAD_SCOPE=S; export AIXTHREAD_SCOPE
 ```
 </details>
 
-# zref
-
-## Table of Contents
-
-- [zref](#zref)
-  - [1. Overview](#1-overview)
-  - [2. Environment](#2-environment)
-    - [2.1. directory structure](#21-directory-structure)
-    - [2.2. Online scenario](#22-online-scenario)
-  - [3. Issues](#3-issues)
-    - [3.1. Compilation issue](#31-compilation-issue)
-    - [3.2. Runtime issue](#32-runtime-issue)
-    - [3.3. VARCHAR type column](#33-varchar-type-column)
-    - [3.4. Copybooks](#34-copybooks)
-    - [3.5. Invalid char in source](#35-invalid-char-in-source)
-    - [3.6. modification on JCL](#36-modification-on-jcl)
-    - [3.7. SD modification](#37-sd-modification)
-    - [3.8. update VTAM info](#38-update-vtam-info)
-    - [3.9. Increase region process number](#39-increase-region-process-number)
-    - [3.10. Transaction file](#30-transaction-file)
-  - [4. Oftest](#4-oftest)
-    - [4.1. Usage](#41-usage)
-    - [4.2. run test script](#42-run-test-script)
-
-## 1. Overview
+## BMT Overview
 
 ZREF BMT: https://docs.google.com/spreadsheets/d/1kMBK1A1tQn2g0cn2J7YKh66Q9tuVhgQyo7XNKqxKE2c/edit#gid=392064127
 
-## 2. Environment
+### 2. Unit Test
 
-### 2.1. Directory Structure
+- First, Directory Structure
 
 - COBOL: cd /opt2/tmaxapp/zref/Tmaxwork/TEST
 - COPYBOOK: cd /opt2/tmaxapp/zref/Tmaxwork/TEST/copybook
