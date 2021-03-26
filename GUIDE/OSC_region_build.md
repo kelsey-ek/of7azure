@@ -4,12 +4,12 @@ Follow this guide to build a new OSC Region.
 
 ## Table of Contents
 
-1. [Check Resources of SD Macro File](#Check-the-resources-of-the-region-from-the-sd-macro-file)
-2. [Build the region and configure it in TMAX configuration](#build-the-region-and-configure-it-in-tmax-configuration)
-3. [Generate Online System VSAM Files TDQ, TSQ, SD for the Region](#generate-online-system-vsam-files-tdq-tsq-sd-for-the-region)
-4. [Create and edit Online Region Configuration Files](#create-and-edit-online-region-configuration-files-copy---rename---edit)
-5. [Create MAPDIR, TBLDIR, TDLDIR Directory for the Region](#create-mapdir-tbldir-tdldir-directory-for-the-region)
-6. [Modify the TDL Configuration File for the Region](#modify-the-tdl-configuration-file-for-the-region)
++ [1. Check Resources of SD Macro File](#1-check-the-resources-of-the-region-from-the-sd-macro-file)
++ [2. Build the region and configure it in TMAX configuration](#2-build-the-region-and-configure-it-in-tmax-configuration)
++ [3. Generate Online System VSAM Files TDQ, TSQ, SD for the Region](#3-generate-online-system-vsam-files-tdq-tsq-sd-for-the-region)
++ [4. Create and edit Online Region Configuration Files](#4-create-and-edit-online-region-configuration-files-copy---rename---edit)
++ [5. Create MAPDIR, TBLDIR, TDLDIR Directory for the Region](#5-create-mapdir-tbldir-tdldir-directory-for-the-region)
++ [6. Modify the TDL Configuration File for the Region](#6-modify-the-tdl-configuration-file-for-the-region)
 7. [Create the Region Memory](#create-the-region-memory)
 8. [Add the Region to the Region List for Booting the Region when using oscboot](#add-the-region-to-the-region-list-for-booting-the-region-up-when-using-oscboot)
 9. [Reboot OpenFrame to Verify](#reboot-openframe-to-make-the-region-server-setting-effective-and-start-the-region-server)
@@ -18,7 +18,7 @@ Follow this guide to build a new OSC Region.
 
 **Firstly:** Customer should provide a System Definition (SD) Macro File for each region.
 
-### Check the Resources of the Region from the SD Macro File
+### 1. Check the Resources of the Region from the SD Macro File.
 
 1. Check which tranclasses are used for each region.
 
@@ -37,7 +37,7 @@ ADD GROUP (resourcegroup_name02) LIST(grouplist)
 ADD GROUP (resourcegroup_name03) LIST(grouplist)
 ```
 
-### Build the region and configure it in TMAX configuration
+### 2. Build the region and configure it in TMAX configuration.
 
 1. Build the region with oscbuild tool. (Options may vary)
 
@@ -113,12 +113,58 @@ region_name_tranclass 	SVRNAME = region_name_tranclass
 	cfl -i oframe.m
 </pre>
 
-### Generate online system VSAM files (TDQ, TSQ, SD) for the region
+### 3. Generate online system VSAM files (TDQ, TSQ, SD) for the region.
+
+- Copybooks should be located under $OPENFRAME_HOME/tsam/copybook
+
+A. SD dataset
+
+```
+ONLINE.SDLIB.OSCOIVP2.cpy
+
+01 VSAM-RECORD.
+     03 VSAM-KEY  PIC X(18).
+     03 VSAM-DATA PIC X(4078).
+     03 VSAM-DUMMY REDEFINES VSAM-DATA PIC X(4078).
+```
+
+B. TDQ dataset
+
+```
+ONLINE.TDQLIB.OSCOIVP2.cpy
+
+ 01 VSAM-RECORD.
+     03 VSAM-KEY  PIC X(8).
+     03 VSAM-DATA PIC X(32752).
+     03 VSAM-DUMMY REDEFINES VSAM-DATA PIC X(32752).
+```    
+
+C. TSQ KEY dataset
+
+```
+OSC.TSQLIB.KEY.OSCOIVP2.cpy
+
+ 01 VSAM-RECORD.
+     03 VSAM-KEY  PIC X(16).
+     03 VSAM-DATA PIC X(48).
+     03 VSAM-DUMMY REDEFINES VSAM-DATA PIC X(48).
+```
+
+D. TSQ DATA dataset
+
+```
+OSC.TSQLIB.DATA.OSCOIVP2.cpy
+
+ 01 VSAM-RECORD.
+     03 VSAM-KEY  PIC X(18).
+     03 VSAM-DATA PIC X(32742).
+     03 VSAM-DUMMY REDEFINES VSAM-DATA PIC X(32742).
+```
 
 1. Generate the SD Dataset
 
 <pre>
-	idcams define -t CL -n ${SD_Dataset_Name} -o KS -k 18,0 -b 32768 -l 128,32760 -s 1024,128,128 -v DEFVOL
+	idcams define -t CL -n ${SD_Dataset_Name} -o KS -k 18,0 -b 32768 -l 4096,4096 -s 1024,128,128 -v DEFVOL
 </pre>
 
 2. Generate TDQ Dataset
@@ -131,7 +177,7 @@ region_name_tranclass 	SVRNAME = region_name_tranclass
 
 <pre>
 	idcams define -t CL -n ${TSQ_KEY_Dataset_Name} -o KS -k 16,0 -l 64,64 -s 1024,128,128 -v DEFVOL
-
+	
 	idcams define -t CL -n ${TSQ_DATA_Dataset_Name} -o KS -k 18,0 -l 128,32760 -b 32767 -s 1024,128,128 -v DEFVOL
 </pre>
 
@@ -149,28 +195,21 @@ Register User CSD
 	oscsdgen -c -d ${SD_Dataset_Name} ${User_Resource_File}
 </pre>
 
-<pre>
-oscsdgen version 7.0.3(10) obuild@tplinux64:ofsrc7/osc(#1) 2017-11-29 20:51:10
-OSC System Definition(OSCSD) Update Utility
-	Usage: oscsdgen -c {-r <region>|-d <dataset>} <file>
-| oscsdgen -f {-r <region>|-d <dataset>} <group_name>:<resource_name>:<resource_type>
-| oscsdgen [options]
-<file> Specify input file
--c 					Gererate SD
--f 					Delete SD resource specified
--d <dataset> 		Specify OSCSD dataset name
--r <region> 		Specify OSC region name
-<group_name> 		SD GROUP name of specified resource
-<resource_name> 	SD resource name
-<resource_type> 	SD type of specified resource
+```
+Usage: oscsdgen -c {-r <region>|-d <dataset>} <file>
+     | oscsdgen -f {-r <region>|-d <dataset>} <group_name>:<resource_name>:<resource_type>
+     | oscsdgen [options]
+	-c 			Gererate SD
+	-f 			Delete SD resource specified
+	-d <dataset> 		Specify OSCSD dataset name
+	-r <region> 		Specify OSC region name
+	<group_name> 		SD GROUP name of specified resource
+	<resource_name> 	SD resource name
+	<resource_type> 	SD type of specified resource
 
 {connection|file|journalmodel|pipeline|program|tdq|terminal|transaction|tsmodel|typeterm|webservice|tranclass|
 enqmodel|lsrpool|mapset|partitionset|profile|sessions|tcpipservice|urimap|library}
-
-Options:
--h 					Display this information
--v 					Display version information
-</pre>
+```
 
 ### Create and Edit Online Region Configuration Files. (Copy -> Rename -> Edit)
 
@@ -258,3 +297,4 @@ ${OPENFRAME_HOME}/config/osc.region.list
 	oscdown						<- OpenFrame server down
 	oscboot						<- OpenFrame server boot
 </pre>
+
