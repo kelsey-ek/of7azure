@@ -1,43 +1,5 @@
 # BMT general process by Kelsey
 
-
-APP SERVER 1,2
-
-```
-ncpu -16
-memory - 32G
-size - 500 G 
-```
-
-```
-Filesystem                     Size  Used Avail Use% Mounted on
-devtmpfs                        16G     0   16G   0% /dev
-tmpfs                           16G   60M   16G   1% /dev/shm
-tmpfs                           16G  508K   16G   1% /run
-tmpfs                           16G     0   16G   0% /sys/fs/cgroup
-/dev/nvme0n1p1                 8.0G  6.5G  1.5G  82% /
-/dev/mapper/appsvrvg-appsvrlv  450G  259M  450G   1% /opt2
-tmpfs                          3.1G     0  3.1G   0% /run/user/10001
-```
-
-DB SERVER 1,2
-
-```
-ncpu - 16
-memory - 128G
-size - 1 TB
-```
-
-
-IMS#210963
-
-```
-IMS#210963 was used for Azure BMT, Please use the same one for AWS BMT.
-
-Please use the Tibero binary from IMS#202734, Action No.   1314675
-tibero6-bin-FS06_CS_1902-linux64-172015-opt-20191122153758-tested.tar.gz(467,472 KB) - 2019.12.03 15:28:41.
-```
-
 ## Table of Contents
 
 + [1. Check process of BMT](#db-migration)
@@ -52,6 +14,56 @@ tibero6-bin-FS06_CS_1902-linux64-172015-opt-20191122153758-tested.tar.gz(467,472
     + [3.4.1 Online](#331-connect-to-the-running-pod)
     + [3.4.2 Batch](#332-connect-to-the-running-pod)    
   + [3.5 DB migration](23-connect-to-the-running-pod)
+
+
+1. Servers Hardware Spec.
+
+A. APP Servers
+
+```
+ncpu - 16
+memory - 32G
+size - 500G 
+```
+
+<details>
+	<summary>Size Info example</summary>
+	
+```
+Filesystem                     Size  Used Avail Use% Mounted on
+devtmpfs                        16G     0   16G   0% /dev
+tmpfs                           16G   60M   16G   1% /dev/shm
+tmpfs                           16G  508K   16G   1% /run
+tmpfs                           16G     0   16G   0% /sys/fs/cgroup
+/dev/nvme0n1p1                 8.0G  6.5G  1.5G  82% /
+/dev/mapper/appsvrvg-appsvrlv  450G  259M  450G   1% /opt2
+tmpfs                          3.1G     0  3.1G   0% /run/user/10001
+```
+</details>
+
+
+B. DB Servers
+
+```
+ncpu - 16
+memory - 128G
+size - 1TB
+```
+
+_Azure, AWS BMT OpenFrame and Tibero Binary information._
+
+<details>
+	<summary>IMS#210963</summary>
+	
+```
+IMS#210963 was used for Azure BMT, Please use the same one for AWS BMT.
+
+Please use the Tibero binary from IMS#202734, Action No.   1314675
+tibero6-bin-FS06_CS_1902-linux64-172015-opt-20191122153758-tested.tar.gz(467,472 KB) - 2019.12.03 15:28:41.
+```
+</details>
+
+
 
 ### Setting
 
@@ -85,7 +97,8 @@ passwd: all authentication tokens updated successfully.
 
 - .bash_profile Setting
 
-1) OpenFrame
+<details>
+	<summary>OpenFrame</summary>
 
 ```
 # .bash_profile
@@ -117,12 +130,6 @@ alias bat05='cd /opt2/tmaxapp/zref/Tmaxwork/SELENA/BATTX05'
 alias dave='cd /opt2/tmaxapp/zref/Tmaxwork/DAVE'
 alias bat='cd /opt2/tmaxapp/zref/Tmaxwork/TEST/COBOL/batch'
 alias cic='cd /opt2/tmaxapp/zref/Tmaxwork/TEST/COBOL/cics'
-
-export boost_path=/opt2/tmaxapp/zref/HPC/boost_1_57_0
-export PATH=$PATH:/opt2/tmaxapp/zref/HPC/boost_1_57_0
-#User specific environment and startup programs
-export DOTNET_ROOT=/opt2/tmaxapp/zref/HPC/DOTNET
-export PATH=$PATH:/opt2/tmaxapp/zref/HPC/DOTNET
 
 PATH=$PATH:$HOME/.local/bin:$HOME/bin
 export PATH
@@ -410,8 +417,10 @@ PFM_ADM_LOG_DIR=${OPENFRAME_HOME}/log/sys
 export PFM_ADM_LOG_DIR
 # End comments by InstallAnywhere on Tue Dec 01 23:22:58 UTC 2020 3.
 ```
+</details>
 
-2) Tibero
+<details>
+	<summary>Tibero</summary>
 
 ```
 # .bash_profile
@@ -439,8 +448,6 @@ export PS1='${USERID}@${HOSTNAME}:${PWD} /> '
 
 TB_HOME=/opt2/tmaxdb/tibero6; export TB_HOME
 TB_SID=TVSAM; export TB_SID
-SEM_KEY=148050; export SEM_KEY
-TB_PROF_DIR=$TB_HOME/bin/prof; export TB_PROF_DIR
 PATH=$TB_HOME/script:$TB_HOME/bin:$TB_HOME/client/bin:$PATH; export PATH
 LD_LIBRARY_PATH=$TB_HOME/lib:$TB_HOME/client/lib:/lib:$LD_LIBRARY_PATH; export LD_LIBRARY_PATH
 LD_LIBRARY_PATH_64=$TB_HOME/lib:$TB_HOME/client/lib:$LD_LIBRARY_PATH_64; export LD_LIBRARY_PATH_64
@@ -451,10 +458,11 @@ AIXTHREAD_SCOPE=S; export AIXTHREAD_SCOPE
 #TB_CONN_TIMEOUT=10; export TB_CONN_TIMEOUT
 #TB_READ_TIMEOUT=180; export TB_READ_TIMEOUT
 ```
+</details>
 
 # zref
 
-## Table of Contents <!-- omit in toc -->
+## Table of Contents
 
 - [zref](#zref)
   - [1. Overview](#1-overview)
