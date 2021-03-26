@@ -11,6 +11,9 @@
   + [1-3 Use Persistent Volume with Pod replication](#1-3-use-persistent-volume-with-pod-replication)
      + [1-3.1 Use Persistent Volume with Azure Kubernetes Service](#1-31-use-persistent-volume-with-azure-kubernetes-service)
      + [1-3.2 Use the custom Persistent Volume with replicated Pod](#1-32-use-the-custom-persistent-volume-with-replicated-pod)
+       + [1-3.2.1 Create NFS Server in Azure](#1-321-create-nfs-server-in-azure)
+       + [1-3.2.2 Create NFS Share in NFS Server](#1-322-create-nfs-share-in-nfs-server)
+       + [1-3.2.3 Use NFS Server in Azure service](#1-323-use-nfs-server-in-azure-service)
 + [2. Fail-over Test](#2-fail-over-test)
   + [2-1. Test Senario & Result](#2-1-test-senario--result)
 
@@ -510,7 +513,7 @@ Reference : https://cloudinfrastructureservices.co.uk/how-to-setup-nfs-server-20
     
     <img src="./reference_images/NFS_server_result.PNG" title="NFS_server_result">
     
-#### 1-3.2.2 Use NFS Server in Azure service
+#### 1-3.2.3 Use NFS Server in Azure service
 
 Reference : https://gruuuuu.github.io/cloud/k8s-volume/#
 
@@ -720,7 +723,7 @@ Reference : https://gruuuuu.github.io/cloud/k8s-volume/#
 	  ----    ------             ----  ----                   -------
 	  Normal  ScalingReplicaSet  41m   deployment-controller  Scaled up replica set nfs-pod-provisioner-56f87f4bc6 to 1
 	```
-    Check the created Pod(replica) from the deployment.
+4) Check the created Pod(replica) from the deployment.
     
 	```kubectl describe pod nfs-pod-provisioner-56f87f4bc6-n6nfv```
 
