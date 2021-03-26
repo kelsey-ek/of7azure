@@ -815,6 +815,13 @@ H. Copybooks
         ) END-EXEC.
     ```
   - COBOL HOST VARIABLES FOR TABLE (COPY TABLENAME_TABLE PROCEDURE DIVISION)
+    <details>
+	<summary>copybook list</summary>
+	EXTCACCT.COB - CUSTOMER_ACCOUNT.cpy
+	EXTTRADE.COB - TRADE.cpy
+	EXTCUST1.COB - CUSTOMER.cpy
+	EXTADDR1.COB - ADDRESS.cpy
+    </details>	
     ```
     *> -------------------------------------------
     *> COBOL HOST VARIABLES FOR TABLE TABLENAME
@@ -824,10 +831,6 @@ H. Copybooks
      *> COBOL INDICATOR VARIABLES FOR TABLE TABLENAME
      *> -------------------------------------------
     ```
-    - EXTCACCT.COB - CUSTOMER_ACCOUNT.cpy
-    - EXTTRADE.COB - TRADE.cpy
-    - EXTCUST1.COB - CUSTOMER.cpy
-    - EXTADDR1.COB - ADDRESS.cpy
     
 - Put an empty line in between.
 
@@ -840,12 +843,18 @@ H. Copybooks
      (put an empty line in between)
      EXEC SQL INCLUDE ERRWA END-EXEC.
 ```
-    
-    
-3.2.9 SQLCA
+      
+I. SQLCA
   - SQLCODE was defined as COMP-4 from the old one but it should be changed to COMP-5.
-  
-
+  - Add the missing part in $TB_HOME/client/include/SQLCA.
+    ```
+    002000    05 SQLEXT.
+    002100        10 SQLWARN8          PIC X.
+    002200        10 SQLWARN9          PIC X.
+    002300        10 SQLWARNA          PIC X.
+    002400        10 SQLSTATE          PIC X(5).
+    ```
+    
 ### Compile and Deploy 
 
 >> Note that you need to remove .cob extension on PROGRAN-NAME
