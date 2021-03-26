@@ -23,7 +23,7 @@
   + [1.4 Create OpenFrame image](#14-create-openframe-image)
   + [1.5 Use OpenFrame image](#15-use-openframe-image)
 
-## Step 1. Create image of OpenFrame
+## 1. Create image of OpenFrame
 
 ### 1.1 Install docker
 
