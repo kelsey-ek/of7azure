@@ -1225,7 +1225,9 @@ B. Prepare JCL.
      DEFTXNFL.JCL
      DEFTXNLB.JCL
      GDGDEFINE.JCL
-  - In case of JCL that uses "idcams define", copybook is needed for the dataset. ( $OPENFRAME_HOME/tsam/copybook)
+     
+     
+  **In case of JCL that uses "idcams define", copybook is needed for the dataset. ( $OPENFRAME_HOME/tsam/copybook)**
     <details>
     <summary>ZREF.KSDS.CONFIG.cpy</summary>
    01 APP-CONFIG-REC.
