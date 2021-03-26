@@ -633,8 +633,8 @@ KELSEY*      05  W-NI-ITEM       USAGE IS SQL TYPE IS BLOB(102400).
 
 D. Change ADDRESS table name to ADDRESS01
 
-
-```
+- From Cobol
+<pre>
  FROM
          SECURITY,
          COMPANY,
@@ -643,8 +643,10 @@ D. Change ADDRESS table name to ADDRESS01
          ZIP_CODE ZCA,
          ZIP_CODE ZEA,
          EXCHANGE
- WHERE
+</pre>
 
+- From copybooks
+<pre>
  *> -------------------------------------------
  *> DECLARE TABLE for ADDRESS
  *> -------------------------------------------
@@ -656,55 +658,55 @@ D. Change ADDRESS table name to ADDRESS01
     , AD_CTRY               varchar(80)
     ) END-EXEC.
  *> -------------------------------------------
-```
+</pre>
   
-3.2.5 DATE format of SD transaction from Batch(SDFRBTCH.cob)
-  - MM/DD/YYYY from transaction file should be converted to YYYY-MM-DD
-    ```
-    01 WS-START-DATE-TEMP.
-      03 WS-YYYY                   PIC X(4).
-      03 WS-SEP1                   PIC X(1) VALUE '-'.
-      03 WS-MM                     PIC X(2).
-      03 WS-SEP2                   PIC X(1) VALUE '-'.
-      03 WS-DD                     PIC X(2).
+E. DATE format of SD transaction from Batch(SDFRBTCH.cob)
+- MM/DD/YYYY from transaction file should be converted to YYYY-MM-DD.
+```
+01 WS-START-DATE-TEMP.
+	03 WS-YYYY                   PIC X(4).
+	03 WS-SEP1                   PIC X(1) VALUE '-'.
+	03 WS-MM                     PIC X(2).
+	03 WS-SEP2                   PIC X(1) VALUE '-'.
+	03 WS-DD                     PIC X(2).
 
-    01 WS-START-DATE                PIC X(10) VALUE SPACE.
+01 WS-START-DATE                PIC X(10) VALUE SPACE.
 
-    MOVE MWF1-IN-START-DAY(1:2) TO WS-MM.
-    MOVE MWF1-IN-START-DAY(4:2) TO WS-DD.
-    MOVE MWF1-IN-START-DAY(7:4) TO WS-YYYY.
+MOVE MWF1-IN-START-DAY(1:2) TO WS-MM.
+MOVE MWF1-IN-START-DAY(4:2) TO WS-DD.
+MOVE MWF1-IN-START-DAY(7:4) TO WS-YYYY.
 
-    MOVE WS-START-DATE-TEMP     TO WS-START-DATE.
+MOVE WS-START-DATE-TEMP     TO WS-START-DATE.
 
-    DM_DATE   >= :WS-START-DATE
-    ```
+DM_DATE   >= :WS-START-DATE
+```
 
-3.2.6 SET ADDRESS does not work in runtime.(TOF4BTCH.cob)
+F. SET ADDRESS does not work in runtime.(TOF4BTCH.cob)
+```
+*$IF PLATFORM = "MFSEE"
+*       REQUIRED MICRO FOCUS CALL FOR NOAMODE COMPILE
+*       CALL 'MFJZLPSA' RETURNING MFSEE-PSA-PTR
+*       SET ADDRESS OF IHAPSA TO MFSEE-PSA-PTR
 
-      *$IF PLATFORM = "MFSEE"
-      *       REQUIRED MICRO FOCUS CALL FOR NOAMODE COMPILE
-      *       CALL 'MFJZLPSA' RETURNING MFSEE-PSA-PTR
-      *       SET ADDRESS OF IHAPSA TO MFSEE-PSA-PTR
+*       BELOW IS NOT WORKING FOR MFSEE (UNASSIGNED LINKAGE)
+*       SO USE DUMMY VALUES
+       MOVE 'JOB00000'       TO CURRENT-JOBID
+       MOVE 'BMK-BTCH'       TO CURRENT-SYSTEMID
+*$ELSE
+*         SET ADDRESS OF IHAPSA   TO NULL
+*         SET ADDRESS OF CVT      TO FLCCVT
+*         SET ADDRESS OF IKJTCB   TO PSATOLD
+*         SET ADDRESS OF IEFTIOT1 TO TCBTIO
+*         SET ADDRESS OF IEZJSCB TO TCBJSCB
+*         SET ADDRESS OF IEFJSSIB TO JSCBSSIB
+*         SET ADDRESS OF IEESMCA TO CVTSMCA
+*         MOVE   SSIBJBID         TO CURRENT-JOBID
+*         MOVE   SMCASID          TO CURRENT-SYSTEMID
+*$END
+*     END-IF
+```
 
-      *       BELOW IS NOT WORKING FOR MFSEE (UNASSIGNED LINKAGE)
-      *       SO USE DUMMY VALUES
-               MOVE 'JOB00000'       TO CURRENT-JOBID
-               MOVE 'BMK-BTCH'       TO CURRENT-SYSTEMID
-      *$ELSE
-      *         SET ADDRESS OF IHAPSA   TO NULL
-      *         SET ADDRESS OF CVT      TO FLCCVT
-      *         SET ADDRESS OF IKJTCB   TO PSATOLD
-      *         SET ADDRESS OF IEFTIOT1 TO TCBTIO
-      *         SET ADDRESS OF IEZJSCB TO TCBJSCB
-      *         SET ADDRESS OF IEFJSSIB TO JSCBSSIB
-      *         SET ADDRESS OF IEESMCA TO CVTSMCA
-      *         MOVE   SSIBJBID         TO CURRENT-JOBID
-      *         MOVE   SMCASID          TO CURRENT-SYSTEMID
-      *$END
-      *     END-IF
-
-3.2.7 VARCHAR type column
-
+G. VARCHAR type column
 - COPYBOOK modification
   - Generate new copybook by the name of "####-VAR"
   - Host variables for VARCHAR column should be in a structure format.(LEN + TEXT)
@@ -786,7 +788,7 @@ D. Change ADDRESS table name to ADDRESS01
       DISPLAY 'ERROR LIMIT (120000) REACHED IN TO ROUTINE '
       ```
       
-3.2.8 Copybooks
+H. Copybooks
 
 - Delete ^Z from copybook.
 
@@ -827,7 +829,7 @@ D. Change ADDRESS table name to ADDRESS01
     - EXTCUST1.COB - CUSTOMER.cpy
     - EXTADDR1.COB - ADDRESS.cpy
     
-- Put an empty line in between 
+- Put an empty line in between.
 
 ```bash 
      EXEC SQL INCLUDE TOF4 END-EXEC.
