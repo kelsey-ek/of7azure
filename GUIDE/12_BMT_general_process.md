@@ -15,29 +15,6 @@
     + [3.4.2 Batch](#332-connect-to-the-running-pod)    
   + [3.5 DB migration](23-connect-to-the-running-pod)
 
-## Table of Contents
-
-- [zref](#zref)
-  - [1. Overview](#1-overview)
-  - [2. Environment](#2-environment)
-    - [2.1. directory structure](#21-directory-structure)
-    - [2.2. Online scenario](#22-online-scenario)
-  - [3. Issues](#3-issues)
-    - [3.1. Compilation issue](#31-compilation-issue)
-    - [3.2. Runtime issue](#32-runtime-issue)
-    - [3.3. VARCHAR type column](#33-varchar-type-column)
-    - [3.4. Copybooks](#34-copybooks)
-    - [3.5. Invalid char in source](#35-invalid-char-in-source)
-    - [3.6. modification on JCL](#36-modification-on-jcl)
-    - [3.7. SD modification](#37-sd-modification)
-    - [3.8. update VTAM info](#38-update-vtam-info)
-    - [3.9. Increase region process number](#39-increase-region-process-number)
-    - [3.10. Transaction file](#30-transaction-file)
-  - [4. Oftest](#4-oftest)
-    - [4.1. Usage](#41-usage)
-    - [4.2. run test script](#42-run-test-script)
-
-
 ### 1. Server Setting.
 
 Hardware Spec.
@@ -481,8 +458,6 @@ AIXTHREAD_SCOPE=S; export AIXTHREAD_SCOPE
 
 ZREF BMT: https://docs.google.com/spreadsheets/d/1kMBK1A1tQn2g0cn2J7YKh66Q9tuVhgQyo7XNKqxKE2c/edit#gid=392064127
 
-### 2. Unit Test
-
 _First, you need to checl the directory structure._
 
 ```
@@ -491,16 +466,16 @@ _First, you need to checl the directory structure._
 - CICS compile script: cics/compile.sh
 - Batch compile script: batch/compile.sh
 ```
-### 2.1 DB Migration
+### 2. DB Migration
 
 [DB Migration 방법 링크 추가]
 
-### 2.2 Transaction file
+### 3. Transaction file
 
 - Transaction files are proviede by the customer.
   - These files are modified to match the DB data.
 
-2.2.1 Batch - Prepare input datasets using transaction file.
+3.1 Batch - Prepare input datasets using transaction file.
 
 - Use transaction file to generate the iput dataset for running batch jobs.
   - command line for generating a dataset using transaction file.
@@ -588,14 +563,17 @@ COMPLETED SUCCESSFULLY.
 </details>
 </pre>	
 	
-2.2.2 Online - Oftest tool uses transaction files as an input
+3.2 Online - Oftest tool uses transaction files as an input
 
 - Transaction file is an input for the online scenarios.
 
 [Oftest tool 사용법 링크 추가]
 
+### 4. COBOL Sources
 
-### 2.3 COBOL Complie
+4.1 COBOL complie
+
+4.1.1 Modifications for compile.
 
 - Modifications are needed both for Batch and Online programs.
 
@@ -681,7 +659,8 @@ MOVE WS-START-DATE-TEMP     TO WS-START-DATE.
 DM_DATE   >= :WS-START-DATE
 ```
 
-F. SET ADDRESS does not work in runtime.(TOF4BTCH.cob)
+F. SET ADDRESS does not work in runtime.
+- TOF4BTCH.cob
 ```
 *$IF PLATFORM = "MFSEE"
 *       REQUIRED MICRO FOCUS CALL FOR NOAMODE COMPILE
@@ -821,7 +800,8 @@ H. Copybooks
 	EXTTRADE.COB - TRADE.cpy
 	EXTCUST1.COB - CUSTOMER.cpy
 	EXTADDR1.COB - ADDRESS.cpy
-    </details>	
+    </details>
+    
     ```
     *> -------------------------------------------
     *> COBOL HOST VARIABLES FOR TABLE TABLENAME
@@ -855,7 +835,7 @@ I. SQLCA
     002400        10 SQLSTATE          PIC X(5).
     ```
     
-### Compile and Deploy 
+4.2.2 Program compile
 
 >> Note that you need to remove .cob extension on PROGRAN-NAME
 
@@ -1083,46 +1063,51 @@ done
 ```
 </details>
 
+4.2 COBOL Deploy
+
 - If all programs are modified and compiled successfully, you only need to move the complied modules like below.
 
-```
-[Online]
+A.Batch
 
-cp ${cobfile}.so $OPENFRAME_HOME/osc/region/ZREFMEE/tdl/mod
-
-cp ${cobfile}.so $OPENFRAME_HOME/osc/region/ZREFCE/tdl/mod
-
-[Batch]
-
+<pre>
 cp ${cobfile}.so $OPENFRAME_HOME/volume_default/PPLIP.ZREF.LIBLOAD
-
 cp ${cobfile}.so $OPENFRAME_HOME/volume_default/SYS1.USERLIB
-```
+</pre>
+
+B. Online
+
+<pre>
+cp ${cobfile}.so $OPENFRAME_HOME/osc/region/ZREFMEE/tdl/mod
+cp ${cobfile}.so $OPENFRAME_HOME/osc/region/ZREFCE/tdl/mod
 
 -> tdlupdate will automatically occurs when you boot up the region, or you need to use 
 
-```
 osctdlupdate ZREFCE ${cobfile}
-
 osctdlupdate ZREFMEE ${cobfile}
-```  
+</pre>
+  
 
-### 3.3 Batch
+### 5. Unit Test
 
-3.3.1 Prepare PDS and Batch modules.
+5.1 Batch
 
-	1) Create a correct PDS for locating batch modules.
-	
-	OFAPP1@oframe:/home/oframe/KELSEY/Tmaxwork>pdsgen PPLIP.ZREF.LIBLOAD DEFVOL -l 2062
-	pdsgen version 7.0.3(2) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
-	PDS Dataset Generation Program
+A. Prepare PDS and Batch modules.
+<pre>
+1) Create a correct PDS for locating batch modules.
 
-	pdsgen: *** PDS PPLIP.ZREF.LIBLOAD is created.
-	
-	2) Deploy batch modules under the created PDS.
-	
-	hostname@oframe:/home/oframe>listcat -a PPLIP.ZREF.LIBLOAD
-	listcat version 7.0.3(10) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
+OFAPP1@oframe:/home/oframe/KELSEY/Tmaxwork>pdsgen PPLIP.ZREF.LIBLOAD DEFVOL -l 2062
+pdsgen version 7.0.3(2) obuild@tplinux64:ofsrc7/base(#1) 2019-12-10 15:05:02
+PDS Dataset Generation Program
+
+pdsgen: *** PDS PPLIP.ZREF.LIBLOAD is created.
+</pre>
+
+<pre>
+2) Deploy batch modules under the created PDS.
+
+listcat -a PPLIP.ZREF.LIBLOAD
+<details>
+<summary>PPLIP.ZREF.LIBLOAD information</summary>
 	List Catalog Entry Information
 
 	-----------------------------------------------------------------------------
@@ -1225,6 +1210,8 @@ osctdlupdate ZREFMEE ${cobfile}
 	  TUINBTCH.so                     18920          2020/06/26 19:49:30
 	-----------------------------------------------------------------------------
 	* Total 1 entries in catalog SYS1.MASTER.ICFCAT printed.
+</details>
+</pre>	
 	
 
 3.3.2 Prepare JCL.
