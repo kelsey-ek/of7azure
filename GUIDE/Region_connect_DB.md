@@ -1,6 +1,17 @@
 ### Use OSCBUILD to make DB Connection
 
-## 0. Set the DB connection from configuration files.
++ [1. Set the DB connection from configuration files](#1-set-the-db-connection-from-configuration-files)
++ [2. Write five program](#2-write-five-programs)
++ [3. Compile five programs](#3-compile-five-programs)
++ [4. Deploy five programs](#4-deploy-five-programs)
++ [5. Modify the OSC00001.c file](#5-modify-the-osc00001c-file)
++ [6. Build region processes](#6-build-region-processes)
++ [7. Deploy the region process](#7-deploy-the-region-process)
++ [8. Use the right compile option](#8-use-the-right-compile-option)
++ [9. Appendix](#8-appendix)
+
+
+## 1. Set the DB connection from configuration files.
 
 1) osc.conf
 
@@ -27,7 +38,7 @@ Password = tmax
 DATABASE= TVSAM
 ```
 
-## 1. Write five programs.
+## 2. Write five programs.
 
 1) CONNECT.cob
 - Make DB connection.
@@ -322,7 +333,7 @@ DATABASE= TVSAM
            EXIT.
 ```
 
-## 2. Compile five programs.
+## 3. Compile five programs.
 
 1) CONNECT.cob
 
@@ -378,7 +389,7 @@ total 96
 -rwxr-xr-x. 1 oframe mqm 18432 Jun 14 00:25  libDISCONN.so
 ```
 
-## 3. Deploy five programs.
+## 4. Deploy five programs.
 
 - Deploy the compiled five shared object under $OPENFRAME_HOME/lib
 
@@ -386,7 +397,7 @@ total 96
 cp libCOMMIT.so libCONNECT.so libRECONNECT.so libTROLLBACK.so libDISCONN.so $OPENFRAME_HOME/lib/
 ```
 
-## 4. Modify the OSC00001.c file.
+## 5. Modify the OSC00001.c file.
 
 - $OPENFRAME_HOME/osc/build/OSC00001.c
 
@@ -430,19 +441,19 @@ int otpsvrdone()
 }
 ```
 
-## 5. Build region processes.
+## 6. Build region processes.
 
 ```
 oscbuild -o LINUX64 -s OSCOIVP1 -b OFCOBOL -d TIBERO -f OSC00001.c -l '-L$OPENFRAME_HOME/lib -lCONNECT -lCOMMIT -lTROLLBACK -lDISCONN -lRECONNECT'
 ```
 
-## 6. Deploy the region process.
+## 7. Deploy the region process.
 
 ```
 cp -a OSCOIVP1 $TMAXDIR/appbin/
 ```
 
-## 7. Use the right compile option.
+## 8. Use the right compile option.
 - Do not forget to use the correct compile option for using application programs.
 
 **tbpcb**
@@ -452,7 +463,9 @@ RUNTIME_MODE=ODBC
 ```
 
 
-## 8. 단독 실행파일로 테스트 수행시 컴파일 및 실행방법 (참고)
+## 9. Appendix
+
+- Test the modules only.
 
 ```
 cmd : ofcbpp -i CONNECT.cob -o ofcbpp_CONNECT.cob
