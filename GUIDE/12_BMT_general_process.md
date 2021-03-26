@@ -15,6 +15,20 @@
     + [3.4.2 Batch](#332-connect-to-the-running-pod)    
   + [3.5 DB migration](23-connect-to-the-running-pod)
 
+
+## BMT Overview
+
+ZREF BMT: https://docs.google.com/spreadsheets/d/1kMBK1A1tQn2g0cn2J7YKh66Q9tuVhgQyo7XNKqxKE2c/edit#gid=392064127
+
+_First, you need to checl the directory structure._
+
+```
+- COBOL: cd /opt2/tmaxapp/zref/Tmaxwork/TEST
+- COPYBOOK: cd /opt2/tmaxapp/zref/Tmaxwork/TEST/copybook
+- CICS compile script: cics/compile.sh
+- Batch compile script: batch/compile.sh
+```
+
 ### 1. Server Setting.
 
 Hardware Spec.
@@ -454,18 +468,6 @@ AIXTHREAD_SCOPE=S; export AIXTHREAD_SCOPE
 ```
 </details>
 
-## BMT Overview
-
-ZREF BMT: https://docs.google.com/spreadsheets/d/1kMBK1A1tQn2g0cn2J7YKh66Q9tuVhgQyo7XNKqxKE2c/edit#gid=392064127
-
-_First, you need to checl the directory structure._
-
-```
-- COBOL: cd /opt2/tmaxapp/zref/Tmaxwork/TEST
-- COPYBOOK: cd /opt2/tmaxapp/zref/Tmaxwork/TEST/copybook
-- CICS compile script: cics/compile.sh
-- Batch compile script: batch/compile.sh
-```
 ### 2. DB Migration
 
 [DB Migration 방법 링크 추가]
@@ -1086,21 +1088,21 @@ osctdlupdate ZREFCE ${cobfile}
 osctdlupdate ZREFMEE ${cobfile}
 </pre>
   
-### 6. Map Sources
+### 5. Map Sources
 
 - Map compile
 
-<pre>
+```
 mscasmc [map file]
-</pre>
+```
 
-<pre>
+```
 mcsmapc [map file] -r [region name]
-</pre>
+```
 
-<pre>
+```
 mscmapupdate
-</pre>
+```
 
 	mscmapupdate version 7.0.3(5) obuild@tplinux64:ofsrc7/osc(#1) 2019-12-17 16:18:32
 	MSC Map dynamic Update Utility
@@ -1260,95 +1262,89 @@ B. Prepare JCL.
      DEFTXNLB.JCL
      GDGDEFINE.JCL
      
-     
-  **In case of JCL that uses "idcams define", copybook is needed for the dataset. ( $OPENFRAME_HOME/tsam/copybook)**
-    <details>
-    <summary>ZREF.KSDS.CONFIG.cpy</summary>
-   01 APP-CONFIG-REC.
-    05 ACR-KEY PIC X(8).
-    05 ACR-DATA.
-      10 ACR-GLOBAL-CONFIG.
-	15 ACR-GC-WRITE-AUDIT-FLAG PIC X.
-	15 ACR-GC-EXPLICIT-DBCONN-FLAG PIC X.
-	15 ACR-GC-DBCONN-NAME PIC X(20).
-	15 FILLER PIC X(8).
-      10 ACR-MSTQ-CONFIG.
-	15 ACR-MSTQ-SEND-METHOD PIC X.
-	15 ACR-MSTQ-SEND-TO-MACHINE PIC X(50).
-	15 ACR-MSTQ-SEND-TO-PORT PIC X(5).
-	15 FILLER PIC X(14).
-    05 FILLER PIC X(92).
-    </details>
+  - In case of JCL that uses "idcams define", copybook is needed for the dataset. ( $OPENFRAME_HOME/tsam/copybook)**
+     - ZREF.KSDS.CONFIG.cpy
+	   01 APP-CONFIG-REC.
+	    05 ACR-KEY PIC X(8).
+	    05 ACR-DATA.
+	      10 ACR-GLOBAL-CONFIG.
+		15 ACR-GC-WRITE-AUDIT-FLAG PIC X.
+		15 ACR-GC-EXPLICIT-DBCONN-FLAG PIC X.
+		15 ACR-GC-DBCONN-NAME PIC X(20).
+		15 FILLER PIC X(8).
+	      10 ACR-MSTQ-CONFIG.
+		15 ACR-MSTQ-SEND-METHOD PIC X.
+		15 ACR-MSTQ-SEND-TO-MACHINE PIC X(50).
+		15 ACR-MSTQ-SEND-TO-PORT PIC X(5).
+		15 FILLER PIC X(14).
+	    05 FILLER PIC X(92).
+     - ZREF.ESDS.AUDTRAIL.cpy &  PPLIP.ZREF.BAT##.AUDTRAIL.cpy (PPLIP.ZREF.BAT01.AUDTRAIL.cpy ~ PPLIP.ZREF.BAT10.AUDTRAIL.cpy)
+	   01 FD-AUDREC.
+            05 AUDIT-KEY.
+              10 A-TRANS-ID.
+                15 A-TRAN-ID PIC X(02).
+		15 FILLER-ID PIC X(02).
+	      10 A-DATE.
+	        15 A-DTE PIC X(08).
+		15 FILLER PIC X(02).
+	      10 A-TIME PIC X(06).
+	    05 A-DATA-AREA PIC X(2413).
+	    05 A-DATA-FILLER PIC X(4).	    
+
+  - Modification
+     a. RECFM=LSEQ -> RECFM=FB
+     b. Delete "//MFE:" line.
+     c. VOLUMES(PIPV01) ->  VOLUMES(DEFVOL)
 </pre>
 
-		  
-	      - ZREF.ESDS.AUDTRAIL.cpy &  PPLIP.ZREF.BAT##.AUDTRAIL.cpy (PPLIP.ZREF.BAT01.AUDTRAIL.cpy ~ PPLIP.ZREF.BAT10.AUDTRAIL.cpy)
-		  004100 01 FD-AUDREC.
-		  004200     05 AUDIT-KEY.
-		  004300       10 A-TRANS-ID.
-		  004400         15 A-TRAN-ID PIC X(02).
-		  004500         15 FILLER-ID PIC X(02).
-		  004600       10 A-DATE.
-		  004700         15 A-DTE PIC X(08).
-		  004800         15 FILLER PIC X(02).
-		  004900       10 A-TIME PIC X(06).
-		  005000     05 A-DATA-AREA PIC X(2413).
-		  005000     05 A-DATA-FILLER PIC X(4).
-		  
-	- Modification
-	  - RECFM=LSEQ -> RECFM=FB
-	  - Delete "//MFE:" line.
-	  - VOLUMES(PIPV01) ->  VOLUMES(DEFVOL)
+<pre>
+2) Transaction JCL
+   - dos2unix ALL JCL
+   - Total 5 (2 Pairs).
+      BATBDRVR.JCL
+      BATBDR##.JCL
+      BATBDRVA##.JCL
+      INDXWT#.JCL
+      RPTONLY#.JCL
+      
+   - Modification
+      a. When the first time you run the BATBR**.JCL, modify the JCL to report the dataset as below.
+         - BATBDR**.JCL   
+	    AS IS
+	    //BVREPORT  DD DUMMY,DCB=(RECFM=FBA,LRECL=133)             
+	    //*VREPORT  DD DSN=PPLIP.ZREF.REPT.BV,                     
+	    //*            DISP=(NEW,CATLG,DELETE),                    
+	    //*            DISP=OLD,                                   
+	    //*            UNIT=SYSDA,                                 
+	    //*            SPACE=(CYL,(111,22),RLSE),                  
+	    //*            DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0,BUFNO=60)
 
-	2) Transaction JCL
+	    TO BE
+	    //*BVREPORT  DD DUMMY,DCB=(RECFM=FBA,LRECL=133)           
+	    //BVREPORT  DD DSN=PPLIP.ZREF.REPT.BV,                    
+	    //            DISP=(NEW,CATLG,DELETE),                    
+	    //*            DISP=OLD,                                  
+	    //            UNIT=SYSDA,                                 
+	    //            SPACE=(CYL,(111,22),RLSE),                  
+	    //            DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0,BUFNO=60)
+      b. CLASS=A
+      c. Comment out the useless JOBLIBs.
+      d. Transaction file input dataset PPLIP -> PPLIP1
+</pre>
 
-	- dos2unix ALL JCL
+C. Set the DB connection as described in the JCL.
+```
+ikjeft01.conf
 
-	    - Total 5 (2 Pairs).
-		  BATBDRVR.JCL
-		  BATBDR##.JCL
-		  BATBDRVA##.JCL
-		  INDXWT#.JCL
-		  RPTONLY#.JCL
-
-	- Modification
-	  - When the first time you run the BATBR**.JCL, modify the JCL to report the dataset as below.
-
-		- BATBDR**.JCL   
-		 AS IS
-		 //BVREPORT  DD DUMMY,DCB=(RECFM=FBA,LRECL=133)             
-		 //*VREPORT  DD DSN=PPLIP.ZREF.REPT.BV,                     
-		 //*            DISP=(NEW,CATLG,DELETE),                    
-		 //*            DISP=OLD,                                   
-		 //*            UNIT=SYSDA,                                 
-		 //*            SPACE=(CYL,(111,22),RLSE),                  
-		 //*            DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0,BUFNO=60)
-
-		 TO BE
-		 //*BVREPORT  DD DUMMY,DCB=(RECFM=FBA,LRECL=133)           
-		 //BVREPORT  DD DSN=PPLIP.ZREF.REPT.BV,                    
-		 //            DISP=(NEW,CATLG,DELETE),                    
-		 //*            DISP=OLD,                                  
-		 //            UNIT=SYSDA,                                 
-		 //            SPACE=(CYL,(111,22),RLSE),                  
-		 //            DCB=(RECFM=FBA,LRECL=133,BLKSIZE=0,BUFNO=60)
-		
-
-
+[SYSTEM:ZREF]
+DBTYPE=TIBERO
+DBAUTH=PUBLIC
+DATABASE=TVSAM
+INSTANCE=TIBERO
+USERNAME=tibero
+PASSWORD=tmax
+```
 	
-3.3.4 Set the DB connection as described in the JCL.
-	
-	ikjeft01.conf
-
-	[SYSTEM:ZREF]
-	    DBTYPE=TIBERO
-	    DBAUTH=PUBLIC
-	    DATABASE=TVSAM
-	    INSTANCE=TIBERO
-	    USERNAME=tibero
-	    PASSWORD=tmax
-	
-
 6.2 Online
 
 1) Online region build
@@ -1446,7 +1442,7 @@ oscsdgen -c -d [SD dataset name] [user resource file]
 	ENDVTAM
     ```
   
-### 7. Runtime issue
+### 7. Configuration Modification
 
 7.1 TIP file modification
 
@@ -1493,7 +1489,7 @@ SYSTIMESTAMP
 1 row selected.
 ```
 
-3.2.2 OpenFrame Configuration
+7.2 OpenFrame Configuration
 
 - $OPENFRAME_HOME/config
 
@@ -1502,12 +1498,7 @@ osc.ZREFCETL.conf
 osc.ZREFMEETL.conf
 osc.ZREFMEE.conf
 osc.ZREFCE.conf
-```
-
-```
 osc.region.list
-
-Add region
 ```
 
 ```
@@ -1662,6 +1653,15 @@ F. logback.xml
                 <appender-ref ref="STDOUT"/>
         </root>
 ```
+
+
+
+
+
+
+
+
+
 
 ### 3.10.
 
