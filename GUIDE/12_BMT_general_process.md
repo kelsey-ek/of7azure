@@ -2,12 +2,19 @@
 
 ## Table of Contents
 
-+ [1. Check process of BMT](#db-migration)
-+ [2. Check the target result of BMT](#db-migration)
-+ [3. Follow the process](#step-2-azure-service)
-  + [3.1 Planning](#21-add-azure-kubernetes-serviceaks)
-  + [3.2 Pre-setting](#22-set-pods)
-  + [3.3 Configure OpenFrame](#23-connect-to-the-running-pod)
++ [1. Server Setting](#1-server-setting)
++ [2. DB Migration](#2-db-migration)
++ [3. Transaction File](#3-transaction-file)
+  + [3.1 Batch](#31-batch)
+  + [3.2 Online](#32-online)
++ [4. COBOL Sources](#4-cobol-sources)
+  + [4.1 COBOL Complie](#41-cobol-complie)
+    + [4.1.1 Modifications for Compile](#411-modifications-for-compile)
+    + [4.1.2 Program Compile](#412-program-compile)
+  + [4.2 COBOL Deploy](#42-cobol-deploy)
++ [5. Map Sources](#5-map-sources)
++ [6. Unit Test](#6-unit-test)
+  + [6.1 Batch](#61-batch)
     + [3.3.1 Online](#331-connect-to-the-running-pod)
     + [3.3.2 Batch](#332-connect-to-the-running-pod)
   + [3.4 Prepare applications](#23-connect-to-the-running-pod)
@@ -20,7 +27,7 @@
 
 ZREF BMT: https://docs.google.com/spreadsheets/d/1kMBK1A1tQn2g0cn2J7YKh66Q9tuVhgQyo7XNKqxKE2c/edit#gid=392064127
 
-_First, you need to checl the directory structure._
+_First, you need to check the directory structure._
 
 ```
 - COBOL: cd /opt2/tmaxapp/zref/Tmaxwork/TEST
@@ -29,9 +36,9 @@ _First, you need to checl the directory structure._
 - Batch compile script: batch/compile.sh
 ```
 
-# 1. Server Setting.
+# 1. Server Setting
 
-## Hardware Spec.
+## Hardware Spec
 
 A. APP Servers
 
@@ -81,7 +88,7 @@ tibero6-bin-FS06_CS_1902-linux64-172015-opt-20191122153758-tested.tar.gz(467,472
 
 ## Others 
 
-A. Ip Setting. Use private ip.
+A. Ip Setting. Use private IP.
 
 ```
 vi /etc/hosts (Both)
@@ -472,14 +479,14 @@ AIXTHREAD_SCOPE=S; export AIXTHREAD_SCOPE
 
 [DB Migration 방법 링크 추가]
 
-# 3. Transaction file
+# 3. Transaction File
 
-- Transaction files are proviede by the customer.
+- Transaction files are provided by the customer.
   - These files are modified to match the DB data.
 
-## 3.1 Batch - Prepare input datasets using transaction file.
+## 3.1 Batch
 
-- Use transaction file to generate the iput dataset for running batch jobs.
+- Use transaction file to generate the input dataset for running batch jobs.
   - command line for generating a dataset using transaction file.
 
 - From the JCL using transaction file as an input.
@@ -565,7 +572,9 @@ COMPLETED SUCCESSFULLY.
 </details>
 </pre>	
 	
-## 3.2 Online - Oftest tool uses transaction files as an input
+## 3.2 Online 
+
+- Oftest tool uses transaction files as an input.
 
 - Transaction file is an input for the online scenarios.
 
@@ -573,9 +582,9 @@ COMPLETED SUCCESSFULLY.
 
 # 4. COBOL Sources
 
-## 4.1 COBOL complie
+## 4.1 COBOL Compile
 
-### 4.1.1 Modifications for compile.
+### 4.1.1 Modifications for Compile
 
 - Modifications are needed both for Batch and Online programs.
 
@@ -641,7 +650,7 @@ D. Change ADDRESS table name to ADDRESS01
 </pre>
   
 E. DATE format of SD transaction from Batch(SDFRBTCH.cob)
-- MM/DD/YYYY from transaction file should be converted to YYYY-MM-DD.
+- MM/DD/YYYY from the transaction file should be converted to YYYY-MM-DD.
 ```
 01 WS-START-DATE-TEMP.
 	03 WS-YYYY                   PIC X(4).
@@ -689,8 +698,8 @@ F. SET ADDRESS does not work in runtime.
 
 G. VARCHAR type column
 - COPYBOOK modification
-  - Generate new copybook by the name of "####-VAR"
-  - Host variables for VARCHAR column should be in a structure format.(LEN + TEXT)
+  - Generate a new copybook by the name of "####-VAR"
+  - Host variables for the VARCHAR column should be in a structured format.(LEN + TEXT)
     ```
     10  ##########.
         49  ##########-LEN   PIC S9(04)  COMP-5.
@@ -837,9 +846,9 @@ I. SQLCA
     002400        10 SQLSTATE          PIC X(5).
     ```
     
-### 4.1.2 Program compile
+### 4.1.2 Program Compile
 
->> Note that you need to remove .cob extension on PROGRAN-NAME
+>> Note that you need to remove .cob extension on PROGRAM-NAME
 
 <details>
 	<summary>Batch script (click here)</summary>
@@ -1127,7 +1136,7 @@ mscmapupdate
 
 ## 6.1 Batch
 
-### A. Prepare PDS and Batch modules.
+### 6.1.1 Prepare PDS and Batch modules
 <pre>
 1) Create a correct PDS for locating batch modules.
 
@@ -1249,7 +1258,7 @@ listcat -a PPLIP.ZREF.LIBLOAD
 </details>
 </pre>	
 	
-### B. Prepare JCL.
+### 6.1.2 Prepare JCL
 <pre>
 1) SETUP JCL
   - dos2unix ALL JCL.
@@ -1332,7 +1341,7 @@ listcat -a PPLIP.ZREF.LIBLOAD
       d. Transaction file input dataset PPLIP -> PPLIP1
 </pre>
 
-### C. Set the DB connection as described in the JCL.
+### 6.1.3 Set the DB Connection as Described in the JCL
 ```
 ikjeft01.conf
 
@@ -1347,7 +1356,7 @@ PASSWORD=tmax
 	
 ## 6.2 Online
 
-### 6.2.1 Online region build
+### 6.2.1 Online Region Build
 
 [리전빌드 링크 첨부]
 
@@ -1384,7 +1393,7 @@ PASSWORD=tmax
 	-rwxr-xr-x 1 oframe mqm  773 Dec  1 21:05 ZREF.KSDS.CONFIG.cpy
    ``` 
 
-### 6.2.2 SD modification
+### 6.2.2 SD Modification
 
 - ADD missing PROGRAMS in each region
   ```
@@ -1401,7 +1410,7 @@ PASSWORD=tmax
   DEFINE TERMINAL(TTRM) GROUP(CONN) TYPETERM(TESTTTRM) NETNAME(TESTTERM) INSERVICE(YES)
   ```
 
-- Register the CSD resource definition to SD dataset.
+- Register the CSD resource definition to SD dataset
 ```
 Register system online resource
 oscsdgen -c -d [SD dataset name] $OPENFRAME_HOME/osc/resource/osc.dat
@@ -1446,7 +1455,7 @@ oscsdgen -c -d [SD dataset name] [user resource file]
   
 # 7. Configuration Modification
 
-## 7.1 TIP file modification
+## 7.1 TIP File Modification
 
 - Match the DATE&TIME format from the TABLE.txt file.
 ```
@@ -1533,7 +1542,7 @@ ftp.conf
     CHECK_DSAUTH_V2=NO 
 ```
 
-# 8. Performance enhancement
+# 8. Performance Enhancement
 
 A. /etc/security/limits.conf
 
