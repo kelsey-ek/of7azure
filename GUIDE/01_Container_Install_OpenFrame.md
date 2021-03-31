@@ -2,30 +2,30 @@
 
 ## Table of Contents
 
-+ [1. Create image of OpenFrame](#step-1-create-image-of-openframe)
-  + [1.1 Install docker](#11-install-docker)
-  + [1.2 Get centos container](#12-get-centos-container)
-  + [1.3 Install OpenFrame](#13-install-openframe)
-      + [1.3.1 Pre settings](#131-pre-settings)
-      + [1.3.2 JAVA installation](#132-java-installation)
-      + [1.3.3 Tibero installation](#133-tibero-installation)
-      + [1.3.4 UnixODBC installation](#134-unixodbc-installation)
-      + [1.3.5 OFCOBOL installation](#135-ofcobol-installation)
-      + [1.3.6 PROSORT installation](#136-prosort-installation)
-      + [1.3.7 Base installation](#137-base-installation)
-      + [1.3.8 Batch installation](#138-batch-installation)
-      + [1.3.9 TACF installation](#139-tacf-installation)
-      + [1.3.10 OSC installation](#1310-osc-installation)
-      + [1.3.11 JEUS installation](#1311-jeus-installation)
-      + [1.3.12 OFGW installation](#1312-ofgw-installation)
-      + [1.3.13 OFManager installation](#1313-ofmanager-installation)
-      + [1.3.14 OFMiner installation](#1314-ofminer-installation)
-  + [1.4 Create OpenFrame image](#14-create-openframe-image)
-  + [1.5 Use OpenFrame image](#15-use-openframe-image)
++ [Create Image of OpenFrame](#create-image-of-openframe)
++ [1. Install Docker](#1-install-docker)
++ [2. Get Centos Container](#2-get-centos-container)
++ [3. Install OpenFrame](#3-install-openframe)
+  + [3.1 Pre Settings](#131-pre-settings)
+  + [3.2 JAVA Installation](#132-java-installation)
+  + [3.3 Tibero Installation](#133-tibero-installation)
+  + [3.4 UnixODBC Installation](#134-unixodbc-installation)
+  + [3.5 OFCOBOL Installation](#135-ofcobol-installation)
+  + [3.6 PROSORT Installation](#136-prosort-installation)
+  + [3.7 Base Installation](#137-base-installation)
+  + [3.8 Batch Installation](#138-batch-installation)
+  + [3.9 TACF Installation](#139-tacf-installation)
+  + [3.10 OSC Installation](#1310-osc-installation)
+  + [3.11 JEUS Installation](#1311-jeus-installation)
+  + [3.12 OFGW Installation](#1312-ofgw-installation)
+  + [3.13 OFManager Installation](#1313-ofmanager-installation)
+  + [3.14 OFMiner Installation](#1314-ofminer-installation)
++ [1.4 Create OpenFrame Image](#14-create-openframe-image)
++ [1.5 Use OpenFrame Image](#15-use-openframe-image)
 
-## 1. Create image of OpenFrame
+# Create Image of OpenFrame
 
-### 1.1 Install docker
+## 1. Install Docker
 
 First, you need to get the OpenFrame image to use the AKS service. To create it, you need Docker account and install Docker in your VM. Your account will be needed when you push/pull the images in your Dockerhub repository.
 
@@ -38,13 +38,13 @@ sudo systemctl enable docker
 sudo docker –version
 ```
 
-### 1.2 Get CentOs container
+## 2. Get CentOs container
 
 **Run an empty Centos container to install OpenFrame.** 
 * Search the official Centos image and pull it on your VM. Use it to run a container.
 
 **Set the hostname with -h option when you run it.** 
-* OpenFrame will need a hostname to get the licenses or set the envionment.
+* OpenFrame will need a hostname to get the licenses or set the environment.
 
 * Ubuntu
 ```bash
@@ -89,14 +89,14 @@ Example :
 ```sudo docker stop fc58fa646357```
 
 
-### 1.3 Install OpenFrame
+## 3. Install OpenFrame
 
-### 1.3.1 Pre settings
-__a.__  Required Package Installation
+### 3.1 Pre Settings
+__a.__  Required package installation
 
 If you see "error: rpmdbNextIterator: skipping h#" error message, please use this command below.
 
-It happen when followed package that were having problems when querying the rpm database for a package that was installed which cause meta tag mess up:
+It happens when followed package that was having problems when querying the rpm database for a package that was installed which cause meta tag mess up:
 
 ``` rpm --rebuilddb ```
 
@@ -112,13 +112,13 @@ yum install -y libncurses*
 yum install ncurses*
 yum update
 ```
-* Packages for running tibero
+* Packages for running Tibero
 ```bash
 yum install libaio
 yum install libnsl
 ```
 
-* Extra Packages if needed
+* Extra packages if needed
 ```bash
 yum install strace
 yum install ltrace
@@ -135,7 +135,7 @@ ln -s /usr/lib64/libncurses.so.5.9 /usr/lib/libtermcap.so
 ln -s /usr/lib64/libncurses.so.5.9 /usr/lib/libtermcap.so.2
 ```
 
-__c.__ Kernel Parameters Modification 
+__c.__ Kernel parameters modification 
 
 vi /etc/sysctl.conf  
 
@@ -214,14 +214,10 @@ echo "**********************************************"
 echo ""
 ```
 
-
-
-
-
 **Copy OpenFrame binary files from host to container**
 ```sudo docker cp [filename] [containername]:[path]```
 
-### 1.3.2 JAVA installation
+### 1.3.2 JAVA Installation
 - Prepare JAVA rpm file
 ```
 rpm -ivh jdk-7u79-linux-x64.rpm
@@ -242,7 +238,7 @@ Java(TM) SE Runtime Environment (build 1.7.0_79-b15)
 Java HotSpot(TM) 64-Bit Server VM (build 24.79-b02, mixed mode)
 ```
 
-### 1.3.3 Tibero installation
+### 1.3.3 Tibero Installation
 
 ```bash
 tar -xzvf [tibero tar file]
