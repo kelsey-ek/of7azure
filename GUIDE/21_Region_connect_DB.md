@@ -8,7 +8,7 @@
 + [6. Build region processes](#6-build-region-processes)
 + [7. Deploy the region process](#7-deploy-the-region-process)
 + [8. Use the right compile option](#8-use-the-right-compile-option)
-+ [9. Appendix](#8-appendix)
++ [9. Appendix](#9-appendix)
 
 
 ## 1. Set the DB connection from configuration files.
