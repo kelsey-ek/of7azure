@@ -482,7 +482,7 @@ AIXTHREAD_SCOPE=S; export AIXTHREAD_SCOPE
 
 # 2. DB Migration
 
-[DB Migration 방법 링크 추가]
+https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/11_BMT_DB_migration.md
 
 # 3. Transaction File
 
