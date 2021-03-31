@@ -2,7 +2,6 @@
 
 ## Table of Contents
 
-+ [Create Image of OpenFrame](#create-image-of-openframe)
 + [1. Install Docker](#1-install-docker)
 + [2. Get Centos Container](#2-get-centos-container)
 + [3. Install OpenFrame](#3-install-openframe)
@@ -944,7 +943,7 @@ OFManager License Path (DEFAULT: ): /home/oframe7/BINARY/LICENSE/OFManagerLicens
 http://192.168.55.33:8088/ofmanager
 ```
 
-### 1.3.14 OFMiner installation
+### 3.14 OFMiner Installation
 
 ```
 Plase Enter the Domain Name and the Server name
@@ -980,9 +979,9 @@ cp OFMinerLicense $OFMINER_HOME/license
 http://192.168.55.33:8088/OFMiner/
 ```
 
-### 1.4 Create OpenFrame image
+## 4. Create OpenFrame Image
 
-**Exit(stop) the container and commit the current container.**
+**A. Exit(stop) the container and commit the current container.**
 
 ```sudo docker ps -a | grep centos```
 
@@ -993,7 +992,7 @@ http://192.168.55.33:8088/OFMiner/
 
 ``` sudo docker commit -a "kelsey" -m "of7azure" keen_poitras kelsey92/of7azurefinal:of7azure ```
 
-**You need to name it with the rule below for pushing/pulling the image through Dockerhub.**
+**B. You need to name it with the rule below for pushing/pulling the image through Dockerhub.**
 
 ```bash
 username/repository:tag
@@ -1015,16 +1014,16 @@ Login Succeeded
 
 ``` sudo docker push kelsey92/of7azurefinal:of7azure ```
 
-``` The push refers to repository [docker.io/kelsey92/of7azurefinal]```
+``` The push refers to a repository [docker.io/kelsey92/of7azurefinal]```
 
 * If you want to cut down the layers of the image
 
 ```sudo docker export f3b5881af3b7 | sudo docker import - kelsey92/of7azurefinal:of7azure```
 
-### 1.5 Use OpenFrame image
+## 5. Use OpenFrame Image
 
-**Docker should be installed and you need to login to Dockerhub.** 
-[Install docker](#11-install-docker)
+**A. Docker should be installed and you need to login to Dockerhub.** 
+[Install docker](#1-install-docker)
 
 ```bash
 sudo docker login
@@ -1032,23 +1031,23 @@ dockerhub username
 password
 ```
 
-**Pull the image from the Dockerhub repository**
+**B. Pull the image from the Dockerhub repository**
 
 ```sudo docker pull kelsey92/of7azurefinal:of7azure```
 
-**Check if the image is successfully pulled in your VM**
+**C. Check if the image is successfully pulled in your VM**
 
 ```sudo docker images | grep kelsey```
 
-**Run the container with OpenFrame image**
+**D. Run the container with OpenFrame image**
 
 - Port forwarding with -p option when you run the container. Use multiple options with all ports you need.
 
 ```sudo docker run -i -t -h of7azure -p 9736:9736 -p 8088:8088 -p 8087:8087 kelsey92/of7azurefinal:of7azure /bin/bash```
 
-#### If you run more than one containers.
+#### If you run more than one container.
 
-- Docker container ip address changes if you run more than one containers.
+- Docker container IP address changes if you run more than one container.
 
 - First container
 ```bash
@@ -1066,7 +1065,7 @@ password
        valid_lft forever preferred_lft forever
 ```
 
-**Those environment variables from bash_profile shoule be changed.**
+**A. Those environment variables from bash_profile should be changed.**
 
     vi ~/.bash_profile
 ```bash
@@ -1078,7 +1077,7 @@ alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
 ```
     source ~/.bash_profile
     
-**Region configuration file should be modified.**
+**B. Region configuration file should be modified.**
 
     vi osc.OSCOIVP1.conf
 ```bash
@@ -1087,7 +1086,7 @@ alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
         TDQ_LOG_ADDRESS=127.0.0.1:8896 # localhost ip address
 ```
 
-**Webterminal setting should be modified.**
+**C. Webterminal setting should be modified.**
 
     vi ofgw.properties
 ```bash
@@ -1104,7 +1103,7 @@ tmax.node.NODE1.timeout = 20000
 tmax.node.NODE1.idletime = 90
 ```
 
-**OFManager setting should be modified**
+**D. OFManager setting should be modified**
 
     vi ofmanager.properties
 ```bash
@@ -1117,7 +1116,7 @@ openframe.tmax.ip= 127.0.0.1 # localhost ip address
 openframe.tmax.port= 8001
 ```
 
-**JEUS setting should be modified**
+**E. JEUS setting should be modified**
 
 *Change 172.17.0.3 to 0.0.0.0 from data-resource section to use localhost ip address.*
 
