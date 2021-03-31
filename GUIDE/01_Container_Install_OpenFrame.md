@@ -498,7 +498,7 @@ options
 
 ## 3.7 Base Installation
 
-- Copy OpenFrame and Tmax licences under each directory.
+- Copy OpenFrame and Tmax licenses under each directory.
 
 - base.properties
 ```
