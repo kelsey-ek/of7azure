@@ -24,7 +24,7 @@
 
 # Create Image of OpenFrame
 
-## 1. Install Docker
+# 1. Install Docker
 
 First, you need to get the OpenFrame image to use the AKS service. To create it, you need Docker account and install Docker in your VM. Your account will be needed when you push/pull the images in your Dockerhub repository.
 
@@ -37,12 +37,12 @@ sudo systemctl enable docker
 sudo docker –version
 ```
 
-## 2. Get CentOs container
+# 2. Get CentOS Container
 
-**Run an empty Centos container to install OpenFrame.** 
+## A. Run an empty Centos container to install OpenFrame.
 * Search the official Centos image and pull it on your VM. Use it to run a container.
 
-**Set the hostname with -h option when you run it.** 
+## B. Set the hostname with -h option when you run it.
 * OpenFrame will need a hostname to get the licenses or set the environment.
 
 * Ubuntu
@@ -88,14 +88,14 @@ Example :
 ```sudo docker stop fc58fa646357```
 
 
-## 3. Install OpenFrame
+# 3. Install OpenFrame
 
-### 3.1 Pre Settings
-__a.__  Required package installation
+## 3.1 Pre Settings
 
-If you see "error: rpmdbNextIterator: skipping h#" error message, please use this command below.
+### A. Required package installation
 
-It happens when followed package that was having problems when querying the rpm database for a package that was installed which cause meta tag mess up:
+- If you see "error: rpmdbNextIterator: skipping h#" error message, please use this command below.
+    - It happens when followed package that was having problems when querying the rpm database for a package that was installed which cause meta tag mess up:
 
 ``` rpm --rebuilddb ```
 
@@ -111,6 +111,7 @@ yum install -y libncurses*
 yum install ncurses*
 yum update
 ```
+
 * Packages for running Tibero
 ```bash
 yum install libaio
@@ -128,13 +129,13 @@ yum install git
 yum install htop
 ```
 
-__b.__ Create symbolic link
+### B. Create symbolic link
 ```bash
 ln -s /usr/lib64/libncurses.so.5.9 /usr/lib/libtermcap.so
 ln -s /usr/lib64/libncurses.so.5.9 /usr/lib/libtermcap.so.2
 ```
 
-__c.__ Kernel parameters modification 
+### C. Kernel parameters modification 
 
 vi /etc/sysctl.conf  
 
@@ -165,22 +166,22 @@ sysctl: cannot stat /proc/sys/net/core/wmem_max: No such file or directory
 /sbin/sysctl -p 
 ```
 
-__d.__ Firewall setting
+### D. Firewall setting
 * Firewall does not work in the container. Instead, you can use port forwarding option(-p) when you run the container. I will talk about this later in 'use OpenFrame image' part.
 
 ```
 chkconfig iptables off
 ```
 
-__e.__ Prepare licenses from Technet
+### E. Prepare licenses from Technet
 * Use the correct hostname for downloading license files from Technet website.
 * You need to check hostname and the number of cores.
 
-__f.__ Set hostname
+### F. Set hostname
 * Use -h option when you run the container. It automatically sets the hostname for the container.
 * Check /etc/hosts file to see if the hostname sets correctly.
 
-__g.__ Add user as hostname
+### G. Add user as hostname
 ``` 
 groupadd mqm -g 10000
 useradd -d /home/of7azure -g mqm -s /bin/bash -m of7azure -u 10001
@@ -191,7 +192,7 @@ groupadd dba -g 10005
 useradd -d /home/oftibr -g dba -s /bin/bash -m oftibr -u 10002
 ```
 
-__h.__ Add information in bash_profile
+### H. Add information in bash_profile
 ```
 # clear screen
 clear
@@ -216,13 +217,14 @@ echo ""
 **Copy OpenFrame binary files from host to container**
 ```sudo docker cp [filename] [containername]:[path]```
 
-### 1.3.2 JAVA Installation
-- Prepare JAVA rpm file
+## 3.2 JAVA Installation
+
+### A. Prepare JAVA rpm file
 ```
 rpm -ivh jdk-7u79-linux-x64.rpm
 ```
 
-Add the part below to .bash_profile
+### B. Add the part below to .bash_profile
 ```
 # JAVA ENV
 export JAVA_HOME=/usr/java/jdk1.7.0_79/
@@ -237,7 +239,7 @@ Java(TM) SE Runtime Environment (build 1.7.0_79-b15)
 Java HotSpot(TM) 64-Bit Server VM (build 24.79-b02, mixed mode)
 ```
 
-### 1.3.3 Tibero Installation
+## 3.3 Tibero Installation
 
 ```bash
 tar -xzvf [tibero tar file]
@@ -318,7 +320,7 @@ create tablespace "OFMLOG" datafile 'OFM_LOG.dbf' size 300M  autoextend on next 
 create tablespace "OFMGR01" datafile 'OFMGR01.DBF'  size 100M autoextend on  next 50M;
 ```
 
-- When you need to reinstall the modules.
+### When you need to reinstall the modules.
 
 ```
 drop tablespace "DEFVOL" including contents and datafiles;
@@ -329,9 +331,9 @@ drop tablespace "OFMGR01" including contents and datafiles;
 ```
 
 
-### 1.3.4 UnixODBC installation
+## 3.4 UnixODBC Installation
 
-**Container environment does not have make file under /usr/bin**
+### Container environment does not have make file under /usr/bin.
 
 * Install make,wget packages.
 
@@ -379,7 +381,7 @@ ln $ODBC_HOME/lib/libodbc.so $ODBC_HOME/lib/libodbc.so.1
 ln $ODBC_HOME/lib/libodbcinst.so $ODBC_HOME/lib/libodbcinst.so.1
 ```
 
-**odbc.ini**
+### odbc.ini
 
 ```
 [oframe]
@@ -391,7 +393,7 @@ User = tibero
 Password = tmax
 ```
 
-**odbcinst.ini**
+### odbcinst.ini
 
 ```
 [Tibero]
@@ -425,7 +427,7 @@ DEBUG = 1
 SQL> quit
 ```
 
-### 1.3.5 OFCOBOL installation
+## 3.5 OFCOBOL Installation
 
 ```
 ./OpenFrame_COBOL_4_0_732_Linux_x86_64.bin
@@ -453,7 +455,7 @@ ofcob -x HELLO.cob
 ./HELLO
 ```
 
-### 1.3.6 PROSORT installation
+## 3.6 PROSORT Installation
 
 ```
 tar -xzvf prosort-bin-prosort_2sp3-linux64-2209-opt.tar.gz
@@ -493,7 +495,7 @@ options
   -x             Use SyncSort compatible mode
 ```
 
-### 1.3.7 Base installation
+## 3.7 Base Installation
 
 - Copy OpenFrame and Tmax licences under each directory.
 
@@ -552,7 +554,7 @@ tmdown
 
 ```
 
-### 1.3.8 Batch installation
+## 3.8 Batch Installation
 
 - batch.properties
 ```
@@ -612,7 +614,7 @@ For running a JOB, please check the LIBPATH from tjclrun.conf
 
 ```
 
-### 1.3.9 TACF installation
+## 3.9 TACF Installation
 - tacf.properties
 ```
 OPENFRAME_HOME=/home/oframe1/OpenFrame
@@ -678,7 +680,7 @@ ln -s $ODBC_HOME/lib/libodbc.so.2.0.0 libodbc.so
 
 ```
 
-### 1.3.10 OSC installation
+## 3.10 OSC Installation
 
 - osc.properties
 ```
@@ -745,7 +747,7 @@ quit
 oscdown
 ```
 
-### 1.3.11 JEUS installation
+## 3.11 JEUS Installation
 
 ```
 ./jeus7_unix_generic_ko.bin
@@ -792,7 +794,7 @@ systemctl disable firewalld
 http://192.168.55.33:9736/webadmin
 ```
 
-### 1.3.12 OFGW installation
+## 3.12 OFGW Installation
 
 ```
 Jeus Domain Name (DEFAULT: jeus_domain): 
@@ -844,9 +846,9 @@ OpenFrame GW License Path (DEFAULT: ): /home/oframe7/BINARY/LICENSE/OFGWLicense
 http://192.168.55.33:8088/webterminal/
 ```
 
-### 1.3.13 OFManager installation
+## 3.13 OFManager Installation
 
-**ADD A NEW SERVER TO JEUS**
+### ADD A NEW SERVER TO JEUS
 
 ```
 * jeusadmin 콘솔 툴을 이용하여 서버 추가 방법
@@ -943,7 +945,7 @@ OFManager License Path (DEFAULT: ): /home/oframe7/BINARY/LICENSE/OFManagerLicens
 http://192.168.55.33:8088/ofmanager
 ```
 
-### 3.14 OFMiner Installation
+## 3.14 OFMiner Installation
 
 ```
 Plase Enter the Domain Name and the Server name
@@ -979,9 +981,9 @@ cp OFMinerLicense $OFMINER_HOME/license
 http://192.168.55.33:8088/OFMiner/
 ```
 
-## 4. Create OpenFrame Image
+# 4. Create OpenFrame Image
 
-**A. Exit(stop) the container and commit the current container.**
+## A. Exit(stop) the container and commit the current container.
 
 ```sudo docker ps -a | grep centos```
 
@@ -992,7 +994,7 @@ http://192.168.55.33:8088/OFMiner/
 
 ``` sudo docker commit -a "kelsey" -m "of7azure" keen_poitras kelsey92/of7azurefinal:of7azure ```
 
-**B. You need to name it with the rule below for pushing/pulling the image through Dockerhub.**
+## B. You need to name it with the rule below for pushing/pulling the image through Dockerhub.
 
 ```bash
 username/repository:tag
@@ -1020,9 +1022,9 @@ Login Succeeded
 
 ```sudo docker export f3b5881af3b7 | sudo docker import - kelsey92/of7azurefinal:of7azure```
 
-## 5. Use OpenFrame Image
+# 5. Use OpenFrame Image
 
-**A. Docker should be installed and you need to login to Dockerhub.** 
+## A. Docker should be installed and you need to login to Dockerhub.
 [Install docker](#1-install-docker)
 
 ```bash
@@ -1031,21 +1033,21 @@ dockerhub username
 password
 ```
 
-**B. Pull the image from the Dockerhub repository**
+## B. Pull the image from the Dockerhub repository.
 
 ```sudo docker pull kelsey92/of7azurefinal:of7azure```
 
-**C. Check if the image is successfully pulled in your VM**
+## C. Check if the image is successfully pulled in your VM.
 
 ```sudo docker images | grep kelsey```
 
-**D. Run the container with OpenFrame image**
+## D. Run the container with OpenFrame image.
 
 - Port forwarding with -p option when you run the container. Use multiple options with all ports you need.
 
 ```sudo docker run -i -t -h of7azure -p 9736:9736 -p 8088:8088 -p 8087:8087 kelsey92/of7azurefinal:of7azure /bin/bash```
 
-#### If you run more than one container.
+### If you run more than one container.
 
 - Docker container IP address changes if you run more than one container.
 
@@ -1065,7 +1067,7 @@ password
        valid_lft forever preferred_lft forever
 ```
 
-**A. Those environment variables from bash_profile should be changed.**
+**a. Those environment variables from bash_profile should be changed.**
 
     vi ~/.bash_profile
 ```bash
@@ -1077,7 +1079,7 @@ alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
 ```
     source ~/.bash_profile
     
-**B. Region configuration file should be modified.**
+**b. Region configuration file should be modified.**
 
     vi osc.OSCOIVP1.conf
 ```bash
@@ -1086,7 +1088,7 @@ alias dsdown='stopServer -u administrator -p tmax123 -host localhost:9736'
         TDQ_LOG_ADDRESS=127.0.0.1:8896 # localhost ip address
 ```
 
-**C. Webterminal setting should be modified.**
+**c. Webterminal setting should be modified.**
 
     vi ofgw.properties
 ```bash
@@ -1103,7 +1105,7 @@ tmax.node.NODE1.timeout = 20000
 tmax.node.NODE1.idletime = 90
 ```
 
-**D. OFManager setting should be modified**
+**d. OFManager setting should be modified**
 
     vi ofmanager.properties
 ```bash
@@ -1116,7 +1118,7 @@ openframe.tmax.ip= 127.0.0.1 # localhost ip address
 openframe.tmax.port= 8001
 ```
 
-**E. JEUS setting should be modified**
+**e. JEUS setting should be modified**
 
 *Change 172.17.0.3 to 0.0.0.0 from data-resource section to use localhost ip address.*
 
