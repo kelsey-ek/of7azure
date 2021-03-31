@@ -29,9 +29,9 @@ _First, you need to checl the directory structure._
 - Batch compile script: batch/compile.sh
 ```
 
-### 1. Server Setting.
+# 1. Server Setting.
 
-Hardware Spec.
+## Hardware Spec.
 
 A. APP Servers
 
@@ -79,7 +79,7 @@ tibero6-bin-FS06_CS_1902-linux64-172015-opt-20191122153758-tested.tar.gz(467,472
 </details>
 
 
-Others 
+## Others 
 
 A. Ip Setting. Use private ip.
 
@@ -468,16 +468,16 @@ AIXTHREAD_SCOPE=S; export AIXTHREAD_SCOPE
 ```
 </details>
 
-### 2. DB Migration
+# 2. DB Migration
 
 [DB Migration 방법 링크 추가]
 
-### 3. Transaction file
+# 3. Transaction file
 
 - Transaction files are proviede by the customer.
   - These files are modified to match the DB data.
 
-3.1 Batch - Prepare input datasets using transaction file.
+## 3.1 Batch - Prepare input datasets using transaction file.
 
 - Use transaction file to generate the iput dataset for running batch jobs.
   - command line for generating a dataset using transaction file.
@@ -565,17 +565,17 @@ COMPLETED SUCCESSFULLY.
 </details>
 </pre>	
 	
-3.2 Online - Oftest tool uses transaction files as an input
+## 3.2 Online - Oftest tool uses transaction files as an input
 
 - Transaction file is an input for the online scenarios.
 
 [Oftest tool 사용법 링크 추가]
 
-### 4. COBOL Sources
+# 4. COBOL Sources
 
-4.1 COBOL complie
+## 4.1 COBOL complie
 
-4.1.1 Modifications for compile.
+### 4.1.1 Modifications for compile.
 
 - Modifications are needed both for Batch and Online programs.
 
@@ -837,7 +837,7 @@ I. SQLCA
     002400        10 SQLSTATE          PIC X(5).
     ```
     
-4.2.2 Program compile
+### 4.1.2 Program compile
 
 >> Note that you need to remove .cob extension on PROGRAN-NAME
 
@@ -1065,7 +1065,7 @@ done
 ```
 </details>
 
-4.2 COBOL Deploy
+## 4.2 COBOL Deploy
 
 - If all programs are modified and compiled successfully, you only need to move the complied modules like below.
 
@@ -1088,7 +1088,7 @@ osctdlupdate ZREFCE ${cobfile}
 osctdlupdate ZREFMEE ${cobfile}
 </pre>
   
-### 5. Map Sources
+# 5. Map Sources
 
 - Map compile
 
@@ -1123,11 +1123,11 @@ mscmapupdate
 	    -v                     Display version information
 	    -n (optional)          Syncronize mapupdate in multi-clustering environment
 
-### 6. Unit Test
+# 6. Unit Test
 
-6.1 Batch
+## 6.1 Batch
 
-A. Prepare PDS and Batch modules.
+### A. Prepare PDS and Batch modules.
 <pre>
 1) Create a correct PDS for locating batch modules.
 
@@ -1249,7 +1249,7 @@ listcat -a PPLIP.ZREF.LIBLOAD
 </details>
 </pre>	
 	
-B. Prepare JCL.
+### B. Prepare JCL.
 <pre>
 1) SETUP JCL
   - dos2unix ALL JCL.
@@ -1332,7 +1332,7 @@ B. Prepare JCL.
       d. Transaction file input dataset PPLIP -> PPLIP1
 </pre>
 
-C. Set the DB connection as described in the JCL.
+### C. Set the DB connection as described in the JCL.
 ```
 ikjeft01.conf
 
@@ -1345,9 +1345,9 @@ USERNAME=tibero
 PASSWORD=tmax
 ```
 	
-6.2 Online
+## 6.2 Online
 
-1) Online region build
+### 6.2.1 Online region build
 
 [리전빌드 링크 첨부]
 
@@ -1384,7 +1384,8 @@ PASSWORD=tmax
 	-rwxr-xr-x 1 oframe mqm  773 Dec  1 21:05 ZREF.KSDS.CONFIG.cpy
    ``` 
 
-2) SD modification.
+### 6.2.2 SD modification
+
 - ADD missing PROGRAMS in each region
   ```
   DEFINE PROGRAM(##BL0001) GROUP(ZREFCE) LANGUAGE(COBOL)
@@ -1409,7 +1410,8 @@ Register User CSD
 oscsdgen -c -d [SD dataset name] [user resource file]
 ```
 
-3) Scenarios
+### 6.2.3 Scenarios
+
 - ZREFMEE region (HPMEE3270)
   - TR01: SQL ERR:-654657|23000|TR2Z| UNIQUE constraint violation ('TIBERO'.'PK_HH'). -> Need to use different scenarios each time.
   - MF01: OK
@@ -1424,7 +1426,7 @@ oscsdgen -c -d [SD dataset name] [user resource file]
   - TU01: OK
   - TL01: OK
   
-4) Update VTAM Setting
+### 6.2.4 Update VTAM Setting
 
 - vtamdump -> vtamgen <file name> (*modify the dump file and generate a new vtam definition.*)
   - TEST0001..TEST5000.. -> match it with the TERMINAL NETNAME from SD.
@@ -1442,9 +1444,9 @@ oscsdgen -c -d [SD dataset name] [user resource file]
 	ENDVTAM
     ```
   
-### 7. Configuration Modification
+# 7. Configuration Modification
 
-7.1 TIP file modification
+## 7.1 TIP file modification
 
 - Match the DATE&TIME format from the TABLE.txt file.
 ```
@@ -1489,7 +1491,7 @@ SYSTIMESTAMP
 1 row selected.
 ```
 
-7.2 OpenFrame Configuration
+## 7.2 OpenFrame Configuration
 
 - $OPENFRAME_HOME/config
 
@@ -1531,7 +1533,7 @@ ftp.conf
     CHECK_DSAUTH_V2=NO 
 ```
 
-### 8. Performance enhancement
+# 8. Performance enhancement
 
 A. /etc/security/limits.conf
 
@@ -1653,15 +1655,6 @@ F. logback.xml
                 <appender-ref ref="STDOUT"/>
         </root>
 ```
-
-
-
-
-
-
-
-
-
 
 ### 3.10.
 
