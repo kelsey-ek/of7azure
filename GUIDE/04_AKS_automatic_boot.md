@@ -11,9 +11,9 @@
 
 ## 2. Process
 
-__a.__ Create Azure image repository
+### A. Create Azure image repository.
 
-__b.__ Generate the image of OpenFrame and push it to the Azure image repository
+### B. Generate the image of OpenFrame and push it to the Azure image repository.
 
 *in this case, I created the image as the name below.*
 
@@ -21,7 +21,7 @@ __b.__ Generate the image of OpenFrame and push it to the Azure image repository
 of7container.azurecr.io/of7pvimage-v1:boot2
 ```
 
-__c.__ Write the yaml file for creating a pod.
+### C. Write the yaml file for creating a pod.
 
 
 ```
