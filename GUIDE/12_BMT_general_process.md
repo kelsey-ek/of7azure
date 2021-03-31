@@ -1363,7 +1363,7 @@ PASSWORD=tmax
 
 ### 6.2.1 Online Region Build
 
-[리전빌드 링크 첨부]
+https://github.com/kelsey-ek/of7azure/blob/master/GUIDE/22_OSC_region_build.md
 
 - $OPENFRAME_HOME/tsam/copybook
    - Need to generate the correct copybooks for SD datasets.
