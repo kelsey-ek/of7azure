@@ -2,25 +2,26 @@
 
 ## Table of Contents
 
++ [Create Image of OpenFrame](#create-image-of-openframe)
 + [1. Install Docker](#1-install-docker)
-+ [2. Get Centos Container](#2-get-centos-container)
++ [2. Get CentOS Container](#2-get-centos-container)
 + [3. Install OpenFrame](#3-install-openframe)
-  + [3.1 Pre Settings](#131-pre-settings)
-  + [3.2 JAVA Installation](#132-java-installation)
-  + [3.3 Tibero Installation](#133-tibero-installation)
-  + [3.4 UnixODBC Installation](#134-unixodbc-installation)
-  + [3.5 OFCOBOL Installation](#135-ofcobol-installation)
-  + [3.6 PROSORT Installation](#136-prosort-installation)
-  + [3.7 Base Installation](#137-base-installation)
-  + [3.8 Batch Installation](#138-batch-installation)
-  + [3.9 TACF Installation](#139-tacf-installation)
-  + [3.10 OSC Installation](#1310-osc-installation)
-  + [3.11 JEUS Installation](#1311-jeus-installation)
-  + [3.12 OFGW Installation](#1312-ofgw-installation)
-  + [3.13 OFManager Installation](#1313-ofmanager-installation)
-  + [3.14 OFMiner Installation](#1314-ofminer-installation)
-+ [1.4 Create OpenFrame Image](#14-create-openframe-image)
-+ [1.5 Use OpenFrame Image](#15-use-openframe-image)
+  + [3.1 Pre Settings](#31-pre-settings)
+  + [3.2 JAVA Installation](#32-java-installation)
+  + [3.3 Tibero Installation](#33-tibero-installation)
+  + [3.4 UnixODBC Installation](#34-unixodbc-installation)
+  + [3.5 OFCOBOL Installation](#35-ofcobol-installation)
+  + [3.6 PROSORT Installation](#36-prosort-installation)
+  + [3.7 Base Installation](#37-base-installation)
+  + [3.8 Batch Installation](#38-batch-installation)
+  + [3.9 TACF Installation](#39-tacf-installation)
+  + [3.10 OSC Installation](#310-osc-installation)
+  + [3.11 JEUS Installation](#311-jeus-installation)
+  + [3.12 OFGW Installation](#312-ofgw-installation)
+  + [3.13 OFManager Installation](#313-ofmanager-installation)
+  + [3.14 OFMiner Installation](#314-ofminer-installation)
++ [4. Create OpenFrame Image](#4-create-openframe-image)
++ [5. Use OpenFrame Image](#5-use-openframe-image)
 
 # Create Image of OpenFrame
 
@@ -1105,7 +1106,7 @@ tmax.node.NODE1.timeout = 20000
 tmax.node.NODE1.idletime = 90
 ```
 
-**d. OFManager setting should be modified**
+**d. OFManager setting should be modified.**
 
     vi ofmanager.properties
 ```bash
@@ -1118,7 +1119,7 @@ openframe.tmax.ip= 127.0.0.1 # localhost ip address
 openframe.tmax.port= 8001
 ```
 
-**e. JEUS setting should be modified**
+**e. JEUS setting should be modified.**
 
 *Change 172.17.0.3 to 0.0.0.0 from data-resource section to use localhost ip address.*
 
