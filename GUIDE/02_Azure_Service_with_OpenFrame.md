@@ -13,7 +13,7 @@
 
 # 1. Add Azure Kubernetes Service(AKS)
 
-## 1.1 Add the service from Azure Website
+## 1.1 Add the Service from Azure Website
 
 ### Add resource as Kubernetes service
 
@@ -89,7 +89,7 @@
 
 # 2. Set Pods
 
-## 2.1 Crate a Pod yaml file
+## 2.1 Crate a Pod Yaml File
 
     apiVersion: v1
     kind: Pod
@@ -193,13 +193,13 @@
         Normal  Started    3m18s  kubelet, aks-agentpool-13644011-1  Started container of7azure
     ```
 
-# 3. Connect to the running Pod
+# 3. Connect to the Running Pod
+ 
+## 3.1 Execute a running Pod from a Node
 
-## 3.1 Execute a running Pod from Azure Cloud
+### Execute a Running Pod from Azure Cloud
 
     kubectl exec -it of7azure -- /bin/bash
-    
-## 3.2 Execute a running Pod from the Node where the Pod is running
 
 1) Check which Node is the one the Pod is running in and connect to the Node
 
@@ -255,11 +255,11 @@
 
     ```kubectl delete pod --all```
   
-# 4. Set services
+# 4. Set Services
 
 ### Nodeport service for using JEUS, Webterminal, OFManager
 
-## 4.1 Create a service yaml file
+## 4.1 Create a Service Yaml File
 
     apiVersion: v1
     kind: Service
@@ -300,7 +300,7 @@
         port: 8088
         targetPort: 8088
 
-## 4.2 Create services
+## 4.2 Create Services
 
 1) Create services by using the command below
 
@@ -388,9 +388,9 @@
    ```kubectl delete service [service name]```
 
 
-# 5. Network configuration
+# 5. Network Configuration
 
-## 5.1 Set the Inbound NAT rules of Kubernetes with the Nodeports
+## 5.1 Set the Inbound NAT Rules of Kubernetes with the Nodeports
 
 1) Hit the add button from Inbound NAT rules
   
@@ -417,7 +417,7 @@
     <img src="./reference_images/ofmanager_NAT.PNG" title="ofmanager setting">
 
 
-## 5.2 Set the Inbound ports 
+## 5.2 Set the Inbound Ports 
 
 1) Hit the Add inbound port rule from the Node Networking setting
    
