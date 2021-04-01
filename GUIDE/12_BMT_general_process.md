@@ -40,6 +40,10 @@ _First, you need to check the directory structure._
 - CICS compile script: cics/compile.sh
 - Batch compile script: batch/compile.sh
 ```
+## TPC-E
+
+- TPC-E is an On-Line Transaction Processing Benchmark
+  - Approved in February of 2007, TPC Benchmark E is an on-line transaction processing (OLTP) benchmark. TPC-E is more complex than previous OLTP benchmarks such as TPC-C because of its diverse transaction types, more complex database and overall execution structure. TPC-E involves a mix of twelve concurrent transactions of different types and complexity, either executed on-line or triggered by price or time criteria. The database is comprised of thirty-three tables with a wide range of columns, cardinality, and scaling properties. TPC-E is measured in transactions per second (tpsE). While the benchmark portrays the activity of a stock brokerage firm, TPC-E is not limited to the activity of any particular business segment, but rather represents any industry that must report upon and execute transactions of a financial nature.
 
 # 1. Server Setting
 
