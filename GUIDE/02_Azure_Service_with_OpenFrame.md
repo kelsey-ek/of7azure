@@ -20,11 +20,10 @@
 <img src="./reference_images/create_first.PNG" title="first page">
 
 1) Basic
-
+    - Set the region as NorthCentralUS here. Resources may vary depends on the region.
+    
     <img src="./reference_images/create_basic.PNG" title="basic setting">
     
-    - Set the region as NorthCentralUS here. Resources may vary depends on the region.
-
     <img src="./reference_images/create_basic_vm.PNG" title="basic_vm setting">
 
     - Select the Node(VM) size
@@ -92,7 +91,6 @@
 
 ## 2.1 Crate a Pod yaml file
 
-    ```
     apiVersion: v1
     kind: Pod
     metadata:
@@ -106,7 +104,6 @@
         ports:
           - containerPort: 6606
         command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
-    ```
 
     * Containerport is used for connecting another container in the same Pod.
 
@@ -200,7 +197,7 @@
 
 ## 3.1 Execute a running Pod from Azure Cloud
 
-    ```kubectl exec -it of7azure -- /bin/bash```
+    kubectl exec -it of7azure -- /bin/bash
     
 ## 3.2 Execute a running Pod from the Node where the Pod is running
 
@@ -247,24 +244,23 @@
 
 5) Change the user in the container to use OpenFrame
 
-  ```
-  [root@of7azure /]# su - of7azure
-  Last login: Thu Mar 26 01:01:15 UTC 2020 on pts/0
+    ```
+    [root@of7azure /]# su - of7azure
+    Last login: Thu Mar 26 01:01:15 UTC 2020 on pts/0
 
-  [of7azure@of7azure ~]$ 
-  ```
+    [of7azure@of7azure ~]$ 
+    ```
 
 6) When you need to delete Pods
 
-  ```kubectl delete pod --all```
+    ```kubectl delete pod --all```
   
 # 4. Set services
 
-* Nodeport service for using JEUS, Webterminal, OFManager
+### Nodeport service for using JEUS, Webterminal, OFManager
 
 ## 4.1 Create a service yaml file
 
-    ```
     apiVersion: v1
     kind: Service
     metadata:
@@ -277,9 +273,7 @@
       - protocol: TCP
         port: 9736
         targetPort: 9736
-    ```
 
-    ```
     apiVersion: v1
     kind: Service
     metadata:
@@ -292,9 +286,7 @@
       - protocol: TCP
         port: 8087
         targetPort: 8087
-    ```
 
-    ```bash
     apiVersion: v1
     kind: Service
     metadata:
@@ -307,7 +299,6 @@
       - protocol: TCP
         port: 8088
         targetPort: 8088
-    ```
 
 ## 4.2 Create services
 
