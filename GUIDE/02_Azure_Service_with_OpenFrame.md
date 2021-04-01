@@ -17,41 +17,41 @@
 
 ### Add resource as Kubernetes service
 
-    <img src="./reference_images/create_first.PNG" title="first page">
+<img src="./reference_images/create_first.PNG" title="first page">
 
 1) Basic
 
     <img src="./reference_images/create_basic.PNG" title="basic setting">
     
-    **Set the region as NorthCentralUS here. Resources may vary depends on the region.**
+    - Set the region as NorthCentralUS here. Resources may vary depends on the region.
 
     <img src="./reference_images/create_basic_vm.PNG" title="basic_vm setting">
 
-*Select the Node(VM) size*
+    - Select the Node(VM) size
 
 2) Scale
 
     <img src="./reference_images/create_scale.PNG" title="scale setting">
 
-* Authentication as default
+3) Authentication as default
 
-3) Networking
+4) Networking
 
     <img src="./reference_images/create_networking.PNG" title="networking setting">
 
-4) Monitoring
+5) Monitoring
 
     <img src="./reference_images/create_monitoring.PNG" title="monitoring setting">
 
-5) Tag as you want
+6) Tag as you want
 
-6) Review + create
+7) Review + create
 
     <img src="./reference_images/create_review.PNG" title="create and review">
     
-7) Set the user id and password for the node(VM)
+8) Set the user id and password for the node(VM)
 
-    Hit the "Reset password" menu from the node(VM).
+    - Hit the "Reset password" menu from the node(VM).
     
     <img src="./reference_images/passwordset.PNG" title="password">    
 
@@ -61,7 +61,7 @@
 
 1) Get access credentials for a managed Kubernetes cluster
 
-    ```az aks get-credentials --resource-group [resource_group_name] --name [AKS_cluster_name]```
+    ``` az aks get-credentials --resource-group [resource_group_name] --name [AKS_cluster_name]```
 
     *Example :*
 
@@ -73,7 +73,7 @@
 2) Check the node status
 
     ```kubectl get nodes```
-    ```bash
+    ```
     NAME                       STATUS   ROLES   AGE     VERSION
     aks-agentpool-13644011-1   Ready    agent   2m20s   v1.15.10
     ```
@@ -92,7 +92,7 @@
 
 ## 2.1 Crate a Pod yaml file
 
-    ```bash
+    ```
     apiVersion: v1
     kind: Pod
     metadata:
@@ -130,7 +130,7 @@
 
     ```kubectl get pods``` 
 
-    ```bash
+    ```
     NAME       READY   STATUS              RESTARTS   AGE
     of7azure   0/1     ContainerCreating   0          2m14s
 
@@ -142,59 +142,59 @@
 
     ```kubectl describe pod [pod name]```
 
-    ```bash
-  Name:         of7azure
-  Namespace:    default
-  Priority:     0
-  Node:         aks-agentpool-13644011-1/10.240.0.35
-  Start Time:   Thu, 26 Mar 2020 01:40:36 +0000
-  Labels:       of7azurefinal=of7azure
-  Annotations:  <none>
-  Status:       Running
-  IP:           10.240.0.40
-  IPs:          <none>
-  Containers:
-    of7azure:
-      Container ID:  docker://05a08dc994462c770b43b3954f49071dcb8d059ff6eaf23ba93c7c71c3f813f4
-      Image:         kelsey92/of7azurefinal:of7azure
-      Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:f74723dd0541d9a7643eb1c7751321398ec1f76253ac28d50cb2cee57f663d2c
-      Port:          6606/TCP
-      Host Port:     0/TCP
-      Command:
-        /bin/sh
-        -ec
-        while :; do echo '.'; sleep 5 ; done
-      State:          Running
-        Started:      Thu, 26 Mar 2020 01:40:38 +0000
-      Ready:          True
-      Restart Count:  0
-      Environment:    <none>
-      Mounts:
-        /var/run/secrets/kubernetes.io/serviceaccount from default-token-pvcdl (ro)
-  Conditions:
-    Type              Status
-    Initialized       True
-    Ready             True
-    ContainersReady   True
-    PodScheduled      True
-  Volumes:
-    default-token-pvcdl:
-      Type:        Secret (a volume populated by a Secret)
-      SecretName:  default-token-pvcdl
-      Optional:    false
-  QoS Class:       BestEffort
-  Node-Selectors:  <none>
-  Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
-                   node.kubernetes.io/unreachable:NoExecute for 300s
-  Events:
-    Type    Reason     Age    From                               Message
-    ----    ------     ----   ----                               -------
-    Normal  Scheduled  27m    default-scheduler                  Successfully assigned default/of7azure to aks-agentpool-13644011-1
-    Normal  Pulling    27m    kubelet, aks-agentpool-13644011-1  Pulling image "kelsey92/of7azurefinal:of7azure"
-    Normal  Pulled     3m40s  kubelet, aks-agentpool-13644011-1  Successfully pulled image "kelsey92/of7azurefinal:of7azure"
-    Normal  Created    3m19s  kubelet, aks-agentpool-13644011-1  Created container of7azure
-    Normal  Started    3m18s  kubelet, aks-agentpool-13644011-1  Started container of7azure
-  ```
+    ```
+      Name:         of7azure
+      Namespace:    default
+      Priority:     0
+      Node:         aks-agentpool-13644011-1/10.240.0.35
+      Start Time:   Thu, 26 Mar 2020 01:40:36 +0000
+      Labels:       of7azurefinal=of7azure
+      Annotations:  <none>
+      Status:       Running
+      IP:           10.240.0.40
+      IPs:          <none>
+      Containers:
+        of7azure:
+          Container ID:  docker://05a08dc994462c770b43b3954f49071dcb8d059ff6eaf23ba93c7c71c3f813f4
+          Image:         kelsey92/of7azurefinal:of7azure
+          Image ID:      docker-pullable://kelsey92/of7azurefinal@sha256:f74723dd0541d9a7643eb1c7751321398ec1f76253ac28d50cb2cee57f663d2c
+          Port:          6606/TCP
+          Host Port:     0/TCP
+          Command:
+            /bin/sh
+            -ec
+            while :; do echo '.'; sleep 5 ; done
+          State:          Running
+            Started:      Thu, 26 Mar 2020 01:40:38 +0000
+          Ready:          True
+          Restart Count:  0
+          Environment:    <none>
+          Mounts:
+            /var/run/secrets/kubernetes.io/serviceaccount from default-token-pvcdl (ro)
+      Conditions:
+        Type              Status
+        Initialized       True
+        Ready             True
+        ContainersReady   True
+        PodScheduled      True
+      Volumes:
+        default-token-pvcdl:
+          Type:        Secret (a volume populated by a Secret)
+          SecretName:  default-token-pvcdl
+          Optional:    false
+      QoS Class:       BestEffort
+      Node-Selectors:  <none>
+      Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                       node.kubernetes.io/unreachable:NoExecute for 300s
+      Events:
+        Type    Reason     Age    From                               Message
+        ----    ------     ----   ----                               -------
+        Normal  Scheduled  27m    default-scheduler                  Successfully assigned default/of7azure to aks-agentpool-13644011-1
+        Normal  Pulling    27m    kubelet, aks-agentpool-13644011-1  Pulling image "kelsey92/of7azurefinal:of7azure"
+        Normal  Pulled     3m40s  kubelet, aks-agentpool-13644011-1  Successfully pulled image "kelsey92/of7azurefinal:of7azure"
+        Normal  Created    3m19s  kubelet, aks-agentpool-13644011-1  Created container of7azure
+        Normal  Started    3m18s  kubelet, aks-agentpool-13644011-1  Started container of7azure
+    ```
 
 # 3. Connect to the running Pod
 
@@ -222,7 +222,7 @@
     
     Password : TmaxSnow2020
 
-    ```bash
+    ```
     $ sudo su - of7azure
     [sudo] password for of7azure: 
 
@@ -233,7 +233,7 @@
 
     *Let's say nfsof7azure-848d8d6cc7-r222f is the Pod name*
 
-    ```bash
+    ```
     of7azure@aks-agentpool-24893396-0:~$ sudo docker ps | grep nfsof7azure-848d8d6cc7-r222f
     b0007ece0a8e        kelsey92/of7azurefinal                            "/bin/sh -ec 'while ??   56 minutes ago      Up 56 minutes                                                                  k8s_of7azure_nfsof7azure-848d8d6cc7-r222f_default_6c487354-6707-42f4-a3a8-b5e105978c3e_0
     524852746c25        mcr.microsoft.com/k8s/core/pause:1.2.0            "/pause"                 About an hour ago   Up About an hour                                                               k8s_POD_nfsof7azure-848d8d6cc7-r222f_default_6c487354-6707-42f4-a3a8-b5e105978c3e_0
@@ -247,7 +247,7 @@
 
 5) Change the user in the container to use OpenFrame
 
-  ```bash
+  ```
   [root@of7azure /]# su - of7azure
   Last login: Thu Mar 26 01:01:15 UTC 2020 on pts/0
 
@@ -264,7 +264,7 @@
 
 ## 4.1 Create a service yaml file
 
-    ```bash
+    ```
     apiVersion: v1
     kind: Service
     metadata:
@@ -279,7 +279,7 @@
         targetPort: 9736
     ```
 
-    ```bash
+    ```
     apiVersion: v1
     kind: Service
     metadata:
@@ -341,7 +341,7 @@
 
     ```kubectl describe services [service name]```
 
-    ```bash
+    ```
     Name:                     jeus
     Namespace:                default
     Labels:                   <none>
@@ -358,7 +358,7 @@
     Events:                   <none>
     ```
 
-    ```bash
+    ```
     Name:                     ofmanager
     Namespace:                default
     Labels:                   <none>
@@ -375,7 +375,7 @@
     Events:                   <none>
     ```
 
-    ```bash
+    ```
     Name:                     webterminal
     Namespace:                default
     Labels:                   <none>
