@@ -2,12 +2,20 @@
 
 ## Table of Contents
 
-+ [1. Add Azure Kubernetes Service(AKS)](#21-add-azure-kubernetes-serviceaks)
-+ [1.2 Set Pods](#22-set-pods)
-+ [1.3 Connect to the running Pod](#23-connect-to-the-running-pod)
-+ [1.4 Set services](#23-set-services)
-+ [1.5 Network configuration](#24-network-configuration)
-
++ [1. Add Azure Kubernetes Service(AKS)](#1-add-azure-kubernetes-serviceaks)
+  + [1.1 Add the Service from Azure Website](#11-add-the-service-from-azure-website)
+  + [1.2 Set the Node](#12-set-the-node)
++ [2. Set Pods](#2-set-pods)
+  + [2.1 Crate a Pod Yaml File](#21-crate-a-pod-yaml-file)
+  + [2.2 Create a Pod](#22-create-a-pod)
++ [3. Connect to the Running Pod](#3-connect-to-the-running-pod)
+  + [3.1 Execute a running Pod from a Node](#31-execute-a-running-pod-from-a-node)
++ [4. Set Services](#4-set-services)
+  + [4.1 Create a Service Yaml File](#41-create-a-service-yaml-file)
+  + [4.2 Create Services](#42-create-services)
++ [5. Network Configuration](#5-network-configuration)
+  + [5.1 Set the Inbound NAT Rules of Kubernetes with the Nodeports](#51-set-the-inbound-nat-rules-of-kubernetes-with-the-nodeports)
+  + [5.2 Set the Inbound Ports](#52-set-the-inbound-ports)
 
 ## Azure Service
 
