@@ -2,25 +2,24 @@
 
 ## Table of Contents
 
-+ [1. Azure Service](#step-2-azure-service)
-  + [1.1 Add Azure Kubernetes service(AKS)](#21-add-azure-kubernetes-serviceaks)
-  + [1.2 Set Pods](#22-set-pods)
-  + [1.3 Connect to the running Pod](#23-connect-to-the-running-pod)
-  + [1.4 Set services](#23-set-services)
-  + [1.5 Network configuration](#24-network-configuration)
++ [1. Add Azure Kubernetes Service(AKS)](#21-add-azure-kubernetes-serviceaks)
++ [1.2 Set Pods](#22-set-pods)
++ [1.3 Connect to the running Pod](#23-connect-to-the-running-pod)
++ [1.4 Set services](#23-set-services)
++ [1.5 Network configuration](#24-network-configuration)
 
 
-## 1. Azure Service
+## Azure Service
 
-### 1.1 Add Azure Kubernetes service(AKS)
+# 1. Add Azure Kubernetes Service(AKS)
 
-1. Add the service from Azure Website.
+## 1.1 Add the service from Azure Website
 
-* Add resource as kubernetes service
+### Add resource as Kubernetes service
 
     <img src="./reference_images/create_first.PNG" title="first page">
 
-* Basic
+1) Basic
 
     <img src="./reference_images/create_basic.PNG" title="basic setting">
     
@@ -30,37 +29,37 @@
 
 *Select the Node(VM) size*
 
-* Scale
+2) Scale
 
     <img src="./reference_images/create_scale.PNG" title="scale setting">
 
 * Authentication as default
 
-* Networking
+3) Networking
 
     <img src="./reference_images/create_networking.PNG" title="networking setting">
 
-* Monitoring
+4) Monitoring
 
     <img src="./reference_images/create_monitoring.PNG" title="monitoring setting">
 
-* Tag as you want
+5) Tag as you want
 
-* Review + create
+6) Review + create
 
     <img src="./reference_images/create_review.PNG" title="create and review">
     
-* Set the user id and password for the node(VM)
+7) Set the user id and password for the node(VM)
 
     Hit the "Reset password" menu from the node(VM).
     
     <img src="./reference_images/passwordset.PNG" title="password">    
 
-2. Set the Node 
+## 1.2 Set the Node 
 
-    **Use Azure cloud**
+### Use Azure cloud
 
-* Get access credentials for a managed Kubernetes cluster
+1) Get access credentials for a managed Kubernetes cluster
 
     ```az aks get-credentials --resource-group [resource_group_name] --name [AKS_cluster_name]```
 
@@ -71,7 +70,7 @@
     *Merged "AKSOF7azure" as current context in /home/kelsey/.kube/config*
 
 
-* Check the node status
+2) Check the node status
 
     ```kubectl get nodes```
     ```bash
@@ -79,7 +78,7 @@
     aks-agentpool-13644011-1   Ready    agent   2m20s   v1.15.10
     ```
 
-* When you need to reset the cluster 
+3) When you need to reset the cluster 
 
     ```kubectl config delete-cluster [cluster name]```
 
@@ -89,9 +88,9 @@
 
     *deleted cluster AKSOF7Azure from /home/kelsey/.kube/config*
 
-### 1.2 Set Pods
+# 2. Set Pods
 
-1. Crate a Pod yaml file
+## 2.1 Crate a Pod yaml file
 
     ```bash
     apiVersion: v1
@@ -109,11 +108,11 @@
         command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
     ```
 
-    * Containerport is used for connecting another container in the same Pod
+    * Containerport is used for connecting another container in the same Pod.
 
-2. Create a Pod
+## 2.2 Create a Pod
 
-* Use the command below for creating a new Pod
+1) Use the command below for creating a new Pod
 
     ```kubectl create -f [yaml file name]```
 
@@ -123,11 +122,11 @@
 
     *pod/of7azure created*
 
-* Check the specific Pod
+2) Check the specific Pod
 
     ```kubectl get pod [pod name]```
 
-* Check all Pods
+3) Check all Pods
 
     ```kubectl get pods``` 
 
@@ -139,7 +138,7 @@
     of7azure   1/1     Running             0          26m
     ```
 
-* Get the detailed information of the Pod
+4) Get the detailed information of the Pod
 
     ```kubectl describe pod [pod name]```
 
@@ -197,16 +196,15 @@
     Normal  Started    3m18s  kubelet, aks-agentpool-13644011-1  Started container of7azure
   ```
 
+# 3. Connect to the running Pod
 
-### 1.3 Connect to the running Pod
-
-1) Execute a running Pod from Azure Cloud
+## 3.1 Execute a running Pod from Azure Cloud
 
     ```kubectl exec -it of7azure -- /bin/bash```
     
-2) Execute a running Pod from the Node where the Pod is running
+## 3.2 Execute a running Pod from the Node where the Pod is running
 
-- Check which Node is the one the Pod is running in and connect to the Node
+1) Check which Node is the one the Pod is running in and connect to the Node
 
     *Use putty or other applications to connect*
 
@@ -218,7 +216,7 @@
       
       52.141.172.195:20
       
-- Change user by using the information below
+2) Change user by using the information below
 
     ID : of7azure
     
@@ -231,7 +229,7 @@
     of7azure@aks-agentpool-#########-0:~$
     ```
 
-- Check the running Pod container by using grep the Pod name
+3) Check the running Pod container by using grep the Pod name
 
     *Let's say nfsof7azure-848d8d6cc7-r222f is the Pod name*
 
@@ -241,13 +239,13 @@
     524852746c25        mcr.microsoft.com/k8s/core/pause:1.2.0            "/pause"                 About an hour ago   Up About an hour                                                               k8s_POD_nfsof7azure-848d8d6cc7-r222f_default_6c487354-6707-42f4-a3a8-b5e105978c3e_0
     ```
     
-- Execute the running Pod container
+4) Execute the running Pod container
 
     *The first field is the container ID, execute the container which is running by /bin/sh command*
 
     ```sudo docker exec -i -t b0007ece0a8e /bin/bash```
 
-- Change the user in the container to use OpenFrame
+5) Change the user in the container to use OpenFrame
 
   ```bash
   [root@of7azure /]# su - of7azure
@@ -256,16 +254,15 @@
   [of7azure@of7azure ~]$ 
   ```
 
-* When you need to delete Pods
+6) When you need to delete Pods
 
   ```kubectl delete pod --all```
   
-
-### 1.4 Set services
+# 4. Set services
 
 * Nodeport service for using JEUS, Webterminal, OFManager
 
-1. Create a service yaml file.
+## 4.1 Create a service yaml file
 
     ```bash
     apiVersion: v1
@@ -312,9 +309,9 @@
         targetPort: 8088
     ```
 
-2. Create services
+## 4.2 Create services
 
-* Create services by using the command below
+1) Create services by using the command below
 
     ```kubectl create -f NodePort_8088.yaml```
     
@@ -328,7 +325,7 @@
     
     *service/jeus created*
 
-* Check services
+2) Check services
 
     ```kubectl get services```
 
@@ -340,7 +337,7 @@
     webterminal   NodePort    10.0.179.58    <none>        8088:30011/TCP   3m11s
     ```
 
-* Get detailed information of services
+3) Get detailed information of services
 
     ```kubectl describe services [service name]```
 
@@ -395,47 +392,47 @@
     Events:                   <none>
     ```
 
-* When you need to delete services
+4) When you need to delete services
 
    ```kubectl delete service [service name]```
 
 
-### 1.5 Network configuration 
+# 5. Network configuration
 
-1. Set the Inbound NAT rules of Kubernetes with the Nodeports.
+## 5.1 Set the Inbound NAT rules of Kubernetes with the Nodeports
 
-  * Hit the add button from Inbound NAT rules.
+1) Hit the add button from Inbound NAT rules
   
     <img src="./reference_images/NAT.PNG" title="NAT screen">
 
-  * Jeus
+2) Jeus
 
     **Type the jeus Nodeport in Target port**
 
     <img src="./reference_images/jeus_NAT.PNG" title="jeus setting">
 
 
-  * Webterminal
+3) Webterminal
 
     **Type the webterminal Nodeport in Target port**
 
     <img src="./reference_images/webterminal_NAT.PNG" title="webterminal setting">
 
 
-  * Ofmanager
+4) Ofmanager
 
     **Type the ofmanager Nodeport in Target port**
 
     <img src="./reference_images/ofmanager_NAT.PNG" title="ofmanager setting">
 
 
-2. Set the Inbound ports 
+## 5.2 Set the Inbound ports 
 
-* Hit the Add inbound port rule from the Node Networking setting.
+1) Hit the Add inbound port rule from the Node Networking setting
    
    <img src="./reference_images/add_ports02.PNG" title="setting screen">
 
-* Add inbound ports
+2) Add inbound ports
 
     Type the port in "Destination port ranges"
 
