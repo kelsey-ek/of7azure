@@ -384,7 +384,7 @@ oframe@aebdas-tmax01.sccompanies.com:/home/oframe/nick/DBTEST /> ll object/
 total 96
 -rwxr-xr-x. 1 oframe mqm 22392 Jun  1 16:39  libCOMMIT.so
 -rwxr-xr-x. 1 oframe mqm 47192 Jun  1 16:47  libCONNECT.so
--rwxr-xr-x. 1 oframe mqm 27008 Sep 12 02:55 libRECONNECT.so
+-rwxr-xr-x. 1 oframe mqm 27008 Sep 12 02:55  libRECONNECT.so
 -rwxr-xr-x. 1 oframe mqm 22408 Jun  1 16:39  libTROLLBACK.so
 -rwxr-xr-x. 1 oframe mqm 18432 Jun 14 00:25  libDISCONN.so
 ```
